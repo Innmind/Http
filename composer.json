@@ -15,7 +15,10 @@
         "issues": "http://github.com/Innmind/Http/issues"
     },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "innmind/url": "^1.0",
+        "innmind/immutable": "^1.5",
+        "innmind/filesystem": "~1.1"
     },
     "autoload": {
         "psr-0": {
