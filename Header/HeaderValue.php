@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-final class HeaderValue implements HeaderValueInterface
+class HeaderValue implements HeaderValueInterface
 {
     private $value;
 
