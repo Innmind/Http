@@ -11,4 +11,5 @@ interface HeaderInterface
      * @return SetInterface<HeaderValueInterface>
      */
     public function values(): SetInterface;
+    public function __toString(): string;
 }
