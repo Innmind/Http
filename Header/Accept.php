@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\{
     InvalidArgumentException,
-    AceptHeaderMustContainAtLeastOneValueException
+    AcceptHeaderMustContainAtLeastOneValueException
 };
 use Innmind\Immutable\SetInterface;
 
@@ -14,7 +14,7 @@ final class Accept extends Header
     public function __construct(SetInterface $values)
     {
         if ($values->size() === 0) {
-            throw new AceptHeaderMustContainAtLeastOneValueException;
+            throw new AcceptHeaderMustContainAtLeastOneValueException;
         }
 
         $values->foreach(function(HeaderValueInterface $value) {

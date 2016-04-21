@@ -39,7 +39,7 @@ class AcceptTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\AceptHeaderMustContainAtLeastOneValueException
+     * @expectedException Innmind\Http\Exception\AcceptHeaderMustContainAtLeastOneValueException
      */
     public function testThrowIfNoValueGiven()
     {
