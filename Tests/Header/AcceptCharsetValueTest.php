@@ -5,7 +5,8 @@ namespace Innmind\Http\Tests\Header;
 
 use Innmind\Http\Header\{
     AcceptCharsetValue,
-    HeaderValueInterface
+    HeaderValueInterface,
+    Quality
 };
 
 class AcceptCharsetValueTest extends \PHPUnit_Framework_TestCase
@@ -22,6 +23,14 @@ class AcceptCharsetValueTest extends \PHPUnit_Framework_TestCase
         new AcceptCharsetValue('ISO_8859-9:1989');
         new AcceptCharsetValue('NF_Z_62-010_(1973)');
         new AcceptCharsetValue('*');
+    }
+
+    public function testQuality()
+    {
+        $p = (new AcceptCharsetValue('unicode-1-1;q=0.8'))->quality();
+        $this->assertInstanceOf(Quality::class, $p);
+        $this->assertSame('0.8', $p->value());
+        $this->assertSame('1', (new AcceptCharsetValue('*'))->quality()->value());
     }
 
     /**
