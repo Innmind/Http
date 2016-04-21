@@ -5,7 +5,8 @@ namespace Innmind\Http\Tests\Header;
 
 use Innmind\Http\Header\{
     AcceptValue,
-    HeaderValueInterface
+    HeaderValueInterface,
+    Quality
 };
 
 class AcceptValueTest extends \PHPUnit_Framework_TestCase
@@ -21,6 +22,14 @@ class AcceptValueTest extends \PHPUnit_Framework_TestCase
         new AcceptValue('text/html');
         new AcceptValue('text/*');
         new AcceptValue('*/*');
+    }
+
+    public function testParameter()
+    {
+        $p = (new AcceptValue('text/html;q=0.8'))->quality();
+        $this->assertInstanceOf(Quality::class, $p);
+        $this->assertSame('0.8', $p->value());
+        $this->assertSame('1', (new AcceptValue('*/*'))->quality()->value());
     }
 
     /**
