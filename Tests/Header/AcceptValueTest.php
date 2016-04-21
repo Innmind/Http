@@ -25,7 +25,7 @@ class AcceptValueTest extends \PHPUnit_Framework_TestCase
         new AcceptValue('*/*');
     }
 
-    public function testParameter()
+    public function testQuality()
     {
         $p = (new AcceptValue('text/html;q=0.8'))->quality();
         $this->assertInstanceOf(Quality::class, $p);
