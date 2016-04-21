@@ -37,4 +37,12 @@ class AcceptTest extends \PHPUnit_Framework_TestCase
                 ->add(new HeaderValue('foo'))
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\AceptHeaderMustContainAtLeastOneValueException
+     */
+    public function testThrowIfNoValueGiven()
+    {
+        new Accept(new Set(HeaderValueInterface::class));
+    }
 }
