@@ -19,6 +19,7 @@ class AcceptValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('text/x-c; q=0.8', (string) $a);
 
         new AcceptValue('text/html;level=1');
+        new AcceptValue('text/html;level=1;q=0.4');
         new AcceptValue('text/html');
         new AcceptValue('text/*');
         new AcceptValue('*/*');

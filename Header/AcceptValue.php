@@ -8,7 +8,7 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class AcceptValue extends HeaderValue
 {
-    const PATTERN = '~^(\*/\*|[\w\-.]+/[\w\-.\*]+)(; ?\w+=[\w\-.]+)?$~';
+    const PATTERN = '~^(\*/\*|[\w\-.]+/[\w\-.\*]+)(; ?\w+=[\w\-.]+)*$~';
     private $quality;
 
     public function __construct(string $value)
