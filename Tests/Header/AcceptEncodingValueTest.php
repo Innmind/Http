@@ -5,7 +5,8 @@ namespace Innmind\Http\Tests\Header;
 
 use Innmind\Http\Header\{
     AcceptEncodingValue,
-    HeaderValueInterface
+    HeaderValueInterface,
+    Quality
 };
 
 class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
@@ -21,6 +22,14 @@ class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
         new AcceptEncodingValue('compress;q=0.5');
         new AcceptEncodingValue('identity; q=0.5');
         new AcceptEncodingValue('*;q=0');
+    }
+
+    public function testQuality()
+    {
+        $p = (new AcceptEncodingValue('compress;q=0.5'))->quality();
+        $this->assertInstanceOf(Quality::class, $p);
+        $this->assertSame('0.5', $p->value());
+        $this->assertSame('1', (new AcceptEncodingValue('*'))->quality()->value());
     }
 
     /**

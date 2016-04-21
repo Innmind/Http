@@ -9,13 +9,30 @@ use Innmind\Immutable\StringPrimitive as Str;
 final class AcceptEncodingValue extends HeaderValue
 {
     const PATTERN = '~^(\w+|\*)(; ?\q=\d+(\.\d+)?)?$~';
+    private $quality;
 
     public function __construct(string $value)
     {
-        if (!(new Str($value))->match(self::PATTERN)) {
+        $value = new Str($value);
+
+        if (!$value->match(self::PATTERN)) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct($value);
+        parent::__construct((string) $value);
+        $matches = $value->getMatches('~; ?q=(?<quality>\d+(\.\d+)?)$~');
+
+        if ($matches->hasKey('quality')) {
+            $this->quality = new Quality(
+                (string) $matches->get('quality')
+            );
+        } else {
+            $this->quality = new Quality('1');
+        }
+    }
+
+    public function quality(): Quality
+    {
+        return $this->quality;
     }
 }
