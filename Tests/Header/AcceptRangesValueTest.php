@@ -4,22 +4,22 @@ declare(strict_types = 1);
 namespace Innmind\Http\Tests\Header;
 
 use Innmind\Http\Header\{
-    AcceptRangeValue,
+    AcceptRangesValue,
     HeaderValueInterface,
     Quality
 };
 
-class AcceptRangeValueTest extends \PHPUnit_Framework_TestCase
+class AcceptRangesValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $a = new AcceptRangeValue('bytes');
+        $a = new AcceptRangesValue('bytes');
 
         $this->assertInstanceOf(HeaderValueInterface::class, $a);
         $this->assertSame('bytes', (string) $a);
 
-        new AcceptRangeValue('none');
-        new AcceptRangeValue('whatever');
+        new AcceptRangesValue('none');
+        new AcceptRangesValue('whatever');
     }
 
     /**
@@ -28,7 +28,7 @@ class AcceptRangeValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenInvalidAcceptRangeValue($value)
     {
-        new AcceptRangeValue($value);
+        new AcceptRangesValue($value);
     }
 
     public function invalids(): array

@@ -5,24 +5,24 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\{
     InvalidArgumentException,
-    AcceptRangeMustContainOnlyOneValueException
+    AcceptRangesMustContainOnlyOneValueException
 };
 use Innmind\Immutable\SetInterface;
 
-final class AcceptRange extends Header
+final class AcceptRanges extends Header
 {
     public function __construct(SetInterface $values)
     {
         if ($values->size() !== 1) {
-            throw new AcceptRangeMustContainOnlyOneValueException;
+            throw new AcceptRangesMustContainOnlyOneValueException;
         }
 
         $values->foreach(function(HeaderValueInterface $value) {
-            if (!$value instanceof AcceptRangeValue) {
+            if (!$value instanceof AcceptRangesValue) {
                 throw new InvalidArgumentException;
             }
         });
 
-        parent::__construct('Accept', $values);
+        parent::__construct('Accept-Ranges', $values);
     }
 }

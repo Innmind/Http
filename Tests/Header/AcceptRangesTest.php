@@ -4,27 +4,27 @@ declare(strict_types = 1);
 namespace Innmind\Http\Tests\Header;
 
 use Innmind\Http\Header\{
-    AcceptRange,
+    AcceptRanges,
     HeaderInterface,
     HeaderValueInterface,
     HeaderValue,
-    AcceptRangeValue
+    AcceptRangesValue
 };
 use Innmind\Immutable\Set;
 
-class AcceptRangeTest extends \PHPUnit_Framework_TestCase
+class AcceptRangesTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $h = new AcceptRange(
+        $h = new AcceptRanges(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AcceptRangeValue('bytes'))
+                ->add(new AcceptRangesValue('bytes'))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
-        $this->assertSame('Accept', $h->name());
+        $this->assertSame('Accept-Ranges', $h->name());
         $this->assertSame($v, $h->values());
-        $this->assertSame('Accept : bytes', (string) $h);
+        $this->assertSame('Accept-Ranges : bytes', (string) $h);
     }
 
     /**
@@ -32,29 +32,29 @@ class AcceptRangeTest extends \PHPUnit_Framework_TestCase
      */
     public function testRangeThrowWhenBuildingWithoutAcceptValues()
     {
-        new AcceptRange(
+        new AcceptRanges(
             (new Set(HeaderValueInterface::class))
                 ->add(new HeaderValue('foo'))
         );
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\AcceptRangeMustContainOnlyOneValueException
+     * @expectedException Innmind\Http\Exception\AcceptRangesMustContainOnlyOneValueException
      */
     public function testThrowIfNoValueGiven()
     {
-        new AcceptRange(new Set(HeaderValueInterface::class));
+        new AcceptRanges(new Set(HeaderValueInterface::class));
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\AcceptRangeMustContainOnlyOneValueException
+     * @expectedException Innmind\Http\Exception\AcceptRangesMustContainOnlyOneValueException
      */
     public function testThrowIfTooManyValuesGiven()
     {
-        new AcceptRange(
+        new AcceptRanges(
             (new Set(HeaderValueInterface::class))
-                ->add(new AcceptRangeValue('bytes'))
-                ->add(new AcceptRangeValue('none'))
+                ->add(new AcceptRangesValue('bytes'))
+                ->add(new AcceptRangesValue('none'))
         );
     }
 }

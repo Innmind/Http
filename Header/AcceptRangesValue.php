@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\StringPrimitive as Str;
 
-final class AcceptRangeValue extends HeaderValue
+final class AcceptRangesValue extends HeaderValue
 {
     const PATTERN = '~^\w+$~';
 
