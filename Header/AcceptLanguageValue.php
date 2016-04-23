@@ -8,7 +8,6 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class AcceptLanguageValue extends HeaderValue
 {
-    const PATTERN = '~^([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*)(; ?\q=\d+(\.\d+)?)?$~';
     private $quality;
 
     public function __construct(string $language, Quality $quality)
