@@ -8,14 +8,12 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class AcceptRangesValue extends HeaderValue
 {
-    const PATTERN = '~^\w+$~';
-
-    public function __construct(string $value)
+    public function __construct(string $range)
     {
-        if (!(new Str($value))->match(self::PATTERN)) {
+        if (!(new Str($range))->match('~^\w+$~')) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct($value);
+        parent::__construct($range);
     }
 }
