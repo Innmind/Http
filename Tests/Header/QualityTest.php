@@ -17,6 +17,7 @@ class QualityTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('0.8', $p->value());
+        $this->assertSame('q=0.8', (string) $p);
     }
 
     /**

@@ -17,5 +17,8 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('foo', $p->value());
+        $this->assertSame('q=foo', (string) $p);
+
+        $this->assertSame('level', (string) new Parameter('level', ''));
     }
 }

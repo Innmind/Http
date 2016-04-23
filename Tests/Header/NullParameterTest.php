@@ -17,5 +17,6 @@ class NullParameterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('', $p->name());
         $this->assertSame('', $p->value());
+        $this->assertSame('', (string) $p);
     }
 }

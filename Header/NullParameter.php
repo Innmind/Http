@@ -14,4 +14,9 @@ class NullParameter implements ParameterInterface
     {
         return '';
     }
+
+    public function __toString(): string
+    {
+        return '';
+    }
 }

@@ -23,4 +23,14 @@ class Parameter implements ParameterInterface
     {
         return $this->value;
     }
+
+    public function __toString(): string
+    {
+        return sprintf(
+            '%s%s%s',
+            $this->name,
+            $this->value ? '=' : '',
+            $this->value ? $this->value : ''
+        );
+    }
 }
