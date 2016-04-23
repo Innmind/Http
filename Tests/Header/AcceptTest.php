@@ -8,9 +8,14 @@ use Innmind\Http\Header\{
     HeaderInterface,
     HeaderValueInterface,
     HeaderValue,
-    AcceptValue
+    AcceptValue,
+    Quality,
+    ParameterInterface
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\{
+    Set,
+    Map
+};
 
 class AcceptTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +23,12 @@ class AcceptTest extends \PHPUnit_Framework_TestCase
     {
         $h = new Accept(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AcceptValue('text/html;q=0.8'))
+                ->add(new AcceptValue(
+                    'text',
+                    'html',
+                    (new Map('string', ParameterInterface::class))
+                        ->put('q', new Quality(0.8))
+                ))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);

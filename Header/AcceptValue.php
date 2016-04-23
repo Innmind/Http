@@ -4,35 +4,64 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\{
+    StringPrimitive as Str,
+    MapInterface
+};
 
 final class AcceptValue extends HeaderValue
 {
-    const PATTERN = '~^(\*/\*|[\w\-.]+/[\w\-.\*]+)(; ?\w+=[\w\-.]+)*$~';
-    private $quality;
+    private $type;
+    private $subType;
+    private $parameters;
 
-    public function __construct(string $value)
-    {
-        $value = new Str($value);
+    public function __construct(
+        string $type,
+        string $subType,
+        MapInterface $parameters
+    ) {
+        $media = (new Str('%s/%s'))->sprintf($type, $subType);
 
-        if (!$value->match(self::PATTERN)) {
+        if (
+            !$media->match('~^\*/\*$~') &&
+            !$media->match('~^[\w\-.]+/\*$~') &&
+            !$media->match('~^[\w\-.]+/[\w\-.]+$~')
+        ) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct((string) $value);
-        $matches = $value->getMatches('~; ?q=(?<quality>\d+(\.\d+)?)~');
-
-        if ($matches->hasKey('quality')) {
-            $this->quality = new Quality(
-                (string) $matches->get('quality')
-            );
-        } else {
-            $this->quality = new Quality('1');
+        if (
+            (string) $parameters->keyType() !== 'string' ||
+            (string) $parameters->valueType() !== ParameterInterface::class
+        ) {
+            throw new InvalidArgumentException;
         }
+
+        $this->type = $type;
+        $this->subType = $subType;
+        $this->parameters = $parameters;
+
+        $parameters = $parameters->values()->join(';');
+        $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
+
+        parent::__construct((string) $media->append((string) $parameters));
     }
 
-    public function quality(): Quality
+    public function type(): string
     {
-        return $this->quality;
+        return $this->type;
+    }
+
+    public function subType(): string
+    {
+        return $this->subType;
+    }
+
+    /**
+     * @return MapInterface<string, ParameterInterface>
+     */
+    public function parameters(): MapInterface
+    {
+        return $this->parameters;
     }
 }
