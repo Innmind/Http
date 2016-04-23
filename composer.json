@@ -17,7 +17,7 @@
     "require": {
         "php": ">=7.0",
         "innmind/url": "^1.0",
-        "innmind/immutable": "^1.5",
+        "innmind/immutable": "~1.6",
         "innmind/filesystem": "~1.1"
     },
     "autoload": {

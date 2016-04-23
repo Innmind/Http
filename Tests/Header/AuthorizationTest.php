@@ -18,13 +18,13 @@ class AuthorizationTest extends \PHPUnit_Framework_TestCase
     {
         $h = new Authorization(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AuthorizationValue('Basic'))
+                ->add(new AuthorizationValue('Basic', ''))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
         $this->assertSame('Authorization', $h->name());
         $this->assertSame($v, $h->values());
-        $this->assertSame('Authorization : Basic', (string) $h);
+        $this->assertSame('Authorization : "Basic"', (string) $h);
     }
 
     /**
@@ -53,8 +53,8 @@ class AuthorizationTest extends \PHPUnit_Framework_TestCase
     {
         new Authorization(
             (new Set(HeaderValueInterface::class))
-                ->add(new AuthorizationValue('Basic'))
-                ->add(new AuthorizationValue('Digest'))
+                ->add(new AuthorizationValue('Basic', 'realm'))
+                ->add(new AuthorizationValue('Digest', ''))
         );
     }
 }

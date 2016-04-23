@@ -13,22 +13,16 @@ class AuthorizationValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $a = new AuthorizationValue('"Basic" realm');
+        $a = new AuthorizationValue('Basic', 'realm');
 
         $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertSame('Basic', $a->scheme());
+        $this->assertSame('realm', $a->parameter());
         $this->assertSame('"Basic" realm', (string) $a);
 
-        new AuthorizationValue('Basic');
-        new AuthorizationValue('Basic realm');
-        new AuthorizationValue('Foo');
-    }
-
-    public function testCredentials()
-    {
-        $p = (new AuthorizationValue('"Basic" realm'))->credentials();
-        $this->assertInstanceOf(Credentials::class, $p);
-        $this->assertSame('Basic', $p->scheme());
-        $this->assertSame('realm', $p->parameter());
+        new AuthorizationValue('Basic', '');
+        new AuthorizationValue('Basic', 'realm="some value"');
+        new AuthorizationValue('Foo', '');
     }
 
     /**
@@ -37,7 +31,7 @@ class AuthorizationValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenInvalidAuthorizationValue($value)
     {
-        new AuthorizationValue($value);
+        new AuthorizationValue($value, '');
     }
 
     public function invalids(): array
