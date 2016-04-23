@@ -18,7 +18,7 @@ class AgeTest extends \PHPUnit_Framework_TestCase
     {
         $h = new Age(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AgeValue('42'))
+                ->add(new AgeValue(42))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
@@ -53,8 +53,8 @@ class AgeTest extends \PHPUnit_Framework_TestCase
     {
         new Age(
             (new Set(HeaderValueInterface::class))
-                ->add(new AgeValue('42'))
-                ->add(new AgeValue('24'))
+                ->add(new AgeValue(42))
+                ->add(new AgeValue(24))
         );
     }
 }

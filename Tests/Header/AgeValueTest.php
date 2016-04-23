@@ -13,29 +13,19 @@ class AgeValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $a = new AgeValue('42');
+        $a = new AgeValue(42);
 
         $this->assertInstanceOf(HeaderValueInterface::class, $a);
         $this->assertSame('42', (string) $a);
 
-        new AgeValue('0');
+        new AgeValue(0);
     }
 
     /**
-     * @dataProvider invalids
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */
-    public function testThrowWhenInvalidAgeValue($value)
+    public function testThrowWhenInvalidAgeValue()
     {
-        new AgeValue($value);
-    }
-
-    public function invalids(): array
-    {
-        return [
-            ['42.0'],
-            ['foo'],
-            ['42;q=0.8'],
-        ];
+        new AgeValue(-1);
     }
 }

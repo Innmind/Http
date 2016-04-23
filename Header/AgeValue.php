@@ -8,14 +8,12 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class AgeValue extends HeaderValue
 {
-    const PATTERN = '~^\d+$~';
-
-    public function __construct(string $value)
+    public function __construct(int $age)
     {
-        if (!(new Str($value))->match(self::PATTERN)) {
+        if ($age < 0) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct($value);
+        parent::__construct((string) $age);
     }
 }
