@@ -13,23 +13,16 @@ class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $a = new AcceptEncodingValue('compress');
+        $a = new AcceptEncodingValue('compress', $q = new Quality(1));
 
         $this->assertInstanceOf(HeaderValueInterface::class, $a);
-        $this->assertSame('compress', (string) $a);
+        $this->assertSame($q, $a->quality());
+        $this->assertSame('compress;q=1', (string) $a);
 
-        new AcceptEncodingValue('*');
-        new AcceptEncodingValue('compress;q=0.5');
-        new AcceptEncodingValue('identity; q=0.5');
-        new AcceptEncodingValue('*;q=0');
-    }
-
-    public function testQuality()
-    {
-        $p = (new AcceptEncodingValue('compress;q=0.5'))->quality();
-        $this->assertInstanceOf(Quality::class, $p);
-        $this->assertSame('0.5', $p->value());
-        $this->assertSame('1', (new AcceptEncodingValue('*'))->quality()->value());
+        new AcceptEncodingValue('*', new Quality(1));
+        new AcceptEncodingValue('compress', new Quality(0.5));
+        new AcceptEncodingValue('identity', new Quality(0.5));
+        new AcceptEncodingValue('*', new Quality(0));
     }
 
     /**
@@ -38,7 +31,7 @@ class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenInvalidAcceptEncodingValue($value)
     {
-        new AcceptEncodingValue($value);
+        new AcceptEncodingValue($value, new Quality(1));
     }
 
     public function invalids(): array

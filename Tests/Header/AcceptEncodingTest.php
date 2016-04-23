@@ -8,7 +8,8 @@ use Innmind\Http\Header\{
     HeaderInterface,
     HeaderValueInterface,
     HeaderValue,
-    AcceptEncodingValue
+    AcceptEncodingValue,
+    Quality
 };
 use Innmind\Immutable\Set;
 
@@ -18,13 +19,13 @@ class AcceptEncodingTest extends \PHPUnit_Framework_TestCase
     {
         $h = new AcceptEncoding(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AcceptEncodingValue('compress'))
+                ->add(new AcceptEncodingValue('compress', new Quality(1)))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
         $this->assertSame('Accept-Encoding', $h->name());
         $this->assertSame($v, $h->values());
-        $this->assertSame('Accept-Encoding : compress', (string) $h);
+        $this->assertSame('Accept-Encoding : compress;q=1', (string) $h);
     }
 
     /**
