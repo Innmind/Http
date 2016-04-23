@@ -8,14 +8,12 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class Quality extends Parameter
 {
-    const PATTERN = '~\d+(\.\d+)?~';
-
-    public function __construct(string $value)
+    public function __construct(float $value)
     {
-        if (!(new Str($value))->match(self::PATTERN)) {
+        if ($value < 0 || $value > 1) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct('q', $value);
+        parent::__construct('q', (string) $value);
     }
 }

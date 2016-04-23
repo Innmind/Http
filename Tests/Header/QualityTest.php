@@ -12,7 +12,7 @@ class QualityTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $p = new Quality('0.8');
+        $p = new Quality(0.8);
 
         $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('q', $p->name());
@@ -21,10 +21,19 @@ class QualityTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider invalids
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */
-    public function testThrowWhenInvalidQualityValue()
+    public function testThrowWhenInvalidQualityValue($v)
     {
-        new Quality('foo');
+        new Quality($v);
+    }
+
+    public function invalids()
+    {
+        return [
+            [-1],
+            [2],
+        ];
     }
 }
