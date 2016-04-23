@@ -13,23 +13,16 @@ class AcceptLanguageValueTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
-        $a = new AcceptLanguageValue('en-gb;q=0.8');
+        $a = new AcceptLanguageValue('en-gb', $q = new Quality(0.8));
 
         $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertSame($q, $a->quality());
         $this->assertSame('en-gb;q=0.8', (string) $a);
 
-        new AcceptLanguageValue('fr');
-        new AcceptLanguageValue('fr-FR');
-        new AcceptLanguageValue('sgn-CH-DE');
-        new AcceptLanguageValue('*');
-    }
-
-    public function testQuality()
-    {
-        $p = (new AcceptLanguageValue('en-gb;q=0.8'))->quality();
-        $this->assertInstanceOf(Quality::class, $p);
-        $this->assertSame('0.8', $p->value());
-        $this->assertSame('1', (new AcceptLanguageValue('fr'))->quality()->value());
+        new AcceptLanguageValue('fr', new Quality(1));
+        new AcceptLanguageValue('fr-FR', new Quality(1));
+        new AcceptLanguageValue('sgn-CH-DE', new Quality(1));
+        new AcceptLanguageValue('*', new Quality(1));
     }
 
     /**
@@ -38,14 +31,14 @@ class AcceptLanguageValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenInvalidAcceptLanguageValue($value)
     {
-        new AcceptLanguageValue($value);
+        new AcceptLanguageValue($value, new Quality(1));
     }
 
     public function invalids(): array
     {
         return [
             ['@'],
-            ['*;level=1;q=0.8'],
+            ['*;level=1'],
             ['foo/bar'],
         ];
     }

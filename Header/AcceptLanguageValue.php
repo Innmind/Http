@@ -11,24 +11,23 @@ final class AcceptLanguageValue extends HeaderValue
     const PATTERN = '~^([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*)(; ?\q=\d+(\.\d+)?)?$~';
     private $quality;
 
-    public function __construct(string $value)
+    public function __construct(string $language, Quality $quality)
     {
-        $value = new Str($value);
+        $language = new Str($language);
 
-        if (!$value->match(self::PATTERN)) {
+        if (
+            (string) $language !== '*' &&
+            !$language->match('~^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$~')
+        ) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct((string) $value);
-        $matches = $value->getMatches('~; ?q=(?<quality>\d+(\.\d+)?)$~');
-
-        if ($matches->hasKey('quality')) {
-            $this->quality = new Quality(
-                (string) $matches->get('quality')
-            );
-        } else {
-            $this->quality = new Quality('1');
-        }
+        $this->quality = $quality;
+        parent::__construct(
+            (string) $language
+                ->append(';')
+                ->append((string) $quality)
+        );
     }
 
     public function quality(): Quality

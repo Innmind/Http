@@ -8,7 +8,8 @@ use Innmind\Http\Header\{
     HeaderInterface,
     HeaderValueInterface,
     HeaderValue,
-    AcceptLanguageValue
+    AcceptLanguageValue,
+    Quality
 };
 use Innmind\Immutable\Set;
 
@@ -18,7 +19,7 @@ class AcceptLanguageTest extends \PHPUnit_Framework_TestCase
     {
         $h = new AcceptLanguage(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AcceptLanguageValue('fr;q=0.8'))
+                ->add(new AcceptLanguageValue('fr', new Quality(0.8)))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
