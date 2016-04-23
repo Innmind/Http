@@ -8,27 +8,25 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class AcceptCharsetValue extends HeaderValue
 {
-    const PATTERN = '~^([a-zA-Z0-9\-_:\(\)]+|\*)(; ?\q=\d+(\.\d+)?)?$~';
     private $quality;
 
-    public function __construct(string $value)
+    public function __construct(string $charset, Quality $quality)
     {
-        $value = new Str($value);
+        $charset = new Str($charset);
 
-        if (!$value->match(self::PATTERN)) {
+        if (
+            (string) $charset !== '*' &&
+            !$charset->match('~^[a-zA-Z0-9\-_:\(\)]+$~')
+        ) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct((string) $value);
-        $matches = $value->getMatches('~; ?q=(?<quality>\d+(\.\d+)?)$~');
-
-        if ($matches->hasKey('quality')) {
-            $this->quality = new Quality(
-                (string) $matches->get('quality')
-            );
-        } else {
-            $this->quality = new Quality('1');
-        }
+        $this->quality = $quality;
+        parent::__construct(
+            (string) $charset
+                ->append(';')
+                ->append((string) $quality)
+        );
     }
 
     public function quality(): Quality

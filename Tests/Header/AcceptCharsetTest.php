@@ -8,7 +8,8 @@ use Innmind\Http\Header\{
     HeaderInterface,
     HeaderValueInterface,
     HeaderValue,
-    AcceptCharsetValue
+    AcceptCharsetValue,
+    Quality
 };
 use Innmind\Immutable\Set;
 
@@ -18,7 +19,7 @@ class AcceptCharsetTest extends \PHPUnit_Framework_TestCase
     {
         $h = new AcceptCharset(
             $v = (new Set(HeaderValueInterface::class))
-                ->add(new AcceptCharsetValue('unicode-1-1;q=0.8'))
+                ->add(new AcceptCharsetValue('unicode-1-1', new Quality(0.8)))
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
