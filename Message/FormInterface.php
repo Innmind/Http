@@ -10,7 +10,7 @@ interface FormInterface extends \Iterator, \Countable
     /**
      * @param string $name
      *
-     * @throws FormParameterFoundException
+     * @throws FormParameterNotFoundException
      *
      * @return ParameterInterface
      */
