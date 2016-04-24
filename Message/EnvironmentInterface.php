@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-interface EnvironmentInterface extends \Traversable, \Countable
+interface EnvironmentInterface extends \Iterator, \Countable
 {
     /**
      * @param string $name
