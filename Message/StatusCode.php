@@ -42,7 +42,7 @@ final class StatusCode implements StatusCodeInterface
             self::$codes = (new Map('string', 'int'))
                 ->put('CONTINUE', 100)
                 ->put('SWITCHING_PROTOCOLS', 101)
-                ->put('PROCESSING', 102)            // RFC2518
+                ->put('PROCESSING', 102) // RFC2518
                 ->put('OK', 200)
                 ->put('CREATED', 201)
                 ->put('ACCEPTED', 202)
@@ -50,9 +50,9 @@ final class StatusCode implements StatusCodeInterface
                 ->put('NO_CONTENT', 204)
                 ->put('RESET_CONTENT', 205)
                 ->put('PARTIAL_CONTENT', 206)
-                ->put('MULTI_STATUS', 207)          // RFC4918
-                ->put('ALREADY_REPORTED', 208)      // RFC5842
-                ->put('IM_USED', 226)               // RFC3229
+                ->put('MULTI_STATUS', 207) // RFC4918
+                ->put('ALREADY_REPORTED', 208) // RFC5842
+                ->put('IM_USED', 226) // RFC3229
                 ->put('MULTIPLE_CHOICES', 300)
                 ->put('MOVED_PERMANENTLY', 301)
                 ->put('FOUND', 302)
@@ -61,7 +61,7 @@ final class StatusCode implements StatusCodeInterface
                 ->put('USE_PROXY', 305)
                 ->put('RESERVED', 306)
                 ->put('TEMPORARY_REDIRECT', 307)
-                ->put('PERMANENTLY_REDIRECT', 308)  // RFC7238
+                ->put('PERMANENTLY_REDIRECT', 308 // RFC7238
                 ->put('BAD_REQUEST', 400)
                 ->put('UNAUTHORIZED', 401)
                 ->put('PAYMENT_REQUIRED', 402)
@@ -80,15 +80,15 @@ final class StatusCode implements StatusCodeInterface
                 ->put('UNSUPPORTED_MEDIA_TYPE', 415)
                 ->put('REQUESTED_RANGE_NOT_SATISFIABLE', 416)
                 ->put('EXPECTATION_FAILED', 417)
-                ->put('I_AM_A_TEAPOT', 418)                                               // RFC2324
-                ->put('UNPROCESSABLE_ENTITY', 422)                                        // RFC4918
-                ->put('LOCKED', 423)                                                      // RFC4918
-                ->put('FAILED_DEPENDENCY', 424)                                           // RFC4918
-                ->put('RESERVED_FOR_WEBDAV_ADVANCED_COLLECTIONS_EXPIRED_PROPOSAL', 425)   // RFC2817
-                ->put('UPGRADE_REQUIRED', 426)                                            // RFC2817
-                ->put('PRECONDITION_REQUIRED', 428)                                       // RFC6585
-                ->put('TOO_MANY_REQUESTS', 429)                                           // RFC6585
-                ->put('REQUEST_HEADER_FIELDS_TOO_LARGE', 431)                             // RFC6585
+                ->put('I_AM_A_TEAPOT', 418) // RFC2324
+                ->put('UNPROCESSABLE_ENTITY', 422) // RFC4918
+                ->put('LOCKED', 423) // RFC4918
+                ->put('FAILED_DEPENDENCY', 424) // RFC4918
+                ->put('RESERVED_FOR_WEBDAV_ADVANCED_COLLECTIONS_EXPIRED_PROPOSAL', 425) // RFC2817
+                ->put('UPGRADE_REQUIRED', 426) // RFC2817
+                ->put('PRECONDITION_REQUIRED', 428) // RFC6585
+                ->put('TOO_MANY_REQUESTS', 429) // RFC6585
+                ->put('REQUEST_HEADER_FIELDS_TOO_LARGE', 431) // RFC6585
                 ->put('UNAVAILABLE_FOR_LEGAL_REASONS', 451)
                 ->put('INTERNAL_SERVER_ERROR', 500)
                 ->put('NOT_IMPLEMENTED', 501)
@@ -96,10 +96,10 @@ final class StatusCode implements StatusCodeInterface
                 ->put('SERVICE_UNAVAILABLE', 503)
                 ->put('GATEWAY_TIMEOUT', 504)
                 ->put('VERSION_NOT_SUPPORTED', 505)
-                ->put('VARIANT_ALSO_NEGOTIATES_EXPERIMENTAL', 506)                        // RFC2295
-                ->put('INSUFFICIENT_STORAGE', 507)                                        // RFC4918
-                ->put('LOOP_DETECTED', 508)                                               // RFC5842
-                ->put('NOT_EXTENDED', 510)                                                // RFC2774
+                ->put('VARIANT_ALSO_NEGOTIATES_EXPERIMENTAL', 506) // RFC2295
+                ->put('INSUFFICIENT_STORAGE', 507) // RFC4918
+                ->put('LOOP_DETECTED', 508) // RFC5842
+                ->put('NOT_EXTENDED', 510) // RFC2774
                 ->put('NETWORK_AUTHENTICATION_REQUIRED', 511);
         }
 
