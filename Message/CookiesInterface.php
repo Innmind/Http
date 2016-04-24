@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-interface CookiesInterface extends \Traversable, \Countable
+interface CookiesInterface extends \Iterator, \Countable
 {
     /**
      * @param string $name
