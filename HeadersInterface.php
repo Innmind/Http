@@ -5,7 +5,7 @@ namespace Innmind\Http;
 
 use Innmind\Http\Header\HeaderInterface;
 
-interface HeadersInterface extends \Traversable, \Countable
+interface HeadersInterface extends \Iterator, \Countable
 {
     /**
      * @param string $name Case insensitive
