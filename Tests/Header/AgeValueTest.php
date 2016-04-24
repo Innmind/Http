@@ -5,8 +5,7 @@ namespace Innmind\Http\Tests\Header;
 
 use Innmind\Http\Header\{
     AgeValue,
-    HeaderValueInterface,
-    Quality
+    HeaderValueInterface
 };
 
 class AgeValueTest extends \PHPUnit_Framework_TestCase
