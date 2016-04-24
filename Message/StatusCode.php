@@ -61,7 +61,7 @@ final class StatusCode implements StatusCodeInterface
                 ->put('USE_PROXY', 305)
                 ->put('RESERVED', 306)
                 ->put('TEMPORARY_REDIRECT', 307)
-                ->put('PERMANENTLY_REDIRECT', 308 // RFC7238
+                ->put('PERMANENTLY_REDIRECT', 308) // RFC7238
                 ->put('BAD_REQUEST', 400)
                 ->put('UNAUTHORIZED', 401)
                 ->put('PAYMENT_REQUIRED', 402)
