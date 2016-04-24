@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\Message\Form\ParameterInterface;
 
-interface FormInterface extends \Traversable, \Countable
+interface FormInterface extends \Iterator, \Countable
 {
     /**
      * @param string $name
