@@ -7,54 +7,24 @@ use Innmind\Http\Header\{
     Authorization,
     HeaderInterface,
     HeaderValueInterface,
-    HeaderValue,
     AuthorizationValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\SetInterface;
 
 class AuthorizationTest extends \PHPUnit_Framework_TestCase
 {
     public function testInterface()
     {
         $h = new Authorization(
-            $v = (new Set(HeaderValueInterface::class))
-                ->add(new AuthorizationValue('Basic', ''))
+            $av = new AuthorizationValue('Basic', '')
         );
 
         $this->assertInstanceOf(HeaderInterface::class, $h);
         $this->assertSame('Authorization', $h->name());
-        $this->assertSame($v, $h->values());
+        $v = $h->values();
+        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertSame(HeaderValueInterface::class, (string) $v->type());
+        $this->assertSame($av, $v->current());
         $this->assertSame('Authorization : "Basic"', (string) $h);
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
-     */
-    public function testRangeThrowWhenBuildingWithoutAuthorizationValue()
-    {
-        new Authorization(
-            (new Set(HeaderValueInterface::class))
-                ->add(new HeaderValue('foo'))
-        );
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\AuthorizationMustContainOnlyOneValueException
-     */
-    public function testThrowIfNoValueGiven()
-    {
-        new Authorization(new Set(HeaderValueInterface::class));
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\AuthorizationMustContainOnlyOneValueException
-     */
-    public function testThrowIfTooManyValuesGiven()
-    {
-        new Authorization(
-            (new Set(HeaderValueInterface::class))
-                ->add(new AuthorizationValue('Basic', 'realm'))
-                ->add(new AuthorizationValue('Digest', ''))
-        );
     }
 }
