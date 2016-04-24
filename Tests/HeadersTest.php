@@ -58,4 +58,12 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         ))
             ->get('foo');
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenInvalidMap()
+    {
+        new Headers(new Map('string', 'string'));
+    }
 }
