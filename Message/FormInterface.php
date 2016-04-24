@@ -8,18 +8,18 @@ use Innmind\Http\Message\Form\ParameterInterface;
 interface FormInterface extends \Iterator, \Countable
 {
     /**
-     * @param string $name
+     * @param scalar $key
      *
      * @throws FormParameterNotFoundException
      *
      * @return ParameterInterface
      */
-    public function get(string $name): ParameterInterface;
+    public function get($key): ParameterInterface;
 
     /**
-     * @param string $name
+     * @param scalar $key
      *
      * @return bool
      */
-    public function has(string $name): bool;
+    public function has($key): bool;
 }
