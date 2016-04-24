@@ -5,12 +5,12 @@ namespace Innmind\Http\Header;
 
 use Innmind\Immutable\Set;
 
-final class ContentLocation extends Header
+final class Location extends Header
 {
     public function __construct(LocationValue $location)
     {
         parent::__construct(
-            'Content-Location',
+            'Location',
             (new Set(HeaderValueInterface::class))
                 ->add($location)
         );
