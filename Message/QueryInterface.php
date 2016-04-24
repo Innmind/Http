@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\Message\Query\ParameterInterface;
 
-interface QueryInterface extends \Traversable, \Countable
+interface QueryInterface extends \Iterator, \Countable
 {
     /**
      * @param string $name
