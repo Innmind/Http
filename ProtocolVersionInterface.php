@@ -5,6 +5,7 @@ namespace Innmind\Http;
 
 interface ProtocolVersionInterface
 {
-    public function value(): float;
+    public function major(): int;
+    public function minor(): int;
     public function __toString(): string;
 }
