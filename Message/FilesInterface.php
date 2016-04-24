@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\File\FileInterface;
 
-interface FilesInterface extends \Traversable, \Countable
+interface FilesInterface extends \Iterator, \Countable
 {
     /**
      * @param string $name
