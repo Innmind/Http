@@ -3,26 +3,17 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\{
-    InvalidArgumentException,
-    AgeMustContainOnlyOneValueException
-};
-use Innmind\Immutable\SetInterface;
+use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Immutable\Set;
 
 final class Age extends Header
 {
-    public function __construct(SetInterface $values)
+    public function __construct(AgeValue $age)
     {
-        if ($values->size() !== 1) {
-            throw new AgeMustContainOnlyOneValueException;
-        }
-
-        $values->foreach(function(HeaderValueInterface $value) {
-            if (!$value instanceof AgeValue) {
-                throw new InvalidArgumentException;
-            }
-        });
-
-        parent::__construct('Age', $values);
+        parent::__construct(
+            'Age',
+            (new Set(HeaderValueInterface::class))
+                ->add($age)
+        );
     }
 }
