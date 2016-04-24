@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message\Form;
 
+use Innmind\Http\Exception\InvalidArgumentException;
+
 final class Parameter implements ParameterInterface
 {
     private $name;

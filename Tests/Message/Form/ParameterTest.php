@@ -18,4 +18,12 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('foo', $p->name());
         $this->assertSame(42, $p->value());
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenEmptyName()
+    {
+        new Parameter('', 42);
+    }
 }
