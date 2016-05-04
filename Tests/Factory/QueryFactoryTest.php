@@ -18,9 +18,15 @@ class QueryFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(QueryFactoryInterface::class, $f);
 
+        $_GET = [
+            'foo' => 'bar',
+            'baz' => 'foo',
+        ];
         $q = $f->make();
 
         $this->assertInstanceOf(QueryInterface::class, $q);
-        $this->assertSame(0, $q->count());
+        $this->assertSame(2, $q->count());
+        $this->assertSame('bar', $q->get('foo')->value());
+        $this->assertSame('foo', $q->get('baz')->value());
     }
 }
