@@ -1,0 +1,29 @@
+{
+    "name": "innmind/http",
+    "type": "library",
+    "description": "Value Objects to abstract http messages",
+    "keywords": ["http", "value object"],
+    "homepage": "http://github.com/Innmind/Http",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Baptiste Langlade",
+            "email": "langlade.baptiste@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/Innmind/Http/issues"
+    },
+    "require": {
+        "php": ">=7.0",
+        "innmind/url": "^1.0",
+        "innmind/immutable": "~1.6",
+        "innmind/filesystem": "~1.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Innmind\\Http": ""
+        }
+    },
+    "target-dir": "Innmind/Http"
+}
