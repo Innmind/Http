@@ -16,7 +16,7 @@ class PrivateCacheTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(CacheControlValueInterface::class, $h);
         $this->assertSame('field', $h->field());
-        $this->assertSame('private=field', (string) $h);
+        $this->assertSame('private="field"', (string) $h);
         $this->assertSame('private', (string) new PrivateCache(''));
     }
 

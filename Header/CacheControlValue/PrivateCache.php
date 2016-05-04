@@ -31,7 +31,7 @@ final class PrivateCache implements CacheControlValueInterface
     {
         return sprintf(
             'private%s',
-            !empty($this->field) ? '='.$this->field : ''
+            !empty($this->field) ? '="'.$this->field.'"' : ''
         );
     }
 }

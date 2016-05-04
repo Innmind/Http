@@ -31,7 +31,7 @@ final class NoCache implements CacheControlValueInterface
     {
         return sprintf(
             'no-cache%s',
-            !empty($this->field) ? '='.$this->field : ''
+            !empty($this->field) ? '="'.$this->field.'"' : ''
         );
     }
 }
