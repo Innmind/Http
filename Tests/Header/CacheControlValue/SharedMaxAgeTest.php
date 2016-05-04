@@ -16,7 +16,7 @@ class SharedMaxAgeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(CacheControlValueInterface::class, $h);
         $this->assertSame(42, $h->age());
-        $this->assertSame('s-max-age=42', (string) $h);
+        $this->assertSame('s-maxage=42', (string) $h);
     }
 
     /**

@@ -29,7 +29,7 @@ final class SharedMaxAge implements CacheControlValueInterface
     public function __toString(): string
     {
         return sprintf(
-            's-max-age=%s',
+            's-maxage=%s',
             $this->age
         );
     }
