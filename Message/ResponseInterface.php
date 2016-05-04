@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\MessageInterface;
 
-interface ResponseInterface extends ResponseInterface
+interface ResponseInterface extends MessageInterface
 {
     public function statusCode(): StatusCodeInterface;
     public function reasonPhrase(): ReasonPhraseInterface;
