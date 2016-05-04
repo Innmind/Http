@@ -29,8 +29,8 @@ class Parameter implements ParameterInterface
         return sprintf(
             '%s%s%s',
             $this->name,
-            $this->value ? '=' : '',
-            $this->value ? $this->value : ''
+            strlen($this->value) > 0 ? '=' : '',
+            strlen($this->value) > 0 ? $this->value : ''
         );
     }
 }
