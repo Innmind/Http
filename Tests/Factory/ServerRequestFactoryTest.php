@@ -38,4 +38,12 @@ class ServerRequestFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(ServerRequestInterface::class, $r);
     }
+
+    public function testDefault()
+    {
+        $this->assertInstanceOf(
+            ServerRequestFactoryInterface::class,
+            ServerRequestFactory::default()
+        );
+    }
 }

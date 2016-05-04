@@ -11,7 +11,10 @@ use Innmind\Http\{
 };
 use Innmind\Url\Url;
 use Innmind\Filesystem\Stream\Stream;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\{
+    StringPrimitive as Str,
+    Map
+};
 
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
@@ -60,6 +63,39 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             $this->queryFactory->make(),
             $this->formFactory->make(),
             $this->filesFactory->make()
+        );
+    }
+
+    /**
+     * Return a fully configured factory
+     *
+     * @return self
+     */
+    public static function default(): self
+    {
+        return new self(
+            new HeadersFactory(
+                new Header\DefaultFactory(
+                    (new Map('string', HeaderFactoryInterface::class))
+                        ->put('accept-charset', new Header\AcceptCharsetFactory)
+                        ->put('accept-encoding', new Header\AcceptEncodingFactory)
+                        ->put('accept', new Header\AcceptFactory)
+                        ->put('accept-language', new Header\AcceptLanguageFactory)
+                        ->put('authorization', new Header\AuthorizationFactory)
+                        ->put('cache-control', new Header\CacheControlFactory)
+                        ->put('date', new Header\DateFactory)
+                        ->put('host', new Header\HostFactory)
+                        ->put('if-modified-since', new Header\IfModifiedSinceFactory)
+                        ->put('if-unmodified-since', new Header\IfUnmodifiedSinceFactory)
+                        ->put('range', new Header\RangeFactory)
+                        ->put('referer', new Header\ReferrerFactory)
+                )
+            ),
+            new EnvironmentFactory,
+            new CookiesFactory,
+            new QueryFactory,
+            new FormFactory,
+            new FilesFactory
         );
     }
 }
