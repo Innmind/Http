@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class ImATeapotException implements ExceptionInterface
+final class ImATeapotException extends Exception
 {
     public function httpCode(): int
     {
