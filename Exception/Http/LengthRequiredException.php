@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class LengthRequiredException implements ExceptionInterface
+final class LengthRequiredException extends Exception
 {
     public function httpCode(): int
     {

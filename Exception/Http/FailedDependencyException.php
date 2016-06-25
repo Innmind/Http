@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class FailedDependencyException implements ExceptionInterface
+final class FailedDependencyException extends Exception
 {
     public function httpCode(): int
     {

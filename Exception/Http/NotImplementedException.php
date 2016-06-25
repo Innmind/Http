@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class NotImplementedException implements ExceptionInterface
+final class NotImplementedException extends Exception
 {
     public function httpCode(): int
     {
