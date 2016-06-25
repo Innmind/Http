@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class BadRequestException implements ExceptionInterface
+final class BadRequestException extends Exception
 {
     public function httpCode(): int
     {
