@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\{
-    InvalidArgumentException,
-    AcceptHeaderMustContainAtLeastOneValueException
-};
+use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\SetInterface;
 
 final class Link extends Header

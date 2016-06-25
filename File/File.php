@@ -48,4 +48,12 @@ final class File implements FileInterface
     {
         return $this->mediaType;
     }
+
+    /**
+     * @see self::clientMediaType() Alias of clientMediaType
+     */
+    public function mediaType(): MediaTypeInterface
+    {
+        return $this->mediaType;
+    }
 }
