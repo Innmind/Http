@@ -14,6 +14,8 @@ interface MethodInterface
     const TRACE = 'TRACE';
     const CONNECT = 'CONNECT';
     const HEAD = 'HEAD';
+    const LINK = 'LINK';
+    const UNLINK = 'UNLINK';
 
     public function __toString(): string;
 }
