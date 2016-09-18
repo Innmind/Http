@@ -25,5 +25,8 @@
             "Innmind\\Http\\": "src/",
             "Tests\\Innmind\\Http\\": "tests/"
         }
+    },
+    "require-dev": {
+        "psr/http-message": "^1.0"
     }
 }
