@@ -20,12 +20,12 @@ class ServerRequestFactoryTest extends \PHPUnit_Framework_TestCase
     public function testMake()
     {
         $f = new ServerRequestFactory(
-            $headers = $this->getMock(HeadersFactoryInterface::class),
-            $env = $this->getMock(EnvironmentFactoryInterface::class),
-            $cookies = $this->getMock(CookiesFactoryInterface::class),
-            $query = $this->getMock(QueryFactoryInterface::class),
-            $form = $this->getMock(FormFactoryInterface::class),
-            $files = $this->getMock(FilesFactoryInterface::class)
+            $headers = $this->createMock(HeadersFactoryInterface::class),
+            $env = $this->createMock(EnvironmentFactoryInterface::class),
+            $cookies = $this->createMock(CookiesFactoryInterface::class),
+            $query = $this->createMock(QueryFactoryInterface::class),
+            $form = $this->createMock(FormFactoryInterface::class),
+            $files = $this->createMock(FilesFactoryInterface::class)
         );
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);

@@ -20,7 +20,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $f = new File(
             'foo',
-            $s = $this->getMock(StreamInterface::class),
+            $s = $this->createMock(StreamInterface::class),
             $ok = new OkStatus,
             $m = new NullMediaType
         );

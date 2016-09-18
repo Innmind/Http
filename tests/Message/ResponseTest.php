@@ -19,11 +19,11 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testInterface()
     {
         $r = new Response(
-            $status = $this->getMock(StatusCodeInterface::class),
-            $reason = $this->getMock(ReasonPhraseInterface::class),
-            $protocol = $this->getMock(ProtocolVersionInterface::class),
-            $headers = $this->getMock(HeadersInterface::class),
-            $body = $this->getMock(StreamInterface::class)
+            $status = $this->createMock(StatusCodeInterface::class),
+            $reason = $this->createMock(ReasonPhraseInterface::class),
+            $protocol = $this->createMock(ProtocolVersionInterface::class),
+            $headers = $this->createMock(HeadersInterface::class),
+            $body = $this->createMock(StreamInterface::class)
         );
 
         $this->assertInstanceOf(MessageInterface::class, $r);

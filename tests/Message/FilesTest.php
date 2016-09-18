@@ -19,7 +19,7 @@ class FilesTest extends \PHPUnit_Framework_TestCase
             (new Map('string', FileInterface::class))
                 ->put(
                     'foo',
-                    $f = $this->getMock(FileInterface::class)
+                    $f = $this->createMock(FileInterface::class)
                 )
         );
 

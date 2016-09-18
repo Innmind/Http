@@ -25,16 +25,16 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
     public function testInterface()
     {
         $r = new ServerRequest(
-            $url = $this->getMock(UrlInterface::class),
-            $method = $this->getMock(MethodInterface::class),
-            $protocol = $this->getMock(ProtocolVersionInterface::class),
-            $headers = $this->getMock(HeadersInterface::class),
-            $body = $this->getMock(StreamInterface::class),
-            $env = $this->getMock(EnvironmentInterface::class),
-            $cookies = $this->getMock(CookiesInterface::class),
-            $query = $this->getMock(QueryInterface::class),
-            $form = $this->getMock(FormInterface::class),
-            $files = $this->getMock(FilesInterface::class)
+            $url = $this->createMock(UrlInterface::class),
+            $method = $this->createMock(MethodInterface::class),
+            $protocol = $this->createMock(ProtocolVersionInterface::class),
+            $headers = $this->createMock(HeadersInterface::class),
+            $body = $this->createMock(StreamInterface::class),
+            $env = $this->createMock(EnvironmentInterface::class),
+            $cookies = $this->createMock(CookiesInterface::class),
+            $query = $this->createMock(QueryInterface::class),
+            $form = $this->createMock(FormInterface::class),
+            $files = $this->createMock(FilesInterface::class)
         );
 
         $this->assertInstanceOf(MessageInterface::class, $r);

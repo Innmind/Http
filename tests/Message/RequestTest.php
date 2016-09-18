@@ -19,11 +19,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testInterface()
     {
         $r = new Request(
-            $url = $this->getMock(UrlInterface::class),
-            $method = $this->getMock(MethodInterface::class),
-            $protocol = $this->getMock(ProtocolVersionInterface::class),
-            $headers = $this->getMock(HeadersInterface::class),
-            $body = $this->getMock(StreamInterface::class)
+            $url = $this->createMock(UrlInterface::class),
+            $method = $this->createMock(MethodInterface::class),
+            $protocol = $this->createMock(ProtocolVersionInterface::class),
+            $headers = $this->createMock(HeadersInterface::class),
+            $body = $this->createMock(StreamInterface::class)
         );
 
         $this->assertInstanceOf(MessageInterface::class, $r);
