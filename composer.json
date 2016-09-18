@@ -21,9 +21,12 @@
         "innmind/filesystem": "~1.1"
     },
     "autoload": {
-        "psr-0": {
-            "Innmind\\Http": ""
+        "psr-4": {
+            "Innmind\\Http\\": "src/",
+            "Tests\\Innmind\\Http\\": "tests/"
         }
     },
-    "target-dir": "Innmind/Http"
+    "require-dev": {
+        "psr/http-message": "^1.0"
+    }
 }
