@@ -7,7 +7,8 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\AcceptRanges,
     Header\AcceptRangesValue,
-    Header\HeaderInterface
+    Header\HeaderInterface,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\StringPrimitive as Str;
 
@@ -15,6 +16,10 @@ final class AcceptRangesFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'accept-ranges') {
+            throw new InvalidArgumentException;
+        }
+
         return new AcceptRanges(
             new AcceptRangesValue(
                 (string) $value

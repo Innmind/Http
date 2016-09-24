@@ -7,7 +7,8 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
     Header\HostValue,
-    Header\Host
+    Header\Host,
+    Exception\InvalidArgumentException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\StringPrimitive as Str;
@@ -16,6 +17,10 @@ final class HostFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'host') {
+            throw new InvalidArgumentException;
+        }
+
         $url = Url::fromString((string) $value);
 
         return new Host(

@@ -30,4 +30,15 @@ class LocationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Location::class, $header);
         $this->assertSame('Location : http://example.com/', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new LocationFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

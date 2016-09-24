@@ -7,7 +7,8 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
     Header\ContentLocation,
-    Header\LocationValue
+    Header\LocationValue,
+    Exception\InvalidArgumentException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\StringPrimitive as Str;
@@ -16,6 +17,10 @@ final class ContentLocationFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'content-location') {
+            throw new InvalidArgumentException;
+        }
+
         return new ContentLocation(
             new LocationValue(
                 Url::fromString((string) $value)

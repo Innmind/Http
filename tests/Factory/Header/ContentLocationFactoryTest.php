@@ -30,4 +30,15 @@ class ContentLocationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ContentLocation::class, $header);
         $this->assertSame('Content-Location : http://example.com/', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ContentLocationFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\HeaderValueInterface,
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
-    Header\Quality
+    Header\Quality,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
     StringPrimitive as Str,
@@ -20,6 +21,10 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'accept-language') {
+            throw new InvalidArgumentException;
+        }
+
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {

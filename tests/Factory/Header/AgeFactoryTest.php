@@ -30,4 +30,15 @@ class AgeFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Age::class, $header);
         $this->assertSame('Age : 42', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new AgeFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

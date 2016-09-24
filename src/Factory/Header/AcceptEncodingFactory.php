@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\HeaderValueInterface,
     Header\AcceptEncodingValue,
     Header\AcceptEncoding,
-    Header\Quality
+    Header\Quality,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
     StringPrimitive as Str,
@@ -20,6 +21,10 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'accept-encoding') {
+            throw new InvalidArgumentException;
+        }
+
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {

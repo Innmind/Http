@@ -30,4 +30,15 @@ class ContentEncodingFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ContentEncoding::class, $header);
         $this->assertSame('Content-Encoding : x-gzip', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ContentEncodingFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

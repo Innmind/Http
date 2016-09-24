@@ -10,7 +10,8 @@ use Innmind\Http\{
     Header\LinkValue,
     Header\Link,
     Header\ParameterInterface,
-    Header\Parameter
+    Header\Parameter,
+    Exception\InvalidArgumentException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\{
@@ -24,6 +25,10 @@ final class LinkFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'link') {
+            throw new InvalidArgumentException;
+        }
+
         $links = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $link) {

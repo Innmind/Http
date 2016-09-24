@@ -33,4 +33,15 @@ class LinkFactoryTest extends \PHPUnit_Framework_TestCase
             (string) $header
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new LinkFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

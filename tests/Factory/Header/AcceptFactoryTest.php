@@ -26,4 +26,15 @@ class AcceptFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Accept::class, $h);
         $this->assertSame('Accept : audio/*;q=0.2;level=1, audio/basic', (string) $h);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new AcceptFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

@@ -30,4 +30,15 @@ class AllowFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Allow::class, $header);
         $this->assertSame('Allow : GET, POST', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new AllowFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

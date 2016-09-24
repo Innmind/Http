@@ -41,4 +41,15 @@ class ContentRangeFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ContentRange::class, $header);
         $this->assertSame('Content-Range : bytes 0-42/66', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ContentRangeFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

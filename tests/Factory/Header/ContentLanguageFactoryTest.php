@@ -30,4 +30,15 @@ class ContentLanguageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ContentLanguage::class, $header);
         $this->assertSame('Content-Language : fr-FR, fr-CA', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ContentLanguageFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

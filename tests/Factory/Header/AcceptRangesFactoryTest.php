@@ -30,4 +30,15 @@ class AcceptRangesFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(AcceptRanges::class, $header);
         $this->assertSame('Accept-Ranges : bytes', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new AcceptRangesFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

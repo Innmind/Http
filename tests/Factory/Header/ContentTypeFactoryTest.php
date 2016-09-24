@@ -41,4 +41,15 @@ class ContentTypeFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ContentType::class, $header);
         $this->assertSame('Content-Type : image/gif;foo=bar;q=0.5', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ContentTypeFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

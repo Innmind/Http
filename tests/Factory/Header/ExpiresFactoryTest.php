@@ -33,4 +33,15 @@ class ExpiresFactoryTest extends \PHPUnit_Framework_TestCase
             (string) $header
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ExpiresFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

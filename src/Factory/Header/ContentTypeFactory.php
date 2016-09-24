@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue,
     Header\ParameterInterface,
-    Header\Parameter
+    Header\Parameter,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
     StringPrimitive as Str,
@@ -21,6 +22,10 @@ final class ContentTypeFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'content-type') {
+            throw new InvalidArgumentException;
+        }
+
         $matches = $value->getMatches(
             '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
         );

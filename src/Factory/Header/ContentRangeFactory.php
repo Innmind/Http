@@ -7,7 +7,8 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
     Header\ContentRange,
-    Header\ContentRangeValue
+    Header\ContentRangeValue,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\StringPrimitive as Str;
 
@@ -15,6 +16,10 @@ final class ContentRangeFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'content-range') {
+            throw new InvalidArgumentException;
+        }
+
         $matches = $value->trim()->getMatches(
             '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~'
         );

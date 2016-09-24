@@ -30,4 +30,15 @@ class ContentLengthFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ContentLength::class, $header);
         $this->assertSame('Content-Length : 42', (string) $header);
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new ContentLengthFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

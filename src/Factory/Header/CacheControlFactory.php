@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\HeaderInterface,
     Header\HeaderValueInterface,
     Header\CacheControlValue,
-    Header\CacheControl
+    Header\CacheControl,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
     StringPrimitive as Str,
@@ -19,6 +20,10 @@ final class CacheControlFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'cache-control') {
+            throw new InvalidArgumentException;
+        }
+
         $splits = $value->split(',');
         $values = new Set(HeaderValueInterface::class);
 

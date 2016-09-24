@@ -7,7 +7,8 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
     Header\AuthorizationValue,
-    Header\Authorization
+    Header\Authorization,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\StringPrimitive as Str;
 
@@ -15,6 +16,10 @@ final class AuthorizationFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'authorization') {
+            throw new InvalidArgumentException;
+        }
+
         $matches = $value->getMatches('~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~');
 
         return new Authorization(

@@ -29,4 +29,15 @@ class CacheControlFactoryTest extends \PHPUnit_Framework_TestCase
             (string) $h
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new CacheControlFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }
