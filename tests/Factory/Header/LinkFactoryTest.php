@@ -29,7 +29,7 @@ class LinkFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Link::class, $header);
         $this->assertSame(
-            'Link : </foo>; rel="next";title="foo";bar="baz", </bar>; rel="related"',
+            'Link : </foo>; rel="next";title=foo;bar=baz, </bar>; rel="related"',
             (string) $header
         );
     }

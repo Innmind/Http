@@ -35,12 +35,6 @@ final class LinkValue extends HeaderValue
 
         $parameters = $parameters
             ->values()
-            ->map(function(ParameterInterface $parameter) {
-                return new Parameter(
-                    $parameter->name(),
-                    '"'.$parameter->value().'"'
-                );
-            })
             ->join(';');
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
         $link = (new Str('<%s>; rel="%s"'))->sprintf((string) $url, $rel);
