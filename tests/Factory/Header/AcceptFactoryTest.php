@@ -18,9 +18,12 @@ class AcceptFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
 
-        $h = $f->make(new Str('Accept'), new Str('audio/*; q=0.2, audio/basic'));
+        $h = $f->make(
+            new Str('Accept'),
+            new Str('audio/*; q=0.2; level="1", audio/basic')
+        );
 
         $this->assertInstanceOf(Accept::class, $h);
-        $this->assertSame('Accept : audio/*;q=0.2, audio/basic', (string) $h);
+        $this->assertSame('Accept : audio/*;q=0.2;level=1, audio/basic', (string) $h);
     }
 }

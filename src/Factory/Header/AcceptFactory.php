@@ -27,7 +27,7 @@ final class AcceptFactory implements HeaderFactoryInterface
 
         foreach ($value->split(',') as $accept) {
             $matches = $accept->getMatches(
-                '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>; ?\w+=[\w\-.]+)?~'
+                '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
             );
 
             $values = $values->add(
@@ -55,7 +55,7 @@ final class AcceptFactory implements HeaderFactoryInterface
                 continue;
             }
 
-            $matches = $value->getMatches('~(?<key>\w+)=(?<value>[\w\-.]+)~');
+            $matches = $value->getMatches('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
                 new Parameter(
