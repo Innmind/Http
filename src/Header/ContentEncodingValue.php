@@ -12,7 +12,7 @@ final class ContentEncodingValue extends HeaderValue
     {
         $coding = new Str($coding);
 
-        if (!$coding->match('~^\w+$~')) {
+        if (!$coding->match('~^[\w\-]+$~')) {
             throw new InvalidArgumentException;
         }
 

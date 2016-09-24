@@ -18,6 +18,7 @@ class ContentEncodingValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('compress', (string) $a);
 
         new ContentEncodingValue('identity');
+        new ContentEncodingValue('x-compress');
     }
 
     /**
