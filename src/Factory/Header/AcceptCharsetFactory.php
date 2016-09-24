@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\HeaderValueInterface,
     Header\AcceptCharsetValue,
     Header\AcceptCharset,
-    Header\Quality
+    Header\Quality,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
     StringPrimitive as Str,
@@ -20,6 +21,10 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'accept-charset') {
+            throw new InvalidArgumentException;
+        }
+
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {

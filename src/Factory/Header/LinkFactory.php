@@ -7,12 +7,13 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
     Header\HeaderValueInterface,
-    Header\AcceptValue,
-    Header\Accept,
+    Header\LinkValue,
+    Header\Link,
     Header\ParameterInterface,
     Header\Parameter,
     Exception\InvalidArgumentException
 };
+use Innmind\Url\Url;
 use Innmind\Immutable\{
     StringPrimitive as Str,
     Set,
@@ -20,34 +21,36 @@ use Innmind\Immutable\{
     Map
 };
 
-final class AcceptFactory implements HeaderFactoryInterface
+final class LinkFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'accept') {
+        if ((string) $name->toLower() !== 'link') {
             throw new InvalidArgumentException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
+        $links = new Set(HeaderValueInterface::class);
 
-        foreach ($value->split(',') as $accept) {
-            $matches = $accept->getMatches(
-                '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
+        foreach ($value->split(',') as $link) {
+            $matches = $link->trim()->getMatches(
+                '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?$~'
+            );
+            $params = $this->buildParams(
+                $matches->hasKey('params') ? $matches->get('params') : new Str('')
             );
 
-            $values = $values->add(
-                new AcceptValue(
-                    (string) $matches->get('type'),
-                    (string) $matches->get('subType'),
-                    $this->buildParams(
-                        $matches->hasKey('params') ?
-                            $matches->get('params') : new Str('')
-                    )
+            $links = $links->add(
+                new LinkValue(
+                    Url::fromString((string) $matches->get('url')),
+                    $params->contains('rel') ?
+                        $params->get('rel')->value() : 'related',
+                    $params->contains('rel') ?
+                        $params->remove('rel') : $params
                 )
             );
         }
 
-        return new Accept($values);
+        return new Link($links);
     }
 
     private function buildParams(Str $params): MapInterface

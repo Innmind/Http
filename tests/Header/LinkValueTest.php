@@ -28,7 +28,7 @@ class LinkValueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('relationship', $l->relationship());
         $this->assertSame($ps, $l->parameters());
         $this->assertSame(
-            '</some/resource>; rel="relationship";title="Foo"',
+            '</some/resource>; rel="relationship";title=Foo',
             (string) $l
         );
     }

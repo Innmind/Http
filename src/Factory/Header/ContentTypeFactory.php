@@ -6,48 +6,40 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
-    Header\HeaderValueInterface,
-    Header\AcceptValue,
-    Header\Accept,
+    Header\ContentType,
+    Header\ContentTypeValue,
     Header\ParameterInterface,
     Header\Parameter,
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
     StringPrimitive as Str,
-    Set,
-    MapInterface,
-    Map
+    Map,
+    MapInterface
 };
 
-final class AcceptFactory implements HeaderFactoryInterface
+final class ContentTypeFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'accept') {
+        if ((string) $name->toLower() !== 'content-type') {
             throw new InvalidArgumentException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
+        $matches = $value->getMatches(
+            '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
+        );
 
-        foreach ($value->split(',') as $accept) {
-            $matches = $accept->getMatches(
-                '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
-            );
-
-            $values = $values->add(
-                new AcceptValue(
-                    (string) $matches->get('type'),
-                    (string) $matches->get('subType'),
-                    $this->buildParams(
-                        $matches->hasKey('params') ?
-                            $matches->get('params') : new Str('')
-                    )
+        return new ContentType(
+            new ContentTypeValue(
+                (string) $matches->get('type'),
+                (string) $matches->get('subType'),
+                $this->buildParams(
+                    $matches->hasKey('params') ?
+                        $matches->get('params') : new Str('')
                 )
-            );
-        }
-
-        return new Accept($values);
+            )
+        );
     }
 
     private function buildParams(Str $params): MapInterface

@@ -7,7 +7,8 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
     Header\DateValue,
-    Header\Date
+    Header\Date,
+    Exception\InvalidArgumentException
 };
 use Innmind\Immutable\StringPrimitive as Str;
 
@@ -15,6 +16,10 @@ final class DateFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
+        if ((string) $name->toLower() !== 'date') {
+            throw new InvalidArgumentException;
+        }
+
         return new Date(
             new DateValue(
                 \DateTimeImmutable::createFromFormat(

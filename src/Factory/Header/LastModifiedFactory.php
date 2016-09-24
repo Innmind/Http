@@ -6,27 +6,26 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
-    Header\HostValue,
-    Header\Host,
+    Header\DateValue,
+    Header\LastModified,
     Exception\InvalidArgumentException
 };
-use Innmind\Url\Url;
 use Innmind\Immutable\StringPrimitive as Str;
 
-final class HostFactory implements HeaderFactoryInterface
+final class LastModifiedFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'host') {
+        if ((string) $name->toLower() !== 'last-modified') {
             throw new InvalidArgumentException;
         }
 
-        $url = Url::fromString((string) $value);
-
-        return new Host(
-            new HostValue(
-                $url->authority()->host(),
-                $url->authority()->port()
+        return new LastModified(
+            new DateValue(
+                \DateTimeImmutable::createFromFormat(
+                    \DateTime::RFC1123,
+                    (string) $value
+                )
             )
         );
     }

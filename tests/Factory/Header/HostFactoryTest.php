@@ -29,4 +29,15 @@ class HostFactoryTest extends \PHPUnit_Framework_TestCase
             (string) $h
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new HostFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

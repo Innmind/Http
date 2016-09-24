@@ -29,4 +29,15 @@ class RangeFactoryTest extends \PHPUnit_Framework_TestCase
             (string) $h
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotExpectedHeader()
+    {
+        (new RangeFactory)->make(
+            new Str('foo'),
+            new Str('')
+        );
+    }
 }

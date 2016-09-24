@@ -6,27 +6,24 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface,
-    Header\HostValue,
-    Header\Host,
+    Header\ContentLocation,
+    Header\LocationValue,
     Exception\InvalidArgumentException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\StringPrimitive as Str;
 
-final class HostFactory implements HeaderFactoryInterface
+final class ContentLocationFactory implements HeaderFactoryInterface
 {
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'host') {
+        if ((string) $name->toLower() !== 'content-location') {
             throw new InvalidArgumentException;
         }
 
-        $url = Url::fromString((string) $value);
-
-        return new Host(
-            new HostValue(
-                $url->authority()->host(),
-                $url->authority()->port()
+        return new ContentLocation(
+            new LocationValue(
+                Url::fromString((string) $value)
             )
         );
     }

@@ -36,7 +36,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Link', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame(
-            'Link : </some/resource>; rel="some relation";title="Foo"',
+            'Link : </some/resource>; rel="some relation";title=Foo',
             (string) $h
         );
     }

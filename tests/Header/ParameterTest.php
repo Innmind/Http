@@ -21,4 +21,28 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('level', (string) new Parameter('level', ''));
     }
+
+    public function testQuoteWhenThereIsAWithespace()
+    {
+        $this->assertSame(
+            'foo="bar baz"',
+            (string) new Parameter('foo', 'bar baz')
+        );
+    }
+
+    public function testDoesntDuplicateQuotes()
+    {
+        $this->assertSame(
+            'foo="bar baz"',
+            (string) new Parameter('foo', '"bar baz"')
+        );
+    }
+
+    public function testDoesntChangeIfAlreadyQuotedEvenIfNotNeeded()
+    {
+        $this->assertSame(
+            'foo="bar"',
+            (string) new Parameter('foo', '"bar"')
+        );
+    }
 }
