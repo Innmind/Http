@@ -12,7 +12,10 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 class HostFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    public function testMake()
+    /**
+     * @dataProvider cases
+     */
+    public function testMake(string $host)
     {
         $f = new HostFactory;
 
@@ -20,12 +23,12 @@ class HostFactoryTest extends \PHPUnit_Framework_TestCase
 
         $h = $f->make(
             new Str('Host'),
-            new Str('www.w3.org:8080')
+            new Str($host)
         );
 
         $this->assertInstanceOf(Host::class, $h);
         $this->assertSame(
-            'Host : www.w3.org:8080',
+            'Host : '.$host,
             (string) $h
         );
     }
@@ -39,5 +42,15 @@ class HostFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('foo'),
             new Str('')
         );
+    }
+
+    public function cases(): array
+    {
+        return [
+            ['www.w3.org:8080'],
+            ['www.w3.org'],
+            ['localhost'],
+            ['127.0.0.1'],
+        ];
     }
 }
