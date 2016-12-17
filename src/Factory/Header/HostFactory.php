@@ -24,11 +24,7 @@ final class HostFactory implements HeaderFactoryInterface
             throw new InvalidArgumentException;
         }
 
-        try {
-            $url = Url::fromString((string) $value);
-        } catch (ExceptionInterface $e) {
-            $url = Url::fromString('http://'.$value);
-        }
+        $url = Url::fromString('http://'.$value);
 
         return new Host(
             new HostValue(
