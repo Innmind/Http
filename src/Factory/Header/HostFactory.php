@@ -10,7 +10,10 @@ use Innmind\Http\{
     Header\Host,
     Exception\InvalidArgumentException
 };
-use Innmind\Url\Url;
+use Innmind\Url\{
+    Url,
+    Exception\ExceptionInterface
+};
 use Innmind\Immutable\StringPrimitive as Str;
 
 final class HostFactory implements HeaderFactoryInterface
@@ -21,7 +24,7 @@ final class HostFactory implements HeaderFactoryInterface
             throw new InvalidArgumentException;
         }
 
-        $url = Url::fromString((string) $value);
+        $url = Url::fromString('http://'.$value);
 
         return new Host(
             new HostValue(
