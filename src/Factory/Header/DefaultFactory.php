@@ -17,6 +17,9 @@ use Innmind\Immutable\{
     StringPrimitive as Str
 };
 
+/**
+ * @deprecated
+ */
 final class DefaultFactory implements HeaderFactoryInterface
 {
     private $factories;
@@ -29,6 +32,11 @@ final class DefaultFactory implements HeaderFactoryInterface
         ) {
             throw new InvalidArgumentException;
         }
+
+        trigger_error(
+            'Use the combination of HeaderFactory, DelegationFactory and TryFactory instead',
+            E_USER_DEPRECATED
+        );
 
         $this->factories = $factories;
     }
