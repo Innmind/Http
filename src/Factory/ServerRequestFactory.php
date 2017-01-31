@@ -75,21 +75,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     {
         return new self(
             new HeadersFactory(
-                new Header\DefaultFactory(
-                    (new Map('string', HeaderFactoryInterface::class))
-                        ->put('accept-charset', new Header\AcceptCharsetFactory)
-                        ->put('accept-encoding', new Header\AcceptEncodingFactory)
-                        ->put('accept', new Header\AcceptFactory)
-                        ->put('accept-language', new Header\AcceptLanguageFactory)
-                        ->put('authorization', new Header\AuthorizationFactory)
-                        ->put('cache-control', new Header\CacheControlFactory)
-                        ->put('date', new Header\DateFactory)
-                        ->put('host', new Header\HostFactory)
-                        ->put('if-modified-since', new Header\IfModifiedSinceFactory)
-                        ->put('if-unmodified-since', new Header\IfUnmodifiedSinceFactory)
-                        ->put('range', new Header\RangeFactory)
-                        ->put('referer', new Header\ReferrerFactory)
-                )
+                Header\Factories::default()
             ),
             new EnvironmentFactory,
             new CookiesFactory,
