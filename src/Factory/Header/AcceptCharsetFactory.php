@@ -19,6 +19,8 @@ use Innmind\Immutable\{
 
 final class AcceptCharsetFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
         if ((string) $name->toLower() !== 'accept-charset') {
@@ -28,9 +30,11 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {
-            $matches = $accept->getMatches(
-                '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~'
-            );
+            if (!$accept->match(self::PATTERN)) {
+                throw new InvalidArgumentException;
+            }
+
+            $matches = $accept->getMatches(self::PATTERN);
 
             $values = $values->add(
                 new AcceptCharsetValue(

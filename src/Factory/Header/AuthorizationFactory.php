@@ -14,13 +14,18 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class AuthorizationFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'authorization') {
+        if (
+            (string) $name->toLower() !== 'authorization' ||
+            !$value->match(self::PATTERN)
+        ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches('~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~');
+        $matches = $value->getMatches(self::PATTERN);
 
         return new Authorization(
             new AuthorizationValue(

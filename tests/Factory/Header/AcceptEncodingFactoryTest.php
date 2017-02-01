@@ -40,4 +40,15 @@ class AcceptEncodingFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('')
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotValid()
+    {
+        (new AcceptEncodingFactory)->make(
+            new Str('Accept-Encoding'),
+            new Str('@')
+        );
+    }
 }

@@ -40,4 +40,15 @@ class AuthorizationFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('')
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotValid()
+    {
+        (new AuthorizationFactory)->make(
+            new Str('Authorization'),
+            new Str('@')
+        );
+    }
 }

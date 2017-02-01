@@ -14,13 +14,18 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class RangeFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'range') {
+        if (
+            (string) $name->toLower() !== 'range' ||
+            !$value->match(self::PATTERN)
+        ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches('~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~');
+        $matches = $value->getMatches(self::PATTERN);
 
         return new Range(
             new RangeValue(

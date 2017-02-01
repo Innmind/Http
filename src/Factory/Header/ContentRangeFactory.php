@@ -14,15 +14,20 @@ use Innmind\Immutable\StringPrimitive as Str;
 
 final class ContentRangeFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'content-range') {
+        $value = $value->trim();
+
+        if (
+            (string) $name->toLower() !== 'content-range' ||
+            !$value->match(self::PATTERN)
+        ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->trim()->getMatches(
-            '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~'
-        );
+        $matches = $value->getMatches(self::PATTERN);
         $length = (string) $matches->get('length');
 
         return new ContentRange(
