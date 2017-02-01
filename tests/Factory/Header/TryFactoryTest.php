@@ -54,7 +54,7 @@ class TryFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('make')
             ->with($name, $value)
             ->will(
-                $this->throwException(new \Exception)
+                $this->throwException(new \Error)
             );
         $fallback = $this->createMock(HeaderFactoryInterface::class);
         $fallback

@@ -26,7 +26,7 @@ final class TryFactory implements HeaderFactoryInterface
     {
         try {
             return $this->try->make($name, $value);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->fallback->make($name, $value);
         }
     }
