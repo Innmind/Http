@@ -52,4 +52,15 @@ class ContentRangeFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('')
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotValid()
+    {
+        (new ContentRangeFactory)->make(
+            new Str('Content-Range'),
+            new Str('foo')
+        );
+    }
 }

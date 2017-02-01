@@ -20,15 +20,18 @@ use Innmind\Immutable\{
 
 final class ContentTypeFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
-        if ((string) $name->toLower() !== 'content-type') {
+        if (
+            (string) $name->toLower() !== 'content-type' ||
+            !$value->match(self::PATTERN)
+        ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(
-            '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
-        );
+        $matches = $value->getMatches(self::PATTERN);
 
         return new ContentType(
             new ContentTypeValue(

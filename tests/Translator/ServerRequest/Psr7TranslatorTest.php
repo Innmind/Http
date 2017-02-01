@@ -6,8 +6,7 @@ namespace Tests\Innmind\Http\Translator\ServerRequest;
 use Innmind\Http\{
     Translator\ServerRequest\Psr7Translator,
     Translator\Request\Psr7Translator as RequestTranslator,
-    Factory\Header\DefaultFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\Header\HeaderFactory,
     Message\ServerRequest
 };
 use Innmind\Immutable\Map;
@@ -22,9 +21,7 @@ class Psr7TranslatorTest extends \PHPUnit_Framework_TestCase
     {
         $translator = new Psr7Translator(
             new RequestTranslator(
-                new DefaultFactory(
-                    new Map('string', HeaderFactoryInterface::class)
-                )
+                new HeaderFactory
             )
         );
         $request = $this->createMock(ServerRequestInterface::class);

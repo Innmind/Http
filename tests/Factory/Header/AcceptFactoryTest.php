@@ -37,4 +37,15 @@ class AcceptFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('')
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotValid()
+    {
+        (new AcceptFactory)->make(
+            new Str('Accept'),
+            new Str('@')
+        );
+    }
 }

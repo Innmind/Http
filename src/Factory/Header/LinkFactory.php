@@ -23,6 +23,8 @@ use Innmind\Immutable\{
 
 final class LinkFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?$~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
         if ((string) $name->toLower() !== 'link') {
@@ -32,9 +34,13 @@ final class LinkFactory implements HeaderFactoryInterface
         $links = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $link) {
-            $matches = $link->trim()->getMatches(
-                '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?$~'
-            );
+            $link = $link->trim();
+
+            if (!$link->match(self::PATTERN)) {
+                throw new InvalidArgumentException;
+            }
+
+            $matches = $link->getMatches(self::PATTERN);
             $params = $this->buildParams(
                 $matches->hasKey('params') ? $matches->get('params') : new Str('')
             );

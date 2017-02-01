@@ -44,4 +44,15 @@ class LinkFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('')
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotValid()
+    {
+        (new LinkFactory)->make(
+            new Str('Link'),
+            new Str('foo')
+        );
+    }
 }

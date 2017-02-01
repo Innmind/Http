@@ -22,6 +22,8 @@ use Innmind\Immutable\{
 
 final class AcceptFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
         if ((string) $name->toLower() !== 'accept') {
@@ -31,9 +33,11 @@ final class AcceptFactory implements HeaderFactoryInterface
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {
-            $matches = $accept->getMatches(
-                '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~'
-            );
+            if (!$accept->match(self::PATTERN)) {
+                throw new InvalidArgumentException;
+            }
+
+            $matches = $accept->getMatches(self::PATTERN);
 
             $values = $values->add(
                 new AcceptValue(

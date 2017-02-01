@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Translator\Request;
 
 use Innmind\Http\{
-    Factory\Header\DefaultFactory,
+    Factory\HeaderFactoryInterface,
     Message\Request,
     Message\Method,
     ProtocolVersion,
@@ -23,7 +23,7 @@ final class Psr7Translator
 {
     private $headerFactory;
 
-    public function __construct(DefaultFactory $headerFactory)
+    public function __construct(HeaderFactoryInterface $headerFactory)
     {
         $this->headerFactory = $headerFactory;
     }

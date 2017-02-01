@@ -52,4 +52,15 @@ class ContentTypeFactoryTest extends \PHPUnit_Framework_TestCase
             new Str('')
         );
     }
+
+    /**
+     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     */
+    public function testThrowWhenNotValid()
+    {
+        (new ContentTypeFactory)->make(
+            new Str('Content-Type'),
+            new Str('foo')
+        );
+    }
 }

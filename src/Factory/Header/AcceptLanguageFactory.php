@@ -19,6 +19,8 @@ use Innmind\Immutable\{
 
 final class AcceptLanguageFactory implements HeaderFactoryInterface
 {
+    const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
+
     public function make(Str $name, Str $value): HeaderInterface
     {
         if ((string) $name->toLower() !== 'accept-language') {
@@ -28,9 +30,11 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {
-            $matches = $accept->getMatches(
-                '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~'
-            );
+            if (!$accept->match(self::PATTERN)) {
+                throw new InvalidArgumentException;
+            }
+
+            $matches = $accept->getMatches(self::PATTERN);
 
             $values = $values->add(
                 new AcceptLanguageValue(
