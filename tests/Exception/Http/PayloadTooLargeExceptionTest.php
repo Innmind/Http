@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     PayloadTooLargeException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class PayloadTooLargeExceptionTest extends \PHPUnit_Framework_TestCase
+class PayloadTooLargeExceptionTest extends TestCase
 {
     public function testInterface()
     {

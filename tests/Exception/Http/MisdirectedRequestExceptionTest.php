@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     MisdirectedRequestException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class MisdirectedRequestExceptionTest extends \PHPUnit_Framework_TestCase
+class MisdirectedRequestExceptionTest extends TestCase
 {
     public function testInterface()
     {

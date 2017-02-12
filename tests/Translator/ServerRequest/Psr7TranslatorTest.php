@@ -14,8 +14,9 @@ use Psr\Http\Message\{
     ServerRequestInterface,
     StreamInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class Psr7TranslatorTest extends \PHPUnit_Framework_TestCase
+class Psr7TranslatorTest extends TestCase
 {
     public function testInterface()
     {

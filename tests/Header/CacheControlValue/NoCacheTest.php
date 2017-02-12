@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\NoCache
 };
+use PHPUnit\Framework\TestCase;
 
-class NoCacheTest extends \PHPUnit_Framework_TestCase
+class NoCacheTest extends TestCase
 {
     public function testInterface()
     {

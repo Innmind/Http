@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\Date
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class DateFactoryTest extends \PHPUnit_Framework_TestCase
+class DateFactoryTest extends TestCase
 {
     public function testMake()
     {

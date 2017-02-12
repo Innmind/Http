@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     LengthRequiredException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class LengthRequiredExceptionTest extends \PHPUnit_Framework_TestCase
+class LengthRequiredExceptionTest extends TestCase
 {
     public function testInterface()
     {

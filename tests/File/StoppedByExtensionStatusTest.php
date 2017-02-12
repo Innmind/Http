@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     StoppedByExtensionStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class StoppedByExtensionStatusTest extends \PHPUnit_Framework_TestCase
+class StoppedByExtensionStatusTest extends TestCase
 {
     public function testInterface()
     {

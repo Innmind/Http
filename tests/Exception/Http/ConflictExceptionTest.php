@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     ConflictException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ConflictExceptionTest extends \PHPUnit_Framework_TestCase
+class ConflictExceptionTest extends TestCase
 {
     public function testInterface()
     {

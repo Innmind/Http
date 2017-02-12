@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\PrivateCache
 };
+use PHPUnit\Framework\TestCase;
 
-class PrivateCacheTest extends \PHPUnit_Framework_TestCase
+class PrivateCacheTest extends TestCase
 {
     public function testInterface()
     {

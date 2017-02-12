@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\Location
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class LocationFactoryTest extends \PHPUnit_Framework_TestCase
+class LocationFactoryTest extends TestCase
 {
     public function testInterface()
     {

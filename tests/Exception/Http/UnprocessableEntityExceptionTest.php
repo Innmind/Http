@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     UnprocessableEntityException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class UnprocessableEntityExceptionTest extends \PHPUnit_Framework_TestCase
+class UnprocessableEntityExceptionTest extends TestCase
 {
     public function testInterface()
     {

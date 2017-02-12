@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\AcceptCharset
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class AcceptCharsetFactoryTest extends \PHPUnit_Framework_TestCase
+class AcceptCharsetFactoryTest extends TestCase
 {
     public function testMake()
     {

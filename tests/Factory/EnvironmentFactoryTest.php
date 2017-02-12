@@ -9,8 +9,9 @@ use Innmind\Http\{
     Message\EnvironmentInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class EnvironmentFactoryTest extends \PHPUnit_Framework_TestCase
+class EnvironmentFactoryTest extends TestCase
 {
     public function testMake()
     {

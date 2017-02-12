@@ -10,8 +10,9 @@ use Innmind\Http\{
     File\FileInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class FilesTest extends \PHPUnit_Framework_TestCase
+class FilesTest extends TestCase
 {
     public function testInterface()
     {

@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\CacheControl
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class CacheControlFactoryTest extends \PHPUnit_Framework_TestCase
+class CacheControlFactoryTest extends TestCase
 {
     public function testMake()
     {

@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\LastModified
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class LastModifiedFactoryTest extends \PHPUnit_Framework_TestCase
+class LastModifiedFactoryTest extends TestCase
 {
     public function testInterface()
     {

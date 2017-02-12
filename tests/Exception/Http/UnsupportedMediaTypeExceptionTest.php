@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     UnsupportedMediaTypeException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class UnsupportedMediaTypeExceptionTest extends \PHPUnit_Framework_TestCase
+class UnsupportedMediaTypeExceptionTest extends TestCase
 {
     public function testInterface()
     {

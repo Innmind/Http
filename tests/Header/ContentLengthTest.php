@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     ContentLengthValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class ContentLengthTest extends \PHPUnit_Framework_TestCase
+class ContentLengthTest extends TestCase
 {
     public function testInterface()
     {

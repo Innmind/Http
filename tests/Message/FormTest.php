@@ -10,8 +10,9 @@ use Innmind\Http\Message\{
     Form\ParameterInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class FormTest extends \PHPUnit_Framework_TestCase
+class FormTest extends TestCase
 {
     public function testInterface()
     {

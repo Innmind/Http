@@ -14,8 +14,9 @@ use Innmind\Http\{
     Factory\FilesFactoryInterface,
     Message\ServerRequestInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ServerRequestFactoryTest extends \PHPUnit_Framework_TestCase
+class ServerRequestFactoryTest extends TestCase
 {
     public function testMake()
     {

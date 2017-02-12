@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     ImATeapotException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ImATeapotExceptionTest extends \PHPUnit_Framework_TestCase
+class ImATeapotExceptionTest extends TestCase
 {
     public function testInterface()
     {

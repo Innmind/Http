@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\MinimumFresh
 };
+use PHPUnit\Framework\TestCase;
 
-class MinimumFreshTest extends \PHPUnit_Framework_TestCase
+class MinimumFreshTest extends TestCase
 {
     public function testInterface()
     {

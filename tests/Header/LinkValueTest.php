@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class LinkValueTest extends \PHPUnit_Framework_TestCase
+class LinkValueTest extends TestCase
 {
     public function testInterface()
     {

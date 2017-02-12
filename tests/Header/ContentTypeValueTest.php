@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     ParameterInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class ContentTypeValueTest extends \PHPUnit_Framework_TestCase
+class ContentTypeValueTest extends TestCase
 {
     public function testInterface()
     {

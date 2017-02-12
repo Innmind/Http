@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface,
     Quality
 };
+use PHPUnit\Framework\TestCase;
 
-class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
+class AcceptEncodingValueTest extends TestCase
 {
     public function testInterface()
     {

@@ -13,8 +13,9 @@ use Innmind\Filesystem\{
     StreamInterface,
     MediaType\NullMediaType
 };
+use PHPUnit\Framework\TestCase;
 
-class FileTest extends \PHPUnit_Framework_TestCase
+class FileTest extends TestCase
 {
     public function testInterface()
     {

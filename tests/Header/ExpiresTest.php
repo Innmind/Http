@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     DateValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class ExpiresTest extends \PHPUnit_Framework_TestCase
+class ExpiresTest extends TestCase
 {
     public function testInterface()
     {

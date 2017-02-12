@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     LockedException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class LockedExceptionTest extends \PHPUnit_Framework_TestCase
+class LockedExceptionTest extends TestCase
 {
     public function testInterface()
     {

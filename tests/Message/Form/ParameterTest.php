@@ -7,8 +7,9 @@ use Innmind\Http\Message\Form\{
     Parameter,
     ParameterInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ParameterTest extends \PHPUnit_Framework_TestCase
+class ParameterTest extends TestCase
 {
     public function testInterface()
     {

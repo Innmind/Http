@@ -8,8 +8,9 @@ use Innmind\Http\Message\{
     EnvironmentInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class EnvironmentTest extends \PHPUnit_Framework_TestCase
+class EnvironmentTest extends TestCase
 {
     public function testInterface()
     {

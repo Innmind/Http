@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     PaymentRequiredException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class PaymentRequiredExceptionTest extends \PHPUnit_Framework_TestCase
+class PaymentRequiredExceptionTest extends TestCase
 {
     public function testInterface()
     {

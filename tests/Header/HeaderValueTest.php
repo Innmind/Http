@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     HeaderValue,
     HeaderValueInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class HeaderValueTest extends \PHPUnit_Framework_TestCase
+class HeaderValueTest extends TestCase
 {
     public function testInterface()
     {

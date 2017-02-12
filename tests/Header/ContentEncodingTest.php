@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     ContentEncodingValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class ContentEncodingTest extends \PHPUnit_Framework_TestCase
+class ContentEncodingTest extends TestCase
 {
     public function testInterface()
     {

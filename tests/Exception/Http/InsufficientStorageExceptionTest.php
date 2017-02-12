@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     InsufficientStorageException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class InsufficientStorageExceptionTest extends \PHPUnit_Framework_TestCase
+class InsufficientStorageExceptionTest extends TestCase
 {
     public function testInterface()
     {

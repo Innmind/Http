@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     AuthorizationValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class AuthorizationTest extends \PHPUnit_Framework_TestCase
+class AuthorizationTest extends TestCase
 {
     public function testInterface()
     {

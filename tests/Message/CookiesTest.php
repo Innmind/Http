@@ -8,8 +8,9 @@ use Innmind\Http\Message\{
     CookiesInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class CookiesTest extends \PHPUnit_Framework_TestCase
+class CookiesTest extends TestCase
 {
     public function testInterface()
     {

@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     ContentRangeValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class ContentRangeTest extends \PHPUnit_Framework_TestCase
+class ContentRangeTest extends TestCase
 {
     public function testInterface()
     {

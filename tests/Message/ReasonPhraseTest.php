@@ -8,8 +8,9 @@ use Innmind\Http\Message\{
     ReasonPhraseInterface
 };
 use Innmind\Immutable\MapInterface;
+use PHPUnit\Framework\TestCase;
 
-class ReasonPhraseTest extends \PHPUnit_Framework_TestCase
+class ReasonPhraseTest extends TestCase
 {
     public function testInterface()
     {

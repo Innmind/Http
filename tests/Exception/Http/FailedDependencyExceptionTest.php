@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     FailedDependencyException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class FailedDependencyExceptionTest extends \PHPUnit_Framework_TestCase
+class FailedDependencyExceptionTest extends TestCase
 {
     public function testInterface()
     {

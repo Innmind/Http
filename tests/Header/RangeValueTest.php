@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     RangeValue,
     HeaderValueInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class RangeValueTest extends \PHPUnit_Framework_TestCase
+class RangeValueTest extends TestCase
 {
     public function testInterface()
     {

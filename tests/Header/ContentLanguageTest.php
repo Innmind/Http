@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
     ContentLanguageValue
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class ContentLanguageTest extends \PHPUnit_Framework_TestCase
+class ContentLanguageTest extends TestCase
 {
     public function testInterface()
     {

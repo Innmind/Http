@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\Host
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class HostFactoryTest extends \PHPUnit_Framework_TestCase
+class HostFactoryTest extends TestCase
 {
     /**
      * @dataProvider cases

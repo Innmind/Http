@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     OkStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class OkStatusTest extends \PHPUnit_Framework_TestCase
+class OkStatusTest extends TestCase
 {
     public function testInterface()
     {

@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\MaxAge
 };
+use PHPUnit\Framework\TestCase;
 
-class MaxAgeTest extends \PHPUnit_Framework_TestCase
+class MaxAgeTest extends TestCase
 {
     public function testInterface()
     {

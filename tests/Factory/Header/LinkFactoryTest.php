@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\Link
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class LinkFactoryTest extends \PHPUnit_Framework_TestCase
+class LinkFactoryTest extends TestCase
 {
     public function testInterface()
     {

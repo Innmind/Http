@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\IfUnmodifiedSince
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class IfUnmodifiedSinceFactoryTest extends \PHPUnit_Framework_TestCase
+class IfUnmodifiedSinceFactoryTest extends TestCase
 {
     public function testMake()
     {

@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
     ParameterInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class AcceptValueTest extends \PHPUnit_Framework_TestCase
+class AcceptValueTest extends TestCase
 {
     public function testInterface()
     {

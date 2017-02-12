@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
     AllowValue
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AllowTest extends \PHPUnit_Framework_TestCase
+class AllowTest extends TestCase
 {
     public function testInterface()
     {

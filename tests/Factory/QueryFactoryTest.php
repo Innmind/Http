@@ -9,8 +9,9 @@ use Innmind\Http\{
     Message\QueryInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class QueryFactoryTest extends \PHPUnit_Framework_TestCase
+class QueryFactoryTest extends TestCase
 {
     public function testMake()
     {

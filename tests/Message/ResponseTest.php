@@ -13,8 +13,9 @@ use Innmind\Http\{
     Message\ReasonPhraseInterface
 };
 use Innmind\Filesystem\StreamInterface;
+use PHPUnit\Framework\TestCase;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     public function testInterface()
     {

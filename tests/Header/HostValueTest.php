@@ -12,8 +12,9 @@ use Innmind\Url\Authority\{
     NullPort,
     Port
 };
+use PHPUnit\Framework\TestCase;
 
-class HostValueTest extends \PHPUnit_Framework_TestCase
+class HostValueTest extends TestCase
 {
     public function testInterface()
     {

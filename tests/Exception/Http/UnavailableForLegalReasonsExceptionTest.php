@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     UnavailableForLegalReasonsException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class UnavailableForLegalReasonsExceptionTest extends \PHPUnit_Framework_TestCase
+class UnavailableForLegalReasonsExceptionTest extends TestCase
 {
     public function testInterface()
     {

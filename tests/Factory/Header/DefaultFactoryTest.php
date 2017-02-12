@@ -15,8 +15,9 @@ use Innmind\Immutable\{
     StringPrimitive as Str,
     Map
 };
+use PHPUnit\Framework\TestCase;
 
-class DefaultFactoryTest extends \PHPUnit_Framework_TestCase
+class DefaultFactoryTest extends TestCase
 {
     public function testMake()
     {

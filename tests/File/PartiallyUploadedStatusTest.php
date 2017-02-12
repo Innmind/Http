@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     PartiallyUploadedStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class PartiallyUploadedStatusTest extends \PHPUnit_Framework_TestCase
+class PartiallyUploadedStatusTest extends TestCase
 {
     public function testInterface()
     {

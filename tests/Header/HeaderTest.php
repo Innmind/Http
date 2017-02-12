@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     HeaderValue
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class HeaderTest extends \PHPUnit_Framework_TestCase
+class HeaderTest extends TestCase
 {
     public function testInterface()
     {

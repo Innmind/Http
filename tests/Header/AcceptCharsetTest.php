@@ -12,8 +12,9 @@ use Innmind\Http\Header\{
     Quality
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AcceptCharsetTest extends \PHPUnit_Framework_TestCase
+class AcceptCharsetTest extends TestCase
 {
     public function testInterface()
     {

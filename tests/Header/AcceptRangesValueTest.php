@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface,
     Quality
 };
+use PHPUnit\Framework\TestCase;
 
-class AcceptRangesValueTest extends \PHPUnit_Framework_TestCase
+class AcceptRangesValueTest extends TestCase
 {
     public function testInterface()
     {

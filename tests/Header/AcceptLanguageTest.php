@@ -12,8 +12,9 @@ use Innmind\Http\Header\{
     Quality
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AcceptLanguageTest extends \PHPUnit_Framework_TestCase
+class AcceptLanguageTest extends TestCase
 {
     public function testInterface()
     {

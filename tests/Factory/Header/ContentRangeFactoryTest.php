@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\ContentRange
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class ContentRangeFactoryTest extends \PHPUnit_Framework_TestCase
+class ContentRangeFactoryTest extends TestCase
 {
     public function testInterface()
     {

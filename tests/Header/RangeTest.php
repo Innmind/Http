@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     RangeValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class RangeTest extends \PHPUnit_Framework_TestCase
+class RangeTest extends TestCase
 {
     public function testInterface()
     {

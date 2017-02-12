@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\AcceptRanges
 };
 use Innmind\Immutable\StringPrimitive as Str;
+use PHPUnit\Framework\TestCase;
 
-class AcceptRangesFactoryTest extends \PHPUnit_Framework_TestCase
+class AcceptRangesFactoryTest extends TestCase
 {
     public function testInterface()
     {
