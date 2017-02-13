@@ -6,9 +6,13 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Message,
     ProtocolVersionInterface,
-    HeadersInterface
+    HeadersInterface,
+    Headers
 };
-use Innmind\Filesystem\StreamInterface;
+use Innmind\Filesystem\{
+    StreamInterface,
+    Stream\NullStream
+};
 
 final class Response extends Message implements ResponseInterface
 {
@@ -19,13 +23,17 @@ final class Response extends Message implements ResponseInterface
         StatusCodeInterface $statusCode,
         ReasonPhraseInterface $reasonPhrase,
         ProtocolVersionInterface $protocolVersion,
-        HeadersInterface $headers,
-        StreamInterface $body
+        HeadersInterface $headers = null,
+        StreamInterface $body = null
     ) {
         $this->statusCode = $statusCode;
         $this->reasonPhrase = $reasonPhrase;
 
-        parent::__construct($protocolVersion, $headers, $body);
+        parent::__construct(
+            $protocolVersion,
+            $headers ?? new Headers,
+            $body ?? new NullStream
+        );
     }
 
     public function statusCode(): StatusCodeInterface

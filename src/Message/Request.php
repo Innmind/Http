@@ -6,10 +6,14 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Message,
     ProtocolVersionInterface,
-    HeadersInterface
+    HeadersInterface,
+    Headers
 };
 use Innmind\Url\UrlInterface;
-use Innmind\Filesystem\StreamInterface;
+use Innmind\Filesystem\{
+    StreamInterface,
+    Stream\NullStream
+};
 
 class Request extends Message implements RequestInterface
 {
@@ -20,13 +24,17 @@ class Request extends Message implements RequestInterface
         UrlInterface $url,
         MethodInterface $method,
         ProtocolVersionInterface $protocolVersion,
-        HeadersInterface $headers,
-        StreamInterface $body
+        HeadersInterface $headers = null,
+        StreamInterface $body = null
     ) {
         $this->url = $url;
         $this->method = $method;
 
-        parent::__construct($protocolVersion, $headers, $body);
+        parent::__construct(
+            $protocolVersion,
+            $headers ?? new Headers,
+            $body ?? new NullStream
+        );
     }
 
     public function url(): UrlInterface

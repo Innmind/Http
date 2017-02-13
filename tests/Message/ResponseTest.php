@@ -35,4 +35,22 @@ class ResponseTest extends TestCase
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
     }
+
+    public function testDefaultValues()
+    {
+        $response = new Response(
+            $this->createMock(StatusCodeInterface::class),
+            $this->createMock(ReasonPhraseInterface::class),
+            $this->createMock(ProtocolVersionInterface::class)
+        );
+
+        $this->assertInstanceOf(
+            HeadersInterface::class,
+            $response->headers()
+        );
+        $this->assertInstanceOf(
+            StreamInterface::class,
+            $response->body()
+        );
+    }
 }

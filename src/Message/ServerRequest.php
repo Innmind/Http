@@ -6,10 +6,19 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Message,
     ProtocolVersionInterface,
-    HeadersInterface
+    HeadersInterface,
+    Headers,
+    Message\Environment,
+    Message\Cookies,
+    Message\Query,
+    Message\Form,
+    Message\Files
 };
 use Innmind\Url\UrlInterface;
-use Innmind\Filesystem\StreamInterface;
+use Innmind\Filesystem\{
+    StreamInterface,
+    Stream\NullStream
+};
 
 final class ServerRequest extends Request implements ServerRequestInterface
 {
@@ -23,21 +32,27 @@ final class ServerRequest extends Request implements ServerRequestInterface
         UrlInterface $url,
         MethodInterface $method,
         ProtocolVersionInterface $protocolVersion,
-        HeadersInterface $headers,
-        StreamInterface $body,
-        EnvironmentInterface $environment,
-        CookiesInterface $cookies,
-        QueryInterface $query,
-        FormInterface $form,
-        FilesInterface $files
+        HeadersInterface $headers = null,
+        StreamInterface $body = null,
+        EnvironmentInterface $environment = null,
+        CookiesInterface $cookies = null,
+        QueryInterface $query = null,
+        FormInterface $form = null,
+        FilesInterface $files = null
     ) {
-        parent::__construct($url, $method, $protocolVersion, $headers, $body);
+        parent::__construct(
+            $url,
+            $method,
+            $protocolVersion,
+            $headers ?? new Headers,
+            $body ?? new NullStream
+        );
 
-        $this->environment = $environment;
-        $this->cookies = $cookies;
-        $this->query = $query;
-        $this->form = $form;
-        $this->files = $files;
+        $this->environment = $environment ?? new Environment;
+        $this->cookies = $cookies ?? new Cookies;
+        $this->query = $query ?? new Query;
+        $this->form = $form ?? new Form;
+        $this->files = $files ?? new Files;
     }
 
     public function environment(): EnvironmentInterface

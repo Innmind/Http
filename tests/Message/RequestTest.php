@@ -35,4 +35,22 @@ class RequestTest extends TestCase
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
     }
+
+    public function testDefaultValues()
+    {
+        $request = new Request(
+            $this->createMock(UrlInterface::class),
+            $this->createMock(MethodInterface::class),
+            $this->createMock(ProtocolVersionInterface::class)
+        );
+
+        $this->assertInstanceOf(
+            HeadersInterface::class,
+            $request->headers()
+        );
+        $this->assertInstanceOf(
+            StreamInterface::class,
+            $request->body()
+        );
+    }
 }
