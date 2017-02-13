@@ -49,7 +49,7 @@ final class LinkFactory implements HeaderFactoryInterface
                 new LinkValue(
                     Url::fromString((string) $matches->get('url')),
                     $params->contains('rel') ?
-                        $params->get('rel')->value() : 'related',
+                        $params->get('rel')->value() : null,
                     $params->contains('rel') ?
                         $params->remove('rel') : $params
                 )

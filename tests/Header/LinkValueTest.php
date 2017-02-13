@@ -34,6 +34,14 @@ class LinkValueTest extends TestCase
         );
     }
 
+    public function testDefaultRelationship()
+    {
+        $this->assertSame(
+            'related',
+            (new LinkValue(Url::fromString('/')))->relationship()
+        );
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

@@ -19,9 +19,10 @@ final class LinkValue extends HeaderValue
 
     public function __construct(
         UrlInterface $url,
-        string $rel,
+        string $rel = null,
         MapInterface $parameters = null
     ) {
+        $rel = $rel ?? 'related';
         $parameters = $parameters ?? new Map('string', ParameterInterface::class);
 
         if (
