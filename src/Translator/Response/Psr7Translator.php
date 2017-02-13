@@ -15,7 +15,7 @@ use Innmind\Http\{
 use Innmind\Filesystem\Stream\StringStream;
 use Innmind\Immutable\{
     Map,
-    StringPrimitive as Str
+    Str
 };
 use Psr\Http\Message\ResponseInterface;
 

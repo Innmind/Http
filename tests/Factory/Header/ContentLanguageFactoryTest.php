@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\Header\ContentLanguageFactory,
     Header\ContentLanguage
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
 class ContentLanguageFactoryTest extends TestCase

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 class Parameter implements ParameterInterface
 {
@@ -15,7 +15,7 @@ class Parameter implements ParameterInterface
     {
         $value = (new Str($value))->trim();
 
-        if ($value->match('/ /')) {
+        if ($value->matches('/ /')) {
             $value = $value
                 ->trim('"')
                 ->append('"')

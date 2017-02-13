@@ -14,7 +14,7 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     MapInterface,
     Set,
-    StringPrimitive as Str
+    Str
 };
 
 /**

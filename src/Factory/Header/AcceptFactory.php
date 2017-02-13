@@ -14,7 +14,7 @@ use Innmind\Http\{
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Set,
     MapInterface,
     Map
@@ -33,7 +33,7 @@ final class AcceptFactory implements HeaderFactoryInterface
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {
-            if (!$accept->match(self::PATTERN)) {
+            if (!$accept->matches(self::PATTERN)) {
                 throw new InvalidArgumentException;
             }
 
@@ -44,7 +44,7 @@ final class AcceptFactory implements HeaderFactoryInterface
                     (string) $matches->get('type'),
                     (string) $matches->get('subType'),
                     $this->buildParams(
-                        $matches->hasKey('params') ?
+                        $matches->contains('params') ?
                             $matches->get('params') : new Str('')
                     )
                 )

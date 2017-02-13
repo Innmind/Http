@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     MapInterface
 };
 
@@ -22,7 +22,7 @@ final class ContentTypeValue extends HeaderValue
     ) {
         $media = (new Str('%s/%s'))->sprintf($type, $subType);
 
-        if (!$media->match('~^[\w\-.]+/[\w\-.]+$~')) {
+        if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
             throw new InvalidArgumentException;
         }
 

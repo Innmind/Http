@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\Referrer
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
 class ReferrerFactoryTest extends TestCase

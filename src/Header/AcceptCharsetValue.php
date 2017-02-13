@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class AcceptCharsetValue extends HeaderValue
 {
@@ -16,7 +16,7 @@ final class AcceptCharsetValue extends HeaderValue
 
         if (
             (string) $charset !== '*' &&
-            !$charset->match('~^[a-zA-Z0-9\-_:\(\)]+$~')
+            !$charset->matches('~^[a-zA-Z0-9\-_:\(\)]+$~')
         ) {
             throw new InvalidArgumentException;
         }

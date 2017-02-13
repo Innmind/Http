@@ -12,7 +12,7 @@ use Innmind\Http\{
 use Innmind\Url\Url;
 use Innmind\Filesystem\Stream\Stream;
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Map
 };
 

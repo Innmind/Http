@@ -15,7 +15,7 @@ use Innmind\Http\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Set,
     MapInterface,
     Map
@@ -36,13 +36,13 @@ final class LinkFactory implements HeaderFactoryInterface
         foreach ($value->split(',') as $link) {
             $link = $link->trim();
 
-            if (!$link->match(self::PATTERN)) {
+            if (!$link->matches(self::PATTERN)) {
                 throw new InvalidArgumentException;
             }
 
             $matches = $link->getMatches(self::PATTERN);
             $params = $this->buildParams(
-                $matches->hasKey('params') ? $matches->get('params') : new Str('')
+                $matches->contains('params') ? $matches->get('params') : new Str('')
             );
 
             $links = $links->add(

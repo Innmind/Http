@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\LastModified,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class LastModifiedFactory implements HeaderFactoryInterface
 {

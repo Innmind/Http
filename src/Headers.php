@@ -11,7 +11,7 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     MapInterface,
     Pair,
-    StringPrimitive as Str
+    Str
 };
 
 final class Headers implements HeadersInterface

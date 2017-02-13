@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\Header\ContentRangeFactory,
     Header\ContentRange
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
 class ContentRangeFactoryTest extends TestCase

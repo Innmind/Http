@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\Expires,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class ExpiresFactory implements HeaderFactoryInterface
 {

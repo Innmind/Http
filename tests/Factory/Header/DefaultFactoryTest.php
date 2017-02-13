@@ -12,7 +12,7 @@ use Innmind\Http\{
     Header\HeaderInterface
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Map
 };
 use PHPUnit\Framework\TestCase;

@@ -10,7 +10,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     Map,
-    StringPrimitive as Str
+    Str
 };
 use PHPUnit\Framework\TestCase;
 

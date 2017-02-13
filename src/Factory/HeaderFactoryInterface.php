@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory;
 
 use Innmind\Http\Header\HeaderInterface;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 interface HeaderFactoryInterface
 {

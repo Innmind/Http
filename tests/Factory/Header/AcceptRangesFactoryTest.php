@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\Header\AcceptRangesFactory,
     Header\AcceptRanges
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
 class AcceptRangesFactoryTest extends TestCase

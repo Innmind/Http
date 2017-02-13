@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Url\UrlInterface;
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     MapInterface
 };
 

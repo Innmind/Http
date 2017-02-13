@@ -12,7 +12,7 @@ use Innmind\Http\{
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Set
 };
 
@@ -31,14 +31,14 @@ final class CacheControlFactory implements HeaderFactoryInterface
             $split = $split->trim();
 
             switch (true) {
-                case $split->match('~^max-age=\d+$~'):
+                case $split->matches('~^max-age=\d+$~'):
                     $values = $values->add(
                         new CacheControlValue\MaxAge(
                             (int) (string) $split->substring(8)
                         )
                     );
                     break;
-                case $split->match('~^max-stale(=\d+)?$~'):
+                case $split->matches('~^max-stale(=\d+)?$~'):
                     $values = $values->add(
                         new CacheControlValue\MaxStale(
                             $split->length() > 10 ?
@@ -46,7 +46,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
                         )
                     );
                     break;
-                case $split->match('~^min-fresh=\d+$~'):
+                case $split->matches('~^min-fresh=\d+$~'):
                     $values = $values->add(
                         new CacheControlValue\MinimumFresh(
                             (int) (string) $split->substring(10)
@@ -56,13 +56,13 @@ final class CacheControlFactory implements HeaderFactoryInterface
                 case (string) $split === 'must-revalidate':
                     $values = $values->add(new CacheControlValue\MustRevalidate);
                     break;
-                case $split->match('~^no-cache(="?\w+"?)?$~'):
+                case $split->matches('~^no-cache(="?\w+"?)?$~'):
                     $matches = $split->getMatches(
                         '~^no-cache(="?(?<field>\w+)"?)?$~'
                     );
                     $values = $values->add(
                         new CacheControlValue\NoCache(
-                            $matches->hasKey('field') ?
+                            $matches->contains('field') ?
                                 (string) $matches->get('field') : ''
                         )
                     );
@@ -76,13 +76,13 @@ final class CacheControlFactory implements HeaderFactoryInterface
                 case (string) $split === 'only-if-cached':
                     $values = $values->add(new CacheControlValue\OnlyIfCached);
                     break;
-                case $split->match('~^private(="?\w+"?)?$~'):
+                case $split->matches('~^private(="?\w+"?)?$~'):
                     $matches = $split->getMatches(
                         '~^private(="?(?<field>\w+)"?)?$~'
                     );
                     $values = $values->add(
                         new CacheControlValue\PrivateCache(
-                            $matches->hasKey('field') ?
+                            $matches->contains('field') ?
                                 (string) $matches->get('field') : ''
                         )
                     );
@@ -93,7 +93,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
                 case (string) $split === 'public':
                     $values = $values->add(new CacheControlValue\PublicCache);
                     break;
-                case $split->match('~^s-maxage=\d+$~'):
+                case $split->matches('~^s-maxage=\d+$~'):
                     $values = $values->add(
                         new CacheControlValue\SharedMaxAge(
                             (int) (string) $split->substring(9)

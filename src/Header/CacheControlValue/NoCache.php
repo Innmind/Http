@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header\CacheControlValueInterface,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class NoCache implements CacheControlValueInterface
 {
@@ -15,7 +15,7 @@ final class NoCache implements CacheControlValueInterface
 
     public function __construct(string $field)
     {
-        if (!(new Str($field))->match('~^\w*$~')) {
+        if (!(new Str($field))->matches('~^\w*$~')) {
             throw new InvalidArgumentException;
         }
 

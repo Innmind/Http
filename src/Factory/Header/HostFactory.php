@@ -14,7 +14,7 @@ use Innmind\Url\{
     Url,
     Exception\ExceptionInterface
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class HostFactory implements HeaderFactoryInterface
 {

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class AcceptEncodingValue extends HeaderValue
 {
@@ -16,7 +16,7 @@ final class AcceptEncodingValue extends HeaderValue
 
         if (
             (string) $coding !== '*' &&
-            !$coding->match('~^\w+$~')
+            !$coding->matches('~^\w+$~')
         ) {
             throw new InvalidArgumentException;
         }
