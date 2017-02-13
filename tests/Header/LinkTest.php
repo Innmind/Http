@@ -42,6 +42,11 @@ class LinkTest extends TestCase
         );
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('Link : ', (string) new Link);
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

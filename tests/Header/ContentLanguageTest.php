@@ -28,6 +28,11 @@ class ContentLanguageTest extends TestCase
         $this->assertSame('Content-Language : fr', (string) $h);
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('Content-Language : ', (string) new ContentLanguage);
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

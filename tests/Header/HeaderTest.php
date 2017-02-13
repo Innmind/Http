@@ -29,6 +29,11 @@ class HeaderTest extends TestCase
         $this->assertSame('Accept : application/json, */*', (string) $h);
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('X-Foo : ', (string) new Header('X-Foo'));
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

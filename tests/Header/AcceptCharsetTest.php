@@ -29,6 +29,11 @@ class AcceptCharsetTest extends TestCase
         $this->assertSame('Accept-Charset : unicode-1-1;q=0.8', (string) $h);
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('Accept-Charset : ', (string) new AcceptCharset);
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

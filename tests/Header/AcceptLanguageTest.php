@@ -29,6 +29,11 @@ class AcceptLanguageTest extends TestCase
         $this->assertSame('Accept-Language : fr;q=0.8', (string) $h);
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('Accept-Language : ', (string) new AcceptLanguage);
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

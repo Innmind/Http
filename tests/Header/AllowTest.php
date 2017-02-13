@@ -28,6 +28,11 @@ class AllowTest extends TestCase
         $this->assertSame('Allow : GET', (string) $h);
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('Allow : ', (string) new Allow);
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */

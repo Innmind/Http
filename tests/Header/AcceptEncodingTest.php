@@ -29,6 +29,11 @@ class AcceptEncodingTest extends TestCase
         $this->assertSame('Accept-Encoding : compress;q=1', (string) $h);
     }
 
+    public function testWithoutValues()
+    {
+        $this->assertSame('Accept-Encoding : ', (string) new AcceptEncoding);
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */
