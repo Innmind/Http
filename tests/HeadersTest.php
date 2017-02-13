@@ -54,10 +54,7 @@ class HeadersTest extends TestCase
      */
     public function testThrowWhenAccessingUnknownHeader()
     {
-        (new Headers(
-            new Map('string', HeaderInterface::class)
-        ))
-            ->get('foo');
+        (new Headers)->get('foo');
     }
 
     /**
