@@ -44,10 +44,7 @@ class FilesTest extends TestCase
      */
     public function testThrowWhenAccessingUnknownFile()
     {
-        (new Files(
-            new Map('string', FileInterface::class)
-        ))
-            ->get('foo');
+        (new Files)->get('foo');
     }
 
     /**

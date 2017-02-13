@@ -47,10 +47,7 @@ class QueryTest extends TestCase
      */
     public function testThrowWhenAccessingUnknownParameter()
     {
-        (new Query(
-            new Map('string', ParameterInterface::class)
-        ))
-            ->get('foo');
+        (new Query)->get('foo');
     }
 
     /**

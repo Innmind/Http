@@ -39,10 +39,7 @@ class CookiesTest extends TestCase
      */
     public function testThrowWhenAccessingUnknownCookie()
     {
-        (new Cookies(
-            new Map('string', 'scalar')
-        ))
-            ->get('foo');
+        (new Cookies)->get('foo');
     }
 
     /**

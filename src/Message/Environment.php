@@ -7,14 +7,19 @@ use Innmind\Http\Exception\{
     InvalidArgumentException,
     EnvironmentVariableNotFoundException
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\{
+    MapInterface,
+    Map
+};
 
 final class Environment implements EnvironmentInterface
 {
     private $variables;
 
-    public function __construct(MapInterface $variables)
+    public function __construct(MapInterface $variables = null)
     {
+        $variables = $variables ?? new Map('string', 'scalar');
+
         if (
             (string) $variables->keyType() !== 'string' ||
             (string) $variables->valueType() !== 'scalar'

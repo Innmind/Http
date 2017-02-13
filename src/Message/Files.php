@@ -8,14 +8,19 @@ use Innmind\Http\{
     Exception\InvalidArgumentException,
     Exception\FileNotFoundException
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\{
+    MapInterface,
+    Map
+};
 
 final class Files implements FilesInterface
 {
     private $files;
 
-    public function __construct(MapInterface $files)
+    public function __construct(MapInterface $files = null)
     {
+        $files = $files ?? new Map('string', FileInterface::class);
+
         if (
             (string) $files->keyType() !== 'string' ||
             (string) $files->valueType() !== FileInterface::class

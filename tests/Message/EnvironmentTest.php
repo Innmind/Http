@@ -39,10 +39,7 @@ class EnvironmentTest extends TestCase
      */
     public function testThrowWhenAccessingUnknownVariable()
     {
-        (new Environment(
-            new Map('string', 'scalar')
-        ))
-            ->get('foo');
+        (new Environment)->get('foo');
     }
 
     /**

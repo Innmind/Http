@@ -47,10 +47,7 @@ class FormTest extends TestCase
      */
     public function testThrowWhenAccessingUnknownParameter()
     {
-        (new Form(
-            new Map('scalar', ParameterInterface::class)
-        ))
-            ->get('foo');
+        (new Form)->get('foo');
     }
 
     /**
