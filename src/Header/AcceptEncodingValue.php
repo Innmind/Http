@@ -10,9 +10,10 @@ final class AcceptEncodingValue extends HeaderValue
 {
     private $quality;
 
-    public function __construct(string $coding, Quality $quality)
+    public function __construct(string $coding, Quality $quality = null)
     {
         $coding = new Str($coding);
+        $quality = $quality ?? new Quality(1);
 
         if (
             (string) $coding !== '*' &&

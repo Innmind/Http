@@ -26,6 +26,14 @@ class AcceptLanguageValueTest extends TestCase
         new AcceptLanguageValue('*', new Quality(1));
     }
 
+    public function testDefaultQuality()
+    {
+        $this->assertSame(
+            '1',
+            (new AcceptLanguageValue('fr'))->quality()->value()
+        );
+    }
+
     /**
      * @dataProvider invalids
      * @expectedException Innmind\Http\Exception\InvalidArgumentException

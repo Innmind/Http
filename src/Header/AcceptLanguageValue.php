@@ -10,9 +10,10 @@ final class AcceptLanguageValue extends HeaderValue
 {
     private $quality;
 
-    public function __construct(string $language, Quality $quality)
+    public function __construct(string $language, Quality $quality = null)
     {
         $language = new Str($language);
+        $quality = $quality ?? new Quality(1);
 
         if (
             (string) $language !== '*' &&

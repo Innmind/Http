@@ -26,6 +26,14 @@ class AcceptEncodingValueTest extends TestCase
         new AcceptEncodingValue('*', new Quality(0));
     }
 
+    public function testDefaultQuality()
+    {
+        $this->assertSame(
+            '1',
+            (new AcceptEncodingValue('*'))->quality()->value()
+        );
+    }
+
     /**
      * @dataProvider invalids
      * @expectedException Innmind\Http\Exception\InvalidArgumentException

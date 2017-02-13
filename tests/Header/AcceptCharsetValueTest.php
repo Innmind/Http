@@ -27,6 +27,14 @@ class AcceptCharsetValueTest extends TestCase
         new AcceptCharsetValue('*', new Quality(1));
     }
 
+    public function testDefaultQuality()
+    {
+        $this->assertSame(
+            '1',
+            (new AcceptCharsetValue('*'))->quality()->value()
+        );
+    }
+
     /**
      * @dataProvider invalids
      * @expectedException Innmind\Http\Exception\InvalidArgumentException

@@ -10,9 +10,10 @@ final class AcceptCharsetValue extends HeaderValue
 {
     private $quality;
 
-    public function __construct(string $charset, Quality $quality)
+    public function __construct(string $charset, Quality $quality = null)
     {
         $charset = new Str($charset);
+        $quality = $quality ?? new Quality(1);
 
         if (
             (string) $charset !== '*' &&
