@@ -31,8 +31,7 @@ class ContentTypeValueTest extends TestCase
 
         new ContentTypeValue(
             'application',
-            'octet-stream',
-            new Map('string', ParameterInterface::class)
+            'octet-stream'
         );
         new ContentTypeValue(
             'application',
@@ -57,7 +56,7 @@ class ContentTypeValueTest extends TestCase
      */
     public function testThrowWhenInvalidContentTypeValue($type, $sub)
     {
-        new ContentTypeValue($type, $sub, new Map('string', ParameterInterface::class));
+        new ContentTypeValue($type, $sub);
     }
 
     public function invalids(): array

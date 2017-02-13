@@ -49,8 +49,7 @@ class LinkValueTest extends TestCase
     {
         new LinkValue(
             Url::fromString('/foo'),
-            '',
-            new Map('string', ParameterInterface::class)
+            ''
         );
     }
 }

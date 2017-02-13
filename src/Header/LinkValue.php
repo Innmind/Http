@@ -7,7 +7,8 @@ use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Url\UrlInterface;
 use Innmind\Immutable\{
     Str,
-    MapInterface
+    MapInterface,
+    Map
 };
 
 final class LinkValue extends HeaderValue
@@ -19,8 +20,10 @@ final class LinkValue extends HeaderValue
     public function __construct(
         UrlInterface $url,
         string $rel,
-        MapInterface $parameters
+        MapInterface $parameters = null
     ) {
+        $parameters = $parameters ?? new Map('string', ParameterInterface::class);
+
         if (
             empty($rel) ||
             (string) $parameters->keyType() !== 'string' ||

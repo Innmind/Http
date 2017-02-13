@@ -32,18 +32,15 @@ class AcceptValueTest extends TestCase
 
         new AcceptValue(
             '*',
-            '*',
-            new Map('string', ParameterInterface::class)
+            '*'
         );
         new AcceptValue(
             'application',
-            '*',
-            new Map('string', ParameterInterface::class)
+            '*'
         );
         new AcceptValue(
             'application',
-            'octet-stream',
-            new Map('string', ParameterInterface::class)
+            'octet-stream'
         );
         new AcceptValue(
             'application',
@@ -68,7 +65,7 @@ class AcceptValueTest extends TestCase
      */
     public function testThrowWhenInvalidAcceptValue($type, $sub)
     {
-        new AcceptValue($type, $sub, new Map('string', ParameterInterface::class));
+        new AcceptValue($type, $sub);
     }
 
     public function invalids(): array
