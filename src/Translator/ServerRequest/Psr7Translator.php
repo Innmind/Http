@@ -43,7 +43,7 @@ final class Psr7Translator
             $this->translateCookies($serverRequest->getCookieParams()),
             $this->translateQuery($serverRequest->getQueryParams()),
             $this->translateForm($serverRequest->getParsedBody()),
-            new Files(new Map('string', FileInterface::class)) //can't be translated as raw data is not accessible
+            new Files //can't be translated as raw data is not accessible
         );
     }
 
