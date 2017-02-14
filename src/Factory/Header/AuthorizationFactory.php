@@ -25,7 +25,7 @@ final class AuthorizationFactory implements HeaderFactoryInterface
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
 
         return new Authorization(
             new AuthorizationValue(

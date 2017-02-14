@@ -31,7 +31,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
 
         return new ContentType(
             new ContentTypeValue(
@@ -55,7 +55,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                 continue;
             }
 
-            $matches = $value->getMatches('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
+            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
                 new Parameter(

@@ -34,7 +34,7 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
                 throw new InvalidArgumentException;
             }
 
-            $matches = $accept->getMatches(self::PATTERN);
+            $matches = $accept->capture(self::PATTERN);
 
             $values = $values->add(
                 new AcceptLanguageValue(

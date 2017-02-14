@@ -43,7 +43,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
 
     public function make(): ServerRequestInterface
     {
-        $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->getMatches(
+        $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
         );
 

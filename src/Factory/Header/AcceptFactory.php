@@ -37,7 +37,7 @@ final class AcceptFactory implements HeaderFactoryInterface
                 throw new InvalidArgumentException;
             }
 
-            $matches = $accept->getMatches(self::PATTERN);
+            $matches = $accept->capture(self::PATTERN);
 
             $values = $values->add(
                 new AcceptValue(
@@ -64,7 +64,7 @@ final class AcceptFactory implements HeaderFactoryInterface
                 continue;
             }
 
-            $matches = $value->getMatches('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
+            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
                 new Parameter(

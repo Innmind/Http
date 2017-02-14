@@ -40,7 +40,7 @@ final class LinkFactory implements HeaderFactoryInterface
                 throw new InvalidArgumentException;
             }
 
-            $matches = $link->getMatches(self::PATTERN);
+            $matches = $link->capture(self::PATTERN);
             $params = $this->buildParams(
                 $matches->contains('params') ? $matches->get('params') : new Str('')
             );
@@ -69,7 +69,7 @@ final class LinkFactory implements HeaderFactoryInterface
                 continue;
             }
 
-            $matches = $value->getMatches('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
+            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
                 new Parameter(

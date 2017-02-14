@@ -57,7 +57,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
                     $values = $values->add(new CacheControlValue\MustRevalidate);
                     break;
                 case $split->matches('~^no-cache(="?\w+"?)?$~'):
-                    $matches = $split->getMatches(
+                    $matches = $split->capture(
                         '~^no-cache(="?(?<field>\w+)"?)?$~'
                     );
                     $values = $values->add(
@@ -77,7 +77,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
                     $values = $values->add(new CacheControlValue\OnlyIfCached);
                     break;
                 case $split->matches('~^private(="?\w+"?)?$~'):
-                    $matches = $split->getMatches(
+                    $matches = $split->capture(
                         '~^private(="?(?<field>\w+)"?)?$~'
                     );
                     $values = $values->add(

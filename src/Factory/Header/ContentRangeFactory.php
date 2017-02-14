@@ -27,7 +27,7 @@ final class ContentRangeFactory implements HeaderFactoryInterface
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
         $length = (string) $matches->get('length');
 
         return new ContentRange(
