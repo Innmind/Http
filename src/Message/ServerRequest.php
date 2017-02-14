@@ -7,12 +7,7 @@ use Innmind\Http\{
     Message,
     ProtocolVersionInterface,
     HeadersInterface,
-    Headers,
-    Message\Environment,
-    Message\Cookies,
-    Message\Query,
-    Message\Form,
-    Message\Files
+    Headers
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Filesystem\{
