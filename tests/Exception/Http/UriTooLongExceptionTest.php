@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     UriTooLongException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class UriTooLongExceptionTest extends \PHPUnit_Framework_TestCase
+class UriTooLongExceptionTest extends TestCase
 {
     public function testInterface()
     {

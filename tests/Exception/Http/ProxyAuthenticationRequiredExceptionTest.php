@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     ProxyAuthenticationRequiredException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ProxyAuthenticationRequiredExceptionTest extends \PHPUnit_Framework_TestCase
+class ProxyAuthenticationRequiredExceptionTest extends TestCase
 {
     public function testInterface()
     {

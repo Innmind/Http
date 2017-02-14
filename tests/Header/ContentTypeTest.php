@@ -15,8 +15,9 @@ use Innmind\Immutable\{
     SetInterface,
     Map
 };
+use PHPUnit\Framework\TestCase;
 
-class ContentTypeTest extends \PHPUnit_Framework_TestCase
+class ContentTypeTest extends TestCase
 {
     public function testInterface()
     {

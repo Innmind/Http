@@ -7,12 +7,12 @@ use Innmind\Http\Exception\InvalidArgumentException;
 
 final class ContentLengthValue extends HeaderValue
 {
-    public function __construct(int $age)
+    public function __construct(int $length)
     {
-        if ($age < 0) {
+        if ($length < 0) {
             throw new InvalidArgumentException;
         }
 
-        parent::__construct((string) $age);
+        parent::__construct((string) $length);
     }
 }

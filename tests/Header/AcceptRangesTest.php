@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     AcceptRangesValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class AcceptRangesTest extends \PHPUnit_Framework_TestCase
+class AcceptRangesTest extends TestCase
 {
     public function testInterface()
     {

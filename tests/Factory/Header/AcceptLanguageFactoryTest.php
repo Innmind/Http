@@ -8,9 +8,10 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\AcceptLanguage
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
+use PHPUnit\Framework\TestCase;
 
-class AcceptLanguageFactoryTest extends \PHPUnit_Framework_TestCase
+class AcceptLanguageFactoryTest extends TestCase
 {
     public function testMake()
     {

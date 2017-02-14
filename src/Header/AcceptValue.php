@@ -5,8 +5,9 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\{
-    StringPrimitive as Str,
-    MapInterface
+    Str,
+    MapInterface,
+    Map
 };
 
 final class AcceptValue extends HeaderValue
@@ -18,14 +19,15 @@ final class AcceptValue extends HeaderValue
     public function __construct(
         string $type,
         string $subType,
-        MapInterface $parameters
+        MapInterface $parameters = null
     ) {
         $media = (new Str('%s/%s'))->sprintf($type, $subType);
+        $parameters = $parameters ?? new Map('string', ParameterInterface::class);
 
         if (
-            !$media->match('~^\*/\*$~') &&
-            !$media->match('~^[\w\-.]+/\*$~') &&
-            !$media->match('~^[\w\-.]+/[\w\-.]+$~')
+            !$media->matches('~^\*/\*$~') &&
+            !$media->matches('~^[\w\-.]+/\*$~') &&
+            !$media->matches('~^[\w\-.]+/[\w\-.]+$~')
         ) {
             throw new InvalidArgumentException;
         }

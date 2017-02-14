@@ -11,15 +11,18 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     MapInterface,
     Pair,
-    StringPrimitive as Str
+    Str,
+    Map
 };
 
 final class Headers implements HeadersInterface
 {
     private $headers;
 
-    public function __construct(MapInterface $headers)
+    public function __construct(MapInterface $headers = null)
     {
+        $headers = $headers ?? new Map('string', HeaderInterface::class);
+
         if (
             (string) $headers->keyType() !== 'string' ||
             (string) $headers->valueType() !== HeaderInterface::class

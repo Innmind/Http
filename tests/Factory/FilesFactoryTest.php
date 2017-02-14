@@ -13,8 +13,9 @@ use Innmind\Immutable\{
     Map,
     MapInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class FilesFactoryTest extends \PHPUnit_Framework_TestCase
+class FilesFactoryTest extends TestCase
 {
     public function testMake()
     {

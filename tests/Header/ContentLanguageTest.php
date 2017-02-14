@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
     ContentLanguageValue
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class ContentLanguageTest extends \PHPUnit_Framework_TestCase
+class ContentLanguageTest extends TestCase
 {
     public function testInterface()
     {
@@ -25,6 +26,11 @@ class ContentLanguageTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Content-Language', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Content-Language : fr', (string) $h);
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('Content-Language : ', (string) new ContentLanguage);
     }
 
     /**

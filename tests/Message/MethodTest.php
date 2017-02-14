@@ -7,8 +7,9 @@ use Innmind\Http\Message\{
     Method,
     MethodInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class MethodTest extends \PHPUnit_Framework_TestCase
+class MethodTest extends TestCase
 {
     public function testInterface()
     {

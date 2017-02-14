@@ -9,8 +9,9 @@ use Innmind\Http\Factory\{
     HeaderFactoryInterface
 };
 use Innmind\Immutable\MapInterface;
+use PHPUnit\Framework\TestCase;
 
-class FactoriesTest extends \PHPUnit_Framework_TestCase
+class FactoriesTest extends TestCase
 {
     public function testAll()
     {

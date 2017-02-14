@@ -13,7 +13,7 @@ use Innmind\Http\{
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Set
 };
 
@@ -30,17 +30,17 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
         $values = new Set(HeaderValueInterface::class);
 
         foreach ($value->split(',') as $accept) {
-            if (!$accept->match(self::PATTERN)) {
+            if (!$accept->matches(self::PATTERN)) {
                 throw new InvalidArgumentException;
             }
 
-            $matches = $accept->getMatches(self::PATTERN);
+            $matches = $accept->capture(self::PATTERN);
 
             $values = $values->add(
                 new AcceptCharsetValue(
                     (string) $matches->get('charset'),
                     new Quality(
-                        $matches->hasKey('quality') ?
+                        $matches->contains('quality') ?
                             (float) (string) $matches->get('quality') : 1
                     )
                 )

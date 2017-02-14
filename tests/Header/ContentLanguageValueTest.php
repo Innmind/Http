@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     ContentLanguageValue,
     HeaderValueInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ContentLanguageValueTest extends \PHPUnit_Framework_TestCase
+class ContentLanguageValueTest extends TestCase
 {
     public function testInterface()
     {

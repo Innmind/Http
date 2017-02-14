@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\OnlyIfCached
 };
+use PHPUnit\Framework\TestCase;
 
-class OnlyIfCachedTest extends \PHPUnit_Framework_TestCase
+class OnlyIfCachedTest extends TestCase
 {
     public function testInterface()
     {

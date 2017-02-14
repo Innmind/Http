@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class IfUnmodifiedSinceFactory implements HeaderFactoryInterface
 {

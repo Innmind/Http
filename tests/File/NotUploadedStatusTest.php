@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     NotUploadedStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class NotUploadedStatusTest extends \PHPUnit_Framework_TestCase
+class NotUploadedStatusTest extends TestCase
 {
     public function testInterface()
     {

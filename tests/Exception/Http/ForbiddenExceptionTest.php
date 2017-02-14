@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     ForbiddenException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class ForbiddenExceptionTest extends \PHPUnit_Framework_TestCase
+class ForbiddenExceptionTest extends TestCase
 {
     public function testInterface()
     {

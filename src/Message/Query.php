@@ -8,14 +8,19 @@ use Innmind\Http\{
     Exception\InvalidArgumentException,
     Exception\QueryParameterNotFoundException
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\{
+    MapInterface,
+    Map
+};
 
 final class Query implements QueryInterface
 {
     private $parameters;
 
-    public function __construct(MapInterface $parameters)
+    public function __construct(MapInterface $parameters = null)
     {
+        $parameters = $parameters ?? new Map('string', ParameterInterface::class);
+
         if (
             (string) $parameters->keyType() !== 'string' ||
             (string) $parameters->valueType() !== ParameterInterface::class

@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     WriteFailedStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class WriteFailedStatusTest extends \PHPUnit_Framework_TestCase
+class WriteFailedStatusTest extends TestCase
 {
     public function testInterface()
     {

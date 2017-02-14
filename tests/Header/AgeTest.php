@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     AgeValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class AgeTest extends \PHPUnit_Framework_TestCase
+class AgeTest extends TestCase
 {
     public function testInterface()
     {

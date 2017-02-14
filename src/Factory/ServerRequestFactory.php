@@ -12,7 +12,7 @@ use Innmind\Http\{
 use Innmind\Url\Url;
 use Innmind\Filesystem\Stream\Stream;
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Map
 };
 
@@ -43,7 +43,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
 
     public function make(): ServerRequestInterface
     {
-        $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->getMatches(
+        $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
         );
 

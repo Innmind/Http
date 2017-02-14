@@ -12,8 +12,9 @@ use Innmind\Http\Header\{
     Quality
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AcceptCharsetTest extends \PHPUnit_Framework_TestCase
+class AcceptCharsetTest extends TestCase
 {
     public function testInterface()
     {
@@ -26,6 +27,11 @@ class AcceptCharsetTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Accept-Charset', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Accept-Charset : unicode-1-1;q=0.8', (string) $h);
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('Accept-Charset : ', (string) new AcceptCharset);
     }
 
     /**

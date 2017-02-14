@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     DateValue
 };
 use Innmind\Immutable\SetInterface;
+use PHPUnit\Framework\TestCase;
 
-class IfUnmodifiedSinceTest extends \PHPUnit_Framework_TestCase
+class IfUnmodifiedSinceTest extends TestCase
 {
     public function testInterface()
     {

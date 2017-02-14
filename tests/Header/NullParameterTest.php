@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     NullParameter,
     ParameterInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class NullParameterTest extends \PHPUnit_Framework_TestCase
+class NullParameterTest extends TestCase
 {
     public function testInterface()
     {

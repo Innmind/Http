@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\NoTransform
 };
+use PHPUnit\Framework\TestCase;
 
-class NoTransformTest extends \PHPUnit_Framework_TestCase
+class NoTransformTest extends TestCase
 {
     public function testInterface()
     {

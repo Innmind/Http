@@ -14,8 +14,9 @@ use Innmind\Immutable\{
     Set,
     Map
 };
+use PHPUnit\Framework\TestCase;
 
-class CacheControlTest extends \PHPUnit_Framework_TestCase
+class CacheControlTest extends TestCase
 {
     public function testInterface()
     {

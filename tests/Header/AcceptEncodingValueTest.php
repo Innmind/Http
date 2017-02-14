@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface,
     Quality
 };
+use PHPUnit\Framework\TestCase;
 
-class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
+class AcceptEncodingValueTest extends TestCase
 {
     public function testInterface()
     {
@@ -23,6 +24,14 @@ class AcceptEncodingValueTest extends \PHPUnit_Framework_TestCase
         new AcceptEncodingValue('compress', new Quality(0.5));
         new AcceptEncodingValue('identity', new Quality(0.5));
         new AcceptEncodingValue('*', new Quality(0));
+    }
+
+    public function testDefaultQuality()
+    {
+        $this->assertSame(
+            '1',
+            (new AcceptEncodingValue('*'))->quality()->value()
+        );
     }
 
     /**

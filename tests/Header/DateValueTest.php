@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     DateValue,
     HeaderValueInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class DateValueTest extends \PHPUnit_Framework_TestCase
+class DateValueTest extends TestCase
 {
     public function testInterface()
     {

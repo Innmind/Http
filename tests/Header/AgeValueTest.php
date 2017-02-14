@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     AgeValue,
     HeaderValueInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class AgeValueTest extends \PHPUnit_Framework_TestCase
+class AgeValueTest extends TestCase
 {
     public function testInterface()
     {

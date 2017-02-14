@@ -10,10 +10,11 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     Map,
-    StringPrimitive as Str
+    Str
 };
+use PHPUnit\Framework\TestCase;
 
-class DelegationFactoryTest extends \PHPUnit_Framework_TestCase
+class DelegationFactoryTest extends TestCase
 {
     public function testInterface()
     {

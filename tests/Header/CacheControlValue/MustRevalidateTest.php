@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\MustRevalidate
 };
+use PHPUnit\Framework\TestCase;
 
-class MustRevalidateTest extends \PHPUnit_Framework_TestCase
+class MustRevalidateTest extends TestCase
 {
     public function testInterface()
     {

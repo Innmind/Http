@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\HeaderInterface
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class TryFactory implements HeaderFactoryInterface
 {

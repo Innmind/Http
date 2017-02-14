@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     Quality,
     ParameterInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class QualityTest extends \PHPUnit_Framework_TestCase
+class QualityTest extends TestCase
 {
     public function testInterface()
     {

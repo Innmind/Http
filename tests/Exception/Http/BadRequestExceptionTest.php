@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     BadRequestException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class BadRequestExceptionTest extends \PHPUnit_Framework_TestCase
+class BadRequestExceptionTest extends TestCase
 {
     public function testInterface()
     {

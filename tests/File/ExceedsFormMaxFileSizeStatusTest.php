@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     ExceedsFormMaxFileSizeStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class ExceedsFormMaxFileSizeStatusTest extends \PHPUnit_Framework_TestCase
+class ExceedsFormMaxFileSizeStatusTest extends TestCase
 {
     public function testInterface()
     {

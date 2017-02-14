@@ -19,8 +19,9 @@ use Innmind\Http\{
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Filesystem\StreamInterface;
+use PHPUnit\Framework\TestCase;
 
-class ServerRequestTest extends \PHPUnit_Framework_TestCase
+class ServerRequestTest extends TestCase
 {
     public function testInterface()
     {
@@ -50,5 +51,43 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($query, $r->query());
         $this->assertSame($form, $r->form());
         $this->assertSame($files, $r->files());
+    }
+
+    public function testDefaultValues()
+    {
+        $request = new ServerRequest(
+            $this->createMock(UrlInterface::class),
+            $this->createMock(MethodInterface::class),
+            $this->createMock(ProtocolVersionInterface::class)
+        );
+
+        $this->assertInstanceOf(
+            HeadersInterface::class,
+            $request->headers()
+        );
+        $this->assertInstanceOf(
+            StreamInterface::class,
+            $request->body()
+        );
+        $this->assertInstanceOf(
+            EnvironmentInterface::class,
+            $request->environment()
+        );
+        $this->assertInstanceOf(
+            CookiesInterface::class,
+            $request->cookies()
+        );
+        $this->assertInstanceOf(
+            QueryInterface::class,
+            $request->query()
+        );
+        $this->assertInstanceOf(
+            FormInterface::class,
+            $request->form()
+        );
+        $this->assertInstanceOf(
+            FilesInterface::class,
+            $request->files()
+        );
     }
 }

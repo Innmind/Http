@@ -9,8 +9,9 @@ use Innmind\Http\{
     Message\CookiesInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class CookiesFactoryTest extends \PHPUnit_Framework_TestCase
+class CookiesFactoryTest extends TestCase
 {
     public function testMake()
     {

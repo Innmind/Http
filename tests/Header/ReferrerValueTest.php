@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface
 };
 use Innmind\Url\Url;
+use PHPUnit\Framework\TestCase;
 
-class ReferrerValueTest extends \PHPUnit_Framework_TestCase
+class ReferrerValueTest extends TestCase
 {
     public function testInterface()
     {

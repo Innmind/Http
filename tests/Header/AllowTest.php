@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
     AllowValue
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AllowTest extends \PHPUnit_Framework_TestCase
+class AllowTest extends TestCase
 {
     public function testInterface()
     {
@@ -25,6 +26,11 @@ class AllowTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Allow', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Allow : GET', (string) $h);
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('Allow : ', (string) new Allow);
     }
 
     /**

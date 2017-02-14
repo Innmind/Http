@@ -10,7 +10,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     MapInterface,
-    StringPrimitive as Str
+    Str
 };
 
 final class DelegationFactory implements HeaderFactoryInterface

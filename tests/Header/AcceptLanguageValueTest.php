@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface,
     Quality
 };
+use PHPUnit\Framework\TestCase;
 
-class AcceptLanguageValueTest extends \PHPUnit_Framework_TestCase
+class AcceptLanguageValueTest extends TestCase
 {
     public function testInterface()
     {
@@ -23,6 +24,14 @@ class AcceptLanguageValueTest extends \PHPUnit_Framework_TestCase
         new AcceptLanguageValue('fr-FR', new Quality(1));
         new AcceptLanguageValue('sgn-CH-DE', new Quality(1));
         new AcceptLanguageValue('*', new Quality(1));
+    }
+
+    public function testDefaultQuality()
+    {
+        $this->assertSame(
+            '1',
+            (new AcceptLanguageValue('fr'))->quality()->value()
+        );
     }
 
     /**

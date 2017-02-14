@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     PreconditionRequiredException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class PreconditionRequiredExceptionTest extends \PHPUnit_Framework_TestCase
+class PreconditionRequiredExceptionTest extends TestCase
 {
     public function testInterface()
     {

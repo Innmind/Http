@@ -12,8 +12,9 @@ use Innmind\Http\Header\{
     Quality
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AcceptLanguageTest extends \PHPUnit_Framework_TestCase
+class AcceptLanguageTest extends TestCase
 {
     public function testInterface()
     {
@@ -26,6 +27,11 @@ class AcceptLanguageTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Accept-Language', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Accept-Language : fr;q=0.8', (string) $h);
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('Accept-Language : ', (string) new AcceptLanguage);
     }
 
     /**

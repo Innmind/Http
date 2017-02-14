@@ -14,8 +14,9 @@ use Innmind\Url\Authority\{
     Host as UrlHost,
     NullPort
 };
+use PHPUnit\Framework\TestCase;
 
-class HostTest extends \PHPUnit_Framework_TestCase
+class HostTest extends TestCase
 {
     public function testInterface()
     {

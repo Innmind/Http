@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     MethodNotAllowedException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class MethodNotAllowedExceptionTest extends \PHPUnit_Framework_TestCase
+class MethodNotAllowedExceptionTest extends TestCase
 {
     public function testInterface()
     {

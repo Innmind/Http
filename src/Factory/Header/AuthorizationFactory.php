@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\Authorization,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class AuthorizationFactory implements HeaderFactoryInterface
 {
@@ -20,17 +20,17 @@ final class AuthorizationFactory implements HeaderFactoryInterface
     {
         if (
             (string) $name->toLower() !== 'authorization' ||
-            !$value->match(self::PATTERN)
+            !$value->matches(self::PATTERN)
         ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
 
         return new Authorization(
             new AuthorizationValue(
                 (string) $matches->get('scheme'),
-                $matches->hasKey('param') ? (string) $matches->get('param') : ''
+                $matches->contains('param') ? (string) $matches->get('param') : ''
             )
         );
     }

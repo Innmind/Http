@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
     ParameterInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class AcceptValueTest extends \PHPUnit_Framework_TestCase
+class AcceptValueTest extends TestCase
 {
     public function testInterface()
     {
@@ -31,18 +32,15 @@ class AcceptValueTest extends \PHPUnit_Framework_TestCase
 
         new AcceptValue(
             '*',
-            '*',
-            new Map('string', ParameterInterface::class)
+            '*'
         );
         new AcceptValue(
             'application',
-            '*',
-            new Map('string', ParameterInterface::class)
+            '*'
         );
         new AcceptValue(
             'application',
-            'octet-stream',
-            new Map('string', ParameterInterface::class)
+            'octet-stream'
         );
         new AcceptValue(
             'application',
@@ -67,7 +65,7 @@ class AcceptValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenInvalidAcceptValue($type, $sub)
     {
-        new AcceptValue($type, $sub, new Map('string', ParameterInterface::class));
+        new AcceptValue($type, $sub);
     }
 
     public function invalids(): array

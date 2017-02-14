@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     GoneException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class GoneExceptionTest extends \PHPUnit_Framework_TestCase
+class GoneExceptionTest extends TestCase
 {
     public function testInterface()
     {

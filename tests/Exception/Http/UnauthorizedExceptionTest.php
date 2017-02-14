@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     UnauthorizedException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class UnauthorizedExceptionTest extends \PHPUnit_Framework_TestCase
+class UnauthorizedExceptionTest extends TestCase
 {
     public function testInterface()
     {

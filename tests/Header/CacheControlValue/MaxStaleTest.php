@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\MaxStale
 };
+use PHPUnit\Framework\TestCase;
 
-class MaxStaleTest extends \PHPUnit_Framework_TestCase
+class MaxStaleTest extends TestCase
 {
     public function testInterface()
     {

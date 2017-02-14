@@ -12,7 +12,7 @@ use Innmind\Http\{
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Set
 };
 

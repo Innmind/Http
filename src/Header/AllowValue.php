@@ -7,7 +7,7 @@ use Innmind\Http\{
     Message\MethodInterface,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class AllowValue extends HeaderValue
 {

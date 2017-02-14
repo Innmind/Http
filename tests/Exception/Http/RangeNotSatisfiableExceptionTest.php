@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     RangeNotSatisfiableException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class RangeNotSatisfiableExceptionTest extends \PHPUnit_Framework_TestCase
+class RangeNotSatisfiableExceptionTest extends TestCase
 {
     public function testInterface()
     {

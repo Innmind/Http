@@ -13,7 +13,7 @@ use Innmind\Http\{
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Map,
     MapInterface
 };
@@ -26,19 +26,19 @@ final class ContentTypeFactory implements HeaderFactoryInterface
     {
         if (
             (string) $name->toLower() !== 'content-type' ||
-            !$value->match(self::PATTERN)
+            !$value->matches(self::PATTERN)
         ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
 
         return new ContentType(
             new ContentTypeValue(
                 (string) $matches->get('type'),
                 (string) $matches->get('subType'),
                 $this->buildParams(
-                    $matches->hasKey('params') ?
+                    $matches->contains('params') ?
                         $matches->get('params') : new Str('')
                 )
             )
@@ -55,7 +55,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                 continue;
             }
 
-            $matches = $value->getMatches('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
+            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
                 new Parameter(

@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     RequestTimeoutException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class RequestTimeoutExceptionTest extends \PHPUnit_Framework_TestCase
+class RequestTimeoutExceptionTest extends TestCase
 {
     public function testInterface()
     {

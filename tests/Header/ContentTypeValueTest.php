@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     ParameterInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class ContentTypeValueTest extends \PHPUnit_Framework_TestCase
+class ContentTypeValueTest extends TestCase
 {
     public function testInterface()
     {
@@ -30,8 +31,7 @@ class ContentTypeValueTest extends \PHPUnit_Framework_TestCase
 
         new ContentTypeValue(
             'application',
-            'octet-stream',
-            new Map('string', ParameterInterface::class)
+            'octet-stream'
         );
         new ContentTypeValue(
             'application',
@@ -56,7 +56,7 @@ class ContentTypeValueTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenInvalidContentTypeValue($type, $sub)
     {
-        new ContentTypeValue($type, $sub, new Map('string', ParameterInterface::class));
+        new ContentTypeValue($type, $sub);
     }
 
     public function invalids(): array

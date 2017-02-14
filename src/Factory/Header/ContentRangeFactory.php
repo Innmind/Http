@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\ContentRangeValue,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class ContentRangeFactory implements HeaderFactoryInterface
 {
@@ -22,12 +22,12 @@ final class ContentRangeFactory implements HeaderFactoryInterface
 
         if (
             (string) $name->toLower() !== 'content-range' ||
-            !$value->match(self::PATTERN)
+            !$value->matches(self::PATTERN)
         ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
         $length = (string) $matches->get('length');
 
         return new ContentRange(

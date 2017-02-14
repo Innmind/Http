@@ -7,14 +7,19 @@ use Innmind\Http\Exception\{
     InvalidArgumentException,
     CookieNotFoundException
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\{
+    MapInterface,
+    Map
+};
 
 final class Cookies implements CookiesInterface
 {
     private $cookies;
 
-    public function __construct(MapInterface $cookies)
+    public function __construct(MapInterface $cookies = null)
     {
+        $cookies = $cookies ?? new Map('string', 'scalar');
+
         if (
             (string) $cookies->keyType() !== 'string' ||
             (string) $cookies->valueType() !== 'scalar'

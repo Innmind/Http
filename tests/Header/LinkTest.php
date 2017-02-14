@@ -17,8 +17,9 @@ use Innmind\Immutable\{
     Set,
     Map
 };
+use PHPUnit\Framework\TestCase;
 
-class LinkTest extends \PHPUnit_Framework_TestCase
+class LinkTest extends TestCase
 {
     public function testInterface()
     {
@@ -39,6 +40,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             'Link : </some/resource>; rel="some relation";title=Foo',
             (string) $h
         );
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('Link : ', (string) new Link);
     }
 
     /**

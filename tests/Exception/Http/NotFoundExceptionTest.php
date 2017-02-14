@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     NotFoundException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class NotFoundExceptionTest extends \PHPUnit_Framework_TestCase
+class NotFoundExceptionTest extends TestCase
 {
     public function testInterface()
     {

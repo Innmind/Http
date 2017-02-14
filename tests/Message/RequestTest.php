@@ -13,8 +13,9 @@ use Innmind\Http\{
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Filesystem\StreamInterface;
+use PHPUnit\Framework\TestCase;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     public function testInterface()
     {
@@ -33,5 +34,23 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($protocol, $r->protocolVersion());
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
+    }
+
+    public function testDefaultValues()
+    {
+        $request = new Request(
+            $this->createMock(UrlInterface::class),
+            $this->createMock(MethodInterface::class),
+            $this->createMock(ProtocolVersionInterface::class)
+        );
+
+        $this->assertInstanceOf(
+            HeadersInterface::class,
+            $request->headers()
+        );
+        $this->assertInstanceOf(
+            StreamInterface::class,
+            $request->body()
+        );
     }
 }

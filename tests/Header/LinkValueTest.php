@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class LinkValueTest extends \PHPUnit_Framework_TestCase
+class LinkValueTest extends TestCase
 {
     public function testInterface()
     {
@@ -33,6 +34,14 @@ class LinkValueTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDefaultRelationship()
+    {
+        $this->assertSame(
+            'related',
+            (new LinkValue(Url::fromString('/')))->relationship()
+        );
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */
@@ -48,8 +57,7 @@ class LinkValueTest extends \PHPUnit_Framework_TestCase
     {
         new LinkValue(
             Url::fromString('/foo'),
-            '',
-            new Map('string', ParameterInterface::class)
+            ''
         );
     }
 }

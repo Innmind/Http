@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class AuthorizationValue extends HeaderValue
 {
@@ -15,7 +15,7 @@ final class AuthorizationValue extends HeaderValue
     {
         $scheme = new Str($scheme);
 
-        if (!$scheme->match('~^\w+$~')) {
+        if (!$scheme->matches('~^\w+$~')) {
             throw new InvalidArgumentException;
         }
 

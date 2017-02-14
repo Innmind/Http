@@ -11,7 +11,7 @@ use Innmind\Http\{
     Header\HeaderValue
 };
 use Innmind\Immutable\{
-    StringPrimitive as Str,
+    Str,
     Set
 };
 
@@ -27,12 +27,12 @@ final class HeaderFactory implements HeaderFactoryInterface
                     return $value->trim();
                 })
                 ->reduce(
+                    new Set(HeaderValueInterface::class),
                     function(Set $carry, Str $value): Set {
                         return $carry->add(
                             new HeaderValue((string) $value)
                         );
-                    },
-                    new Set(HeaderValueInterface::class)
+                    }
                 )
         );
     }

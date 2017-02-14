@@ -8,9 +8,10 @@ use Innmind\Http\{
     Factory\Header\LinkFactory,
     Header\Link
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
+use PHPUnit\Framework\TestCase;
 
-class LinkFactoryTest extends \PHPUnit_Framework_TestCase
+class LinkFactoryTest extends TestCase
 {
     public function testInterface()
     {

@@ -7,8 +7,9 @@ use Innmind\Http\Exception\Http\{
     TooManyRequestsException,
     ExceptionInterface
 };
+use PHPUnit\Framework\TestCase;
 
-class TooManyRequestsExceptionTest extends \PHPUnit_Framework_TestCase
+class TooManyRequestsExceptionTest extends TestCase
 {
     public function testInterface()
     {

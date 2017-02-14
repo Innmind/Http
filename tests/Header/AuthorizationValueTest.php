@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface,
     Authorization\Credentials
 };
+use PHPUnit\Framework\TestCase;
 
-class AuthorizationValueTest extends \PHPUnit_Framework_TestCase
+class AuthorizationValueTest extends TestCase
 {
     public function testInterface()
     {

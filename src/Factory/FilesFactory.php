@@ -25,7 +25,7 @@ use Innmind\Filesystem\{
 };
 use Innmind\Immutable\{
     Map,
-    StringPrimitive as Str
+    Str
 };
 
 final class FilesFactory implements FilesFactoryInterface

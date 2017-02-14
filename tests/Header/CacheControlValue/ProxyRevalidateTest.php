@@ -7,8 +7,9 @@ use Innmind\Http\Header\{
     CacheControlValueInterface,
     CacheControlValue\ProxyRevalidate
 };
+use PHPUnit\Framework\TestCase;
 
-class ProxyRevalidateTest extends \PHPUnit_Framework_TestCase
+class ProxyRevalidateTest extends TestCase
 {
     public function testInterface()
     {

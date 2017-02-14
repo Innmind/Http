@@ -11,7 +11,7 @@ use Innmind\Http\{
     Exception\InvalidArgumentException
 };
 use Innmind\Url\Url;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class LocationFactory implements HeaderFactoryInterface
 {

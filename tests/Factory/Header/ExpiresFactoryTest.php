@@ -8,9 +8,10 @@ use Innmind\Http\{
     Factory\HeaderFactoryInterface,
     Header\Expires
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
+use PHPUnit\Framework\TestCase;
 
-class ExpiresFactoryTest extends \PHPUnit_Framework_TestCase
+class ExpiresFactoryTest extends TestCase
 {
     public function testInterface()
     {

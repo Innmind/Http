@@ -7,8 +7,9 @@ use Innmind\Http\File\{
     StatusInterface,
     NoTemporaryDirectoryStatus
 };
+use PHPUnit\Framework\TestCase;
 
-class NoTemporaryDirectoryStatusTest extends \PHPUnit_Framework_TestCase
+class NoTemporaryDirectoryStatusTest extends TestCase
 {
     public function testInterface()
     {

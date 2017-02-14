@@ -12,8 +12,9 @@ use Innmind\Http\Header\{
     Quality
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class AcceptEncodingTest extends \PHPUnit_Framework_TestCase
+class AcceptEncodingTest extends TestCase
 {
     public function testInterface()
     {
@@ -26,6 +27,11 @@ class AcceptEncodingTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Accept-Encoding', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Accept-Encoding : compress;q=1', (string) $h);
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('Accept-Encoding : ', (string) new AcceptEncoding);
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class ContentEncodingValue extends HeaderValue
 {
@@ -12,7 +12,7 @@ final class ContentEncodingValue extends HeaderValue
     {
         $coding = new Str($coding);
 
-        if (!$coding->match('~^[\w\-]+$~')) {
+        if (!$coding->matches('~^[\w\-]+$~')) {
             throw new InvalidArgumentException;
         }
 

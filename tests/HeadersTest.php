@@ -12,8 +12,9 @@ use Innmind\Http\{
     Header\ParameterInterface
 };
 use Innmind\Immutable\Map;
+use PHPUnit\Framework\TestCase;
 
-class HeadersTest extends \PHPUnit_Framework_TestCase
+class HeadersTest extends TestCase
 {
     public function testInterface()
     {
@@ -53,10 +54,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
      */
     public function testThrowWhenAccessingUnknownHeader()
     {
-        (new Headers(
-            new Map('string', HeaderInterface::class)
-        ))
-            ->get('foo');
+        (new Headers)->get('foo');
     }
 
     /**

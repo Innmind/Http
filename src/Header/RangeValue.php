@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class RangeValue extends HeaderValue
 {
@@ -18,7 +18,7 @@ final class RangeValue extends HeaderValue
         int $lastPosition
     ) {
         if (
-            !(new Str($unit))->match('~^\w+$~') ||
+            !(new Str($unit))->matches('~^\w+$~') ||
             $firstPosition < 0 ||
             $lastPosition < 0 ||
             $firstPosition > $lastPosition

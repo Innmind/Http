@@ -8,8 +8,9 @@ use Innmind\Http\Header\{
     HeaderValueInterface,
     Quality
 };
+use PHPUnit\Framework\TestCase;
 
-class AcceptCharsetValueTest extends \PHPUnit_Framework_TestCase
+class AcceptCharsetValueTest extends TestCase
 {
     public function testInterface()
     {
@@ -24,6 +25,14 @@ class AcceptCharsetValueTest extends \PHPUnit_Framework_TestCase
         new AcceptCharsetValue('ISO_8859-9:1989', new Quality(1));
         new AcceptCharsetValue('NF_Z_62-010_(1973)', new Quality(1));
         new AcceptCharsetValue('*', new Quality(1));
+    }
+
+    public function testDefaultQuality()
+    {
+        $this->assertSame(
+            '1',
+            (new AcceptCharsetValue('*'))->quality()->value()
+        );
     }
 
     /**

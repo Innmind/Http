@@ -10,8 +10,9 @@ use Innmind\Http\Header\{
     HeaderValue
 };
 use Innmind\Immutable\Set;
+use PHPUnit\Framework\TestCase;
 
-class HeaderTest extends \PHPUnit_Framework_TestCase
+class HeaderTest extends TestCase
 {
     public function testInterface()
     {
@@ -26,6 +27,11 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Accept', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Accept : application/json, */*', (string) $h);
+    }
+
+    public function testWithoutValues()
+    {
+        $this->assertSame('X-Foo : ', (string) new Header('X-Foo'));
     }
 
     /**

@@ -13,8 +13,9 @@ use Innmind\Http\{
     Message\ReasonPhraseInterface
 };
 use Innmind\Filesystem\StreamInterface;
+use PHPUnit\Framework\TestCase;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     public function testInterface()
     {
@@ -33,5 +34,23 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($protocol, $r->protocolVersion());
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
+    }
+
+    public function testDefaultValues()
+    {
+        $response = new Response(
+            $this->createMock(StatusCodeInterface::class),
+            $this->createMock(ReasonPhraseInterface::class),
+            $this->createMock(ProtocolVersionInterface::class)
+        );
+
+        $this->assertInstanceOf(
+            HeadersInterface::class,
+            $response->headers()
+        );
+        $this->assertInstanceOf(
+            StreamInterface::class,
+            $response->body()
+        );
     }
 }

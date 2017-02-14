@@ -8,9 +8,10 @@ use Innmind\Http\{
     Factory\Header\AllowFactory,
     Header\Allow
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
+use PHPUnit\Framework\TestCase;
 
-class AllowFactoryTest extends \PHPUnit_Framework_TestCase
+class AllowFactoryTest extends TestCase
 {
     public function testInterface()
     {

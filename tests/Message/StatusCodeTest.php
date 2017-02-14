@@ -8,8 +8,9 @@ use Innmind\Http\Message\{
     StatusCodeInterface
 };
 use Innmind\Immutable\MapInterface;
+use PHPUnit\Framework\TestCase;
 
-class StatusCodeTest extends \PHPUnit_Framework_TestCase
+class StatusCodeTest extends TestCase
 {
     public function testInterface()
     {

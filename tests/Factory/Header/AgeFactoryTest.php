@@ -8,9 +8,10 @@ use Innmind\Http\{
     Factory\Header\AgeFactory,
     Header\Age
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
+use PHPUnit\Framework\TestCase;
 
-class AgeFactoryTest extends \PHPUnit_Framework_TestCase
+class AgeFactoryTest extends TestCase
 {
     public function testInterface()
     {

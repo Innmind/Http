@@ -11,8 +11,9 @@ use Innmind\Http\Header\{
 };
 use Innmind\Immutable\SetInterface;
 use Innmind\Url\Url;
+use PHPUnit\Framework\TestCase;
 
-class ContentLocationTest extends \PHPUnit_Framework_TestCase
+class ContentLocationTest extends TestCase
 {
     public function testInterface()
     {

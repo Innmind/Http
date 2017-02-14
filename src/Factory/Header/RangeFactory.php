@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\Range,
     Exception\InvalidArgumentException
 };
-use Innmind\Immutable\StringPrimitive as Str;
+use Innmind\Immutable\Str;
 
 final class RangeFactory implements HeaderFactoryInterface
 {
@@ -20,12 +20,12 @@ final class RangeFactory implements HeaderFactoryInterface
     {
         if (
             (string) $name->toLower() !== 'range' ||
-            !$value->match(self::PATTERN)
+            !$value->matches(self::PATTERN)
         ) {
             throw new InvalidArgumentException;
         }
 
-        $matches = $value->getMatches(self::PATTERN);
+        $matches = $value->capture(self::PATTERN);
 
         return new Range(
             new RangeValue(
