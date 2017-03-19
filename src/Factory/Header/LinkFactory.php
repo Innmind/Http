@@ -23,7 +23,7 @@ use Innmind\Immutable\{
 
 final class LinkFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@a-z[\]^_`{|}\~]+\"?)+)?$~';
+    const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
 
     public function make(Str $name, Str $value): HeaderInterface
     {
@@ -69,7 +69,7 @@ final class LinkFactory implements HeaderFactoryInterface
                 continue;
             }
 
-            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@a-z[\]^_`{|}\~]+)\"?~');
+            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
                 new Parameter(

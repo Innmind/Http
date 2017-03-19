@@ -39,12 +39,12 @@ class LinkFactoryTest extends TestCase
     {
         $header = (new LinkFactory)->make(
             new Str('Link'),
-            new Str('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyz[]^_`{|}~"')
+            new Str('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~"')
         );
 
         $this->assertInstanceOf(Link::class, $header);
         $this->assertSame(
-            'Link : </foo>; rel="next";title=!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyz[]^_`{|}~',
+            'Link : </foo>; rel="next";title=!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~',
             (string) $header
         );
     }
