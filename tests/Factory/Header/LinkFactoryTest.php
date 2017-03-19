@@ -35,6 +35,20 @@ class LinkFactoryTest extends TestCase
         );
     }
 
+    public function testMakeWithComplexParameterValue()
+    {
+        $header = (new LinkFactory)->make(
+            new Str('Link'),
+            new Str('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyz[]^_`{|}~"')
+        );
+
+        $this->assertInstanceOf(Link::class, $header);
+        $this->assertSame(
+            'Link : </foo>; rel="next";title=!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyz[]^_`{|}~',
+            (string) $header
+        );
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\InvalidArgumentException
      */
