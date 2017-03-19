@@ -31,6 +31,14 @@ class ParameterTest extends TestCase
         );
     }
 
+    public function testQuoteWhenThereIsATab()
+    {
+        $this->assertSame(
+            "foo=\"bar\tbaz\"",
+            (string) new Parameter('foo', "bar\tbaz")
+        );
+    }
+
     public function testDoesntDuplicateQuotes()
     {
         $this->assertSame(

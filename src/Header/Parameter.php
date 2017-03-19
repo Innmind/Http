@@ -15,7 +15,7 @@ class Parameter implements ParameterInterface
     {
         $value = (new Str($value))->trim();
 
-        if ($value->matches('/ /')) {
+        if ($value->matches("/[ \t]/")) {
             $value = $value
                 ->trim('"')
                 ->append('"')
