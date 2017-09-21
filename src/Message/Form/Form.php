@@ -6,7 +6,7 @@ namespace Innmind\Http\Message\Form;
 use Innmind\Http\{
     Message\Form as FormInterface,
     Exception\InvalidArgumentException,
-    Exception\FormParameterNotFoundException
+    Exception\FormParameterNotFound
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -37,7 +37,7 @@ final class Form implements FormInterface
     public function get($key): Parameter
     {
         if (!$this->has($key)) {
-            throw new FormParameterNotFoundException;
+            throw new FormParameterNotFound;
         }
 
         return $this->parameters->get($key);

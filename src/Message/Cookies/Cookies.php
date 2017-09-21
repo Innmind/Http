@@ -6,7 +6,7 @@ namespace Innmind\Http\Message\Cookies;
 use Innmind\Http\{
     Message\Cookies as CookiesInterface,
     Exception\InvalidArgumentException,
-    Exception\CookieNotFoundException
+    Exception\CookieNotFound
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -37,7 +37,7 @@ final class Cookies implements CookiesInterface
     public function get(string $name)
     {
         if (!$this->has($name)) {
-            throw new CookieNotFoundException;
+            throw new CookieNotFound;
         }
 
         return $this->cookies->get($name);

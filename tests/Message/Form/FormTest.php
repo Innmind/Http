@@ -42,7 +42,7 @@ class FormTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\FormParameterNotFoundException
+     * @expectedException Innmind\Http\Exception\FormParameterNotFound
      */
     public function testThrowWhenAccessingUnknownParameter()
     {

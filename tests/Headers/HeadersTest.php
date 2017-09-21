@@ -50,7 +50,7 @@ class HeadersTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\HeaderNotFoundException
+     * @expectedException Innmind\Http\Exception\HeaderNotFound
      */
     public function testThrowWhenAccessingUnknownHeader()
     {

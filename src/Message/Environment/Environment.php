@@ -6,7 +6,7 @@ namespace Innmind\Http\Message\Environment;
 use Innmind\Http\{
     Message\Environment as EnvironmentInterface,
     Exception\InvalidArgumentException,
-    Exception\EnvironmentVariableNotFoundException
+    Exception\EnvironmentVariableNotFound
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -37,7 +37,7 @@ final class Environment implements EnvironmentInterface
     public function get(string $name)
     {
         if (!$this->has($name)) {
-            throw new EnvironmentVariableNotFoundException;
+            throw new EnvironmentVariableNotFound;
         }
 
         return $this->variables->get($name);

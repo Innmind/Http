@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\{
     InvalidArgumentException,
-    CacheControlHeaderMustContainAtLeastOneValueException
+    CacheControlHeaderMustContainAtLeastOneValue
 };
 use Innmind\Immutable\SetInterface;
 
@@ -14,7 +14,7 @@ final class CacheControl extends Header
     public function __construct(SetInterface $values)
     {
         if ($values->size() === 0) {
-            throw new CacheControlHeaderMustContainAtLeastOneValueException;
+            throw new CacheControlHeaderMustContainAtLeastOneValue;
         }
 
         $values->foreach(function(HeaderValue $header) {

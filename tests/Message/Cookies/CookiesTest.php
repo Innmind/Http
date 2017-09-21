@@ -35,7 +35,7 @@ class CookiesTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\CookieNotFoundException
+     * @expectedException Innmind\Http\Exception\CookieNotFound
      */
     public function testThrowWhenAccessingUnknownCookie()
     {

@@ -49,7 +49,7 @@ class AcceptTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\AcceptHeaderMustContainAtLeastOneValueException
+     * @expectedException Innmind\Http\Exception\AcceptHeaderMustContainAtLeastOneValue
      */
     public function testThrowIfNoValueGiven()
     {

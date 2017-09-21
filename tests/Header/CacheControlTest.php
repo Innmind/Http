@@ -42,7 +42,7 @@ class CacheControlTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\CacheControlHeaderMustContainAtLeastOneValueException
+     * @expectedException Innmind\Http\Exception\CacheControlHeaderMustContainAtLeastOneValue
      */
     public function testThrowIfNoValueGiven()
     {

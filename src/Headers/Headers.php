@@ -7,7 +7,7 @@ use Innmind\Http\{
     Headers as HeadersInterface,
     Header,
     Exception\InvalidArgumentException,
-    Exception\HeaderNotFoundException
+    Exception\HeaderNotFound
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -45,7 +45,7 @@ final class Headers implements HeadersInterface
     public function get(string $name): Header
     {
         if (!$this->has($name)) {
-            throw new HeaderNotFoundException;
+            throw new HeaderNotFound;
         }
 
         return $this->headers->get((string) (new Str($name))->toLower());

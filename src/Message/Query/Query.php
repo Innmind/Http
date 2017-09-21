@@ -6,7 +6,7 @@ namespace Innmind\Http\Message\Query;
 use Innmind\Http\{
     Message\Query as QueryInterface,
     Exception\InvalidArgumentException,
-    Exception\QueryParameterNotFoundException
+    Exception\QueryParameterNotFound
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -37,7 +37,7 @@ final class Query implements QueryInterface
     public function get(string $name): Parameter
     {
         if (!$this->has($name)) {
-            throw new QueryParameterNotFoundException;
+            throw new QueryParameterNotFound;
         }
 
         return $this->parameters->get($name);

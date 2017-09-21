@@ -42,7 +42,7 @@ class QueryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\QueryParameterNotFoundException
+     * @expectedException Innmind\Http\Exception\QueryParameterNotFound
      */
     public function testThrowWhenAccessingUnknownParameter()
     {

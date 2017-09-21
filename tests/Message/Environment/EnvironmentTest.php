@@ -35,7 +35,7 @@ class EnvironmentTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\EnvironmentVariableNotFoundException
+     * @expectedException Innmind\Http\Exception\EnvironmentVariableNotFound
      */
     public function testThrowWhenAccessingUnknownVariable()
     {

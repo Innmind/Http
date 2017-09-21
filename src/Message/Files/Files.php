@@ -7,7 +7,7 @@ use Innmind\Http\{
     Message\Files as FilesInterface,
     File,
     Exception\InvalidArgumentException,
-    Exception\FileNotFoundException
+    Exception\FileNotFound
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -38,7 +38,7 @@ final class Files implements FilesInterface
     public function get(string $name): File
     {
         if (!$this->has($name)) {
-            throw new FileNotFoundException;
+            throw new FileNotFound;
         }
 
         return $this->files->get($name);

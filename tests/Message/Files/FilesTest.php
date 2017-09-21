@@ -39,7 +39,7 @@ class FilesTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\FileNotFoundException
+     * @expectedException Innmind\Http\Exception\FileNotFound
      */
     public function testThrowWhenAccessingUnknownFile()
     {
