@@ -3,7 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\{
+    Header as HeaderInterface,
+    Exception\InvalidArgumentException
+};
 use Innmind\Immutable\{
     SetInterface,
     Set
@@ -16,9 +19,9 @@ class Header implements HeaderInterface
 
     public function __construct(string $name, SetInterface $values = null)
     {
-        $values = $values ?? new Set(HeaderValueInterface::class);
+        $values = $values ?? new Set(HeaderValue::class);
 
-        if ((string) $values->type() !== HeaderValueInterface::class) {
+        if ((string) $values->type() !== HeaderValue::class) {
             throw new InvalidArgumentException;
         }
 

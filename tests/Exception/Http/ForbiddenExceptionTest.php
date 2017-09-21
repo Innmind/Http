@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Exception\Http;
 
 use Innmind\Http\Exception\Http\{
     ForbiddenException,
-    ExceptionInterface
+    Exception
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ForbiddenExceptionTest extends TestCase
     {
         $e = new ForbiddenException;
 
-        $this->assertInstanceOf(ExceptionInterface::class, $e);
+        $this->assertInstanceOf(Exception::class, $e);
         $this->assertSame(403, $e->httpCode());
     }
 }

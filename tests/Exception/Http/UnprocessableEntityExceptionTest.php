@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Exception\Http;
 
 use Innmind\Http\Exception\Http\{
     UnprocessableEntityException,
-    ExceptionInterface
+    Exception
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class UnprocessableEntityExceptionTest extends TestCase
     {
         $e = new UnprocessableEntityException;
 
-        $this->assertInstanceOf(ExceptionInterface::class, $e);
+        $this->assertInstanceOf(Exception::class, $e);
         $this->assertSame(422, $e->httpCode());
     }
 }

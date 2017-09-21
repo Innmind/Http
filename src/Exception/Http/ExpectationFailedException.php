@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class ExpectationFailedException extends Exception
+final class ExpectationFailedException extends AbstractException
 {
     public function httpCode(): int
     {

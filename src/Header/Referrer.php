@@ -11,7 +11,7 @@ final class Referrer extends Header
     {
         parent::__construct(
             'Referer',
-            (new Set(HeaderValueInterface::class))
+            (new Set(HeaderValue::class))
                 ->add($referrer)
         );
     }

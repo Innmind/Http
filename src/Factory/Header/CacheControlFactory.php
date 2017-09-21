@@ -4,9 +4,9 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\HeaderValue,
     Header\CacheControlValue,
     Header\CacheControl,
     Exception\InvalidArgumentException
@@ -18,14 +18,14 @@ use Innmind\Immutable\{
 
 final class CacheControlFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'cache-control') {
             throw new InvalidArgumentException;
         }
 
         $splits = $value->split(',');
-        $values = new Set(HeaderValueInterface::class);
+        $values = new Set(HeaderValue::class);
 
         foreach ($splits as $split) {
             $split = $split->trim();

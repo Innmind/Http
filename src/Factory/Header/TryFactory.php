@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header
 };
 use Innmind\Immutable\Str;
 
@@ -22,7 +22,7 @@ final class TryFactory implements HeaderFactoryInterface
         $this->fallback = $fallback;
     }
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         try {
             return $this->try->make($name, $value);

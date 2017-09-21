@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
-    Header\CacheControlValueInterface,
+    Header\CacheControlValue,
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\Str;
 
-final class NoCache implements CacheControlValueInterface
+final class NoCache implements CacheControlValue
 {
     private $field;
 

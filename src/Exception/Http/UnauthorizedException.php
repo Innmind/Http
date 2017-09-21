@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class UnauthorizedException extends Exception
+final class UnauthorizedException extends AbstractException
 {
     public function httpCode(): int
     {

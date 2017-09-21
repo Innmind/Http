@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\ExpiresFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\Expires
 };
 use Innmind\Immutable\Str;
@@ -16,7 +16,7 @@ class ExpiresFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new ExpiresFactory
         );
     }

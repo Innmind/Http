@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\Str;
 
-final class AuthorizationValue extends HeaderValue
+final class AuthorizationValue extends HeaderValue\HeaderValue
 {
     private $scheme;
     private $parameter;

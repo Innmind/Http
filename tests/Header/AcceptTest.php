@@ -3,14 +3,13 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    Accept,
-    HeaderInterface,
-    HeaderValueInterface,
-    HeaderValue,
-    AcceptValue,
-    Quality,
-    ParameterInterface
+use Innmind\Http\{
+    Header\Accept,
+    Header,
+    Header\HeaderValue,
+    Header\AcceptValue,
+    Header\Parameter\Quality,
+    Header\Parameter
 };
 use Innmind\Immutable\{
     Set,
@@ -23,16 +22,16 @@ class AcceptTest extends TestCase
     public function testInterface()
     {
         $h = new Accept(
-            $v = (new Set(HeaderValueInterface::class))
+            $v = (new Set(HeaderValue::class))
                 ->add(new AcceptValue(
                     'text',
                     'html',
-                    (new Map('string', ParameterInterface::class))
+                    (new Map('string', Parameter::class))
                         ->put('q', new Quality(0.8))
                 ))
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Accept : text/html;q=0.8', (string) $h);
@@ -44,8 +43,8 @@ class AcceptTest extends TestCase
     public function testThrowWhenBuildingWithoutAcceptValues()
     {
         new Accept(
-            (new Set(HeaderValueInterface::class))
-                ->add(new HeaderValue('foo'))
+            (new Set(HeaderValue::class))
+                ->add(new HeaderValue\HeaderValue('foo'))
         );
     }
 
@@ -54,6 +53,6 @@ class AcceptTest extends TestCase
      */
     public function testThrowIfNoValueGiven()
     {
-        new Accept(new Set(HeaderValueInterface::class));
+        new Accept(new Set(HeaderValue::class));
     }
 }

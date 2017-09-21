@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Exception\Http;
 
 use Innmind\Http\Exception\Http\{
     NotFoundException,
-    ExceptionInterface
+    Exception
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class NotFoundExceptionTest extends TestCase
     {
         $e = new NotFoundException;
 
-        $this->assertInstanceOf(ExceptionInterface::class, $e);
+        $this->assertInstanceOf(Exception::class, $e);
         $this->assertSame(404, $e->httpCode());
     }
 }

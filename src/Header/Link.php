@@ -13,9 +13,9 @@ final class Link extends Header
 {
     public function __construct(SetInterface $values = null)
     {
-        $values = $values ?? new Set(HeaderValueInterface::class);
+        $values = $values ?? new Set(HeaderValue::class);
 
-        $values->foreach(function(HeaderValueInterface $value) {
+        $values->foreach(function(HeaderValue $value) {
             if (!$value instanceof LinkValue) {
                 throw new InvalidArgumentException;
             }

@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
 
-final class AgeValue extends HeaderValue
+final class AgeValue extends HeaderValue\HeaderValue
 {
     public function __construct(int $age)
     {

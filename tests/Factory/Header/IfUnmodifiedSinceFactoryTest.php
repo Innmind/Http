@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\IfUnmodifiedSinceFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\IfUnmodifiedSince
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
     {
         $f = new IfUnmodifiedSinceFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('If-Unmodified-Since'),

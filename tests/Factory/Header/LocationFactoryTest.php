@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Test\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Factory\Header\LocationFactory,
     Header\Location
 };
@@ -16,7 +16,7 @@ class LocationFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new LocationFactory
         );
     }

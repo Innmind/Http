@@ -4,9 +4,9 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\HeaderValue,
     Header\Allow,
     Header\AllowValue,
     Exception\InvalidArgumentException
@@ -18,13 +18,13 @@ use Innmind\Immutable\{
 
 final class AllowFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'allow') {
             throw new InvalidArgumentException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
+        $values = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $allow) {
             $values = $values->add(

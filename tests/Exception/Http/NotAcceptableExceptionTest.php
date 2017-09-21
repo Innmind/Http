@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Exception\Http;
 
 use Innmind\Http\Exception\Http\{
     NotAcceptableException,
-    ExceptionInterface
+    Exception
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class NotAcceptableExceptionTest extends TestCase
     {
         $e = new NotAcceptableException;
 
-        $this->assertInstanceOf(ExceptionInterface::class, $e);
+        $this->assertInstanceOf(Exception::class, $e);
         $this->assertSame(406, $e->httpCode());
     }
 }

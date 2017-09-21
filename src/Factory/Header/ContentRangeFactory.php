@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Header\ContentRange,
     Header\ContentRangeValue,
     Exception\InvalidArgumentException
@@ -16,7 +16,7 @@ final class ContentRangeFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         $value = $value->trim();
 

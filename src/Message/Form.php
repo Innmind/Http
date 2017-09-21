@@ -3,99 +3,23 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Form\ParameterInterface,
-    Exception\InvalidArgumentException,
-    Exception\FormParameterNotFoundException
-};
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Http\Message\Form\Parameter;
 
-final class Form implements FormInterface
+interface Form extends \Iterator, \Countable
 {
-    private $parameters;
-
-    public function __construct(MapInterface $parameters = null)
-    {
-        $parameters = $parameters ?? new Map('scalar', ParameterInterface::class);
-
-        if (
-            (string) $parameters->keyType() !== 'scalar' ||
-            (string) $parameters->valueType() !== ParameterInterface::class
-        ) {
-            throw new InvalidArgumentException;
-        }
-
-        $this->parameters = $parameters;
-    }
+    /**
+     * @param scalar $key
+     *
+     * @throws FormParameterNotFoundException
+     *
+     * @return Parameter
+     */
+    public function get($key): Parameter;
 
     /**
-     * {@inheritdoc}
+     * @param scalar $key
+     *
+     * @return bool
      */
-    public function get($key): ParameterInterface
-    {
-        if (!$this->has($key)) {
-            throw new FormParameterNotFoundException;
-        }
-
-        return $this->parameters->get($key);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function has($key): bool
-    {
-        return $this->parameters->contains($key);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function current()
-    {
-        return $this->parameters->current();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function key()
-    {
-        return $this->parameters->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->parameters->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->parameters->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->parameters->valid();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function count()
-    {
-        return $this->parameters->size();
-    }
+    public function has($key): bool;
 }

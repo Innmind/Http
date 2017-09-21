@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class ConflictException extends Exception
+final class ConflictException extends AbstractException
 {
     public function httpCode(): int
     {

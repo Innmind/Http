@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AcceptEncodingValue,
-    HeaderValueInterface,
-    Quality
+    HeaderValue,
+    Parameter\Quality
 };
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class AcceptEncodingValueTest extends TestCase
     {
         $a = new AcceptEncodingValue('compress', $q = new Quality(1));
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(HeaderValue::class, $a);
         $this->assertSame($q, $a->quality());
         $this->assertSame('compress;q=1', (string) $a);
 

@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     DateValue,
-    HeaderValueInterface
+    HeaderValue
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class DateValueTest extends TestCase
     {
         $h = new DateValue(new \DateTimeImmutable('2016-01-01 12:12:12+0200'));
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $h);
+        $this->assertInstanceOf(HeaderValue::class, $h);
         $this->assertSame('Fri, 01 Jan 2016 12:12:12 +0200', (string) $h);
     }
 }

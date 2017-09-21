@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentRangeValue,
-    HeaderValueInterface
+    HeaderValue
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ContentRangeValueTest extends TestCase
     {
         $h = new ContentRangeValue('resources', 0, 42);
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $h);
+        $this->assertInstanceOf(HeaderValue::class, $h);
         $this->assertSame('resources', $h->unit());
         $this->assertSame(0, $h->firstPosition());
         $this->assertSame(42, $h->lastPosition());

@@ -11,7 +11,7 @@ use Innmind\Immutable\{
     Map
 };
 
-final class LinkValue extends HeaderValue
+final class LinkValue extends HeaderValue\HeaderValue
 {
     private $url;
     private $rel;
@@ -23,12 +23,12 @@ final class LinkValue extends HeaderValue
         MapInterface $parameters = null
     ) {
         $rel = $rel ?? 'related';
-        $parameters = $parameters ?? new Map('string', ParameterInterface::class);
+        $parameters = $parameters ?? new Map('string', Parameter::class);
 
         if (
             empty($rel) ||
             (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== ParameterInterface::class
+            (string) $parameters->valueType() !== Parameter::class
         ) {
             throw new InvalidArgumentException;
         }
@@ -57,7 +57,7 @@ final class LinkValue extends HeaderValue
     }
 
     /**
-     * @return MapInterface<string, ParameterInterface>
+     * @return MapInterface<string, Parameter>
      */
     public function parameters(): MapInterface
     {

@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    Authorization,
-    HeaderInterface,
-    HeaderValueInterface,
-    AuthorizationValue
+use Innmind\Http\{
+    Header\Authorization,
+    Header,
+    Header\HeaderValue,
+    Header\AuthorizationValue
 };
 use Innmind\Immutable\SetInterface;
 use PHPUnit\Framework\TestCase;
@@ -20,11 +20,11 @@ class AuthorizationTest extends TestCase
             $av = new AuthorizationValue('Basic', '')
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Authorization', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValueInterface::class, (string) $v->type());
+        $this->assertSame(HeaderValue::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Authorization : "Basic"', (string) $h);
     }

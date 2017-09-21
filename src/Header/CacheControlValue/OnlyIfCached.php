@@ -3,9 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\Header\CacheControlValueInterface;
+use Innmind\Http\Header\CacheControlValue;
 
-final class OnlyIfCached implements CacheControlValueInterface
+final class OnlyIfCached implements CacheControlValue
 {
     public function __toString(): string
     {

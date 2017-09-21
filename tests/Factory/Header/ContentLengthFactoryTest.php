@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Factory\Header\ContentLengthFactory,
     Header\ContentLength
 };
@@ -16,7 +16,7 @@ class ContentLengthFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new ContentLengthFactory
         );
     }

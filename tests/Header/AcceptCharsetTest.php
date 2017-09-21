@@ -3,13 +3,12 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AcceptCharset,
-    HeaderInterface,
-    HeaderValueInterface,
-    HeaderValue,
-    AcceptCharsetValue,
-    Quality
+use Innmind\Http\{
+    Header\AcceptCharset,
+    Header,
+    Header\HeaderValue,
+    Header\AcceptCharsetValue,
+    Header\Parameter\Quality
 };
 use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
@@ -19,11 +18,11 @@ class AcceptCharsetTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptCharset(
-            $v = (new Set(HeaderValueInterface::class))
+            $v = (new Set(HeaderValue::class))
                 ->add(new AcceptCharsetValue('unicode-1-1', new Quality(0.8)))
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Charset', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame('Accept-Charset : unicode-1-1;q=0.8', (string) $h);
@@ -40,8 +39,8 @@ class AcceptCharsetTest extends TestCase
     public function testThrowWhenBuildingWithoutAcceptCharsetValues()
     {
         new AcceptCharset(
-            (new Set(HeaderValueInterface::class))
-                ->add(new HeaderValue('foo'))
+            (new Set(HeaderValue::class))
+                ->add(new HeaderValue\HeaderValue('foo'))
         );
     }
 }

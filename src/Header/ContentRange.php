@@ -11,7 +11,7 @@ final class ContentRange extends Header
     {
         parent::__construct(
             'Content-Range',
-            (new Set(HeaderValueInterface::class))
+            (new Set(HeaderValue::class))
                 ->add($range)
         );
     }

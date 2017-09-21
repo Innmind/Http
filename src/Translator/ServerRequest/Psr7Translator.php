@@ -5,17 +5,16 @@ namespace Innmind\Http\Translator\ServerRequest;
 
 use Innmind\Http\{
     Translator\Request\Psr7Translator as RequestTranslator,
-    Message\ServerRequest,
-    Message\Files,
-    Message\Environment,
-    Message\Cookies,
-    Message\Query,
-    Message\Query\ParameterInterface as QueryParameterInterface,
-    Message\Query\Parameter as QueryParameter,
-    Message\Form,
-    Message\Form\ParameterInterface as FormParameterInterface,
-    Message\Form\Parameter as FormParameter,
-    File\FileInterface
+    Message\ServerRequest\ServerRequest,
+    Message\Files\Files,
+    Message\Environment\Environment,
+    Message\Cookies\Cookies,
+    Message\Query\Query,
+    Message\Query\Parameter as QueryParameterInterface,
+    Message\Query\Parameter\Parameter as QueryParameter,
+    Message\Form\Form,
+    Message\Form\Parameter as FormParameterInterface,
+    Message\Form\Parameter\Parameter as FormParameter
 };
 use Innmind\Immutable\Map;
 use Psr\Http\Message\ServerRequestInterface;

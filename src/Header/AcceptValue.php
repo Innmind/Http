@@ -10,7 +10,7 @@ use Innmind\Immutable\{
     Map
 };
 
-final class AcceptValue extends HeaderValue
+final class AcceptValue extends HeaderValue\HeaderValue
 {
     private $type;
     private $subType;
@@ -22,7 +22,7 @@ final class AcceptValue extends HeaderValue
         MapInterface $parameters = null
     ) {
         $media = (new Str('%s/%s'))->sprintf($type, $subType);
-        $parameters = $parameters ?? new Map('string', ParameterInterface::class);
+        $parameters = $parameters ?? new Map('string', Parameter::class);
 
         if (
             !$media->matches('~^\*/\*$~') &&
@@ -34,7 +34,7 @@ final class AcceptValue extends HeaderValue
 
         if (
             (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== ParameterInterface::class
+            (string) $parameters->valueType() !== Parameter::class
         ) {
             throw new InvalidArgumentException;
         }
@@ -60,7 +60,7 @@ final class AcceptValue extends HeaderValue
     }
 
     /**
-     * @return MapInterface<string, ParameterInterface>
+     * @return MapInterface<string, Parameter>
      */
     public function parameters(): MapInterface
     {

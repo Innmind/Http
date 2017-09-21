@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Exception\Http;
 
 use Innmind\Http\Exception\Http\{
     MisdirectedRequestException,
-    ExceptionInterface
+    Exception
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class MisdirectedRequestExceptionTest extends TestCase
     {
         $e = new MisdirectedRequestException;
 
-        $this->assertInstanceOf(ExceptionInterface::class, $e);
+        $this->assertInstanceOf(Exception::class, $e);
         $this->assertSame(421, $e->httpCode());
     }
 }

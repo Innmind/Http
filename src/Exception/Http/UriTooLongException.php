@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class UriTooLongException extends Exception
+final class UriTooLongException extends AbstractException
 {
     public function httpCode(): int
     {

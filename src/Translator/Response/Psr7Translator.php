@@ -4,13 +4,13 @@ declare(strict_types = 1);
 namespace Innmind\Http\Translator\Response;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Message\Response,
-    Message\StatusCode,
-    Message\ReasonPhrase,
-    ProtocolVersion,
-    Headers,
-    Header\HeaderInterface
+    Factory\HeaderFactory,
+    Message\Response\Response,
+    Message\StatusCode\StatusCode,
+    Message\ReasonPhrase\ReasonPhrase,
+    ProtocolVersion\ProtocolVersion,
+    Headers\Headers,
+    Header
 };
 use Innmind\Filesystem\Stream\StringStream;
 use Innmind\Immutable\{
@@ -23,7 +23,7 @@ final class Psr7Translator
 {
     private $headerFactory;
 
-    public function __construct(HeaderFactoryInterface $headerFactory)
+    public function __construct(HeaderFactory $headerFactory)
     {
         $this->headerFactory = $headerFactory;
     }
@@ -43,7 +43,7 @@ final class Psr7Translator
 
     private function translateHeaders(array $rawHeaders): Headers
     {
-        $headers = new Map('string', HeaderInterface::class);
+        $headers = new Map('string', Header::class);
 
         foreach ($rawHeaders as $name => $values) {
             $header = $this->headerFactory->make(

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\Header\{
-    CacheControlValueInterface,
+    CacheControlValue,
     CacheControlValue\MustRevalidate
 };
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class MustRevalidateTest extends TestCase
     {
         $h = new MustRevalidate;
 
-        $this->assertInstanceOf(CacheControlValueInterface::class, $h);
+        $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame('must-revalidate', (string) $h);
     }
 }

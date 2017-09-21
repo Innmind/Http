@@ -4,11 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Header\ContentType,
     Header\ContentTypeValue,
-    Header\ParameterInterface,
     Header\Parameter,
     Exception\InvalidArgumentException
 };
@@ -22,7 +21,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if (
             (string) $name->toLower() !== 'content-type' ||
@@ -48,7 +47,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
     private function buildParams(Str $params): MapInterface
     {
         $params = $params->split(';');
-        $map = new Map('string', ParameterInterface::class);
+        $map = new Map('string', Parameter::class);
 
         foreach ($params as $value) {
             if ($value->trim()->length() === 0) {
@@ -58,7 +57,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
             $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
-                new Parameter(
+                new Parameter\Parameter(
                     (string) $matches->get('key'),
                     (string) $matches->get('value')
                 )

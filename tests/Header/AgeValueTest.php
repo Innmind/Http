@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AgeValue,
-    HeaderValueInterface
+    HeaderValue
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class AgeValueTest extends TestCase
     {
         $a = new AgeValue(42);
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(HeaderValue::class, $a);
         $this->assertSame('42', (string) $a);
 
         new AgeValue(0);

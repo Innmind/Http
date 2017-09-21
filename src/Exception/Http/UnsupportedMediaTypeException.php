@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class UnsupportedMediaTypeException extends Exception
+final class UnsupportedMediaTypeException extends AbstractException
 {
     public function httpCode(): int
     {

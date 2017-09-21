@@ -4,12 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\HeaderValue,
     Header\LinkValue,
     Header\Link,
-    Header\ParameterInterface,
     Header\Parameter,
     Exception\InvalidArgumentException
 };
@@ -25,13 +24,13 @@ final class LinkFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'link') {
             throw new InvalidArgumentException;
         }
 
-        $links = new Set(HeaderValueInterface::class);
+        $links = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $link) {
             $link = $link->trim();
@@ -62,7 +61,7 @@ final class LinkFactory implements HeaderFactoryInterface
     private function buildParams(Str $params): MapInterface
     {
         $params = $params->split(';');
-        $map = new Map('string', ParameterInterface::class);
+        $map = new Map('string', Parameter::class);
 
         foreach ($params as $value) {
             if ($value->trim()->length() === 0) {
@@ -72,7 +71,7 @@ final class LinkFactory implements HeaderFactoryInterface
             $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
-                new Parameter(
+                new Parameter\Parameter(
                     (string) $matches->get('key'),
                     (string) $matches->get('value')
                 )

@@ -11,7 +11,7 @@ final class AcceptRanges extends Header
     {
         parent::__construct(
             'Accept-Ranges',
-            (new Set(HeaderValueInterface::class))
+            (new Set(HeaderValue::class))
                 ->add($ranges)
         );
     }

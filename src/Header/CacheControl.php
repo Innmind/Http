@@ -17,8 +17,8 @@ final class CacheControl extends Header
             throw new CacheControlHeaderMustContainAtLeastOneValueException;
         }
 
-        $values->foreach(function(HeaderValueInterface $header) {
-            if (!$header instanceof CacheControlValueInterface) {
+        $values->foreach(function(HeaderValue $header) {
+            if (!$header instanceof CacheControlValue) {
                 throw new InvalidArgumentException;
             }
         });

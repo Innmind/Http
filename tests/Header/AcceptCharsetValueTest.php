@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AcceptCharsetValue,
-    HeaderValueInterface,
-    Quality
+    HeaderValue,
+    Parameter\Quality
 };
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class AcceptCharsetValueTest extends TestCase
     {
         $a = new AcceptCharsetValue('unicode-1-1', $q = new Quality(0.8));
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(HeaderValue::class, $a);
         $this->assertSame($q, $a->quality());
         $this->assertSame('unicode-1-1;q=0.8', (string) $a);
 

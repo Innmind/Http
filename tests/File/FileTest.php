@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\File;
 
-use Innmind\Http\File\{
-    File,
-    FileInterface,
-    OkStatus
+use Innmind\Http\{
+    File\File,
+    File as FileInterface,
+    File\Status\OkStatus
 };
 use Innmind\Filesystem\{
     NameInterface,

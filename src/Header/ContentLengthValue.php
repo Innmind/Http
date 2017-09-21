@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\InvalidArgumentException;
 
-final class ContentLengthValue extends HeaderValue
+final class ContentLengthValue extends HeaderValue\HeaderValue
 {
     public function __construct(int $length)
     {

@@ -3,47 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Immutable\Str;
-
-class Parameter implements ParameterInterface
+interface Parameter
 {
-    private $name;
-    private $value;
-    private $string;
-
-    public function __construct(string $name, string $value)
-    {
-        $value = (new Str($value))->trim();
-
-        if ($value->matches("/[ \t]/")) {
-            $value = $value
-                ->trim('"')
-                ->append('"')
-                ->prepend('"');
-        }
-
-        $this->name = $name;
-        $this->value = (string) $value;
-        $this->string = sprintf(
-            '%s%s%s',
-            $this->name,
-            strlen($this->value) > 0 ? '=' : '',
-            strlen($this->value) > 0 ? $this->value : ''
-        );
-    }
-
-    public function name(): string
-    {
-        return $this->name;
-    }
-
-    public function value(): string
-    {
-        return $this->value;
-    }
-
-    public function __toString(): string
-    {
-        return $this->string;
-    }
+    public function name(): string;
+    public function value(): string;
+    public function __toString(): string;
 }

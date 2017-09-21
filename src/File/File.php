@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\File;
 
+use Innmind\Http\File as FileInterface;
 use Innmind\Filesystem\{
     StreamInterface,
     NameInterface,
@@ -20,7 +21,7 @@ final class File implements FileInterface
     public function __construct(
         string $name,
         StreamInterface $content,
-        StatusInterface $status,
+        Status $status,
         MediaTypeInterface $mediaType
     ) {
         $this->name = new Name($name);
@@ -39,7 +40,7 @@ final class File implements FileInterface
         return $this->content;
     }
 
-    public function status(): StatusInterface
+    public function status(): Status
     {
         return $this->status;
     }

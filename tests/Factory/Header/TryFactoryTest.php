@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\TryFactory,
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface
+    Factory\HeaderFactory,
+    Header
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -16,10 +16,10 @@ class TryFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new TryFactory(
-                $this->createMock(HeaderFactoryInterface::class),
-                $this->createMock(HeaderFactoryInterface::class)
+                $this->createMock(HeaderFactory::class),
+                $this->createMock(HeaderFactory::class)
             )
         );
     }
@@ -28,15 +28,15 @@ class TryFactoryTest extends TestCase
     {
         $name = new Str('foo');
         $value = new Str('bar');
-        $try = $this->createMock(HeaderFactoryInterface::class);
+        $try = $this->createMock(HeaderFactory::class);
         $try
             ->expects($this->once())
             ->method('make')
             ->with($name, $value)
             ->willReturn(
-                $expected = $this->createMock(HeaderInterface::class)
+                $expected = $this->createMock(Header::class)
             );
-        $fallback = $this->createMock(HeaderFactoryInterface::class);
+        $fallback = $this->createMock(HeaderFactory::class);
         $fallback
             ->expects($this->never())
             ->method('make');
@@ -49,7 +49,7 @@ class TryFactoryTest extends TestCase
     {
         $name = new Str('foo');
         $value = new Str('bar');
-        $try = $this->createMock(HeaderFactoryInterface::class);
+        $try = $this->createMock(HeaderFactory::class);
         $try
             ->expects($this->once())
             ->method('make')
@@ -57,13 +57,13 @@ class TryFactoryTest extends TestCase
             ->will(
                 $this->throwException(new \Error)
             );
-        $fallback = $this->createMock(HeaderFactoryInterface::class);
+        $fallback = $this->createMock(HeaderFactory::class);
         $fallback
             ->expects($this->once())
             ->method('make')
             ->with($name, $value)
             ->willReturn(
-                $expected = $this->createMock(HeaderInterface::class)
+                $expected = $this->createMock(Header::class)
             );
         $factory = new TryFactory($try, $fallback);
 

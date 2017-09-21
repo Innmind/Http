@@ -11,7 +11,7 @@ final class Location extends Header
     {
         parent::__construct(
             'Location',
-            (new Set(HeaderValueInterface::class))
+            (new Set(HeaderValue::class))
                 ->add($location)
         );
     }

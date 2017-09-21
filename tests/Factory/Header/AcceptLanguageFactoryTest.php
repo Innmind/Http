@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AcceptLanguageFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\AcceptLanguage
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class AcceptLanguageFactoryTest extends TestCase
     {
         $f = new AcceptLanguageFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Accept-Language'),

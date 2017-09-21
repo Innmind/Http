@@ -3,25 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory;
 
-use Innmind\Http\Message\{
-    CookiesInterface,
-    Cookies
-};
-use Innmind\Immutable\Map;
+use Innmind\Http\Message\Cookies;
 
-final class CookiesFactory implements CookiesFactoryInterface
+interface CookiesFactory
 {
-    public function make(): CookiesInterface
-    {
-        $map = new Map('string', 'scalar');
-
-        foreach ($_COOKIE as $name => $value) {
-            $map = $map->put(
-                $name,
-                $value
-            );
-        }
-
-        return new Cookies($map);
-    }
+    public function make(): Cookies;
 }

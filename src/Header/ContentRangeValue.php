@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\Str;
 
-final class ContentRangeValue extends HeaderValue
+final class ContentRangeValue extends HeaderValue\HeaderValue
 {
     private $unit;
     private $firstPosition;

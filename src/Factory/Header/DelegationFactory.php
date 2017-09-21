@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
@@ -29,7 +29,7 @@ final class DelegationFactory implements HeaderFactoryInterface
         $this->factories = $factories;
     }
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         return $this
             ->factories

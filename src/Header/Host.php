@@ -11,7 +11,7 @@ final class Host extends Header
     {
         parent::__construct(
             'Host',
-            (new Set(HeaderValueInterface::class))
+            (new Set(HeaderValue::class))
                 ->add($host)
         );
     }

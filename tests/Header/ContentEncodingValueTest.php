@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentEncodingValue,
-    HeaderValueInterface
+    HeaderValue
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ContentEncodingValueTest extends TestCase
     {
         $a = new ContentEncodingValue('compress');
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(HeaderValue::class, $a);
         $this->assertSame('compress', (string) $a);
 
         new ContentEncodingValue('identity');

@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\InvalidArgumentException;
 use Innmind\Immutable\Str;
 
-final class ContentLanguageValue extends HeaderValue
+final class ContentLanguageValue extends HeaderValue\HeaderValue
 {
     public function __construct(string $language)
     {

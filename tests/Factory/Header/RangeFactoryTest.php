@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\RangeFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\Range
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class RangeFactoryTest extends TestCase
     {
         $f = new RangeFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Range'),

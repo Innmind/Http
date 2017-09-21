@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
-    Header\CacheControlValueInterface,
+    Header\CacheControlValue,
     Exception\InvalidArgumentException
 };
 
-final class MinimumFresh implements CacheControlValueInterface
+final class MinimumFresh implements CacheControlValue
 {
     private $age;
 

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\Header\{
-    CacheControlValueInterface,
+    CacheControlValue,
     CacheControlValue\NoTransform
 };
 use PHPUnit\Framework\TestCase;
@@ -15,7 +15,7 @@ class NoTransformTest extends TestCase
     {
         $h = new NoTransform;
 
-        $this->assertInstanceOf(CacheControlValueInterface::class, $h);
+        $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame('no-transform', (string) $h);
     }
 }

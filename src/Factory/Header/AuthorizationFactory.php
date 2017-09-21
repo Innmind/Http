@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Header\AuthorizationValue,
     Header\Authorization,
     Exception\InvalidArgumentException
@@ -16,7 +16,7 @@ final class AuthorizationFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if (
             (string) $name->toLower() !== 'authorization' ||

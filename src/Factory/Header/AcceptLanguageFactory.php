@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\HeaderValue,
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
-    Header\Quality,
+    Header\Parameter\Quality,
     Exception\InvalidArgumentException
 };
 use Innmind\Immutable\{
@@ -21,13 +21,13 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-language') {
             throw new InvalidArgumentException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
+        $values = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $accept) {
             if (!$accept->matches(self::PATTERN)) {

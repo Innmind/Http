@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-final class ProxyAuthenticationRequiredException extends Exception
+final class ProxyAuthenticationRequiredException extends AbstractException
 {
     public function httpCode(): int
     {

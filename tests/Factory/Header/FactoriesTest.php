@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\Factory\{
     Header\Factories,
     Header\TryFactory,
-    HeaderFactoryInterface
+    HeaderFactory
 };
 use Innmind\Immutable\MapInterface;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ class FactoriesTest extends TestCase
 
         $this->assertInstanceOf(MapInterface::class, $all);
         $this->assertSame('string', (string) $all->keyType());
-        $this->assertSame(HeaderFactoryInterface::class, (string) $all->valueType());
+        $this->assertSame(HeaderFactory::class, (string) $all->valueType());
         $this->assertCount(25, $all);
         $this->assertSame($all, Factories::all());
     }

@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
-    Header\CacheControlValueInterface,
+    Header\CacheControlValue,
     Exception\InvalidArgumentException
 };
 
-final class SharedMaxAge implements CacheControlValueInterface
+final class SharedMaxAge implements CacheControlValue
 {
     private $age;
 

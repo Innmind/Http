@@ -11,7 +11,7 @@ final class LastModified extends Header
     {
         parent::__construct(
             'Last-Modified',
-            (new Set(HeaderValueInterface::class))
+            (new Set(HeaderValue::class))
                 ->add($date)
         );
     }

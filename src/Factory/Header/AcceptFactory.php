@@ -4,12 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\HeaderValue,
     Header\AcceptValue,
     Header\Accept,
-    Header\ParameterInterface,
     Header\Parameter,
     Exception\InvalidArgumentException
 };
@@ -24,13 +23,13 @@ final class AcceptFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept') {
             throw new InvalidArgumentException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
+        $values = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $accept) {
             if (!$accept->matches(self::PATTERN)) {
@@ -57,7 +56,7 @@ final class AcceptFactory implements HeaderFactoryInterface
     private function buildParams(Str $params): MapInterface
     {
         $params = $params->split(';');
-        $map = new Map('string', ParameterInterface::class);
+        $map = new Map('string', Parameter::class);
 
         foreach ($params as $value) {
             if ($value->trim()->length() === 0) {
@@ -67,7 +66,7 @@ final class AcceptFactory implements HeaderFactoryInterface
             $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
             $map = $map->put(
                 (string) $matches->get('key'),
-                new Parameter(
+                new Parameter\Parameter(
                     (string) $matches->get('key'),
                     (string) $matches->get('value')
                 )

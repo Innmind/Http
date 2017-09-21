@@ -3,14 +3,12 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    Link,
-    HeaderInterface,
-    HeaderValueInterface,
-    HeaderValue,
-    LinkValue,
-    ParameterInterface,
-    Parameter
+use Innmind\Http\{
+    Header\Link,
+    Header,
+    Header\HeaderValue,
+    Header\LinkValue,
+    Header\Parameter
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\{
@@ -24,16 +22,16 @@ class LinkTest extends TestCase
     public function testInterface()
     {
         $h = new Link(
-            $v = (new Set(HeaderValueInterface::class))
+            $v = (new Set(HeaderValue::class))
                 ->add(new LinkValue(
                     Url::fromString('/some/resource'),
                     'some relation',
-                    (new Map('string', ParameterInterface::class))
-                        ->put('title', new Parameter('title', 'Foo'))
+                    (new Map('string', Parameter::class))
+                        ->put('title', new Parameter\Parameter('title', 'Foo'))
                 ))
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Link', $h->name());
         $this->assertSame($v, $h->values());
         $this->assertSame(
@@ -53,8 +51,8 @@ class LinkTest extends TestCase
     public function testThrowWhenBuildingWithoutLinkValues()
     {
         new Link(
-            (new Set(HeaderValueInterface::class))
-                ->add(new HeaderValue('foo'))
+            (new Set(HeaderValue::class))
+                ->add(new HeaderValue\HeaderValue('foo'))
         );
     }
 }

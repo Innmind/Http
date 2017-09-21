@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    ContentLocation,
-    HeaderInterface,
-    HeaderValueInterface,
-    LocationValue
+use Innmind\Http\{
+    Header\ContentLocation,
+    Header,
+    Header\HeaderValue,
+    Header\LocationValue
 };
 use Innmind\Immutable\SetInterface;
 use Innmind\Url\Url;
@@ -21,11 +21,11 @@ class ContentLocationTest extends TestCase
             $av = new LocationValue(Url::fromString('/foo/bar'))
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Location', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValueInterface::class, (string) $v->type());
+        $this->assertSame(HeaderValue::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Content-Location : /foo/bar', (string) $h);
     }

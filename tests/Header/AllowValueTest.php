@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AllowValue,
-    HeaderValueInterface,
-    Quality
+    HeaderValue,
+    Parameter\Quality
 };
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class AllowValueTest extends TestCase
     {
         $a = new AllowValue('HEAD');
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(HeaderValue::class, $a);
         $this->assertSame('HEAD', (string) $a);
 
         new AllowValue('GET');

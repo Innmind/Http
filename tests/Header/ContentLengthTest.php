@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    ContentLength,
-    HeaderInterface,
-    HeaderValueInterface,
-    ContentLengthValue
+use Innmind\Http\{
+    Header\ContentLength,
+    Header,
+    Header\HeaderValue,
+    Header\ContentLengthValue
 };
 use Innmind\Immutable\SetInterface;
 use PHPUnit\Framework\TestCase;
@@ -20,11 +20,11 @@ class ContentLengthTest extends TestCase
             $av = new ContentLengthValue(42)
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Length', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValueInterface::class, (string) $v->type());
+        $this->assertSame(HeaderValue::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Content-Length : 42', (string) $h);
     }
