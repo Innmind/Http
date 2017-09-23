@@ -20,15 +20,14 @@ $request = ServerRequestFactory::default()->make();
 
 ```php
 use Innmind\Http\{
-    Message\Response,
-    Message\StatusCode,
-    Message\ReasonPhrase,
-    ProtocolVersion,
-    Headers,
-    Header\HeaderInterface,
+    Message\Response\Response,
+    Message\StatusCode\StatusCode,
+    Message\ReasonPhrase\ReasonPhrase,
+    ProtocolVersion\ProtocolVersion,
+    Headers\Headers,
+    Header,
     Header\ContentType,
     Header\ContentTypeValue,
-    Header\ParameterInterface,
     ResponseSender
 };
 use Innmind\Filesystem\Stream\StringStream;
@@ -39,14 +38,13 @@ $response = new Response(
     new ReasonPhrase(ReasonPhrase::defaults()->get(200)),
     new ProtocolVersion(1, 1),
     new Headers(
-        (new Map('string', HeaderInterface::class))
+        (new Map('string', Header::class))
             ->put(
                 'content-type',
                 new ContentType(
                     new ContentTypeValue(
                         'application',
-                        'json',
-                        new Map('string', ParameterInterface::class)
+                        'json'
                     )
                 )
             )
