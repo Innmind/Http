@@ -9,6 +9,7 @@ use Innmind\Http\{
     Header\Value,
     Header\DateValue
 };
+use Innmind\TimeContinuum\PointInTime\Earth\PointInTime;
 use Innmind\Immutable\SetInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,7 @@ class IfModifiedSinceTest extends TestCase
     public function testInterface()
     {
         $h = new IfModifiedSince(
-            $d = new DateValue(new \DateTime('2016-01-01 12:12:12+0200'))
+            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200'))
         );
 
         $this->assertInstanceOf(Header::class, $h);

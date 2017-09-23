@@ -8,7 +8,12 @@ use Innmind\Http\{
     Header,
     Header\DateValue,
     Header\Expires,
+    TimeContinuum\Format\Http,
     Exception\DomainException
+};
+use Innmind\TimeContinuum\{
+    PointInTime\Earth\PointInTime,
+    Format\ISO8601
 };
 use Innmind\Immutable\Str;
 
@@ -22,9 +27,8 @@ final class ExpiresFactory implements HeaderFactoryInterface
 
         return new Expires(
             new DateValue(
-                \DateTimeImmutable::createFromFormat(
-                    \DateTime::RFC1123,
-                    (string) $value
+                new PointInTime(
+                    \DateTimeImmutable::createFromFormat((string) new Http, (string) $value)->format((string) new ISO8601)
                 )
             )
         );

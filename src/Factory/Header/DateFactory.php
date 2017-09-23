@@ -8,7 +8,12 @@ use Innmind\Http\{
     Header,
     Header\DateValue,
     Header\Date,
+    TimeContinuum\Format\Http,
     Exception\DomainException
+};
+use Innmind\TimeContinuum\{
+    PointInTime\Earth\PointInTime,
+    Format\ISO8601
 };
 use Innmind\Immutable\Str;
 
@@ -22,9 +27,8 @@ final class DateFactory implements HeaderFactoryInterface
 
         return new Date(
             new DateValue(
-                \DateTimeImmutable::createFromFormat(
-                    \DateTime::RFC1123,
-                    (string) $value
+                new PointInTime(
+                    \DateTimeImmutable::createFromFormat((string) new Http, (string) $value)->format((string) new ISO8601)
                 )
             )
         );
