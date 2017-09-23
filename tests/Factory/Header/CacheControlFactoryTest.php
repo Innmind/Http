@@ -21,12 +21,12 @@ class CacheControlFactoryTest extends TestCase
 
         $h = $f->make(
             new Str('Cache-Control'),
-            new Str('no-cache="field", no-store, max-age=42, max-stale=42, min-fresh=42, no-transform, only-if-cached, public, private="field", must-revalidate, proxy-revalidate, s-maxage=42')
+            new Str('no-cache="field", no-store, max-age=42, max-stale=42, min-fresh=42, no-transform, only-if-cached, public, private="field", must-revalidate, proxy-revalidate, s-maxage=42, immutable')
         );
 
         $this->assertInstanceOf(CacheControl::class, $h);
         $this->assertSame(
-            'Cache-Control : no-cache="field", no-store, max-age=42, max-stale=42, min-fresh=42, no-transform, only-if-cached, public, private="field", must-revalidate, proxy-revalidate, s-maxage=42',
+            'Cache-Control : no-cache="field", no-store, max-age=42, max-stale=42, min-fresh=42, no-transform, only-if-cached, public, private="field", must-revalidate, proxy-revalidate, s-maxage=42, immutable',
             (string) $h
         );
     }

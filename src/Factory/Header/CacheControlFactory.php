@@ -65,6 +65,9 @@ final class CacheControlFactory implements HeaderFactoryInterface
                             case (string) $split === 'no-store':
                                 return $carry->add(new CacheControlValue\NoStore);
 
+                            case (string) $split === 'immutable':
+                                return $carry->add(new CacheControlValue\Immutable);
+
                             case (string) $split === 'no-transform':
                                 return $carry->add(new CacheControlValue\NoTransform);
 
