@@ -103,8 +103,12 @@ final class Psr7Translator
         return new Query($map);
     }
 
-    private function translateForm(array $params): Form
+    private function translateForm($params): Form
     {
+        if (!is_array($params) && !$params instanceof \Traversable) {
+            return new Form;
+        }
+
         $map = new Map('scalar', FormParameterInterface::class);
 
         foreach ($params as $key => $value) {
