@@ -5,10 +5,9 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AcceptValue,
-    HeaderValueInterface,
-    Quality,
-    Parameter,
-    ParameterInterface
+    Value,
+    Parameter\Quality,
+    Parameter
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -20,11 +19,11 @@ class AcceptValueTest extends TestCase
         $a = new AcceptValue(
             'text',
             'x-c',
-            $ps = (new Map('string', ParameterInterface::class))
+            $ps = (new Map('string', Parameter::class))
                 ->put('q', new Quality(0.8))
         );
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
         $this->assertSame($ps, $a->parameters());
@@ -45,14 +44,15 @@ class AcceptValueTest extends TestCase
         new AcceptValue(
             'application',
             'octet-stream',
-            (new Map('string', ParameterInterface::class))
+            (new Map('string', Parameter::class))
                 ->put('q', new Quality(0.4))
-                ->put('level', new Parameter('level', '1'))
+                ->put('level', new Parameter\Parameter('level', '1'))
         );
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedException Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
      */
     public function testThrowWhenInvalidParameters()
     {
@@ -61,7 +61,7 @@ class AcceptValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptValue($type, $sub)
     {

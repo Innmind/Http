@@ -5,9 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentTypeValue,
-    HeaderValueInterface,
-    Parameter,
-    ParameterInterface
+    Value,
+    Parameter
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -19,11 +18,11 @@ class ContentTypeValueTest extends TestCase
         $a = new ContentTypeValue(
             'text',
             'x-c',
-            $ps = (new Map('string', ParameterInterface::class))
-                ->put('charset', new Parameter('charset', 'UTF-8'))
+            $ps = (new Map('string', Parameter::class))
+                ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
         );
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
         $this->assertSame($ps, $a->parameters());
@@ -36,14 +35,15 @@ class ContentTypeValueTest extends TestCase
         new ContentTypeValue(
             'application',
             'octet-stream',
-            (new Map('string', ParameterInterface::class))
-                ->put('charset', new Parameter('charset', 'UTF-8'))
-                ->put('level', new Parameter('level', '1'))
+            (new Map('string', Parameter::class))
+                ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
+                ->put('level', new Parameter\Parameter('level', '1'))
         );
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
      */
     public function testThrowWhenInvalidParameters()
     {
@@ -52,7 +52,7 @@ class ContentTypeValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidContentTypeValue($type, $sub)
     {

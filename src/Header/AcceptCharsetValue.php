@@ -3,10 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\{
+    Header\Parameter\Quality,
+    Exception\DomainException
+};
 use Innmind\Immutable\Str;
 
-final class AcceptCharsetValue extends HeaderValue
+final class AcceptCharsetValue extends Value\Value
 {
     private $quality;
 
@@ -19,7 +22,7 @@ final class AcceptCharsetValue extends HeaderValue
             (string) $charset !== '*' &&
             !$charset->matches('~^[a-zA-Z0-9\-_:\(\)]+$~')
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->quality = $quality;

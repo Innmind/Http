@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\DelegationFactory,
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface
+    Factory\HeaderFactory,
+    Header
 };
 use Innmind\Immutable\{
     Map,
@@ -19,15 +19,16 @@ class DelegationFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new DelegationFactory(
-                new Map('string', HeaderFactoryInterface::class)
+                new Map('string', HeaderFactory::class)
             )
         );
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, Innmind\Http\Factory\HeaderFactory>
      */
     public function testThrowWhenInvalidMap()
     {
@@ -38,20 +39,20 @@ class DelegationFactoryTest extends TestCase
     {
         $name = new Str('X-Foo');
         $value = new Str('bar');
-        $mock = $this->createMock(HeaderFactoryInterface::class);
+        $mock = $this->createMock(HeaderFactory::class);
         $mock
             ->expects($this->once())
             ->method('make')
             ->with($name, $value)
             ->willReturn(
-                $expected = $this->createMock(HeaderInterface::class)
+                $expected = $this->createMock(Header::class)
             );
-        $neverToBeCalled = $this->createMock(HeaderFactoryInterface::class);
+        $neverToBeCalled = $this->createMock(HeaderFactory::class);
         $neverToBeCalled
             ->expects($this->never())
             ->method('make');
         $factory = new DelegationFactory(
-            (new Map('string', HeaderFactoryInterface::class))
+            (new Map('string', HeaderFactory::class))
                 ->put('x-foo', $mock)
                 ->put('foo', $neverToBeCalled)
         );

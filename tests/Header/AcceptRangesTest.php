@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AcceptRanges,
-    HeaderInterface,
-    HeaderValueInterface,
-    AcceptRangesValue
+use Innmind\Http\{
+    Header\AcceptRanges,
+    Header,
+    Header\Value,
+    Header\AcceptRangesValue
 };
 use Innmind\Immutable\SetInterface;
 use PHPUnit\Framework\TestCase;
@@ -20,11 +20,11 @@ class AcceptRangesTest extends TestCase
             $ar = new AcceptRangesValue('bytes')
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Ranges', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValueInterface::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ar, $v->current());
         $this->assertSame('Accept-Ranges : bytes', (string) $h);
     }

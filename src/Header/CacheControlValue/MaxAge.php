@@ -4,18 +4,18 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
-    Header\CacheControlValueInterface,
-    Exception\InvalidArgumentException
+    Header\CacheControlValue,
+    Exception\DomainException
 };
 
-final class MaxAge implements CacheControlValueInterface
+final class MaxAge implements CacheControlValue
 {
     private $age;
 
     public function __construct(int $age)
     {
         if ($age < 0) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->age = $age;

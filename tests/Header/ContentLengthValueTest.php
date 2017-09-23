@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentLengthValue,
-    HeaderValueInterface
+    Value
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,14 +15,14 @@ class ContentLengthValueTest extends TestCase
     {
         $a = new ContentLengthValue(42);
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('42', (string) $a);
 
         new ContentLengthValue(0);
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidContentLengthValue()
     {

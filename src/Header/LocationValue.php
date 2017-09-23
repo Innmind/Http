@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Url\UrlInterface;
 
-final class LocationValue extends HeaderValue
+final class LocationValue extends Value\Value
 {
     public function __construct(UrlInterface $url)
     {

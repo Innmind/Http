@@ -4,13 +4,13 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\Value,
     Header\AcceptEncodingValue,
     Header\AcceptEncoding,
-    Header\Quality,
-    Exception\InvalidArgumentException
+    Header\Parameter\Quality,
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -21,32 +21,34 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-encoding') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
+        return new AcceptEncoding(
+            ...$value
+                ->split(',')
+                ->foreach(static function(Str $accept): void {
+                    if (!$accept->matches(self::PATTERN)) {
+                        throw new DomainException;
+                    }
+                })
+                ->reduce(
+                    new Set(Value::class),
+                    static function(Set $carry, Str $accept): Set {
+                        $matches = $accept->capture(self::PATTERN);
 
-        foreach ($value->split(',') as $accept) {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new InvalidArgumentException;
-            }
-
-            $matches = $accept->capture(self::PATTERN);
-
-            $values = $values->add(
-                new AcceptEncodingValue(
-                    (string) $matches->get('coding'),
-                    new Quality(
-                        $matches->contains('quality') ?
-                            (float) (string) $matches->get('quality') : 1
-                    )
+                        return $carry->add(new AcceptEncodingValue(
+                            (string) $matches->get('coding'),
+                            new Quality(
+                                $matches->contains('quality') ?
+                                    (float) (string) $matches->get('quality') : 1
+                            )
+                        ));
+                    }
                 )
-            );
-        }
-
-        return new AcceptEncoding($values);
+        );
     }
 }

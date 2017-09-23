@@ -4,27 +4,31 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Header\DateValue,
     Header\IfModifiedSince,
-    Exception\InvalidArgumentException
+    TimeContinuum\Format\Http,
+    Exception\DomainException
+};
+use Innmind\TimeContinuum\{
+    PointInTime\Earth\PointInTime,
+    Format\ISO8601
 };
 use Innmind\Immutable\Str;
 
 final class IfModifiedSinceFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'if-modified-since') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new IfModifiedSince(
             new DateValue(
-                \DateTimeImmutable::createFromFormat(
-                    \DateTime::RFC1123,
-                    (string) $value
+                new PointInTime(
+                    \DateTimeImmutable::createFromFormat((string) new Http, (string) $value)->format((string) new ISO8601)
                 )
             )
         );

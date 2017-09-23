@@ -5,9 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     LinkValue,
-    HeaderValueInterface,
-    Parameter,
-    ParameterInterface
+    Value,
+    Parameter
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Map;
@@ -20,11 +19,11 @@ class LinkValueTest extends TestCase
         $l = new LinkValue(
             $url = Url::fromString('/some/resource'),
             'relationship',
-            $ps = (new Map('string', ParameterInterface::class))
-                ->put('title', new Parameter('title', 'Foo'))
+            $ps = (new Map('string', Parameter::class))
+                ->put('title', new Parameter\Parameter('title', 'Foo'))
         );
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $l);
+        $this->assertInstanceOf(Value::class, $l);
         $this->assertSame($url, $l->url());
         $this->assertSame('relationship', $l->relationship());
         $this->assertSame($ps, $l->parameters());
@@ -43,7 +42,8 @@ class LinkValueTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
      */
     public function testThrowWhenInvalidParameters()
     {
@@ -51,7 +51,7 @@ class LinkValueTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidLinkValue()
     {

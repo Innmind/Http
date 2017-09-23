@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\LastModifiedFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\LastModified
 };
 use Innmind\Immutable\Str;
@@ -16,7 +16,7 @@ class LastModifiedFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new LastModifiedFactory
         );
     }
@@ -36,7 +36,7 @@ class LastModifiedFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {

@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\File;
 
+use Innmind\Http\File as FileInterface;
 use Innmind\Filesystem\{
-    StreamInterface,
-    NameInterface,
     Name,
-    MediaTypeInterface
+    MediaType
 };
+use Innmind\Stream\Readable;
 
 final class File implements FileInterface
 {
@@ -19,40 +19,32 @@ final class File implements FileInterface
 
     public function __construct(
         string $name,
-        StreamInterface $content,
-        StatusInterface $status,
-        MediaTypeInterface $mediaType
+        Readable $content,
+        Status $status,
+        MediaType $mediaType
     ) {
-        $this->name = new Name($name);
+        $this->name = new Name\Name($name);
         $this->content = $content;
         $this->status = $status;
         $this->mediaType = $mediaType;
     }
 
-    public function name(): NameInterface
+    public function name(): Name
     {
         return $this->name;
     }
 
-    public function content(): StreamInterface
+    public function content(): Readable
     {
         return $this->content;
     }
 
-    public function status(): StatusInterface
+    public function status(): Status
     {
         return $this->status;
     }
 
-    public function clientMediaType(): MediaTypeInterface
-    {
-        return $this->mediaType;
-    }
-
-    /**
-     * @see self::clientMediaType() Alias of clientMediaType
-     */
-    public function mediaType(): MediaTypeInterface
+    public function mediaType(): MediaType
     {
         return $this->mediaType;
     }

@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Header\AuthorizationValue,
     Header\Authorization,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -16,13 +16,13 @@ final class AuthorizationFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if (
             (string) $name->toLower() !== 'authorization' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $matches = $value->capture(self::PATTERN);

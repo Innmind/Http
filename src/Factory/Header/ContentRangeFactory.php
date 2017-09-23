@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
     Header\ContentRange,
     Header\ContentRangeValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -16,7 +16,7 @@ final class ContentRangeFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         $value = $value->trim();
 
@@ -24,7 +24,7 @@ final class ContentRangeFactory implements HeaderFactoryInterface
             (string) $name->toLower() !== 'content-range' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $matches = $value->capture(self::PATTERN);

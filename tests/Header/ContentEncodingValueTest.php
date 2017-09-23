@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentEncodingValue,
-    HeaderValueInterface
+    Value
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ContentEncodingValueTest extends TestCase
     {
         $a = new ContentEncodingValue('compress');
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('compress', (string) $a);
 
         new ContentEncodingValue('identity');
@@ -24,7 +24,7 @@ class ContentEncodingValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidContentEncodingValue($value)
     {

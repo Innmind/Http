@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Factory\Header\AgeFactory,
     Header\Age
 };
@@ -16,7 +16,7 @@ class AgeFactoryTest extends TestCase
     public function testInterface()
     {
         $this->assertInstanceOf(
-            HeaderFactoryInterface::class,
+            HeaderFactory::class,
             new AgeFactory
         );
     }
@@ -33,7 +33,7 @@ class AgeFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {

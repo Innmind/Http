@@ -4,11 +4,9 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
-    Header\Header,
-    Header\HeaderValue
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\Value
 };
 use Innmind\Immutable\{
     Str,
@@ -17,20 +15,20 @@ use Innmind\Immutable\{
 
 final class HeaderFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
-        return new Header(
+        return new Header\Header(
             (string) $name,
-            $value
+            ...$value
                 ->split(',')
                 ->map(function(Str $value): Str {
                     return $value->trim();
                 })
                 ->reduce(
-                    new Set(HeaderValueInterface::class),
+                    new Set(Value::class),
                     function(Set $carry, Str $value): Set {
                         return $carry->add(
-                            new HeaderValue((string) $value)
+                            new Value\Value((string) $value)
                         );
                     }
                 )

@@ -4,17 +4,17 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\{
-    Message\MethodInterface,
-    Exception\InvalidArgumentException
+    Message\Method,
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
-final class AllowValue extends HeaderValue
+final class AllowValue extends Value\Value
 {
     public function __construct(string $value)
     {
-        if (!defined(MethodInterface::class.'::'.$value)) {
-            throw new InvalidArgumentException;
+        if (!defined(Method::class.'::'.$value)) {
+            throw new DomainException;
         }
 
         parent::__construct($value);

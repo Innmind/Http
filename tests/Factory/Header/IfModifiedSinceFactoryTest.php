@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\IfModifiedSinceFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\IfModifiedSince
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class IfModifiedSinceFactoryTest extends TestCase
     {
         $f = new IfModifiedSinceFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('If-Modified-Since'),
@@ -32,7 +32,7 @@ class IfModifiedSinceFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {

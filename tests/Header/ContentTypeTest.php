@@ -3,13 +3,12 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    ContentType,
-    HeaderInterface,
-    HeaderValueInterface,
-    ContentTypeValue,
-    Parameter,
-    ParameterInterface
+use Innmind\Http\{
+    Header\ContentType,
+    Header,
+    Header\Value,
+    Header\ContentTypeValue,
+    Header\Parameter
 };
 use Innmind\Immutable\{
     SetInterface,
@@ -25,16 +24,16 @@ class ContentTypeTest extends TestCase
             $ct = new ContentTypeValue(
                 'text',
                 'html',
-                (new Map('string', ParameterInterface::class))
-                    ->put('charset', new Parameter('charset', 'UTF-8'))
+                (new Map('string', Parameter::class))
+                    ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
             )
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Type', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValueInterface::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ct, $v->current());
         $this->assertSame('Content-Type : text/html;charset=UTF-8', (string) $h);
     }

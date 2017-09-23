@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Header;
 
-use Innmind\Http\Factory\HeaderFactoryInterface;
+use Innmind\Http\Factory\HeaderFactory as HeaderFactoryInterface;
 use Innmind\Immutable\{
     MapInterface,
     Map

@@ -3,11 +3,9 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
+use Innmind\Http\{
     Header,
-    HeaderInterface,
-    HeaderValueInterface,
-    HeaderValue
+    Header\Value
 };
 use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
@@ -16,29 +14,21 @@ class HeaderTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Header(
+        $h = new Header\Header(
             'Accept',
-            $v = (new Set(HeaderValueInterface::class))
-                ->add(new HeaderValue('application/json'))
-                ->add(new HeaderValue('*/*'))
+            $v1 = new Value\Value('application/json'),
+            $v2 = new Value\Value('*/*')
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $h);
+        $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept', $h->name());
-        $this->assertSame($v, $h->values());
+        $this->assertTrue($h->values()->contains($v1));
+        $this->assertTrue($h->values()->contains($v2));
         $this->assertSame('Accept : application/json, */*', (string) $h);
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('X-Foo : ', (string) new Header('X-Foo'));
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
-     */
-    public function testThrowWhenInvalidSetOfValues()
-    {
-        new Header('Accept', new Set('string'));
+        $this->assertSame('X-Foo : ', (string) new Header\Header('X-Foo'));
     }
 }

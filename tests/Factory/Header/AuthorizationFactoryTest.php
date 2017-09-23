@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AuthorizationFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\Authorization
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class AuthorizationFactoryTest extends TestCase
     {
         $f = new AuthorizationFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Authorization'),
@@ -32,7 +32,7 @@ class AuthorizationFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {
@@ -43,7 +43,7 @@ class AuthorizationFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotValid()
     {

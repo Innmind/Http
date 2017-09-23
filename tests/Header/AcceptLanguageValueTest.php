@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AcceptLanguageValue,
-    HeaderValueInterface,
-    Quality
+    Value,
+    Parameter\Quality
 };
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class AcceptLanguageValueTest extends TestCase
     {
         $a = new AcceptLanguageValue('en-gb', $q = new Quality(0.8));
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame($q, $a->quality());
         $this->assertSame('en-gb;q=0.8', (string) $a);
 
@@ -36,7 +36,7 @@ class AcceptLanguageValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptLanguageValue($value)
     {

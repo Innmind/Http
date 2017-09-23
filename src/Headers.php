@@ -3,106 +3,25 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-use Innmind\Http\{
-    Header\HeaderInterface,
-    Exception\InvalidArgumentException,
-    Exception\HeaderNotFoundException
-};
-use Innmind\Immutable\{
-    MapInterface,
-    Pair,
-    Str,
-    Map
-};
+use Innmind\Http\Header;
 
-final class Headers implements HeadersInterface
+interface Headers extends \Iterator, \Countable
 {
-    private $headers;
-
-    public function __construct(MapInterface $headers = null)
-    {
-        $headers = $headers ?? new Map('string', HeaderInterface::class);
-
-        if (
-            (string) $headers->keyType() !== 'string' ||
-            (string) $headers->valueType() !== HeaderInterface::class
-        ) {
-            throw new InvalidArgumentException;
-        }
-
-        $this->headers = $headers->map(function(string $name, HeaderInterface $header) {
-            return new Pair(
-                (string) (new Str($name))->toLower(),
-                $header
-            );
-        });
-    }
+    /**
+     * @param string $name Case insensitive
+     *
+     * @throws HeaderNotFoundException
+     *
+     * @return Header
+     */
+    public function get(string $name): Header;
 
     /**
-     * {@inheritdoc}
+     * Check if the header is present
+     *
+     * @param string $name Case insensitive
+     *
+     * @return bool
      */
-    public function get(string $name): HeaderInterface
-    {
-        if (!$this->has($name)) {
-            throw new HeaderNotFoundException;
-        }
-
-        return $this->headers->get((string) (new Str($name))->toLower());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function has(string $name): bool
-    {
-        return $this->headers->contains((string) (new Str($name))->toLower());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function current()
-    {
-        return $this->headers->current();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function key()
-    {
-        return $this->headers->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->headers->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->headers->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->headers->valid();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function count()
-    {
-        return $this->headers->size();
-    }
+    public function has(string $name): bool;
 }

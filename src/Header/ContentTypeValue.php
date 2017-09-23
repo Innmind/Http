@@ -3,14 +3,14 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
     MapInterface,
     Map
 };
 
-final class ContentTypeValue extends HeaderValue
+final class ContentTypeValue extends Value\Value
 {
     private $type;
     private $subType;
@@ -22,17 +22,20 @@ final class ContentTypeValue extends HeaderValue
         MapInterface $parameters = null
     ) {
         $media = (new Str('%s/%s'))->sprintf($type, $subType);
-        $parameters = $parameters ?? new Map('string', ParameterInterface::class);
+        $parameters = $parameters ?? new Map('string', Parameter::class);
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         if (
             (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== ParameterInterface::class
+            (string) $parameters->valueType() !== Parameter::class
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 3 must be of type MapInterface<string, %s>',
+                Parameter::class
+            ));
         }
 
         $this->type = $type;
@@ -56,7 +59,7 @@ final class ContentTypeValue extends HeaderValue
     }
 
     /**
-     * @return MapInterface<string, ParameterInterface>
+     * @return MapInterface<string, Parameter>
      */
     public function parameters(): MapInterface
     {

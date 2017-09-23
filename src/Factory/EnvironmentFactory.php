@@ -3,29 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory;
 
-use Innmind\Http\Message\{
-    EnvironmentInterface,
-    Environment
-};
-use Innmind\Immutable\Map;
+use Innmind\Http\Message\Environment;
 
-final class EnvironmentFactory implements EnvironmentFactoryInterface
+interface EnvironmentFactory
 {
-    public function make(): EnvironmentInterface
-    {
-        $map = new Map('string', 'scalar');
-
-        foreach ($_SERVER as $name => $value) {
-            if (!is_scalar($value)) {
-                continue;
-            }
-
-            $map = $map->put(
-                $name,
-                $value
-            );
-        }
-
-        return new Environment($map);
-    }
+    public function make(): Environment;
 }

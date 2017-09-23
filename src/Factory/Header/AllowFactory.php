@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface,
-    Header\HeaderValueInterface,
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header,
+    Header\Value,
     Header\Allow,
     Header\AllowValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -18,22 +18,23 @@ use Innmind\Immutable\{
 
 final class AllowFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): HeaderInterface
+    public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'allow') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
-        $values = new Set(HeaderValueInterface::class);
-
-        foreach ($value->split(',') as $allow) {
-            $values = $values->add(
-                new AllowValue(
-                    (string) $allow->trim()->toUpper()
+        return new Allow(
+            ...$value
+                ->split(',')
+                ->reduce(
+                    new Set(Value::class),
+                    static function(Set $carry, Str $allow): Set {
+                        return $carry->add(new AllowValue(
+                            (string) $allow->trim()->toUpper()
+                        ));
+                    }
                 )
-            );
-        }
-
-        return new Allow($values);
+        );
     }
 }

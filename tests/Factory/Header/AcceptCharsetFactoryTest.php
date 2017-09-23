@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AcceptCharsetFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\AcceptCharset
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class AcceptCharsetFactoryTest extends TestCase
     {
         $f = new AcceptCharsetFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Accept-Charset'),
@@ -32,7 +32,7 @@ class AcceptCharsetFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {
@@ -43,7 +43,7 @@ class AcceptCharsetFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidValue()
     {

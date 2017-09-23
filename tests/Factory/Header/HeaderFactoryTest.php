@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\HeaderFactory,
-    Factory\HeaderFactoryInterface,
-    Header\HeaderInterface
+    Factory\HeaderFactory as HeaderFactoryInterface,
+    Header
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ class HeaderFactoryTest extends TestCase
             new Str('bar')
         );
 
-        $this->assertInstanceOf(HeaderInterface::class, $header);
+        $this->assertInstanceOf(Header::class, $header);
         $this->assertSame('X-Foo : bar', (string) $header);
     }
 }

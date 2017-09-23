@@ -3,16 +3,16 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\File;
 
-use Innmind\Http\File\{
-    File,
-    FileInterface,
-    OkStatus
+use Innmind\Http\{
+    File\File,
+    File as FileInterface,
+    File\Status\Ok
 };
 use Innmind\Filesystem\{
-    NameInterface,
-    StreamInterface,
+    Name,
     MediaType\NullMediaType
 };
+use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
 class FileTest extends TestCase
@@ -21,16 +21,15 @@ class FileTest extends TestCase
     {
         $f = new File(
             'foo',
-            $s = $this->createMock(StreamInterface::class),
-            $ok = new OkStatus,
+            $s = $this->createMock(Readable::class),
+            $ok = new Ok,
             $m = new NullMediaType
         );
 
         $this->assertInstanceOf(FileInterface::class, $f);
-        $this->assertInstanceOf(NameInterface::class, $f->name());
+        $this->assertInstanceOf(Name::class, $f->name());
         $this->assertSame('foo', (string) $f->name());
         $this->assertSame($s, $f->content());
         $this->assertSame($ok, $f->status());
-        $this->assertSame($m, $f->clientMediaType());
     }
 }

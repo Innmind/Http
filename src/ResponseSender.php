@@ -4,17 +4,25 @@ declare(strict_types = 1);
 namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\ResponseInterface,
+    Message\Response,
     Header\Date,
     Header\DateValue
 };
+use Innmind\TimeContinuum\TimeContinuumInterface;
 
 final class ResponseSender
 {
+    private $clock;
+
+    public function __construct(TimeContinuumInterface $clock)
+    {
+        $this->clock = $clock;
+    }
+
     /**
      * @return void
      */
-    public function send(ResponseInterface $response)
+    public function send(Response $response)
     {
         header(sprintf(
             'HTTP/%s %s %s',
@@ -24,7 +32,7 @@ final class ResponseSender
         ));
 
         if (!$response->headers()->has('date')) {
-            header((string) new Date(new DateValue(new \DateTime)));
+            header((string) new Date(new DateValue($this->clock->now())));
         }
 
         foreach ($response->headers() as $header) {

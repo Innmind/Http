@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\Header\{
-    CacheControlValueInterface,
+    CacheControlValue,
     CacheControlValue\MinimumFresh
 };
 use PHPUnit\Framework\TestCase;
@@ -15,13 +15,13 @@ class MinimumFreshTest extends TestCase
     {
         $h = new MinimumFresh(42);
 
-        $this->assertInstanceOf(CacheControlValueInterface::class, $h);
+        $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame(42, $h->age());
         $this->assertSame('min-fresh=42', (string) $h);
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenAgeIsNegative()
     {

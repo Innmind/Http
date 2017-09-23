@@ -4,19 +4,19 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
-    Header\CacheControlValueInterface,
-    Exception\InvalidArgumentException
+    Header\CacheControlValue,
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
-final class NoCache implements CacheControlValueInterface
+final class NoCache implements CacheControlValue
 {
     private $field;
 
     public function __construct(string $field)
     {
         if (!(new Str($field))->matches('~^\w*$~')) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->field = $field;

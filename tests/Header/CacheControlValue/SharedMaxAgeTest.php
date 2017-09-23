@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\Header\{
-    CacheControlValueInterface,
+    CacheControlValue,
     CacheControlValue\SharedMaxAge
 };
 use PHPUnit\Framework\TestCase;
@@ -15,13 +15,13 @@ class SharedMaxAgeTest extends TestCase
     {
         $h = new SharedMaxAge(42);
 
-        $this->assertInstanceOf(CacheControlValueInterface::class, $h);
+        $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame(42, $h->age());
         $this->assertSame('s-maxage=42', (string) $h);
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenAgeIsNegative()
     {

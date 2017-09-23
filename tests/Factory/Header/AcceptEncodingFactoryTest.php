@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AcceptEncodingFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\AcceptEncoding
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class AcceptEncodingFactoryTest extends TestCase
     {
         $f = new AcceptEncodingFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Accept-Encoding'),
@@ -32,7 +32,7 @@ class AcceptEncodingFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {
@@ -43,7 +43,7 @@ class AcceptEncodingFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotValid()
     {

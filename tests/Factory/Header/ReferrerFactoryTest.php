@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\ReferrerFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\Referrer
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class ReferrerFactoryTest extends TestCase
     {
         $f = new ReferrerFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Referer'),
@@ -32,7 +32,7 @@ class ReferrerFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {

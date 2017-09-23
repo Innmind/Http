@@ -5,8 +5,8 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AcceptRangesValue,
-    HeaderValueInterface,
-    Quality
+    Value,
+    Parameter\Quality
 };
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class AcceptRangesValueTest extends TestCase
     {
         $a = new AcceptRangesValue('bytes');
 
-        $this->assertInstanceOf(HeaderValueInterface::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('bytes', (string) $a);
 
         new AcceptRangesValue('none');
@@ -25,7 +25,7 @@ class AcceptRangesValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptRangeValue($value)
     {

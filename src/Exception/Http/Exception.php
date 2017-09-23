@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception\Http;
 
-abstract class Exception extends \Exception implements ExceptionInterface
+use Innmind\Http\Exception\Exception as Base;
+
+interface Exception extends Base
 {
+    public function httpCode(): int;
 }

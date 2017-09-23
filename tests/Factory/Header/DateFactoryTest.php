@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\DateFactory,
-    Factory\HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\Date
 };
 use Innmind\Immutable\Str;
@@ -17,7 +17,7 @@ class DateFactoryTest extends TestCase
     {
         $f = new DateFactory;
 
-        $this->assertInstanceOf(HeaderFactoryInterface::class, $f);
+        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = $f->make(
             new Str('Date'),
@@ -32,7 +32,7 @@ class DateFactoryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenNotExpectedHeader()
     {
