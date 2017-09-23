@@ -8,9 +8,17 @@ use Innmind\Http\{
     Header\Date,
     Header\DateValue
 };
+use Innmind\TimeContinuum\TimeContinuumInterface;
 
 final class ResponseSender
 {
+    private $clock;
+
+    public function __construct(TimeContinuumInterface $clock)
+    {
+        $this->clock = $clock;
+    }
+
     /**
      * @return void
      */
@@ -24,7 +32,7 @@ final class ResponseSender
         ));
 
         if (!$response->headers()->has('date')) {
-            header((string) new Date(new DateValue(new \DateTime)));
+            header((string) new Date(new DateValue($this->clock->now())));
         }
 
         $response
