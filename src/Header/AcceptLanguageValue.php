@@ -9,7 +9,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
-final class AcceptLanguageValue extends HeaderValue\HeaderValue
+final class AcceptLanguageValue extends Value\Value
 {
     private $quality;
 

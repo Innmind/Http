@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\CacheControl,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\CacheControlValue\PublicCache
 };
 use Innmind\Immutable\{
@@ -20,7 +20,7 @@ class CacheControlTest extends TestCase
     public function testInterface()
     {
         $h = new CacheControl(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new PublicCache)
         );
 
@@ -36,8 +36,8 @@ class CacheControlTest extends TestCase
     public function testThrowWhenBuildingWithoutCacheControlValues()
     {
         new CacheControl(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 
@@ -46,6 +46,6 @@ class CacheControlTest extends TestCase
      */
     public function testThrowIfNoValueGiven()
     {
-        new CacheControl(new Set(HeaderValue::class));
+        new CacheControl(new Set(Value::class));
     }
 }

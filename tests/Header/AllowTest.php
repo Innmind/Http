@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Allow,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AllowValue
 };
 use Innmind\Immutable\Set;
@@ -17,7 +17,7 @@ class AllowTest extends TestCase
     public function testInterface()
     {
         $h = new Allow(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new AllowValue('GET'))
         );
 
@@ -38,8 +38,8 @@ class AllowTest extends TestCase
     public function testRangeThrowWhenBuildingWithoutAllowValue()
     {
         new Allow(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 }

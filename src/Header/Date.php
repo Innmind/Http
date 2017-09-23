@@ -11,7 +11,7 @@ final class Date extends Header
     {
         parent::__construct(
             'Date',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($date)
         );
     }

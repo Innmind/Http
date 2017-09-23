@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentLengthValue,
-    HeaderValue
+    Value
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ContentLengthValueTest extends TestCase
     {
         $a = new ContentLengthValue(42);
 
-        $this->assertInstanceOf(HeaderValue::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('42', (string) $a);
 
         new ContentLengthValue(0);

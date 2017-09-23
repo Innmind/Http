@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     HostValue,
-    HeaderValue
+    Value
 };
 use Innmind\Url\Authority\{
     Host,
@@ -20,7 +20,7 @@ class HostValueTest extends TestCase
     {
         $h = new HostValue($host = new Host('example.com'), $p = new NullPort);
 
-        $this->assertInstanceOf(HeaderValue::class, $h);
+        $this->assertInstanceOf(Value::class, $h);
         $this->assertSame($host, $h->host());
         $this->assertSame($p, $h->port());
         $this->assertSame('example.com', (string) $h);

@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     LocationValue,
-    HeaderValue
+    Value
 };
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class LocationValueTest extends TestCase
     {
         $a = new LocationValue(Url::fromString('/foo/bar'));
 
-        $this->assertInstanceOf(HeaderValue::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('/foo/bar', (string) $a);
     }
 }

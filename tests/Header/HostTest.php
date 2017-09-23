@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Host,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\HostValue
 };
 use Innmind\Immutable\SetInterface;
@@ -28,7 +28,7 @@ class HostTest extends TestCase
         $this->assertSame('Host', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Host : example.com', (string) $h);
     }

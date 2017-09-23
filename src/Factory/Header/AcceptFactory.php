@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AcceptValue,
     Header\Accept,
     Header\Parameter,
@@ -29,7 +29,7 @@ final class AcceptFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $values = new Set(HeaderValue::class);
+        $values = new Set(Value::class);
 
         foreach ($value->split(',') as $accept) {
             if (!$accept->matches(self::PATTERN)) {

@@ -17,7 +17,7 @@ final class Accept extends Header
             throw new AcceptHeaderMustContainAtLeastOneValue;
         }
 
-        $values->foreach(function(HeaderValue $value) {
+        $values->foreach(function(Value $value) {
             if (!$value instanceof AcceptValue) {
                 throw new InvalidArgumentException;
             }

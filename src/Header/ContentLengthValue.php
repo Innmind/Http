@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
 
-final class ContentLengthValue extends HeaderValue\HeaderValue
+final class ContentLengthValue extends Value\Value
 {
     public function __construct(int $length)
     {

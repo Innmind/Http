@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
-final class ContentRangeValue extends HeaderValue\HeaderValue
+final class ContentRangeValue extends Value\Value
 {
     private $unit;
     private $firstPosition;

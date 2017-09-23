@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AcceptValue,
-    HeaderValue,
+    Value,
     Parameter\Quality,
     Parameter
 };
@@ -23,7 +23,7 @@ class AcceptValueTest extends TestCase
                 ->put('q', new Quality(0.8))
         );
 
-        $this->assertInstanceOf(HeaderValue::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
         $this->assertSame($ps, $a->parameters());

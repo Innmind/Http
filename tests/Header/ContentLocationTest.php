@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentLocation,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\LocationValue
 };
 use Innmind\Immutable\SetInterface;
@@ -25,7 +25,7 @@ class ContentLocationTest extends TestCase
         $this->assertSame('Content-Location', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Content-Location : /foo/bar', (string) $h);
     }

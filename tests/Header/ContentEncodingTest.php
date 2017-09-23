@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentEncoding,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\ContentEncodingValue
 };
 use Innmind\Immutable\SetInterface;
@@ -24,7 +24,7 @@ class ContentEncodingTest extends TestCase
         $this->assertSame('Content-Encoding', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ce, $v->current());
         $this->assertSame('Content-Encoding : compress', (string) $h);
     }

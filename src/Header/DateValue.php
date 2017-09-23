@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-final class DateValue extends HeaderValue\HeaderValue
+final class DateValue extends Value\Value
 {
     public function __construct(\DateTimeInterface $date)
     {

@@ -11,7 +11,7 @@ final class Age extends Header
     {
         parent::__construct(
             'Age',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($age)
         );
     }

@@ -3,16 +3,16 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\HeaderValue;
+use Innmind\Http\Header\Value;
 use PHPUnit\Framework\TestCase;
 
-class HeaderValueTest extends TestCase
+class ValueTest extends TestCase
 {
     public function testInterface()
     {
-        $hv = new HeaderValue\HeaderValue('foo');
+        $hv = new Value\Value('foo');
 
-        $this->assertInstanceOf(HeaderValue::class, $hv);
+        $this->assertInstanceOf(Value::class, $hv);
         $this->assertSame('foo', (string) $hv);
     }
 }

@@ -9,7 +9,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
-final class AcceptEncodingValue extends HeaderValue\HeaderValue
+final class AcceptEncodingValue extends Value\Value
 {
     private $quality;
 

@@ -11,7 +11,7 @@ use Innmind\Immutable\{
     Map
 };
 
-final class LinkValue extends HeaderValue\HeaderValue
+final class LinkValue extends Value\Value
 {
     private $url;
     private $rel;

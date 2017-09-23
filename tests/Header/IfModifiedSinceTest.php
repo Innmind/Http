@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\IfModifiedSince,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\DateValue
 };
 use Innmind\Immutable\SetInterface;
@@ -24,7 +24,7 @@ class IfModifiedSinceTest extends TestCase
         $this->assertSame('If-Modified-Since', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
         $this->assertSame('If-Modified-Since : Fri, 01 Jan 2016 12:12:12 +0200', (string) $h);
     }

@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentLanguage,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\ContentLanguageValue
 };
 use Innmind\Immutable\Set;
@@ -17,7 +17,7 @@ class ContentLanguageTest extends TestCase
     public function testInterface()
     {
         $h = new ContentLanguage(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new ContentLanguageValue('fr'))
         );
 
@@ -38,8 +38,8 @@ class ContentLanguageTest extends TestCase
     public function testThrowWhenBuildingWithoutContentLanguageValues()
     {
         new ContentLanguage(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 }

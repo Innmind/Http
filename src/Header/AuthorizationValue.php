@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
-final class AuthorizationValue extends HeaderValue\HeaderValue
+final class AuthorizationValue extends Value\Value
 {
     private $scheme;
     private $parameter;

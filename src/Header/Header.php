@@ -19,12 +19,12 @@ class Header implements HeaderInterface
 
     public function __construct(string $name, SetInterface $values = null)
     {
-        $values = $values ?? new Set(HeaderValue::class);
+        $values = $values ?? new Set(Value::class);
 
-        if ((string) $values->type() !== HeaderValue::class) {
+        if ((string) $values->type() !== Value::class) {
             throw new \TypeError(sprintf(
                 'Argument 2 must be of type SetInterface<%s>',
-                HeaderValue::class
+                Value::class
             ));
         }
 

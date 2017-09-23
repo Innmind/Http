@@ -11,7 +11,7 @@ final class ContentLength extends Header
     {
         parent::__construct(
             'Content-Length',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($length)
         );
     }

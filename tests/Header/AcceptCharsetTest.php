@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptCharset,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AcceptCharsetValue,
     Header\Parameter\Quality
 };
@@ -18,7 +18,7 @@ class AcceptCharsetTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptCharset(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new AcceptCharsetValue('unicode-1-1', new Quality(0.8)))
         );
 
@@ -39,8 +39,8 @@ class AcceptCharsetTest extends TestCase
     public function testThrowWhenBuildingWithoutAcceptCharsetValues()
     {
         new AcceptCharset(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 }

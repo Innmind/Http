@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     AuthorizationValue,
-    HeaderValue,
+    Value,
     Authorization\Credentials
 };
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class AuthorizationValueTest extends TestCase
     {
         $a = new AuthorizationValue('Basic', 'realm');
 
-        $this->assertInstanceOf(HeaderValue::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('Basic', $a->scheme());
         $this->assertSame('realm', $a->parameter());
         $this->assertSame('"Basic" realm', (string) $a);

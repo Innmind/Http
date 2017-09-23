@@ -11,7 +11,7 @@ final class Expires extends Header
     {
         parent::__construct(
             'Expires',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($date)
         );
     }

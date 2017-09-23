@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     LinkValue,
-    HeaderValue,
+    Value,
     Parameter
 };
 use Innmind\Url\Url;
@@ -23,7 +23,7 @@ class LinkValueTest extends TestCase
                 ->put('title', new Parameter\Parameter('title', 'Foo'))
         );
 
-        $this->assertInstanceOf(HeaderValue::class, $l);
+        $this->assertInstanceOf(Value::class, $l);
         $this->assertSame($url, $l->url());
         $this->assertSame('relationship', $l->relationship());
         $this->assertSame($ps, $l->parameters());

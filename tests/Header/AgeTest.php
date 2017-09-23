@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Age,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AgeValue
 };
 use Innmind\Immutable\SetInterface;
@@ -24,7 +24,7 @@ class AgeTest extends TestCase
         $this->assertSame('Age', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Age : 42', (string) $h);
     }

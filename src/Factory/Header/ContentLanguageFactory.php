@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\ContentLanguage,
     Header\ContentLanguageValue,
     Exception\DomainException
@@ -24,7 +24,7 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $values = new Set(HeaderValue::class);
+        $values = new Set(Value::class);
 
         foreach ($value->split(',') as $language) {
             $values = $values->add(

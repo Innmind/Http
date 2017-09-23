@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentLength,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\ContentLengthValue
 };
 use Innmind\Immutable\SetInterface;
@@ -24,7 +24,7 @@ class ContentLengthTest extends TestCase
         $this->assertSame('Content-Length', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Content-Length : 42', (string) $h);
     }

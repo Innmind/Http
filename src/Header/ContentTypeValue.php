@@ -10,7 +10,7 @@ use Innmind\Immutable\{
     Map
 };
 
-final class ContentTypeValue extends HeaderValue\HeaderValue
+final class ContentTypeValue extends Value\Value
 {
     private $type;
     private $subType;

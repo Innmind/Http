@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\LinkValue,
     Header\Link,
     Header\Parameter,
@@ -30,7 +30,7 @@ final class LinkFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $links = new Set(HeaderValue::class);
+        $links = new Set(Value::class);
 
         foreach ($value->split(',') as $link) {
             $link = $link->trim();

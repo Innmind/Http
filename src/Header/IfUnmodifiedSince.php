@@ -11,7 +11,7 @@ final class IfUnmodifiedSince extends Header
     {
         parent::__construct(
             'If-Unmodified-Since',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($date)
         );
     }

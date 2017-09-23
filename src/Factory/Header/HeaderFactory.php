@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
-    Header\HeaderValue
+    Header\Value
 };
 use Innmind\Immutable\{
     Str,
@@ -25,10 +25,10 @@ final class HeaderFactory implements HeaderFactoryInterface
                     return $value->trim();
                 })
                 ->reduce(
-                    new Set(HeaderValue::class),
+                    new Set(Value::class),
                     function(Set $carry, Str $value): Set {
                         return $carry->add(
-                            new HeaderValue\HeaderValue((string) $value)
+                            new Value\Value((string) $value)
                         );
                     }
                 )

@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentLanguageValue,
-    HeaderValue
+    Value
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +15,7 @@ class ContentLanguageValueTest extends TestCase
     {
         $a = new ContentLanguageValue('en-gb');
 
-        $this->assertInstanceOf(HeaderValue::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('en-gb', (string) $a);
 
         new ContentLanguageValue('fr');

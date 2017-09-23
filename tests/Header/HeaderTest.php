@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\{
     Header,
-    Header\HeaderValue
+    Header\Value
 };
 use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
@@ -16,9 +16,9 @@ class HeaderTest extends TestCase
     {
         $h = new Header\Header(
             'Accept',
-            $v = (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('application/json'))
-                ->add(new HeaderValue\HeaderValue('*/*'))
+            $v = (new Set(Value::class))
+                ->add(new Value\Value('application/json'))
+                ->add(new Value\Value('*/*'))
         );
 
         $this->assertInstanceOf(Header::class, $h);
@@ -34,7 +34,7 @@ class HeaderTest extends TestCase
 
     /**
      * @expectedException TypeError
-     * @expectedExceptionMessage Argument 2 must be of type SetInterface<Innmind\Http\Header\HeaderValue>
+     * @expectedExceptionMessage Argument 2 must be of type SetInterface<Innmind\Http\Header\Value>
      */
     public function testThrowWhenInvalidSetOfValues()
     {

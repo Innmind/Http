@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Url\UrlInterface;
 
-final class ReferrerValue extends HeaderValue\HeaderValue
+final class ReferrerValue extends Value\Value
 {
     public function __construct(UrlInterface $url)
     {

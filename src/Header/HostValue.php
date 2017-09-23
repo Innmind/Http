@@ -9,7 +9,7 @@ use Innmind\Url\Authority\{
     NullPort
 };
 
-final class HostValue extends HeaderValue\HeaderValue
+final class HostValue extends Value\Value
 {
     private $host;
     private $port;

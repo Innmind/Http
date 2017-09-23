@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptEncoding,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AcceptEncodingValue,
     Header\Parameter\Quality
 };
@@ -18,7 +18,7 @@ class AcceptEncodingTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptEncoding(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new AcceptEncodingValue('compress', new Quality(1)))
         );
 
@@ -39,8 +39,8 @@ class AcceptEncodingTest extends TestCase
     public function testThrowWhenBuildingWithoutAcceptEncodingValues()
     {
         new AcceptEncoding(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 }

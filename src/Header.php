@@ -10,7 +10,7 @@ interface Header
     public function name(): string;
 
     /**
-     * @return SetInterface<HeaderValueInterface>
+     * @return SetInterface<Value>
      */
     public function values(): SetInterface;
     public function __toString(): string;

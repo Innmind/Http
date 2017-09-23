@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentType,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\ContentTypeValue,
     Header\Parameter
 };
@@ -33,7 +33,7 @@ class ContentTypeTest extends TestCase
         $this->assertSame('Content-Type', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ct, $v->current());
         $this->assertSame('Content-Type : text/html;charset=UTF-8', (string) $h);
     }

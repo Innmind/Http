@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\CacheControlValue,
     Header\CacheControl,
     Exception\DomainException
@@ -25,7 +25,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
         }
 
         $splits = $value->split(',');
-        $values = new Set(HeaderValue::class);
+        $values = new Set(Value::class);
 
         foreach ($splits as $split) {
             $split = $split->trim();

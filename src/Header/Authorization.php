@@ -11,7 +11,7 @@ final class Authorization extends Header
     {
         parent::__construct(
             'Authorization',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($authorization)
         );
     }

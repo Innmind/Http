@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Link,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\LinkValue,
     Header\Parameter
 };
@@ -22,7 +22,7 @@ class LinkTest extends TestCase
     public function testInterface()
     {
         $h = new Link(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new LinkValue(
                     Url::fromString('/some/resource'),
                     'some relation',
@@ -51,8 +51,8 @@ class LinkTest extends TestCase
     public function testThrowWhenBuildingWithoutLinkValues()
     {
         new Link(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 }

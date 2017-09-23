@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptLanguage,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AcceptLanguageValue,
     Header\Parameter\Quality
 };
@@ -18,7 +18,7 @@ class AcceptLanguageTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptLanguage(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new AcceptLanguageValue('fr', new Quality(0.8)))
         );
 
@@ -39,8 +39,8 @@ class AcceptLanguageTest extends TestCase
     public function testThrowWhenBuildingWithoutAcceptLanguageValues()
     {
         new AcceptLanguage(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 }

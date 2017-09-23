@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Referrer,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\ReferrerValue
 };
 use Innmind\Immutable\SetInterface;
@@ -25,7 +25,7 @@ class ReferrerTest extends TestCase
         $this->assertSame('Referer', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
         $this->assertSame('Referer : /foo/bar', (string) $h);
     }

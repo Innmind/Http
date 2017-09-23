@@ -10,7 +10,7 @@ use Innmind\Immutable\{
     Map
 };
 
-final class AcceptValue extends HeaderValue\HeaderValue
+final class AcceptValue extends Value\Value
 {
     private $type;
     private $subType;

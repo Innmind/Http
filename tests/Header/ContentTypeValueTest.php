@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\Header\{
     ContentTypeValue,
-    HeaderValue,
+    Value,
     Parameter
 };
 use Innmind\Immutable\Map;
@@ -22,7 +22,7 @@ class ContentTypeValueTest extends TestCase
                 ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
         );
 
-        $this->assertInstanceOf(HeaderValue::class, $a);
+        $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
         $this->assertSame($ps, $a->parameters());

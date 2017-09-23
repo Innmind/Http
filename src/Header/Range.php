@@ -11,7 +11,7 @@ final class Range extends Header
     {
         parent::__construct(
             'Range',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($range)
         );
     }

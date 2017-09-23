@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
-final class AcceptRangesValue extends HeaderValue\HeaderValue
+final class AcceptRangesValue extends Value\Value
 {
     public function __construct(string $range)
     {

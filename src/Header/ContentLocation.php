@@ -11,7 +11,7 @@ final class ContentLocation extends Header
     {
         parent::__construct(
             'Content-Location',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($location)
         );
     }

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Header\HeaderValue;
+namespace Innmind\Http\Header\Value;
 
-use Innmind\Http\Header\HeaderValue as HeaderValueInterface;
+use Innmind\Http\Header\Value as ValueInterface;
 
-class HeaderValue implements HeaderValueInterface
+class Value implements ValueInterface
 {
     private $value;
 

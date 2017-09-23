@@ -11,7 +11,7 @@ final class ContentEncoding extends Header
     {
         parent::__construct(
             'Content-Encoding',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($encoding)
         );
     }

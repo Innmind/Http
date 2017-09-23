@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptRanges,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AcceptRangesValue
 };
 use Innmind\Immutable\SetInterface;
@@ -24,7 +24,7 @@ class AcceptRangesTest extends TestCase
         $this->assertSame('Accept-Ranges', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(SetInterface::class, $v);
-        $this->assertSame(HeaderValue::class, (string) $v->type());
+        $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ar, $v->current());
         $this->assertSame('Accept-Ranges : bytes', (string) $h);
     }

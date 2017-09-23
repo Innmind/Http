@@ -11,7 +11,7 @@ final class ContentType extends Header
     {
         parent::__construct(
             'Content-Type',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($content)
         );
     }

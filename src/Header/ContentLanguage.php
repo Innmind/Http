@@ -13,9 +13,9 @@ final class ContentLanguage extends Header
 {
     public function __construct(SetInterface $values = null)
     {
-        $values = $values ?? new Set(HeaderValue::class);
+        $values = $values ?? new Set(Value::class);
 
-        $values->foreach(function(HeaderValue $value) {
+        $values->foreach(function(Value $value) {
             if (!$value instanceof ContentLanguageValue) {
                 throw new InvalidArgumentException;
             }

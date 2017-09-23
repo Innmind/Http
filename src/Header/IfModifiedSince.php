@@ -11,7 +11,7 @@ final class IfModifiedSince extends Header
     {
         parent::__construct(
             'If-Modified-Since',
-            (new Set(HeaderValue::class))
+            (new Set(Value::class))
                 ->add($date)
         );
     }

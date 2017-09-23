@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Accept,
     Header,
-    Header\HeaderValue,
+    Header\Value,
     Header\AcceptValue,
     Header\Parameter\Quality,
     Header\Parameter
@@ -22,7 +22,7 @@ class AcceptTest extends TestCase
     public function testInterface()
     {
         $h = new Accept(
-            $v = (new Set(HeaderValue::class))
+            $v = (new Set(Value::class))
                 ->add(new AcceptValue(
                     'text',
                     'html',
@@ -43,8 +43,8 @@ class AcceptTest extends TestCase
     public function testThrowWhenBuildingWithoutAcceptValues()
     {
         new Accept(
-            (new Set(HeaderValue::class))
-                ->add(new HeaderValue\HeaderValue('foo'))
+            (new Set(Value::class))
+                ->add(new Value\Value('foo'))
         );
     }
 
@@ -53,6 +53,6 @@ class AcceptTest extends TestCase
      */
     public function testThrowIfNoValueGiven()
     {
-        new Accept(new Set(HeaderValue::class));
+        new Accept(new Set(Value::class));
     }
 }

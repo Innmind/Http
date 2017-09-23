@@ -9,7 +9,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
-final class AllowValue extends HeaderValue\HeaderValue
+final class AllowValue extends Value\Value
 {
     public function __construct(string $value)
     {
