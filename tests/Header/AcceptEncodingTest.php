@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptEncoding,
     Header,
-    Header\Value,
     Header\AcceptEncodingValue,
     Header\Parameter\Quality
 };
@@ -18,29 +17,17 @@ class AcceptEncodingTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptEncoding(
-            $v = (new Set(Value::class))
-                ->add(new AcceptEncodingValue('compress', new Quality(1)))
+            $v = new AcceptEncodingValue('compress', new Quality(1))
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Encoding', $h->name());
-        $this->assertSame($v, $h->values());
+        $this->assertTrue($h->values()->contains($v));
         $this->assertSame('Accept-Encoding : compress;q=1', (string) $h);
     }
 
     public function testWithoutValues()
     {
         $this->assertSame('Accept-Encoding : ', (string) new AcceptEncoding);
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
-     */
-    public function testThrowWhenBuildingWithoutAcceptEncodingValues()
-    {
-        new AcceptEncoding(
-            (new Set(Value::class))
-                ->add(new Value\Value('foo'))
-        );
     }
 }

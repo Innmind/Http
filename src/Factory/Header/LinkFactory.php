@@ -55,7 +55,7 @@ final class LinkFactory implements HeaderFactoryInterface
             );
         }
 
-        return new Link($links);
+        return new Link(...$links);
     }
 
     private function buildParams(Str $params): MapInterface

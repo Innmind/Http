@@ -47,6 +47,6 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
             );
         }
 
-        return new AcceptLanguage($values);
+        return new AcceptLanguage(...$values);
     }
 }

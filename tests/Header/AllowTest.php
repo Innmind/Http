@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Allow,
     Header,
-    Header\Value,
     Header\AllowValue
 };
 use Innmind\Immutable\Set;
@@ -17,29 +16,17 @@ class AllowTest extends TestCase
     public function testInterface()
     {
         $h = new Allow(
-            $v = (new Set(Value::class))
-                ->add(new AllowValue('GET'))
+            $v = new AllowValue('GET')
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Allow', $h->name());
-        $this->assertSame($v, $h->values());
+        $this->assertTrue($h->values()->contains($v));
         $this->assertSame('Allow : GET', (string) $h);
     }
 
     public function testWithoutValues()
     {
         $this->assertSame('Allow : ', (string) new Allow);
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
-     */
-    public function testRangeThrowWhenBuildingWithoutAllowValue()
-    {
-        new Allow(
-            (new Set(Value::class))
-                ->add(new Value\Value('foo'))
-        );
     }
 }

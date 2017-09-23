@@ -34,6 +34,6 @@ final class AllowFactory implements HeaderFactoryInterface
             );
         }
 
-        return new Allow($values);
+        return new Allow(...$values);
     }
 }

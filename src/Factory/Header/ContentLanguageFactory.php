@@ -34,6 +34,6 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
             );
         }
 
-        return new ContentLanguage($values);
+        return new ContentLanguage(...$values);
     }
 }

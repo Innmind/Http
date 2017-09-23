@@ -50,7 +50,7 @@ final class AcceptFactory implements HeaderFactoryInterface
             );
         }
 
-        return new Accept($values);
+        return new Accept(...$values);
     }
 
     private function buildParams(Str $params): MapInterface

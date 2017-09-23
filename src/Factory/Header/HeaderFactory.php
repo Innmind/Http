@@ -19,7 +19,7 @@ final class HeaderFactory implements HeaderFactoryInterface
     {
         return new Header\Header(
             (string) $name,
-            $value
+            ...$value
                 ->split(',')
                 ->map(function(Str $value): Str {
                     return $value->trim();

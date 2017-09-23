@@ -47,6 +47,6 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
             );
         }
 
-        return new AcceptCharset($values);
+        return new AcceptCharset(...$values);
     }
 }

@@ -103,6 +103,6 @@ final class CacheControlFactory implements HeaderFactoryInterface
             }
         }
 
-        return new CacheControl($values);
+        return new CacheControl(...$values);
     }
 }

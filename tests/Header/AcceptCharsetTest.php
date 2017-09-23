@@ -18,29 +18,17 @@ class AcceptCharsetTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptCharset(
-            $v = (new Set(Value::class))
-                ->add(new AcceptCharsetValue('unicode-1-1', new Quality(0.8)))
+            $v = new AcceptCharsetValue('unicode-1-1', new Quality(0.8))
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Charset', $h->name());
-        $this->assertSame($v, $h->values());
+        $this->assertTrue($h->values()->contains($v));
         $this->assertSame('Accept-Charset : unicode-1-1;q=0.8', (string) $h);
     }
 
     public function testWithoutValues()
     {
         $this->assertSame('Accept-Charset : ', (string) new AcceptCharset);
-    }
-
-    /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
-     */
-    public function testThrowWhenBuildingWithoutAcceptCharsetValues()
-    {
-        new AcceptCharset(
-            (new Set(Value::class))
-                ->add(new Value\Value('foo'))
-        );
     }
 }

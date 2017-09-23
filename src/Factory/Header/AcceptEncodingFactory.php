@@ -47,6 +47,6 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
             );
         }
 
-        return new AcceptEncoding($values);
+        return new AcceptEncoding(...$values);
     }
 }
