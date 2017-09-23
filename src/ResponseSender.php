@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\ResponseInterface,
+    Message\Response,
     Header\Date,
     Header\DateValue
 };
@@ -14,7 +14,7 @@ final class ResponseSender
     /**
      * @return void
      */
-    public function send(ResponseInterface $response)
+    public function send(Response $response)
     {
         header(sprintf(
             'HTTP/%s %s %s',
