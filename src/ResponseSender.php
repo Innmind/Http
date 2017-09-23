@@ -35,11 +35,9 @@ final class ResponseSender
             header((string) new Date(new DateValue($this->clock->now())));
         }
 
-        $response
-            ->headers()
-            ->foreach(static function(Header $header): void {
-                header((string) $header, false);
-            });
+        foreach ($response->headers() as $header) {
+            header((string) $header, false);
+        }
 
         echo (string) $response->body();
 
