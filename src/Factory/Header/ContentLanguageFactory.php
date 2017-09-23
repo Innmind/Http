@@ -24,16 +24,17 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $values = new Set(Value::class);
-
-        foreach ($value->split(',') as $language) {
-            $values = $values->add(
-                new ContentLanguageValue(
-                    (string) $language->trim()
+        return new ContentLanguage(
+            ...$value
+                ->split(',')
+                ->reduce(
+                    new Set(Value::class),
+                    static function(Set $carry, Str $language): Set {
+                        return $carry->add(new ContentLanguageValue(
+                            (string) $language->trim()
+                        ));
+                    }
                 )
-            );
-        }
-
-        return new ContentLanguage(...$values);
+        );
     }
 }

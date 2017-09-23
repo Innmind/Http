@@ -27,26 +27,28 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $values = new Set(Value::class);
+        return new AcceptCharset(
+            ...$value
+                ->split(',')
+                ->foreach(static function(Str $accept): void {
+                    if (!$accept->matches(self::PATTERN)) {
+                        throw new DomainException;
+                    }
+                })
+                ->reduce(
+                    new Set(Value::class),
+                    static function(Set $carry, Str $accept): Set {
+                        $matches = $accept->capture(self::PATTERN);
 
-        foreach ($value->split(',') as $accept) {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException;
-            }
-
-            $matches = $accept->capture(self::PATTERN);
-
-            $values = $values->add(
-                new AcceptCharsetValue(
-                    (string) $matches->get('charset'),
-                    new Quality(
-                        $matches->contains('quality') ?
-                            (float) (string) $matches->get('quality') : 1
-                    )
+                        return $carry->add(new AcceptCharsetValue(
+                            (string) $matches->get('charset'),
+                            new Quality(
+                                $matches->contains('quality') ?
+                                    (float) (string) $matches->get('quality') : 1
+                            )
+                        ));
+                    }
                 )
-            );
-        }
-
-        return new AcceptCharset(...$values);
+        );
     }
 }

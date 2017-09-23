@@ -24,16 +24,17 @@ final class AllowFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $values = new Set(Value::class);
-
-        foreach ($value->split(',') as $allow) {
-            $values = $values->add(
-                new AllowValue(
-                    (string) $allow->trim()->toUpper()
+        return new Allow(
+            ...$value
+                ->split(',')
+                ->reduce(
+                    new Set(Value::class),
+                    static function(Set $carry, Str $allow): Set {
+                        return $carry->add(new AllowValue(
+                            (string) $allow->trim()->toUpper()
+                        ));
+                    }
                 )
-            );
-        }
-
-        return new Allow(...$values);
+        );
     }
 }

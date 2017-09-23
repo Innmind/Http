@@ -16,7 +16,6 @@ use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
     Set,
-    MapInterface,
     Map
 };
 
@@ -30,54 +29,59 @@ final class LinkFactory implements HeaderFactoryInterface
             throw new DomainException;
         }
 
-        $links = new Set(Value::class);
+        return new Link(
+            ...$value
+                ->split(',')
+                ->map(static function(Str $link): Str {
+                    return $link->trim();
+                })
+                ->foreach(static function(Str $link): void {
+                    if (!$link->matches(self::PATTERN)) {
+                        throw new DomainException;
+                    }
+                })
+                ->reduce(
+                    new Set(Value::class),
+                    function(Set $carry, Str $link): Set {
+                        $matches = $link->capture(self::PATTERN);
+                        $params = $this->buildParams(
+                            $matches->contains('params') ? $matches->get('params') : new Str('')
+                        );
 
-        foreach ($value->split(',') as $link) {
-            $link = $link->trim();
-
-            if (!$link->matches(self::PATTERN)) {
-                throw new DomainException;
-            }
-
-            $matches = $link->capture(self::PATTERN);
-            $params = $this->buildParams(
-                $matches->contains('params') ? $matches->get('params') : new Str('')
-            );
-
-            $links = $links->add(
-                new LinkValue(
-                    Url::fromString((string) $matches->get('url')),
-                    $params->contains('rel') ?
-                        $params->get('rel')->value() : null,
-                    $params->contains('rel') ?
-                        $params->remove('rel') : $params
+                        return $carry->add(
+                            new LinkValue(
+                                Url::fromString((string) $matches->get('url')),
+                                $params->contains('rel') ?
+                                    $params->get('rel')->value() : null,
+                                $params->contains('rel') ?
+                                    $params->remove('rel') : $params
+                            )
+                        );
+                    }
                 )
-            );
-        }
-
-        return new Link(...$links);
+        );
     }
 
-    private function buildParams(Str $params): MapInterface
+    private function buildParams(Str $params): Map
     {
-        $params = $params->split(';');
-        $map = new Map('string', Parameter::class);
+        return $params
+            ->split(';')
+            ->filter(static function(Str $value): bool {
+                return $value->trim()->length() > 0;
+            })
+            ->reduce(
+                new Map('string', Parameter::class),
+                static function(Map $carry, Str $value): Map {
+                    $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
-        foreach ($params as $value) {
-            if ($value->trim()->length() === 0) {
-                continue;
-            }
-
-            $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
-            $map = $map->put(
-                (string) $matches->get('key'),
-                new Parameter\Parameter(
-                    (string) $matches->get('key'),
-                    (string) $matches->get('value')
-                )
+                    return $carry->put(
+                        (string) $matches->get('key'),
+                        new Parameter\Parameter(
+                            (string) $matches->get('key'),
+                            (string) $matches->get('value')
+                        )
+                    );
+                }
             );
-        }
-
-        return $map;
     }
 }

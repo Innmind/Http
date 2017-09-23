@@ -27,9 +27,11 @@ final class ResponseSender
             header((string) new Date(new DateValue(new \DateTime)));
         }
 
-        foreach ($response->headers() as $header) {
-            header((string) $header, false);
-        }
+        $response
+            ->headers()
+            ->foreach(static function(Header $header): void {
+                header((string) $header, false);
+            });
 
         echo (string) $response->body();
 
