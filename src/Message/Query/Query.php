@@ -5,7 +5,6 @@ namespace Innmind\Http\Message\Query;
 
 use Innmind\Http\{
     Message\Query as QueryInterface,
-    Exception\InvalidArgumentException,
     Exception\QueryParameterNotFound
 };
 use Innmind\Immutable\{
@@ -25,7 +24,10 @@ final class Query implements QueryInterface
             (string) $parameters->keyType() !== 'string' ||
             (string) $parameters->valueType() !== Parameter::class
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 1 must be of type MapInterface<string, %s>',
+                Parameter::class
+            ));
         }
 
         $this->parameters = $parameters;

@@ -5,7 +5,6 @@ namespace Innmind\Http\Message\Cookies;
 
 use Innmind\Http\{
     Message\Cookies as CookiesInterface,
-    Exception\InvalidArgumentException,
     Exception\CookieNotFound
 };
 use Innmind\Immutable\{
@@ -25,7 +24,9 @@ final class Cookies implements CookiesInterface
             (string) $cookies->keyType() !== 'string' ||
             (string) $cookies->valueType() !== 'scalar'
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(
+                'Argument 1 must be of type MapInterface<string, scalar>'
+            );
         }
 
         $this->cookies = $cookies;

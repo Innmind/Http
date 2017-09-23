@@ -5,7 +5,7 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
     Header\CacheControlValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 
 final class MinimumFresh implements CacheControlValue
@@ -15,7 +15,7 @@ final class MinimumFresh implements CacheControlValue
     public function __construct(int $age)
     {
         if ($age < 0) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->age = $age;

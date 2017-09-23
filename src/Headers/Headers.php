@@ -6,7 +6,6 @@ namespace Innmind\Http\Headers;
 use Innmind\Http\{
     Headers as HeadersInterface,
     Header,
-    Exception\InvalidArgumentException,
     Exception\HeaderNotFound
 };
 use Innmind\Immutable\{
@@ -28,7 +27,10 @@ final class Headers implements HeadersInterface
             (string) $headers->keyType() !== 'string' ||
             (string) $headers->valueType() !== Header::class
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 1 must be of type MapInterface<string, %s>',
+                Header::class
+            ));
         }
 
         $this->headers = $headers->map(function(string $name, Header $header) {

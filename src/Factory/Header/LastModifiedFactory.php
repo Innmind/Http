@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\DateValue,
     Header\LastModified,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -17,7 +17,7 @@ final class LastModifiedFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'last-modified') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new LastModified(

@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
     Header\Parameter\Quality,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -24,14 +24,14 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-language') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $values = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $accept) {
             if (!$accept->matches(self::PATTERN)) {
-                throw new InvalidArgumentException;
+                throw new DomainException;
             }
 
             $matches = $accept->capture(self::PATTERN);

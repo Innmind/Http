@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\ContentEncoding,
     Header\ContentEncodingValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -17,7 +17,7 @@ final class ContentEncodingFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'content-encoding') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new ContentEncoding(

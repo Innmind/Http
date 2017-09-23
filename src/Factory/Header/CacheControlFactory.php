@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\HeaderValue,
     Header\CacheControlValue,
     Header\CacheControl,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -21,7 +21,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'cache-control') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $splits = $value->split(',');

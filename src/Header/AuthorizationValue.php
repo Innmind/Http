@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
 final class AuthorizationValue extends HeaderValue\HeaderValue
@@ -16,7 +16,7 @@ final class AuthorizationValue extends HeaderValue\HeaderValue
         $scheme = new Str($scheme);
 
         if (!$scheme->matches('~^\w+$~')) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->scheme = (string) $scheme;

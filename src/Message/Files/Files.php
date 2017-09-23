@@ -6,7 +6,6 @@ namespace Innmind\Http\Message\Files;
 use Innmind\Http\{
     Message\Files as FilesInterface,
     File,
-    Exception\InvalidArgumentException,
     Exception\FileNotFound
 };
 use Innmind\Immutable\{
@@ -26,7 +25,10 @@ final class Files implements FilesInterface
             (string) $files->keyType() !== 'string' ||
             (string) $files->valueType() !== File::class
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 1 must be of type MapInterface<string, %s>',
+                File::class
+            ));
         }
 
         $this->files = $files;

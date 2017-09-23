@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\RangeValue,
     Header\Range,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -22,7 +22,7 @@ final class RangeFactory implements HeaderFactoryInterface
             (string) $name->toLower() !== 'range' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $matches = $value->capture(self::PATTERN);

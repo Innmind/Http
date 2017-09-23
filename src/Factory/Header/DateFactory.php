@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\DateValue,
     Header\Date,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -17,7 +17,7 @@ final class DateFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'date') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new Date(

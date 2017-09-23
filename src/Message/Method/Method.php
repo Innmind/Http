@@ -5,7 +5,7 @@ namespace Innmind\Http\Message\Method;
 
 use Innmind\Http\{
     Message\Method as MethodInterface,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 
 final class Method implements MethodInterface
@@ -15,7 +15,7 @@ final class Method implements MethodInterface
     public function __construct(string $method)
     {
         if (!defined('self::'.$method)) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->method = $method;

@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\AcceptEncodingValue,
     Header\AcceptEncoding,
     Header\Parameter\Quality,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -24,14 +24,14 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-encoding') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $values = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $accept) {
             if (!$accept->matches(self::PATTERN)) {
-                throw new InvalidArgumentException;
+                throw new DomainException;
             }
 
             $matches = $accept->capture(self::PATTERN);

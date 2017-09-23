@@ -43,7 +43,8 @@ class CookiesTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, scalar>
      */
     public function testThrowWhenInvalidMap()
     {

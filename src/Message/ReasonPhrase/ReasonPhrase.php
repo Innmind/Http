@@ -5,7 +5,7 @@ namespace Innmind\Http\Message\ReasonPhrase;
 
 use Innmind\Http\{
     Message\ReasonPhrase as ReasonPhraseInterface,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Map,
@@ -20,7 +20,7 @@ final class ReasonPhrase implements ReasonPhraseInterface
     public function __construct(string $phrase)
     {
         if ($phrase === '') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->phrase = $phrase;

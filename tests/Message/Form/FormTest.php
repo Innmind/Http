@@ -50,7 +50,8 @@ class FormTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 1 must be of type MapInterface<scalar, Innmind\Http\Message\Form\Parameter>
      */
     public function testThrowWhenInvalidMap()
     {

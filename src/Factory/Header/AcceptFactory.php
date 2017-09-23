@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\AcceptValue,
     Header\Accept,
     Header\Parameter,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -26,14 +26,14 @@ final class AcceptFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $values = new Set(HeaderValue::class);
 
         foreach ($value->split(',') as $accept) {
             if (!$accept->matches(self::PATTERN)) {
-                throw new InvalidArgumentException;
+                throw new DomainException;
             }
 
             $matches = $accept->capture(self::PATTERN);

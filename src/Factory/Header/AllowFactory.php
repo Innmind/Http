@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\HeaderValue,
     Header\Allow,
     Header\AllowValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -21,7 +21,7 @@ final class AllowFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'allow') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $values = new Set(HeaderValue::class);

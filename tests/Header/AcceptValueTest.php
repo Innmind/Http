@@ -51,7 +51,8 @@ class AcceptValueTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedException Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
      */
     public function testThrowWhenInvalidParameters()
     {
@@ -60,7 +61,7 @@ class AcceptValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptValue($type, $sub)
     {

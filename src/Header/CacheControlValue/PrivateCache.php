@@ -5,7 +5,7 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
     Header\CacheControlValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -16,7 +16,7 @@ final class PrivateCache implements CacheControlValue
     public function __construct(string $field)
     {
         if (!(new Str($field))->matches('~^\w*$~')) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->field = $field;

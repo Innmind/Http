@@ -22,7 +22,10 @@ class Header implements HeaderInterface
         $values = $values ?? new Set(HeaderValue::class);
 
         if ((string) $values->type() !== HeaderValue::class) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 2 must be of type SetInterface<%s>',
+                HeaderValue::class
+            ));
         }
 
         $this->name = $name;

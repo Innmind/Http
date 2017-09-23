@@ -50,7 +50,8 @@ class QueryTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, Innmind\Http\Message\Query\Parameter>
      */
     public function testThrowWhenInvalidMap()
     {

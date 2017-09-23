@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\{
     Message\Method,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -14,7 +14,7 @@ final class AllowValue extends HeaderValue\HeaderValue
     public function __construct(string $value)
     {
         if (!defined(Method::class.'::'.$value)) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         parent::__construct($value);

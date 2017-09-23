@@ -5,7 +5,6 @@ namespace Innmind\Http\Message\Form;
 
 use Innmind\Http\{
     Message\Form as FormInterface,
-    Exception\InvalidArgumentException,
     Exception\FormParameterNotFound
 };
 use Innmind\Immutable\{
@@ -25,7 +24,10 @@ final class Form implements FormInterface
             (string) $parameters->keyType() !== 'scalar' ||
             (string) $parameters->valueType() !== Parameter::class
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 1 must be of type MapInterface<scalar, %s>',
+                Parameter::class
+            ));
         }
 
         $this->parameters = $parameters;

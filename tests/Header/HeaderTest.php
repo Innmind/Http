@@ -33,7 +33,8 @@ class HeaderTest extends TestCase
     }
 
     /**
-     * @expectedException Innmind\Http\Exception\InvalidArgumentException
+     * @expectedException TypeError
+     * @expectedExceptionMessage Argument 2 must be of type SetInterface<Innmind\Http\Header\HeaderValue>
      */
     public function testThrowWhenInvalidSetOfValues()
     {

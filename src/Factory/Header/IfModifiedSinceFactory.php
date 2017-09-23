@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\DateValue,
     Header\IfModifiedSince,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -17,7 +17,7 @@ final class IfModifiedSinceFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'if-modified-since') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new IfModifiedSince(

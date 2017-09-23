@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Parameter,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -27,7 +27,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
             (string) $name->toLower() !== 'content-type' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $matches = $value->capture(self::PATTERN);

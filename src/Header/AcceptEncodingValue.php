@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\{
     Header\Parameter\Quality,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -22,7 +22,7 @@ final class AcceptEncodingValue extends HeaderValue\HeaderValue
             (string) $coding !== '*' &&
             !$coding->matches('~^\w+$~')
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->quality = $quality;

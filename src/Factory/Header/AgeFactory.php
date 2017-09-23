@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\Age,
     Header\AgeValue,
     Header,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -17,7 +17,7 @@ final class AgeFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'age') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new Age(

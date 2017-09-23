@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\HeaderValue,
     Header\ContentLanguage,
     Header\ContentLanguageValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     Str,
@@ -21,7 +21,7 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'content-language') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $values = new Set(HeaderValue::class);

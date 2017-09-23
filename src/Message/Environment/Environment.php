@@ -5,7 +5,6 @@ namespace Innmind\Http\Message\Environment;
 
 use Innmind\Http\{
     Message\Environment as EnvironmentInterface,
-    Exception\InvalidArgumentException,
     Exception\EnvironmentVariableNotFound
 };
 use Innmind\Immutable\{
@@ -25,7 +24,9 @@ final class Environment implements EnvironmentInterface
             (string) $variables->keyType() !== 'string' ||
             (string) $variables->valueType() !== 'scalar'
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(
+                'Argument 1 must be of type MapInterface<string, scalar>'
+            );
         }
 
         $this->variables = $variables;

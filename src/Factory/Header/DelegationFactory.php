@@ -5,8 +5,7 @@ namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
-    Header,
-    Exception\InvalidArgumentException
+    Header
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -23,7 +22,10 @@ final class DelegationFactory implements HeaderFactoryInterface
             (string) $factories->keyType() !== 'string' ||
             (string) $factories->valueType() !== HeaderFactoryInterface::class
         ) {
-            throw new InvalidArgumentException;
+            throw new \TypeError(sprintf(
+                'Argument 1 must be of type MapInterface<string, %s>',
+                HeaderFactoryInterface::class
+            ));
         }
 
         $this->factories = $factories;

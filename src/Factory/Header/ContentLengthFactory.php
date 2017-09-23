@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\ContentLength,
     Header\ContentLengthValue,
     Header,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -17,7 +17,7 @@ final class ContentLengthFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'content-length') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new ContentLength(

@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\HostValue,
     Header\Host,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Url\{
     Url,
@@ -21,7 +21,7 @@ final class HostFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'host') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $url = Url::fromString('http://'.$value);

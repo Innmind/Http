@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
 final class ContentRangeValue extends HeaderValue\HeaderValue
@@ -27,7 +27,7 @@ final class ContentRangeValue extends HeaderValue\HeaderValue
             $firstPosition > $lastPosition ||
             ($length !== null && $lastPosition > $length)
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->unit = $unit;

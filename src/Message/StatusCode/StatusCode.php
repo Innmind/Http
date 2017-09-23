@@ -5,7 +5,7 @@ namespace Innmind\Http\Message\StatusCode;
 
 use Innmind\Http\{
     Message\StatusCode as StatusCodeInterface,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\{
     MapInterface,
@@ -20,7 +20,7 @@ final class StatusCode implements StatusCodeInterface
     public function __construct(int $code)
     {
         if (!self::codes()->values()->contains($code)) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->code = $code;

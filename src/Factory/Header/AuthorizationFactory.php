@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\AuthorizationValue,
     Header\Authorization,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 
@@ -22,7 +22,7 @@ final class AuthorizationFactory implements HeaderFactoryInterface
             (string) $name->toLower() !== 'authorization' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $matches = $value->capture(self::PATTERN);

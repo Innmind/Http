@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\Location,
     Header\LocationValue,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Str;
@@ -18,7 +18,7 @@ final class LocationFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'location') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         return new Location(

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
 final class RangeValue extends HeaderValue\HeaderValue
@@ -23,7 +23,7 @@ final class RangeValue extends HeaderValue\HeaderValue
             $lastPosition < 0 ||
             $firstPosition > $lastPosition
         ) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->unit = $unit;

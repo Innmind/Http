@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\Parameter;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
 final class Quality extends Parameter
@@ -11,7 +11,7 @@ final class Quality extends Parameter
     public function __construct(float $value)
     {
         if ($value < 0 || $value > 1) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         parent::__construct('q', (string) $value);

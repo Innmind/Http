@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\LinkValue,
     Header\Link,
     Header\Parameter,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\{
@@ -27,7 +27,7 @@ final class LinkFactory implements HeaderFactoryInterface
     public function make(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'link') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $links = new Set(HeaderValue::class);
@@ -36,7 +36,7 @@ final class LinkFactory implements HeaderFactoryInterface
             $link = $link->trim();
 
             if (!$link->matches(self::PATTERN)) {
-                throw new InvalidArgumentException;
+                throw new DomainException;
             }
 
             $matches = $link->capture(self::PATTERN);

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\InvalidArgumentException;
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
 final class ContentEncodingValue extends HeaderValue\HeaderValue
@@ -13,7 +13,7 @@ final class ContentEncodingValue extends HeaderValue\HeaderValue
         $coding = new Str($coding);
 
         if (!$coding->matches('~^[\w\-]+$~')) {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         parent::__construct((string) $coding);

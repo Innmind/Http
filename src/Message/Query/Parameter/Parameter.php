@@ -5,7 +5,7 @@ namespace Innmind\Http\Message\Query\Parameter;
 
 use Innmind\Http\{
     Message\Query\Parameter as ParameterInterface,
-    Exception\InvalidArgumentException
+    Exception\DomainException
 };
 
 final class Parameter implements ParameterInterface
@@ -16,7 +16,7 @@ final class Parameter implements ParameterInterface
     public function __construct(string $name, $value)
     {
         if ($name === '') {
-            throw new InvalidArgumentException;
+            throw new DomainException;
         }
 
         $this->name = $name;
