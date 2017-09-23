@@ -3,6 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception;
 
-class EnvironmentVariableNotFound extends InvalidArgumentException
+class EnvironmentVariableNotFound extends LogicException
 {
 }

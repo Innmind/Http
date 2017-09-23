@@ -3,6 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception;
 
-class QueryParameterNotFound extends LogicException
+class LogicException extends \LogicException implements Exception
 {
 }

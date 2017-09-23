@@ -3,6 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Exception;
 
-class CookieNotFound extends InvalidArgumentException
+class CookieNotFound extends LogicException
 {
 }
