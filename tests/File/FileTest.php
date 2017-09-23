@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\File;
 use Innmind\Http\{
     File\File,
     File as FileInterface,
-    File\Status\OkStatus
+    File\Status\Ok
 };
 use Innmind\Filesystem\{
     Name,
@@ -22,7 +22,7 @@ class FileTest extends TestCase
         $f = new File(
             'foo',
             $s = $this->createMock(Readable::class),
-            $ok = new OkStatus,
+            $ok = new Ok,
             $m = new NullMediaType
         );
 

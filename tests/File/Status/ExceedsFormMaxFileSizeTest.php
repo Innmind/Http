@@ -5,18 +5,18 @@ namespace Tests\Innmind\Http\File\Status;
 
 use Innmind\Http\File\{
     Status,
-    Status\ExceedsIniMaxFileSizeStatus
+    Status\ExceedsFormMaxFileSize
 };
 use PHPUnit\Framework\TestCase;
 
-class ExceedsIniMaxFileSizeStatusTest extends TestCase
+class ExceedsFormMaxFileSizeTest extends TestCase
 {
     public function testInterface()
     {
-        $s = new ExceedsIniMaxFileSizeStatus;
+        $s = new ExceedsFormMaxFileSize;
 
         $this->assertInstanceOf(Status::class, $s);
-        $this->assertSame(1, $s->value());
-        $this->assertSame('UPLOAD_ERR_INI_SIZE', (string) $s);
+        $this->assertSame(2, $s->value());
+        $this->assertSame('UPLOAD_ERR_FORM_SIZE', (string) $s);
     }
 }

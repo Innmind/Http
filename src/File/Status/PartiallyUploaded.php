@@ -5,7 +5,7 @@ namespace Innmind\Http\File\Status;
 
 use Innmind\Http\File\Status;
 
-final class PartiallyUploadedStatus implements Status
+final class PartiallyUploaded implements Status
 {
     public function value(): int
     {

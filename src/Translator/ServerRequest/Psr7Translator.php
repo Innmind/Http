@@ -17,14 +17,14 @@ use Innmind\Http\{
     Message\Form\Parameter\Parameter as FormParameter,
     File,
     Bridge\Psr7\Stream,
-    File\Status\ExceedsFormMaxFileSizeStatus,
-    File\Status\ExceedsIniMaxFileSizeStatus,
-    File\Status\NoTemporaryDirectoryStatus,
-    File\Status\NotUploadedStatus,
-    File\Status\OkStatus,
-    File\Status\PartiallyUploadedStatus,
-    File\Status\StoppedByExtensionStatus,
-    File\Status\WriteFailedStatus,
+    File\Status\ExceedsFormMaxFileSize,
+    File\Status\ExceedsIniMaxFileSize,
+    File\Status\NoTemporaryDirectory,
+    File\Status\NotUploaded,
+    File\Status\Ok,
+    File\Status\PartiallyUploaded,
+    File\Status\StoppedByExtension,
+    File\Status\WriteFailed,
     File\Status
 };
 use Innmind\Filesystem\MediaType\{
@@ -148,21 +148,21 @@ final class Psr7Translator
     {
         switch ($status) {
             case UPLOAD_ERR_FORM_SIZE:
-                return new ExceedsFormMaxFileSizeStatus;
+                return new ExceedsFormMaxFileSize;
             case UPLOAD_ERR_INI_SIZE:
-                return new ExceedsIniMaxFileSizeStatus;
+                return new ExceedsIniMaxFileSize;
             case UPLOAD_ERR_NO_TMP_DIR:
-                return new NoTemporaryDirectoryStatus;
+                return new NoTemporaryDirectory;
             case UPLOAD_ERR_NO_FILE:
-                return new NotUploadedStatus;
+                return new NotUploaded;
             case UPLOAD_ERR_OK:
-                return new OkStatus;
+                return new Ok;
             case UPLOAD_ERR_PARTIAL:
-                return new PartiallyUploadedStatus;
+                return new PartiallyUploaded;
             case UPLOAD_ERR_EXTENSION:
-                return new StoppedByExtensionStatus;
+                return new StoppedByExtension;
             case UPLOAD_ERR_CANT_WRITE:
-                return new WriteFailedStatus;
+                return new WriteFailed;
         }
     }
 }

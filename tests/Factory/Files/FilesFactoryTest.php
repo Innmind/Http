@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\Files\FilesFactory,
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\Status\OkStatus
+    File\Status\Ok
 };
 use Innmind\Immutable\{
     Map,
@@ -40,7 +40,7 @@ class FilesFactoryTest extends TestCase
         $this->assertSame('foo.txt', (string) $f->get('file1')->name());
         $this->assertSame('foo', (string) $f->get('file1')->content());
         $this->assertSame('text/plain', (string) $f->get('file1')->mediaType());
-        $this->assertInstanceOf(OkStatus::class, $f->get('file1')->status());
+        $this->assertInstanceOf(Ok::class, $f->get('file1')->status());
         @unlink('/tmp/foo.txt');
     }
 

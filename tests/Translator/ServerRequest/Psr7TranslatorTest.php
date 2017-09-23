@@ -9,7 +9,7 @@ use Innmind\Http\{
     Factory\Header\HeaderFactory,
     Message\ServerRequest,
     Bridge\Psr7\Stream,
-    File\Status\OkStatus
+    File\Status\Ok
 };
 use Innmind\Immutable\Map;
 use Psr\Http\Message\{
@@ -128,7 +128,7 @@ class Psr7TranslatorTest extends TestCase
         $file = $request->files()->get('foo');
         $this->assertSame('all.csv', (string) $file->name());
         $this->assertSame('text/csv', (string) $file->mediaType());
-        $this->assertInstanceOf(OkStatus::class, $file->status());
+        $this->assertInstanceOf(Ok::class, $file->status());
         $this->assertInstanceOf(Stream::class, $file->content());
     }
 }

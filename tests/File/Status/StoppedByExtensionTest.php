@@ -5,18 +5,18 @@ namespace Tests\Innmind\Http\File\Status;
 
 use Innmind\Http\File\{
     Status,
-    Status\NoTemporaryDirectoryStatus
+    Status\StoppedByExtension
 };
 use PHPUnit\Framework\TestCase;
 
-class NoTemporaryDirectoryStatusTest extends TestCase
+class StoppedByExtensionTest extends TestCase
 {
     public function testInterface()
     {
-        $s = new NoTemporaryDirectoryStatus;
+        $s = new StoppedByExtension;
 
         $this->assertInstanceOf(Status::class, $s);
-        $this->assertSame(6, $s->value());
-        $this->assertSame('UPLOAD_ERR_NO_TMP_DIR', (string) $s);
+        $this->assertSame(8, $s->value());
+        $this->assertSame('UPLOAD_ERR_EXTENSION', (string) $s);
     }
 }

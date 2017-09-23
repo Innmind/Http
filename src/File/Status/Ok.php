@@ -5,15 +5,15 @@ namespace Innmind\Http\File\Status;
 
 use Innmind\Http\File\Status;
 
-final class StoppedByExtensionStatus implements Status
+final class Ok implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_EXTENSION;
+        return UPLOAD_ERR_OK;
     }
 
     public function __toString(): string
     {
-        return 'UPLOAD_ERR_EXTENSION';
+        return 'UPLOAD_ERR_OK';
     }
 }

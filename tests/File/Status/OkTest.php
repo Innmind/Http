@@ -5,18 +5,18 @@ namespace Tests\Innmind\Http\File\Status;
 
 use Innmind\Http\File\{
     Status,
-    Status\WriteFailedStatus
+    Status\Ok
 };
 use PHPUnit\Framework\TestCase;
 
-class WriteFailedStatusTest extends TestCase
+class OkTest extends TestCase
 {
     public function testInterface()
     {
-        $s = new WriteFailedStatus;
+        $s = new Ok;
 
         $this->assertInstanceOf(Status::class, $s);
-        $this->assertSame(7, $s->value());
-        $this->assertSame('UPLOAD_ERR_CANT_WRITE', (string) $s);
+        $this->assertSame(0, $s->value());
+        $this->assertSame('UPLOAD_ERR_OK', (string) $s);
     }
 }

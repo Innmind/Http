@@ -5,7 +5,7 @@ namespace Innmind\Http\File\Status;
 
 use Innmind\Http\File\Status;
 
-final class ExceedsIniMaxFileSizeStatus implements Status
+final class ExceedsIniMaxFileSize implements Status
 {
     public function value(): int
     {

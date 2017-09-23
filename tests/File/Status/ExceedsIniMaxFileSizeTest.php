@@ -5,18 +5,18 @@ namespace Tests\Innmind\Http\File\Status;
 
 use Innmind\Http\File\{
     Status,
-    Status\PartiallyUploadedStatus
+    Status\ExceedsIniMaxFileSize
 };
 use PHPUnit\Framework\TestCase;
 
-class PartiallyUploadedStatusTest extends TestCase
+class ExceedsIniMaxFileSizeTest extends TestCase
 {
     public function testInterface()
     {
-        $s = new PartiallyUploadedStatus;
+        $s = new ExceedsIniMaxFileSize;
 
         $this->assertInstanceOf(Status::class, $s);
-        $this->assertSame(3, $s->value());
-        $this->assertSame('UPLOAD_ERR_PARTIAL', (string) $s);
+        $this->assertSame(1, $s->value());
+        $this->assertSame('UPLOAD_ERR_INI_SIZE', (string) $s);
     }
 }

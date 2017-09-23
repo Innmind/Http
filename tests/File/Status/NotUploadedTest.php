@@ -5,15 +5,15 @@ namespace Tests\Innmind\Http\File\Status;
 
 use Innmind\Http\File\{
     Status,
-    Status\NotUploadedStatus
+    Status\NotUploaded
 };
 use PHPUnit\Framework\TestCase;
 
-class NotUploadedStatusTest extends TestCase
+class NotUploadedTest extends TestCase
 {
     public function testInterface()
     {
-        $s = new NotUploadedStatus;
+        $s = new NotUploaded;
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(4, $s->value());
