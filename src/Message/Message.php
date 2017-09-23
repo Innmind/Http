@@ -8,7 +8,7 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers
 };
-use Innmind\Filesystem\StreamInterface;
+use Innmind\Stream\Readable;
 
 abstract class Message implements MessageInterface
 {
@@ -19,7 +19,7 @@ abstract class Message implements MessageInterface
     public function __construct(
         ProtocolVersion $protocolVersion,
         Headers $headers,
-        StreamInterface $body
+        Readable $body
     ) {
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers;
@@ -36,7 +36,7 @@ abstract class Message implements MessageInterface
         return $this->headers;
     }
 
-    public function body(): StreamInterface
+    public function body(): Readable
     {
         return $this->body;
     }

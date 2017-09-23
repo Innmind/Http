@@ -4,13 +4,9 @@ declare(strict_types = 1);
 namespace Innmind\Http;
 
 use Innmind\Http\File\Status;
-use Innmind\Filesystem\{
-    FileInterface as FilesystemFile,
-    MediaTypeInterface
-};
+use Innmind\Filesystem\File as FilesystemFile;
 
 interface File extends FilesystemFile
 {
     public function status(): Status;
-    public function clientMediaType(): MediaTypeInterface;
 }

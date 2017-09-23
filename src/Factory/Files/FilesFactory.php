@@ -17,10 +17,8 @@ use Innmind\Http\{
     File\Status\WriteFailedStatus,
     File\Status
 };
-use Innmind\Filesystem\{
-    Stream\Stream,
-    MediaType\MediaType
-};
+use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
     Map,
     Str

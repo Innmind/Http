@@ -39,7 +39,7 @@ class FilesFactoryTest extends TestCase
         $this->assertSame(1, $f->count());
         $this->assertSame('foo.txt', (string) $f->get('file1')->name());
         $this->assertSame('foo', (string) $f->get('file1')->content());
-        $this->assertSame('text/plain', (string) $f->get('file1')->clientMediaType());
+        $this->assertSame('text/plain', (string) $f->get('file1')->mediaType());
         $this->assertInstanceOf(OkStatus::class, $f->get('file1')->status());
         @unlink('/tmp/foo.txt');
     }

@@ -11,10 +11,8 @@ use Innmind\Http\{
     Headers
 };
 use Innmind\Url\UrlInterface;
-use Innmind\Filesystem\{
-    StreamInterface,
-    Stream\NullStream
-};
+use Innmind\Stream\Readable;
+use Innmind\Filesystem\Stream\NullStream;
 
 class Request extends Message implements RequestInterface
 {
@@ -26,7 +24,7 @@ class Request extends Message implements RequestInterface
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        StreamInterface $body = null
+        Readable $body = null
     ) {
         $this->url = $url;
         $this->method = $method;

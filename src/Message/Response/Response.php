@@ -11,10 +11,8 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers
 };
-use Innmind\Filesystem\{
-    StreamInterface,
-    Stream\NullStream
-};
+use Innmind\Stream\Readable;
+use Innmind\Filesystem\Stream\NullStream;
 
 final class Response extends Message implements ResponseInterface
 {
@@ -26,7 +24,7 @@ final class Response extends Message implements ResponseInterface
         ReasonPhrase $reasonPhrase,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        StreamInterface $body = null
+        Readable $body = null
     ) {
         $this->statusCode = $statusCode;
         $this->reasonPhrase = $reasonPhrase;

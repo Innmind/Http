@@ -17,10 +17,8 @@ use Innmind\Http\{
     Headers
 };
 use Innmind\Url\UrlInterface;
-use Innmind\Filesystem\{
-    StreamInterface,
-    Stream\NullStream
-};
+use Innmind\Stream\Readable;
+use Innmind\Filesystem\Stream\NullStream;
 
 final class ServerRequest extends Request implements ServerRequestInterface
 {
@@ -35,7 +33,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        StreamInterface $body = null,
+        Readable $body = null,
         Environment $environment = null,
         Cookies $cookies = null,
         Query $query = null,

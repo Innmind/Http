@@ -18,7 +18,7 @@ use Innmind\Http\{
     Message\Files
 };
 use Innmind\Url\UrlInterface;
-use Innmind\Filesystem\StreamInterface;
+use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestTest extends TestCase
@@ -30,7 +30,7 @@ class ServerRequestTest extends TestCase
             $method = $this->createMock(Method::class),
             $protocol = $this->createMock(ProtocolVersion::class),
             $headers = $this->createMock(Headers::class),
-            $body = $this->createMock(StreamInterface::class),
+            $body = $this->createMock(Readable::class),
             $env = $this->createMock(Environment::class),
             $cookies = $this->createMock(Cookies::class),
             $query = $this->createMock(Query::class),
@@ -66,7 +66,7 @@ class ServerRequestTest extends TestCase
             $request->headers()
         );
         $this->assertInstanceOf(
-            StreamInterface::class,
+            Readable::class,
             $request->body()
         );
         $this->assertInstanceOf(

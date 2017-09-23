@@ -18,7 +18,7 @@ use Innmind\Http\{
     Factory
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\Stream\Stream;
+use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
     Str,
     Map
