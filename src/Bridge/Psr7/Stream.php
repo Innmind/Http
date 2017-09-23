@@ -44,7 +44,7 @@ final class Stream implements Readable
 
     public function seek(Position $position, Mode $mode = null): StreamInterface
     {
-        $this->stream->seek($position->toInt(), $mode->toInt());
+        $this->stream->seek($position->toInt(), $mode ? $mode->toInt() : null);
 
         return $this;
     }
