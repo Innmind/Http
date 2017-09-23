@@ -14,7 +14,22 @@ use Innmind\Http\{
     Message\Query\Parameter\Parameter as QueryParameter,
     Message\Form\Form,
     Message\Form\Parameter as FormParameterInterface,
-    Message\Form\Parameter\Parameter as FormParameter
+    Message\Form\Parameter\Parameter as FormParameter,
+    File,
+    Bridge\Psr7\Stream,
+    File\Status\ExceedsFormMaxFileSizeStatus,
+    File\Status\ExceedsIniMaxFileSizeStatus,
+    File\Status\NoTemporaryDirectoryStatus,
+    File\Status\NotUploadedStatus,
+    File\Status\OkStatus,
+    File\Status\PartiallyUploadedStatus,
+    File\Status\StoppedByExtensionStatus,
+    File\Status\WriteFailedStatus,
+    File\Status
+};
+use Innmind\Filesystem\MediaType\{
+    MediaType,
+    NullMediaType
 };
 use Innmind\Immutable\Map;
 use Psr\Http\Message\ServerRequestInterface;
@@ -42,7 +57,7 @@ final class Psr7Translator
             $this->translateCookies($serverRequest->getCookieParams()),
             $this->translateQuery($serverRequest->getQueryParams()),
             $this->translateForm($serverRequest->getParsedBody()),
-            new Files //can't be translated as raw data is not accessible
+            $this->translateFiles($serverRequest->getUploadedFiles())
         );
     }
 
@@ -102,5 +117,52 @@ final class Psr7Translator
         }
 
         return new Form($map);
+    }
+
+    private function translateFiles(array $files): Files
+    {
+        $map = new Map('string', File::class);
+
+        foreach ($files as $name => $file) {
+            $mediaType = new NullMediaType;
+
+            if (is_string($file->getClientMediaType())) {
+                $mediaType = MediaType::fromString($file->getClientMediaType());
+            }
+
+            $map = $map->put(
+                $name,
+                new File\File(
+                    $file->getClientFilename(),
+                    new Stream($file->getStream()),
+                    $this->status($file->getError()),
+                    $mediaType
+                )
+            );
+        }
+
+        return new Files($map);
+    }
+
+    private function status(int $status): Status
+    {
+        switch ($status) {
+            case UPLOAD_ERR_FORM_SIZE:
+                return new ExceedsFormMaxFileSizeStatus;
+            case UPLOAD_ERR_INI_SIZE:
+                return new ExceedsIniMaxFileSizeStatus;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return new NoTemporaryDirectoryStatus;
+            case UPLOAD_ERR_NO_FILE:
+                return new NotUploadedStatus;
+            case UPLOAD_ERR_OK:
+                return new OkStatus;
+            case UPLOAD_ERR_PARTIAL:
+                return new PartiallyUploadedStatus;
+            case UPLOAD_ERR_EXTENSION:
+                return new StoppedByExtensionStatus;
+            case UPLOAD_ERR_CANT_WRITE:
+                return new WriteFailedStatus;
+        }
     }
 }

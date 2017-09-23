@@ -7,12 +7,15 @@ use Innmind\Http\{
     Translator\ServerRequest\Psr7Translator,
     Translator\Request\Psr7Translator as RequestTranslator,
     Factory\Header\HeaderFactory,
-    Message\ServerRequest
+    Message\ServerRequest,
+    Bridge\Psr7\Stream,
+    File\Status\OkStatus
 };
 use Innmind\Immutable\Map;
 use Psr\Http\Message\{
     ServerRequestInterface,
-    StreamInterface
+    StreamInterface,
+    UploadedFileInterface
 };
 use PHPUnit\Framework\TestCase;
 
@@ -78,6 +81,27 @@ class Psr7TranslatorTest extends TestCase
             ->willReturn([
                 'post' => 'bar',
             ]);
+        $request
+            ->expects($this->once())
+            ->method('getUploadedFiles')
+            ->willReturn([
+                'foo' => $file = $this->createMock(UploadedFileInterface::class)
+            ]);
+        $file
+            ->method('getClientMediaType')
+            ->willReturn('text/csv');
+        $file
+            ->expects($this->once())
+            ->method('getClientFilename')
+            ->willReturn('all.csv');
+        $file
+            ->expects($this->once())
+            ->method('getStream')
+            ->willReturn($this->createMock(StreamInterface::class));
+        $file
+            ->expects($this->once())
+            ->method('getError')
+            ->willReturn(UPLOAD_ERR_OK);
 
         $request = $translator->translate($request);
 
@@ -100,5 +124,11 @@ class Psr7TranslatorTest extends TestCase
         $this->assertSame('bar', $request->query()->get('query')->value());
         $this->assertCount(1, $request->form());
         $this->assertSame('bar', $request->form()->get('post')->value());
+        $this->assertCount(1, $request->files());
+        $file = $request->files()->get('foo');
+        $this->assertSame('all.csv', (string) $file->name());
+        $this->assertSame('text/csv', (string) $file->mediaType());
+        $this->assertInstanceOf(OkStatus::class, $file->status());
+        $this->assertInstanceOf(Stream::class, $file->content());
     }
 }
