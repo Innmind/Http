@@ -36,6 +36,6 @@ class StatusCodeTest extends TestCase
         $this->assertInstanceOf(MapInterface::class, $codes);
         $this->assertSame('string', (string) $codes->keyType());
         $this->assertSame('int', (string) $codes->valueType());
-        $this->assertSame(61, $codes->count());
+        $this->assertSame(74, $codes->count());
     }
 }

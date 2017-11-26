@@ -92,6 +92,11 @@ final class StatusCode implements StatusCodeInterface
                 ->put('PRECONDITION_REQUIRED', 428) // RFC6585
                 ->put('TOO_MANY_REQUESTS', 429) // RFC6585
                 ->put('REQUEST_HEADER_FIELDS_TOO_LARGE', 431) // RFC6585
+                ->put('NO_RESPONSE', 444) // nginx
+                ->put('SSL_CERTIFICATE_ERROR', 495) // nginx
+                ->put('SSL_CERTIFICATE_REQUIRED', 496) // nginx
+                ->put('HTTP_REQUEST_SENT_TO_HTTPS_PORT', 497) // nginx
+                ->put('CLIENT_CLOSED_REQUEST', 499) // nginx
                 ->put('UNAVAILABLE_FOR_LEGAL_REASONS', 451)
                 ->put('INTERNAL_SERVER_ERROR', 500)
                 ->put('NOT_IMPLEMENTED', 501)
@@ -103,7 +108,15 @@ final class StatusCode implements StatusCodeInterface
                 ->put('INSUFFICIENT_STORAGE', 507) // RFC4918
                 ->put('LOOP_DETECTED', 508) // RFC5842
                 ->put('NOT_EXTENDED', 510) // RFC2774
-                ->put('NETWORK_AUTHENTICATION_REQUIRED', 511);
+                ->put('NETWORK_AUTHENTICATION_REQUIRED', 511)
+                ->put('UNKNOWN_ERROR', 520) // cloudflare
+                ->put('WEB_SERVER_IS_DOWN', 521) // cloudflare
+                ->put('CONNECTION_TIMED_OUT', 522) // cloudflare
+                ->put('ORIGIN_IS_UNREACHABLE', 523) // cloudflare
+                ->put('A_TIMEOUT_OCCURED', 524) // cloudflare
+                ->put('SSL_HANDSHAKE_FAILED', 525) // cloudflare
+                ->put('INVALID_SSL_CERTIFICATE', 526) // cloudflare
+                ->put('RAILGUN_ERROR', 527); // cloudflare
         }
 
         return self::$codes;
