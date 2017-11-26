@@ -35,6 +35,6 @@ class ReasonPhraseTest extends TestCase
         $this->assertInstanceOf(MapInterface::class, $defaults);
         $this->assertSame('int', (string) $defaults->keyType());
         $this->assertSame('string', (string) $defaults->valueType());
-        $this->assertSame(73, $defaults->count());
+        $this->assertSame(74, $defaults->count());
     }
 }

@@ -57,6 +57,7 @@ final class ReasonPhrase implements ReasonPhraseInterface
                 ->put(303, 'See Other')
                 ->put(304, 'Not Modified')
                 ->put(305, 'Use Proxy')
+                ->put(306, 'Switch Proxy')
                 ->put(307, 'Temporary Redirect')
                 ->put(308, 'Permanent Redirect') // RFC7238
                 ->put(400, 'Bad Request')
