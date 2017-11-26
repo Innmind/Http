@@ -86,6 +86,11 @@ final class ReasonPhrase implements ReasonPhraseInterface
                 ->put(428, 'Precondition Required') // RFC6585
                 ->put(429, 'Too Many Requests') // RFC6585
                 ->put(431, 'Request Header Fields Too Large') // RFC6585
+                ->put(444, 'No Response') // nginx
+                ->put(495, 'SSL Certificate Error') // nginx
+                ->put(496, 'SSL Certificate Required') // nginx
+                ->put(497, 'HTTP Request Sent to HTTPS Port') // nginx
+                ->put(499, 'Client Closed Request') // nginx
                 ->put(451, 'Unavailable For Legal Reasons') // RFC7725
                 ->put(500, 'Internal Server Error')
                 ->put(501, 'Not Implemented')
@@ -97,7 +102,15 @@ final class ReasonPhrase implements ReasonPhraseInterface
                 ->put(507, 'Insufficient Storage') // RFC4918
                 ->put(508, 'Loop Detected') // RFC5842
                 ->put(510, 'Not Extended') // RFC2774
-                ->put(511, 'Network Authentication Required'); // RFC6585
+                ->put(511, 'Network Authentication Required') // RFC6585
+                ->put(520, 'Unknown Error') // cloudflare
+                ->put(521, 'Web Server Is Down') // cloudflare
+                ->put(522, 'Connection Timed Out') // cloudflare
+                ->put(523, 'Origin Is Unreachable') // cloudflare
+                ->put(524, 'A Timeout Occurred') // cloudflare
+                ->put(525, 'SSL Handshake Failed') // cloudflare
+                ->put(526, 'Invalid SSL Certificate') // cloudflare
+                ->put(527, 'Railgun Error'); // cloudflare
         }
 
         return self::$defaults;
