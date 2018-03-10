@@ -49,6 +49,22 @@ class HeadersTest extends TestCase
         $this->assertSame($ct, $hs->current());
     }
 
+    public function testOf()
+    {
+        $headers = Headers::of(
+            new ContentType(
+                new ContentTypeValue(
+                    'application',
+                    'json',
+                    new Map('string', Parameter::class)
+                )
+            )
+        );
+
+        $this->assertInstanceOf(Headers::class, $headers);
+        $this->assertTrue($headers->has('content-type'));
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\HeaderNotFound
      */

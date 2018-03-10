@@ -41,6 +41,14 @@ class FormTest extends TestCase
         $this->assertSame($p, $f->current());
     }
 
+    public function testOf()
+    {
+        $form = Form::of(new Parameter\Parameter('42', 24));
+
+        $this->assertInstanceOf(Form::class, $form);
+        $this->assertTrue($form->has('42'));
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\FormParameterNotFound
      */

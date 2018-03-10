@@ -10,7 +10,8 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     MapInterface,
-    Map
+    Map,
+    Sequence
 };
 
 final class Files implements FilesInterface
@@ -32,6 +33,21 @@ final class Files implements FilesInterface
         }
 
         $this->files = $files;
+    }
+
+    public static function of(File ...$files): self
+    {
+        return new self(
+            Sequence::of(...$files)->reduce(
+                new Map('string', File::class),
+                static function(MapInterface $files, File $file): MapInterface {
+                    return $files->put(
+                        (string) $file->name(),
+                        $file
+                    );
+                }
+            )
+        );
     }
 
     /**

@@ -8,6 +8,7 @@ use Innmind\Http\{
     Message\Files as FilesInterface,
     File
 };
+use Innmind\Filesystem\Name\Name;
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
@@ -36,6 +37,19 @@ class FilesTest extends TestCase
         $this->assertSame(null, $fs->rewind());
         $this->assertTrue($fs->valid());
         $this->assertSame($f, $fs->current());
+    }
+
+    public function testOf()
+    {
+        $file = $this->createMock(File::class);
+        $file
+            ->expects($this->once())
+            ->method('name')
+            ->willReturn(new Name('foo'));
+        $files = Files::of($file);
+
+        $this->assertInstanceOf(Files::class, $files);
+        $this->assertTrue($files->has('foo'));
     }
 
     /**

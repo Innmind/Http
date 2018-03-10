@@ -9,7 +9,8 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     MapInterface,
-    Map
+    Map,
+    Sequence
 };
 
 final class Query implements QueryInterface
@@ -31,6 +32,21 @@ final class Query implements QueryInterface
         }
 
         $this->parameters = $parameters;
+    }
+
+    public static function of(Parameter ...$parameters): self
+    {
+        return new self(
+            Sequence::of(...$parameters)->reduce(
+                new Map('string', Parameter::class),
+                static function(MapInterface $parameters, Parameter $parameter): MapInterface {
+                    return $parameters->put(
+                        $parameter->name(),
+                        $parameter
+                    );
+                }
+            )
+        );
     }
 
     /**

@@ -12,7 +12,8 @@ use Innmind\Immutable\{
     MapInterface,
     Pair,
     Str,
-    Map
+    Map,
+    Sequence
 };
 
 final class Headers implements HeadersInterface
@@ -39,6 +40,21 @@ final class Headers implements HeadersInterface
                 $header
             );
         });
+    }
+
+    public static function of(Header ...$headers): self
+    {
+        return new self(
+            Sequence::of(...$headers)->reduce(
+                new Map('string', Header::class),
+                static function(MapInterface $headers, Header $header): MapInterface {
+                    return $headers->put(
+                        $header->name(),
+                        $header
+                    );
+                }
+            )
+        );
     }
 
     /**

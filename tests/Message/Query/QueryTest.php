@@ -41,6 +41,14 @@ class QueryTest extends TestCase
         $this->assertSame($p, $f->current());
     }
 
+    public function testOf()
+    {
+        $query = Query::of(new Parameter\Parameter('foo', 24));
+
+        $this->assertInstanceOf(Query::class, $query);
+        $this->assertTrue($query->has('foo'));
+    }
+
     /**
      * @expectedException Innmind\Http\Exception\QueryParameterNotFound
      */

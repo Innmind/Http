@@ -9,7 +9,8 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     MapInterface,
-    Map
+    Map,
+    Sequence
 };
 
 final class Form implements FormInterface
@@ -31,6 +32,21 @@ final class Form implements FormInterface
         }
 
         $this->parameters = $parameters;
+    }
+
+    public static function of(Parameter ...$parameters): self
+    {
+        return new self(
+            Sequence::of(...$parameters)->reduce(
+                new Map('scalar', Parameter::class),
+                static function(MapInterface $parameters, Parameter $parameter): MapInterface {
+                    return $parameters->put(
+                        $parameter->name(),
+                        $parameter
+                    );
+                }
+            )
+        );
     }
 
     /**
