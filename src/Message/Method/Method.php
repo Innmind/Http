@@ -21,6 +21,61 @@ final class Method implements MethodInterface
         $this->method = $method;
     }
 
+    public static function get(): self
+    {
+        return new self(self::GET);
+    }
+
+    public static function post(): self
+    {
+        return new self(self::POST);
+    }
+
+    public static function put(): self
+    {
+        return new self(self::PUT);
+    }
+
+    public static function patch(): self
+    {
+        return new self(self::PATCH);
+    }
+
+    public static function delete(): self
+    {
+        return new self(self::DELETE);
+    }
+
+    public static function options(): self
+    {
+        return new self(self::OPTIONS);
+    }
+
+    public static function trace(): self
+    {
+        return new self(self::TRACE);
+    }
+
+    public static function connect(): self
+    {
+        return new self(self::CONNECT);
+    }
+
+    public static function head(): self
+    {
+        return new self(self::HEAD);
+    }
+
+    public static function link(): self
+    {
+        return new self(self::LINK);
+    }
+
+    public static function unlink(): self
+    {
+        return new self(self::UNLINK);
+    }
+
     public function __toString(): string
     {
         return $this->method;
