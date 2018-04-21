@@ -29,10 +29,35 @@ class MethodTest extends TestCase
     }
 
     /**
+     * @dataProvider methods
+     */
+    public function testNamedConstructors($method)
+    {
+        $this->assertSame($method, (string) Method::{strtolower($method)}());
+    }
+
+    /**
      * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidMethod()
     {
         new Method('get');
+    }
+
+    public function methods(): array
+    {
+        return [
+            ['GET'],
+            ['POST'],
+            ['PUT'],
+            ['PATCH'],
+            ['DELETE'],
+            ['OPTIONS'],
+            ['TRACE'],
+            ['CONNECT'],
+            ['HEAD'],
+            ['LINK'],
+            ['UNLINK'],
+        ];
     }
 }
