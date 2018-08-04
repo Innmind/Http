@@ -5,7 +5,8 @@ namespace Tests\Innmind\Http\Message\StatusCode;
 
 use Innmind\Http\Message\{
     StatusCode\StatusCode,
-    StatusCode as StatusCodeInterface
+    StatusCode as StatusCodeInterface,
+    ReasonPhrase
 };
 use Innmind\Immutable\MapInterface;
 use PHPUnit\Framework\TestCase;
@@ -27,6 +28,29 @@ class StatusCodeTest extends TestCase
     public function testThrowWhenInvalidStatusCode()
     {
         new StatusCode(42); //sadly
+    }
+
+    public function testAssociatedReasonPhrase()
+    {
+        StatusCode::codes()->foreach(function($name, $code): void {
+            $reason = StatusCode::of($name)->associatedReasonPhrase();
+
+            $this->assertInstanceOf(ReasonPhrase::class, $reason);
+            $this->assertSame(
+                (string) ReasonPhrase\ReasonPhrase::defaults()->get($code),
+                (string) $reason
+            );
+        });
+    }
+
+    public function testOf()
+    {
+        StatusCode::codes()->foreach(function($name, $code): void {
+            $status = StatusCode::of($name);
+
+            $this->assertInstanceOf(StatusCode::class, $status);
+            $this->assertSame($code, $status->value());
+        });
     }
 
     public function testCodes()

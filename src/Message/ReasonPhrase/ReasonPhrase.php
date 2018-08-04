@@ -31,6 +31,11 @@ final class ReasonPhrase implements ReasonPhraseInterface
         return $this->phrase;
     }
 
+    public static function of(int $statusCode): self
+    {
+        return new self(self::defaults()->get($statusCode));
+    }
+
     /**
      * @return MapInterface<int, string>
      */
