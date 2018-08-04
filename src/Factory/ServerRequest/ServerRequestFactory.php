@@ -18,7 +18,7 @@ use Innmind\Http\{
     Factory
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable\Stream;
+use Innmind\Filesystem\Stream\LazyStream;
 use Innmind\Immutable\{
     Str,
     Map
@@ -65,7 +65,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 (int) (string) $protocol['minor']
             ),
             $this->headersFactory->make(),
-            new Stream(fopen('php://input', 'r')),
+            new LazyStream('php://input'),
             $this->environmentFactory->make(),
             $this->cookiesFactory->make(),
             $this->queryFactory->make(),
