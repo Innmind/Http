@@ -6,11 +6,12 @@ namespace Innmind\Http;
 use Innmind\Http\{
     Message\Response,
     Header\Date,
-    Header\DateValue
+    Header\DateValue,
+    Exception\LogicException
 };
 use Innmind\TimeContinuum\TimeContinuumInterface;
 
-final class ResponseSender
+final class ResponseSender implements Sender
 {
     private $clock;
 
@@ -19,11 +20,12 @@ final class ResponseSender
         $this->clock = $clock;
     }
 
-    /**
-     * @return void
-     */
-    public function send(Response $response)
+    public function __invoke(Response $response): void
     {
+        if (headers_sent()) {
+            throw new LogicException('Headers already sent');
+        }
+
         header(sprintf(
             'HTTP/%s %s %s',
             $response->protocolVersion(),
@@ -39,7 +41,12 @@ final class ResponseSender
             header((string) $header, false);
         }
 
-        echo (string) $response->body();
+        $body = $response->body();
+
+        while (!$body->end()) {
+            echo $body->read(4096);
+            flush();
+        }
 
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
