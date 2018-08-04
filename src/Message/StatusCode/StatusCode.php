@@ -5,6 +5,7 @@ namespace Innmind\Http\Message\StatusCode;
 
 use Innmind\Http\{
     Message\StatusCode as StatusCodeInterface,
+    Message\ReasonPhrase,
     Exception\DomainException
 };
 use Innmind\Immutable\{
@@ -24,6 +25,11 @@ final class StatusCode implements StatusCodeInterface
         }
 
         $this->code = $code;
+    }
+
+    public function associatedReasonPhrase(): ReasonPhrase
+    {
+        return ReasonPhrase\ReasonPhrase::of($this->code);
     }
 
     public function value(): int
