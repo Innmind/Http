@@ -28,6 +28,16 @@ class ReasonPhraseTest extends TestCase
         new ReasonPhrase('');
     }
 
+    public function testOf()
+    {
+        ReasonPhrase::defaults()->foreach(function($statusCode, $message): void {
+            $reason = ReasonPhrase::of($statusCode);
+
+            $this->assertInstanceOf(ReasonPhrase::class, $reason);
+            $this->assertSame($message, (string) $reason);
+        });
+    }
+
     public function testDefaults()
     {
         $defaults = ReasonPhrase::defaults();
