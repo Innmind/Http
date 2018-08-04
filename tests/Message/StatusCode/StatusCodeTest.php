@@ -29,6 +29,16 @@ class StatusCodeTest extends TestCase
         new StatusCode(42); //sadly
     }
 
+    public function testOf()
+    {
+        StatusCode::codes()->foreach(function($name, $code): void {
+            $status = StatusCode::of($name);
+
+            $this->assertInstanceOf(StatusCode::class, $status);
+            $this->assertSame($code, $status->value());
+        });
+    }
+
     public function testCodes()
     {
         $codes = StatusCode::codes();

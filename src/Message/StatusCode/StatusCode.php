@@ -36,6 +36,11 @@ final class StatusCode implements StatusCodeInterface
         return (string) $this->code;
     }
 
+    public static function of(string $name): self
+    {
+        return new self(self::codes()->get($name));
+    }
+
     /**
      * @return MapInterface<string, int>
      */
