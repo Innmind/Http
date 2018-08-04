@@ -42,6 +42,7 @@ final class ResponseSender implements Sender
         }
 
         $body = $response->body();
+        $body->rewind();
 
         while (!$body->end()) {
             echo $body->read(4096);
