@@ -44,7 +44,7 @@ final class ResponseSender implements Sender
         $body = $response->body();
 
         while (!$body->end()) {
-            echo $body->read(4096)
+            echo $body->read(4096);
             flush();
         }
 
