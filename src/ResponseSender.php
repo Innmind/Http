@@ -11,7 +11,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\TimeContinuumInterface;
 
-final class ResponseSender
+final class ResponseSender implements Sender
 {
     private $clock;
 
@@ -20,10 +20,7 @@ final class ResponseSender
         $this->clock = $clock;
     }
 
-    /**
-     * @return void
-     */
-    public function send(Response $response)
+    public function __invoke(Response $response): void
     {
         if (headers_sent()) {
             throw new LogicException('Headers already sent');
