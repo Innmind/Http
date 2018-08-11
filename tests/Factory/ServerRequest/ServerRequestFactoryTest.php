@@ -38,6 +38,7 @@ class ServerRequestFactoryTest extends TestCase
         $r = $f->make();
 
         $this->assertInstanceOf(ServerRequest::class, $r);
+        $this->assertSame('http://localhost:8080/index.php', (string) $r->url());
     }
 
     public function testDefault()

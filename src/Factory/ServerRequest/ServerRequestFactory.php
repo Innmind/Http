@@ -54,11 +54,15 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
         );
+        $https = (string) Str::of($_SERVER['HTTPS'] ?? 'off')->toLower();
 
         return new ServerRequest\ServerRequest(
-            Url::fromString(
-                $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
-            ),
+            Url::fromString(sprintf(
+                '%s://%s%s',
+                $https === 'on' ? 'https' : 'http',
+                $_SERVER['HTTP_HOST'],
+                $_SERVER['REQUEST_URI']
+            )),
             new Method($_SERVER['REQUEST_METHOD']),
             new ProtocolVersion(
                 (int) (string) $protocol['major'],
