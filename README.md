@@ -31,28 +31,23 @@ use Innmind\Http\{
     ResponseSender
 };
 use Innmind\Filesystem\Stream\StringStream;
-use Innmind\Immutable\Map;
 
 $response = new Response(
-    new StatusCode(200),
-    new ReasonPhrase(ReasonPhrase::defaults()->get(200)),
+    $code = StatusCode::of('OK'),
+    $code->associatedReasonPhrase(),
     new ProtocolVersion(1, 1),
-    new Headers(
-        (new Map('string', Header::class))
-            ->put(
-                'content-type',
-                new ContentType(
-                    new ContentTypeValue(
-                        'application',
-                        'json'
-                    )
-                )
+    Headers::of(
+        new ContentType(
+            new ContentTypeValue(
+                'application',
+                'json'
             )
+        )
     ),
     new StringStream('{"some": "data"}')
 );
 
-(new ResponseSender)->send($response);
+(new ResponseSender)($response);
 ```
 
 will build the following message:
