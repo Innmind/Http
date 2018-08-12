@@ -7,6 +7,8 @@ use Innmind\Http\{
     Message\Response,
     Header\Date,
     Header\DateValue,
+    Header\SetCookie,
+    TimeContinuum\Format\Http,
     Exception\LogicException
 };
 use Innmind\TimeContinuum\TimeContinuumInterface;
@@ -38,6 +40,11 @@ final class ResponseSender implements Sender
         }
 
         foreach ($response->headers() as $header) {
+            if ($header instanceof SetCookie) {
+                $this->sendCookie($header);
+                continue;
+            }
+
             header((string) $header, false);
         }
 
@@ -52,5 +59,85 @@ final class ResponseSender implements Sender
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         }
+    }
+
+    private function sendCookie(SetCookie $cookie): void
+    {
+        $cookie->values()->foreach(static function(CookieValue $value): void {
+            $parameters = $value->parameters()->reduce(
+                [],
+                static function(array $parameters, Parameter $parameter): array {
+                    switch ($parameter->name()) {
+                        case 'Domain':
+                            $parameters['domain'] = $parameter->value();
+                            break;
+
+                        case 'Expires':
+                            $timestamp = \DateTimeImmutable::createFrom((string) new Http, $parameter->value())->getTimestamp();
+                            // MaxAge has precedence
+                            $parameters['expire'] = $parameters['expire'] !== 0 ? $parameters['expire'] : $timestamp;
+                            break;
+
+                        case 'Max-Age':
+                            $parameters['expire'] = (int) $parameter->value();
+                            break;
+
+                        case 'HttpOnly':
+                            $parameters['httponly'] = true;
+                            break;
+
+                        case 'Path':
+                            $parameters['path'] = $parameter->value();
+                            break;
+
+                        case 'Secure':
+                            $parameters['secure'] = true;
+                            break;
+
+                        case 'SameSite':
+                            $parameters['samesite'] = $parameter->value();
+                            break;
+
+                        default:
+                            $parameters['key'] = $parameter->name();
+                            $parameters['value'] = $parameter->value();
+                            break;
+                    }
+
+                    return $parameters;
+                }
+            );
+
+            if (\PHP_VERSION_ID >= 70300) {
+                $arguments = [
+                    $parameters['key'] ?? '',
+                    $parameters['value'] ?? '',
+                    $parameters['expire'] ?? 0,
+                    [
+                        'path' => $parameters['path'] ?? '',
+                        'domain' => $parameters['domain'] ?? '',
+                        'secure' => $parameters['secure'] ?? false,
+                        'httponly' => $parameters['httponly'] ?? false,
+                    ],
+                ];
+
+                if (isset($parameters['samesite'])) {
+                    $arguments[3]['samesite'] = $parameters['samesite'];
+                }
+            } else {
+                // same site not supported
+                $arguments = [
+                    $parameters['key'] ?? '',
+                    $parameters['value'] ?? '',
+                    $parameters['expire'] ?? 0,
+                    $parameters['path'] ?? '',
+                    $parameters['domain'] ?? '',
+                    $parameters['secure'] ?? false,
+                    $parameters['httponly'] ?? false
+                ];
+            }
+
+            setcookie(...$arguments);
+        });
     }
 }
