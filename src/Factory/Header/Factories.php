@@ -45,7 +45,8 @@ final class Factories
                 ->put('link', new LinkFactory)
                 ->put('location', new LocationFactory)
                 ->put('range', new RangeFactory)
-                ->put('referer', new ReferrerFactory);
+                ->put('referer', new ReferrerFactory)
+                ->put('cookie', new CookieFactory);
         }
 
         return self::$all;

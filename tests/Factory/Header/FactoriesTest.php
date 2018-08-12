@@ -20,7 +20,7 @@ class FactoriesTest extends TestCase
         $this->assertInstanceOf(MapInterface::class, $all);
         $this->assertSame('string', (string) $all->keyType());
         $this->assertSame(HeaderFactory::class, (string) $all->valueType());
-        $this->assertCount(25, $all);
+        $this->assertCount(26, $all);
         $this->assertSame($all, Factories::all());
     }
 
