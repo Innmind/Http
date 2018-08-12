@@ -13,18 +13,18 @@ final class CookieValue extends Value\Value
 {
     private $parameters;
 
-    public function __construct(Parameter ...$paramaters)
+    public function __construct(Parameter ...$parameters)
     {
-        $this->paramaters = new Map('string', Parameter::class);
+        $this->parameters = new Map('string', Parameter::class);
 
-        foreach ($paramaters as $paramater) {
-            $this->paramaters = $this->paramaters->put(
+        foreach ($parameters as $paramater) {
+            $this->parameters = $this->parameters->put(
                 $paramater->name(),
                 $paramater
             );
         }
 
-        parent::__construct((string) $this->paramaters->values()->join('; '));
+        parent::__construct((string) $this->parameters->values()->join('; '));
     }
 
     /**
@@ -32,6 +32,6 @@ final class CookieValue extends Value\Value
      */
     public function parameters(): MapInterface
     {
-        return $this->paramaters;
+        return $this->parameters;
     }
 }
