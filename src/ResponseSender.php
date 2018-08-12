@@ -8,6 +8,8 @@ use Innmind\Http\{
     Header\Date,
     Header\DateValue,
     Header\SetCookie,
+    Header\CookieValue,
+    Header\Parameter,
     TimeContinuum\Format\Http,
     Exception\LogicException
 };
