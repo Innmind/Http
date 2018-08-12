@@ -5,8 +5,8 @@ namespace Innmind\Http\Header;
 
 final class SetCookie extends Header
 {
-    public function __construct(CookieValue $value)
+    public function __construct(CookieValue ...$values)
     {
-        parent::__construct('Set-Cookie', $value);
+        parent::__construct('Set-Cookie', ...$values);
     }
 }
