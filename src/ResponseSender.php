@@ -75,7 +75,10 @@ final class ResponseSender implements Sender
                             break;
 
                         case 'Expires':
-                            $timestamp = \DateTimeImmutable::createFromFormat((string) new Http, $parameter->value())->getTimestamp();
+                            $timestamp = \DateTimeImmutable::createFromFormat(
+                                (string) new Http,
+                                substr($parameter->value(), 1, -1) // remove double quotes
+                            )->getTimestamp();
                             // MaxAge has precedence
                             $parameters['expire'] = $parameters['expire'] !== 0 ? $parameters['expire'] : $timestamp;
                             break;
