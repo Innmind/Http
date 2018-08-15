@@ -80,7 +80,7 @@ final class ResponseSender implements Sender
                                 substr($parameter->value(), 1, -1) // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence
-                            $parameters['expire'] = $parameters['expire'] !== 0 ? $parameters['expire'] : $timestamp;
+                            $parameters['expire'] = ($parameters['expire'] ?? 0 !== 0) ? $parameters['expire'] : $timestamp;
                             break;
 
                         case 'Max-Age':
