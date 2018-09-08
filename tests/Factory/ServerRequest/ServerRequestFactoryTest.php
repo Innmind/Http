@@ -41,6 +41,55 @@ class ServerRequestFactoryTest extends TestCase
         $this->assertSame('http://localhost:8080/index.php', (string) $r->url());
     }
 
+    public function testMakeWithUser()
+    {
+        $factory = new ServerRequestFactory(
+            $this->createMock(HeadersFactory::class),
+            $this->createMock(EnvironmentFactory::class),
+            $this->createMock(CookiesFactory::class),
+            $this->createMock(QueryFactory::class),
+            $this->createMock(FormFactory::class),
+            $this->createMock(FilesFactory::class)
+        );
+
+        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
+
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $_SERVER['HTTP_HOST'] = 'localhost:8080';
+        $_SERVER['REQUEST_URI'] = '/index.php';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['PHP_AUTH_USER'] = 'john';
+        $request = $factory->make();
+
+        $this->assertInstanceOf(ServerRequest::class, $request);
+        $this->assertSame('http://john@localhost:8080/index.php', (string) $request->url());
+    }
+
+    public function testMakeWithUserAndPassword()
+    {
+        $factory = new ServerRequestFactory(
+            $this->createMock(HeadersFactory::class),
+            $this->createMock(EnvironmentFactory::class),
+            $this->createMock(CookiesFactory::class),
+            $this->createMock(QueryFactory::class),
+            $this->createMock(FormFactory::class),
+            $this->createMock(FilesFactory::class)
+        );
+
+        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
+
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $_SERVER['HTTP_HOST'] = 'localhost:8080';
+        $_SERVER['REQUEST_URI'] = '/index.php';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['PHP_AUTH_USER'] = 'john';
+        $_SERVER['PHP_AUTH_PW'] = 'duh';
+        $request = $factory->make();
+
+        $this->assertInstanceOf(ServerRequest::class, $request);
+        $this->assertSame('http://john:duh@localhost:8080/index.php', (string) $request->url());
+    }
+
     public function testDefault()
     {
         $this->assertInstanceOf(

@@ -55,11 +55,23 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
         );
         $https = (string) Str::of($_SERVER['HTTPS'] ?? 'off')->toLower();
+        $user = '';
+
+        if (isset($_SERVER['PHP_AUTH_USER'])) {
+            $user = $_SERVER['PHP_AUTH_USER'];
+
+            if (isset($_SERVER['PHP_AUTH_PW'])) {
+                $user .= ':'.$_SERVER['PHP_AUTH_PW'];
+            }
+
+            $user .= '@';
+        }
 
         return new ServerRequest\ServerRequest(
             Url::fromString(sprintf(
-                '%s://%s%s',
+                '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',
+                $user,
                 $_SERVER['HTTP_HOST'],
                 $_SERVER['REQUEST_URI']
             )),
