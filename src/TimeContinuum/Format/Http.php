@@ -9,6 +9,6 @@ final class Http implements FormatInterface
 {
     public function __toString(): string
     {
-        return \DateTime::RFC1123;
+        return 'D, d M Y H:i:s \G\M\T';
     }
 }

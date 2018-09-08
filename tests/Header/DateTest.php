@@ -27,6 +27,6 @@ class DateTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
-        $this->assertSame('Date : Fri, 01 Jan 2016 12:12:12 +0200', (string) $h);
+        $this->assertSame('Date : Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
     }
 }
