@@ -24,11 +24,11 @@ class HeaderTest extends TestCase
         $this->assertSame('Accept', $h->name());
         $this->assertTrue($h->values()->contains($v1));
         $this->assertTrue($h->values()->contains($v2));
-        $this->assertSame('Accept : application/json, */*', (string) $h);
+        $this->assertSame('Accept: application/json, */*', (string) $h);
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('X-Foo : ', (string) new Header\Header('X-Foo'));
+        $this->assertSame('X-Foo: ', (string) new Header\Header('X-Foo'));
     }
 }

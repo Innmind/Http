@@ -35,6 +35,6 @@ class ContentTypeTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ct, $v->current());
-        $this->assertSame('Content-Type : text/html;charset=UTF-8', (string) $h);
+        $this->assertSame('Content-Type: text/html;charset=UTF-8', (string) $h);
     }
 }

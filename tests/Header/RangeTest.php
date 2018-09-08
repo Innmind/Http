@@ -26,6 +26,6 @@ class RangeTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($cr, $v->current());
-        $this->assertSame('Range : bytes=0-42', (string) $h);
+        $this->assertSame('Range: bytes=0-42', (string) $h);
     }
 }

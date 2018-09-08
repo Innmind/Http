@@ -68,27 +68,27 @@ class RequestTranslatorTest extends TestCase
         $this->assertSame('1.1', (string) $request->protocolVersion());
         $this->assertSame(6, $request->headers()->count());
         $this->assertSame(
-            'content-type : text/html',
+            'content-type: text/html',
             (string) $request->headers()->get('Content-Type')
         );
         $this->assertSame(
-            'content-length : 0',
+            'content-length: 0',
             (string) $request->headers()->get('Content-Length')
         );
         $this->assertSame(
-            'etag : asdf',
+            'etag: asdf',
             (string) $request->headers()->get('etag')
         );
         $this->assertSame(
-            'php-auth-user : foo',
+            'php-auth-user: foo',
             (string) $request->headers()->get('php-auth-user')
         );
         $this->assertSame(
-            'php-auth-pw : bar',
+            'php-auth-pw: bar',
             (string) $request->headers()->get('php-auth-pw')
         );
         $this->assertSame(
-            'authorization : Basic '.base64_encode('foo:bar'),
+            'authorization: Basic '.base64_encode('foo:bar'),
             (string) $request->headers()->get('authorization')
         );
         $this->assertSame('some content', (string) $request->body());

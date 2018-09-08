@@ -26,6 +26,6 @@ class AcceptRangesTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ar, $v->current());
-        $this->assertSame('Accept-Ranges : bytes', (string) $h);
+        $this->assertSame('Accept-Ranges: bytes', (string) $h);
     }
 }

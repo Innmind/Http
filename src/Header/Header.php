@@ -42,7 +42,7 @@ class Header implements HeaderInterface
     public function __toString(): string
     {
         return sprintf(
-            '%s : %s',
+            '%s: %s',
             $this->name,
             $this->values->join(', ')
         );

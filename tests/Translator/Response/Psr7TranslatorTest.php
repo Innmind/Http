@@ -55,7 +55,7 @@ class Psr7TranslatorTest extends TestCase
         $headers = $response->headers();
         $this->assertCount(1, $headers);
         $this->assertSame(
-            'content-type : application/json',
+            'content-type: application/json',
             (string) $headers->get('content-type')
         );
         $this->assertSame('content', (string) $response->body());

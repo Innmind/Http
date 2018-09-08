@@ -27,6 +27,6 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Location : /foo/bar', (string) $h);
+        $this->assertSame('Location: /foo/bar', (string) $h);
     }
 }

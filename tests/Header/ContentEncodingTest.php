@@ -26,6 +26,6 @@ class ContentEncodingTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ce, $v->current());
-        $this->assertSame('Content-Encoding : compress', (string) $h);
+        $this->assertSame('Content-Encoding: compress', (string) $h);
     }
 }

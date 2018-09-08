@@ -27,6 +27,6 @@ class IfModifiedSinceTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
-        $this->assertSame('If-Modified-Since : Fri, 01 Jan 2016 12:12:12 +0200', (string) $h);
+        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
     }
 }

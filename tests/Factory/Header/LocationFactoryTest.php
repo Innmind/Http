@@ -29,7 +29,7 @@ class LocationFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location : http://example.com/', (string) $header);
+        $this->assertSame('Location: http://example.com/', (string) $header);
     }
 
     /**

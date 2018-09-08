@@ -17,6 +17,6 @@ class ExpiresTest extends TestCase
         $expires = new Expires(new PointInTime('2018-01-01T12:13:14+0200'));
 
         $this->assertInstanceOf(Parameter::class, $expires);
-        $this->assertSame('Expires="Mon, 01 Jan 2018 12:13:14 +0200"', (string) $expires);
+        $this->assertSame('Expires="Mon, 01 Jan 2018 10:13:14 GMT"', (string) $expires);
     }
 }

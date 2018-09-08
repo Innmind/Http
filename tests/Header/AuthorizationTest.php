@@ -26,6 +26,6 @@ class AuthorizationTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Authorization : "Basic"', (string) $h);
+        $this->assertSame('Authorization: "Basic"', (string) $h);
     }
 }

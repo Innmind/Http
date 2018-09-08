@@ -27,6 +27,6 @@ class ContentLocationTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Content-Location : /foo/bar', (string) $h);
+        $this->assertSame('Content-Location: /foo/bar', (string) $h);
     }
 }
