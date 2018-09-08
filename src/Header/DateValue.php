@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\TimeContinuum\Format\Http;
 use Innmind\TimeContinuum\{
     PointInTimeInterface,
-    Timezone\Earth\UTC,
+    Timezone\Earth\UTC
 };
 
 final class DateValue extends Value\Value

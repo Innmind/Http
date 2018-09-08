@@ -9,7 +9,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\{
     PointInTimeInterface,
-    Timezone\Earth\UTC,
+    Timezone\Earth\UTC
 };
 
 final class Expires extends Parameter
