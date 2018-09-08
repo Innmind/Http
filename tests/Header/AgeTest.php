@@ -26,6 +26,6 @@ class AgeTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Age : 42', (string) $h);
+        $this->assertSame('Age: 42', (string) $h);
     }
 }

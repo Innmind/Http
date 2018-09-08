@@ -31,6 +31,6 @@ class HeaderFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('X-Foo : bar', (string) $header);
+        $this->assertSame('X-Foo: bar', (string) $header);
     }
 }

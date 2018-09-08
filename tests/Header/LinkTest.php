@@ -33,13 +33,13 @@ class LinkTest extends TestCase
         $this->assertSame('Link', $h->name());
         $this->assertTrue($h->values()->contains($v));
         $this->assertSame(
-            'Link : </some/resource>; rel="some relation";title=Foo',
+            'Link: </some/resource>; rel="some relation";title=Foo',
             (string) $h
         );
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Link : ', (string) new Link);
+        $this->assertSame('Link: ', (string) new Link);
     }
 }

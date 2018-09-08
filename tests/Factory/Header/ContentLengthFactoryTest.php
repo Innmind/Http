@@ -29,7 +29,7 @@ class ContentLengthFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentLength::class, $header);
-        $this->assertSame('Content-Length : 42', (string) $header);
+        $this->assertSame('Content-Length: 42', (string) $header);
     }
 
     /**

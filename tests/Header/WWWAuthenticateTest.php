@@ -25,6 +25,6 @@ class WWWAuthenticateTest extends TestCase
         $this->assertSame(Value::class, (string) $header->values()->type());
         $this->assertCount(1, $header->values());
         $this->assertSame($value, $header->values()->current());
-        $this->assertSame('WWW-Authenticate : Bearer realm="some value"', (string) $header);
+        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', (string) $header);
     }
 }

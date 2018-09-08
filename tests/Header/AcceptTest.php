@@ -32,6 +32,6 @@ class AcceptTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept', $h->name());
         $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept : text/html;q=0.8', (string) $h);
+        $this->assertSame('Accept: text/html;q=0.8', (string) $h);
     }
 }

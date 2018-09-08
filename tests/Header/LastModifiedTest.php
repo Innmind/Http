@@ -27,6 +27,6 @@ class LastModifiedTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
-        $this->assertSame('Last-Modified : Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
+        $this->assertSame('Last-Modified: Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
     }
 }

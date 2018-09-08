@@ -35,6 +35,6 @@ class SetCookieTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $values);
         $this->assertSame(Value::class, (string) $values->type());
         $this->assertSame($value, $values->current());
-        $this->assertSame('Set-Cookie : foo=bar; Secure, bar=baz', (string) $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', (string) $cookie);
     }
 }

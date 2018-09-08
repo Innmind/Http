@@ -24,11 +24,11 @@ class AcceptCharsetTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Charset', $h->name());
         $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept-Charset : unicode-1-1;q=0.8', (string) $h);
+        $this->assertSame('Accept-Charset: unicode-1-1;q=0.8', (string) $h);
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Accept-Charset : ', (string) new AcceptCharset);
+        $this->assertSame('Accept-Charset: ', (string) new AcceptCharset);
     }
 }

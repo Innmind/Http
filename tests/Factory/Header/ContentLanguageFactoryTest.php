@@ -29,7 +29,7 @@ class ContentLanguageFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentLanguage::class, $header);
-        $this->assertSame('Content-Language : fr-FR, fr-CA', (string) $header);
+        $this->assertSame('Content-Language: fr-FR, fr-CA', (string) $header);
     }
 
     /**

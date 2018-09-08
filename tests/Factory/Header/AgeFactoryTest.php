@@ -29,7 +29,7 @@ class AgeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Age::class, $header);
-        $this->assertSame('Age : 42', (string) $header);
+        $this->assertSame('Age: 42', (string) $header);
     }
 
     /**

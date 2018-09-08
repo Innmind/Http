@@ -26,6 +26,6 @@ class ContentLengthTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Content-Length : 42', (string) $h);
+        $this->assertSame('Content-Length: 42', (string) $h);
     }
 }
