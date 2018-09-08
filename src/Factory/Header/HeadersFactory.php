@@ -16,6 +16,7 @@ use Innmind\Immutable\{
 
 final class HeadersFactory implements HeadersFactoryInterface
 {
+    private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
     private $headerFactory;
 
     public function __construct(HeaderFactoryInterface $headerFactory)
@@ -27,7 +28,7 @@ final class HeadersFactory implements HeadersFactoryInterface
     {
         $map = new Map('string', Header::class);
 
-        foreach (getallheaders() as $name => $value) {
+        foreach ($this->headers() as $name => $value) {
             $map = $map->put(
                 $name,
                 $this->headerFactory->make(
@@ -38,5 +39,28 @@ final class HeadersFactory implements HeadersFactoryInterface
         }
 
         return new Headers\Headers($map);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function headers(): array
+    {
+        $headers = [];
+
+        foreach ($_SERVER as $key => $value) {
+            $key = Str::of($key);
+
+            if (!$key->matches(self::FORMAT)) {
+                continue;
+            }
+
+            $key = (string) $key
+                ->pregReplace('~^HTTP_~', '')
+                ->replace('_', '-');
+            $headers[$key] = $value;
+        }
+
+        return $headers;
     }
 }
