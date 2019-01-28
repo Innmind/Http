@@ -8,7 +8,7 @@ use Innmind\Http\{
     Message\StatusCode,
     Message\ReasonPhrase,
     ProtocolVersion,
-    Headers,
+    Headers
 };
 use Innmind\Stream\Readable;
 

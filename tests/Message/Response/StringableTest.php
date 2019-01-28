@@ -13,7 +13,7 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Allow,
-    Header\AllowValue,
+    Header\AllowValue
 };
 use Innmind\Filesystem\Stream\StringStream;
 use PHPUnit\Framework\TestCase;

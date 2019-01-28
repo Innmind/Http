@@ -11,7 +11,7 @@ use Innmind\Http\{
     ProtocolVersion\ProtocolVersion,
     Headers\Headers,
     Header\ContentType,
-    Header\ContentTypeValue,
+    Header\ContentTypeValue
 };
 use Innmind\Url\Url;
 use Innmind\Filesystem\Stream\StringStream;

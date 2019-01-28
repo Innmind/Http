@@ -12,7 +12,7 @@ use Innmind\Http\{
     Message\Form,
     Message\Files,
     ProtocolVersion,
-    Headers,
+    Headers
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Stream\Readable;

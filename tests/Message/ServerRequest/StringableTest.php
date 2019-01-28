@@ -13,7 +13,7 @@ use Innmind\Http\{
     ProtocolVersion\ProtocolVersion,
     Headers\Headers,
     Header\Host,
-    Header\HostValue,
+    Header\HostValue
 };
 use Innmind\Url\Url;
 use Innmind\Filesystem\Stream\StringStream;

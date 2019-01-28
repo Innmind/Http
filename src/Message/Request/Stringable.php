@@ -7,7 +7,7 @@ use Innmind\Http\{
     Message\Request as RequestInterface,
     Message\Method,
     ProtocolVersion,
-    Headers,
+    Headers
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Stream\Readable;
