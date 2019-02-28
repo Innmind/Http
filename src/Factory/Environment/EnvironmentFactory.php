@@ -15,7 +15,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
     {
         $map = new Map('string', 'scalar');
 
-        foreach ($_SERVER as $name => $value) {
+        foreach (\getenv() as $name => $value) {
             if (!is_scalar($value)) {
                 continue;
             }
