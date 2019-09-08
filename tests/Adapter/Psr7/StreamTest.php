@@ -19,7 +19,7 @@ use Psr\Http\Message\StreamInterface;
 use PHPUnit\Framework\TestCase;
 use Eris\{
     Generator,
-    TestTrait,
+    TestTrait
 };
 
 class StreamTest extends TestCase
