@@ -47,6 +47,31 @@ final class StatusCode implements StatusCodeInterface
         return new self(self::codes()->get($name));
     }
 
+    public static function isInformational(StatusCodeInterface $code): bool
+    {
+        return ((int) $code->value() / 100) === 1;
+    }
+
+    public static function isSuccessful(StatusCodeInterface $code): bool
+    {
+        return ((int) $code->value() / 100) === 2;
+    }
+
+    public static function isRedirection(StatusCodeInterface $code): bool
+    {
+        return ((int) $code->value() / 100) === 3;
+    }
+
+    public static function isClientError(StatusCodeInterface $code): bool
+    {
+        return ((int) $code->value() / 100) === 4;
+    }
+
+    public static function isServerError(StatusCodeInterface $code): bool
+    {
+        return ((int) $code->value() / 100) === 5;
+    }
+
     /**
      * @return MapInterface<string, int>
      */

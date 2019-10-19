@@ -62,4 +62,79 @@ class StatusCodeTest extends TestCase
         $this->assertSame('int', (string) $codes->valueType());
         $this->assertSame(74, $codes->count());
     }
+
+    public function testIsInformational()
+    {
+        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
+            return ((int) $code / 100) === 1;
+        });
+
+        $codes->get(true)->foreach(function($name, $code): void {
+            $this->assertTrue(StatusCode::isInformational(new StatusCode($code)));
+        });
+
+        $codes->get(false)->foreach(function($name, $code): void {
+            $this->assertFalse(StatusCode::isInformational(new StatusCode($code)));
+        });
+    }
+
+    public function testIsSuccessful()
+    {
+        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
+            return ((int) $code / 100) === 2;
+        });
+
+        $codes->get(true)->foreach(function($name, $code): void {
+            $this->assertTrue(StatusCode::isSuccessful(new StatusCode($code)));
+        });
+
+        $codes->get(false)->foreach(function($name, $code): void {
+            $this->assertFalse(StatusCode::isSuccessful(new StatusCode($code)));
+        });
+    }
+
+    public function testIsRedirection()
+    {
+        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
+            return ((int) $code / 100) === 3;
+        });
+
+        $codes->get(true)->foreach(function($name, $code): void {
+            $this->assertTrue(StatusCode::isRedirection(new StatusCode($code)));
+        });
+
+        $codes->get(false)->foreach(function($name, $code): void {
+            $this->assertFalse(StatusCode::isRedirection(new StatusCode($code)));
+        });
+    }
+
+    public function testIsClientError()
+    {
+        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
+            return ((int) $code / 100) === 4;
+        });
+
+        $codes->get(true)->foreach(function($name, $code): void {
+            $this->assertTrue(StatusCode::isClientError(new StatusCode($code)));
+        });
+
+        $codes->get(false)->foreach(function($name, $code): void {
+            $this->assertFalse(StatusCode::isClientError(new StatusCode($code)));
+        });
+    }
+
+    public function testIsServerError()
+    {
+        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
+            return ((int) $code / 100) === 5;
+        });
+
+        $codes->get(true)->foreach(function($name, $code): void {
+            $this->assertTrue(StatusCode::isServerError(new StatusCode($code)));
+        });
+
+        $codes->get(false)->foreach(function($name, $code): void {
+            $this->assertFalse(StatusCode::isServerError(new StatusCode($code)));
+        });
+    }
 }
