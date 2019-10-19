@@ -66,7 +66,7 @@ class StatusCodeTest extends TestCase
     public function testIsInformational()
     {
         $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) $code / 100) === 1;
+            return ((int) ($code / 100)) === 1;
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
@@ -81,7 +81,7 @@ class StatusCodeTest extends TestCase
     public function testIsSuccessful()
     {
         $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) $code / 100) === 2;
+            return ((int) ($code / 100)) === 2;
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
@@ -96,7 +96,7 @@ class StatusCodeTest extends TestCase
     public function testIsRedirection()
     {
         $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) $code / 100) === 3;
+            return ((int) ($code / 100)) === 3;
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
@@ -111,7 +111,7 @@ class StatusCodeTest extends TestCase
     public function testIsClientError()
     {
         $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) $code / 100) === 4;
+            return ((int) ($code / 100)) === 4;
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
@@ -126,7 +126,7 @@ class StatusCodeTest extends TestCase
     public function testIsServerError()
     {
         $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) $code / 100) === 5;
+            return ((int) ($code / 100)) === 5;
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
