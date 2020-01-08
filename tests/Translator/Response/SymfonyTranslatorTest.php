@@ -8,7 +8,7 @@ use Innmind\Http\{
     Message\Response\Response,
     Message\StatusCode\StatusCode,
     Message\ReasonPhrase\ReasonPhrase,
-    ProtocolVersion\ProtocolVersion,
+    ProtocolVersion,
     Headers\Headers,
     Header\Header,
     Header\Value\Value

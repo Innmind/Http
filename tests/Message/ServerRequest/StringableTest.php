@@ -10,7 +10,7 @@ use Innmind\Http\{
     Message\Method\Method,
     Message\Query,
     Message\Form,
-    ProtocolVersion\ProtocolVersion,
+    ProtocolVersion,
     Headers\Headers,
     Header\Host,
     Header\HostValue

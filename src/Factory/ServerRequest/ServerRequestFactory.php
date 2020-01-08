@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\ServerRequestFactory as ServerRequestFactoryInterface,
     Message\ServerRequest,
     Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    ProtocolVersion,
     Factory\HeadersFactory,
     Factory\Header\Factories,
     Factory\EnvironmentFactory,

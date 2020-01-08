@@ -8,7 +8,7 @@ use Innmind\Http\{
     Message\Request\Request,
     Message\Request as RequestInterface,
     Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    ProtocolVersion,
     Headers\Headers,
     Header\ContentType,
     Header\ContentTypeValue

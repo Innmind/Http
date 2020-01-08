@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Message\Request\Request,
     Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    ProtocolVersion,
     Headers\Headers,
     Header
 };

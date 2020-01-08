@@ -12,7 +12,7 @@ use Innmind\Http\{
     Message\Form,
     Message\Files\Files,
     Factory\HeaderFactory,
-    ProtocolVersion\ProtocolVersion,
+    ProtocolVersion,
     Headers\Headers,
     Header,
     File,

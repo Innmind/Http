@@ -22,7 +22,7 @@ class RequestTest extends TestCase
         $r = new Request(
             $url = $this->createMock(UrlInterface::class),
             $method = $this->createMock(Method::class),
-            $protocol = $this->createMock(ProtocolVersion::class),
+            $protocol = new ProtocolVersion(2, 0),
             $headers = $this->createMock(Headers::class),
             $body = $this->createMock(Readable::class)
         );
@@ -41,7 +41,7 @@ class RequestTest extends TestCase
         $request = new Request(
             $this->createMock(UrlInterface::class),
             $this->createMock(Method::class),
-            $this->createMock(ProtocolVersion::class)
+            new ProtocolVersion(2, 0),
         );
 
         $this->assertInstanceOf(
