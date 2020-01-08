@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\StatusCode;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    StatusCode\StatusCode,
-    StatusCode as StatusCodeInterface,
+    StatusCode,
     ReasonPhrase
 };
 use Innmind\Immutable\MapInterface;
@@ -17,7 +16,6 @@ class StatusCodeTest extends TestCase
     {
         $c = new StatusCode(200);
 
-        $this->assertInstanceOf(StatusCodeInterface::class, $c);
         $this->assertSame(200, $c->value());
         $this->assertSame('200', (string) $c);
     }

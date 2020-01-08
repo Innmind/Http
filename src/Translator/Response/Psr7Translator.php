@@ -6,7 +6,7 @@ namespace Innmind\Http\Translator\Response;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
+    Message\StatusCode,
     Message\ReasonPhrase\ReasonPhrase,
     ProtocolVersion,
     Headers\Headers,

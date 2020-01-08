@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Translator\Response;
 use Innmind\Http\{
     Translator\Response\SymfonyTranslator,
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
+    Message\StatusCode,
     Message\ReasonPhrase\ReasonPhrase,
     ProtocolVersion,
     Headers\Headers,
