@@ -35,7 +35,7 @@ class StatusCodeTest extends TestCase
 
             $this->assertInstanceOf(ReasonPhrase::class, $reason);
             $this->assertSame(
-                (string) ReasonPhrase\ReasonPhrase::defaults()->get($code),
+                (string) ReasonPhrase::defaults()->get($code),
                 (string) $reason
             );
         });

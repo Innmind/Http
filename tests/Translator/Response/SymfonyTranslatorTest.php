@@ -7,7 +7,7 @@ use Innmind\Http\{
     Translator\Response\SymfonyTranslator,
     Message\Response\Response,
     Message\StatusCode,
-    Message\ReasonPhrase\ReasonPhrase,
+    Message\ReasonPhrase,
     ProtocolVersion,
     Headers\Headers,
     Header\Header,

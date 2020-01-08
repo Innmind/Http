@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\ReasonPhrase;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    ReasonPhrase\ReasonPhrase,
-    ReasonPhrase as ReasonPhraseInterface
+    ReasonPhrase,
 };
 use Innmind\Immutable\MapInterface;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +15,6 @@ class ReasonPhraseTest extends TestCase
     {
         $m = new ReasonPhrase('OK');
 
-        $this->assertInstanceOf(ReasonPhraseInterface::class, $m);
         $this->assertSame('OK', (string) $m);
     }
 

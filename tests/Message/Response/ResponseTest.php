@@ -21,7 +21,7 @@ class ResponseTest extends TestCase
     {
         $r = new Response(
             $status = new StatusCode(200),
-            $reason = $this->createMock(ReasonPhrase::class),
+            $reason = new ReasonPhrase('OK'),
             $protocol = new ProtocolVersion(2, 0),
             $headers = $this->createMock(Headers::class),
             $body = $this->createMock(Readable::class)
@@ -40,7 +40,7 @@ class ResponseTest extends TestCase
     {
         $response = new Response(
             new StatusCode(200),
-            $this->createMock(ReasonPhrase::class),
+            new ReasonPhrase('OK'),
             new ProtocolVersion(2, 0),
         );
 

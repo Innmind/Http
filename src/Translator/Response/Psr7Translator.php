@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Message\Response\Response,
     Message\StatusCode,
-    Message\ReasonPhrase\ReasonPhrase,
+    Message\ReasonPhrase,
     ProtocolVersion,
     Headers\Headers,
     Header

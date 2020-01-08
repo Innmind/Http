@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Message;
 
 use Innmind\Http\{
-    Message\ReasonPhrase,
     Exception\DomainException
 };
 use Innmind\Immutable\{
@@ -28,7 +27,7 @@ final class StatusCode
 
     public function associatedReasonPhrase(): ReasonPhrase
     {
-        return ReasonPhrase\ReasonPhrase::of($this->code);
+        return ReasonPhrase::of($this->code);
     }
 
     public function value(): int
