@@ -7,7 +7,7 @@ use Innmind\Http\{
     Message\ServerRequest\Stringable,
     Message\ServerRequest\ServerRequest,
     Message\ServerRequest as ServerRequestInterface,
-    Message\Method\Method,
+    Message\Method,
     Message\Query,
     Message\Form,
     ProtocolVersion,

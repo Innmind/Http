@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Method;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    Method\Method,
-    Method as MethodInterface
+    Method,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +14,6 @@ class MethodTest extends TestCase
     {
         $m = new Method('GET');
 
-        $this->assertInstanceOf(MethodInterface::class, $m);
         $this->assertSame('GET', (string) $m);
 
         new Method('POST');

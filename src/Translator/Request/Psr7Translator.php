@@ -6,7 +6,7 @@ namespace Innmind\Http\Translator\Request;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Message\Request\Request,
-    Message\Method\Method,
+    Message\Method,
     ProtocolVersion,
     Headers\Headers,
     Header
