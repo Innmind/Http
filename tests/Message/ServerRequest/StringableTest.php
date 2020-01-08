@@ -77,7 +77,7 @@ RAW;
             new StringStream('some body'),
             null,
             null,
-            Query\Query::of(
+            Query::of(
                 new Query\Parameter\Parameter('foo', 'bar'),
                 new Query\Parameter\Parameter('bar', 42),
                 new Query\Parameter\Parameter('baz', ['foo'])

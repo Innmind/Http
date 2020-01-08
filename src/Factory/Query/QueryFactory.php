@@ -23,6 +23,6 @@ final class QueryFactory implements QueryFactoryInterface
             );
         }
 
-        return new Query\Query($map);
+        return new Query($map);
     }
 }

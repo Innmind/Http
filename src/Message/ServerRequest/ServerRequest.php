@@ -50,7 +50,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
 
         $this->environment = $environment ?? new Environment\Environment;
         $this->cookies = $cookies ?? new Cookies\Cookies;
-        $this->query = $query ?? new Query\Query;
+        $this->query = $query ?? new Query;
         $this->form = $form ?? new Form\Form;
         $this->files = $files ?? new Files\Files;
     }

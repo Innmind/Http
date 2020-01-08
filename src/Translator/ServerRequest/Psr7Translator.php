@@ -9,7 +9,7 @@ use Innmind\Http\{
     Message\Files\Files,
     Message\Environment\Environment,
     Message\Cookies\Cookies,
-    Message\Query\Query,
+    Message\Query,
     Message\Query\Parameter as QueryParameterInterface,
     Message\Query\Parameter\Parameter as QueryParameter,
     Message\Form\Form,

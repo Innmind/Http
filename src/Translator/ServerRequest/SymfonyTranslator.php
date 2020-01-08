@@ -127,7 +127,7 @@ final class SymfonyTranslator
             );
         }
 
-        return new Query\Query($map);
+        return new Query($map);
     }
 
     private function translateForm(ParameterBag $form): Form

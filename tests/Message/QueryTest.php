@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Query;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    Query\Query,
-    Query as QueryInterface,
+    Query,
     Query\Parameter
 };
 use Innmind\Immutable\Map;
@@ -26,7 +25,6 @@ class QueryTest extends TestCase
                 )
         );
 
-        $this->assertInstanceOf(QueryInterface::class, $f);
         $this->assertTrue($f->has('foo'));
         $this->assertFalse($f->has('bar'));
         $this->assertSame($p, $f->get('foo'));

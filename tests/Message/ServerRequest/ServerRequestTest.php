@@ -33,7 +33,7 @@ class ServerRequestTest extends TestCase
             $body = $this->createMock(Readable::class),
             $env = $this->createMock(Environment::class),
             $cookies = $this->createMock(Cookies::class),
-            $query = $this->createMock(Query::class),
+            $query = Query::of(),
             $form = $this->createMock(Form::class),
             $files = $this->createMock(Files::class)
         );
