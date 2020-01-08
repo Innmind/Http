@@ -23,7 +23,7 @@ class ResponseTest extends TestCase
             $status = new StatusCode(200),
             $reason = new ReasonPhrase('OK'),
             $protocol = new ProtocolVersion(2, 0),
-            $headers = $this->createMock(Headers::class),
+            $headers = Headers::of(),
             $body = $this->createMock(Readable::class)
         );
 

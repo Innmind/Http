@@ -9,7 +9,7 @@ use Innmind\Http\{
     Message\Request as RequestInterface,
     Message\Method,
     ProtocolVersion,
-    Headers\Headers,
+    Headers,
     Header\ContentType,
     Header\ContentTypeValue
 };

@@ -9,7 +9,7 @@ use Innmind\Http\{
     Message\Response as ResponseInterface,
     Message\StatusCode,
     ProtocolVersion,
-    Headers\Headers,
+    Headers,
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Allow,

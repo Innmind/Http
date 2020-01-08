@@ -31,7 +31,7 @@ final class Response extends Message implements ResponseInterface
 
         parent::__construct(
             $protocolVersion,
-            $headers ?? new Headers\Headers,
+            $headers ?? new Headers,
             $body ?? new NullStream
         );
     }

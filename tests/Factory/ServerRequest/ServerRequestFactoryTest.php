@@ -12,7 +12,8 @@ use Innmind\Http\{
     Factory\QueryFactory,
     Factory\FormFactory,
     Factory\FilesFactory,
-    Message\ServerRequest
+    Message\ServerRequest,
+    Headers,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -28,6 +29,10 @@ class ServerRequestFactoryTest extends TestCase
             $form = $this->createMock(FormFactory::class),
             $files = $this->createMock(FilesFactory::class)
         );
+        $headers
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Headers::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -44,13 +49,17 @@ class ServerRequestFactoryTest extends TestCase
     public function testMakeWithUser()
     {
         $factory = new ServerRequestFactory(
-            $this->createMock(HeadersFactory::class),
+            $headers = $this->createMock(HeadersFactory::class),
             $this->createMock(EnvironmentFactory::class),
             $this->createMock(CookiesFactory::class),
             $this->createMock(QueryFactory::class),
             $this->createMock(FormFactory::class),
             $this->createMock(FilesFactory::class)
         );
+        $headers
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Headers::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -68,13 +77,17 @@ class ServerRequestFactoryTest extends TestCase
     public function testMakeWithUserAndPassword()
     {
         $factory = new ServerRequestFactory(
-            $this->createMock(HeadersFactory::class),
+            $headers = $this->createMock(HeadersFactory::class),
             $this->createMock(EnvironmentFactory::class),
             $this->createMock(CookiesFactory::class),
             $this->createMock(QueryFactory::class),
             $this->createMock(FormFactory::class),
             $this->createMock(FilesFactory::class)
         );
+        $headers
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Headers::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 

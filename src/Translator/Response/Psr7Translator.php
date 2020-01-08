@@ -9,7 +9,7 @@ use Innmind\Http\{
     Message\StatusCode,
     Message\ReasonPhrase,
     ProtocolVersion,
-    Headers\Headers,
+    Headers,
     Header
 };
 use Innmind\Filesystem\Stream\StringStream;

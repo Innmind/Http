@@ -38,7 +38,7 @@ final class HeadersFactory implements HeadersFactoryInterface
             );
         }
 
-        return new Headers\Headers($map);
+        return new Headers($map);
     }
 
     /**

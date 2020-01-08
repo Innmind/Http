@@ -31,7 +31,7 @@ class Request extends Message implements RequestInterface
 
         parent::__construct(
             $protocolVersion,
-            $headers ?? new Headers\Headers,
+            $headers ?? new Headers,
             $body ?? new NullStream
         );
     }

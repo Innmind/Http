@@ -8,7 +8,7 @@ use Innmind\Http\{
     Message\Request\Request,
     Message\Method,
     ProtocolVersion,
-    Headers\Headers,
+    Headers,
     Header
 };
 use Innmind\Url\Url;

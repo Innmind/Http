@@ -23,7 +23,7 @@ class RequestTest extends TestCase
             $url = $this->createMock(UrlInterface::class),
             $method = Method::get(),
             $protocol = new ProtocolVersion(2, 0),
-            $headers = $this->createMock(Headers::class),
+            $headers = Headers::of(),
             $body = $this->createMock(Readable::class)
         );
 

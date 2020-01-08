@@ -11,7 +11,7 @@ use Innmind\Http\{
     Message\Query,
     Message\Form,
     ProtocolVersion,
-    Headers\Headers,
+    Headers,
     Header\Host,
     Header\HostValue
 };

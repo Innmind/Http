@@ -13,7 +13,7 @@ use Innmind\Http\{
     Message\Files\Files,
     Factory\HeaderFactory,
     ProtocolVersion,
-    Headers\Headers,
+    Headers,
     Header,
     File,
     File\Status,

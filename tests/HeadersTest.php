@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Headers;
+namespace Tests\Innmind\Http;
 
 use Innmind\Http\{
-    Headers\Headers,
-    Headers as HeadersInterface,
+    Headers,
     Header,
     Header\ContentType,
     Header\ContentTypeValue,
@@ -32,7 +31,6 @@ class HeadersTest extends TestCase
                 )
         );
 
-        $this->assertInstanceOf(HeadersInterface::class, $hs);
         $this->assertTrue($hs->has('content-type'));
         $this->assertTrue($hs->has('Content-Type'));
         $this->assertFalse($hs->has('content_type'));

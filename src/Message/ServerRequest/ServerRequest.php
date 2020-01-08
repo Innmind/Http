@@ -44,7 +44,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
             $url,
             $method,
             $protocolVersion,
-            $headers ?? new Headers\Headers,
+            $headers ?? new Headers,
             $body ?? new NullStream
         );
 
