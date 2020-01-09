@@ -10,6 +10,7 @@ use Innmind\Immutable\{
     MapInterface,
     Map
 };
+use function Innmind\Immutable\assertMap;
 
 final class Environment implements \Iterator, \Countable
 {
@@ -19,14 +20,7 @@ final class Environment implements \Iterator, \Countable
     {
         $variables = $variables ?? new Map('string', 'scalar');
 
-        if (
-            (string) $variables->keyType() !== 'string' ||
-            (string) $variables->valueType() !== 'scalar'
-        ) {
-            throw new \TypeError(
-                'Argument 1 must be of type MapInterface<string, scalar>'
-            );
-        }
+        assertMap('string', 'scalar', $variables, 1);
 
         $this->variables = $variables;
     }

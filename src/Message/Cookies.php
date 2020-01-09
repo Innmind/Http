@@ -10,6 +10,7 @@ use Innmind\Immutable\{
     MapInterface,
     Map
 };
+use function Innmind\Immutable\assertMap;
 
 final class Cookies implements \Iterator, \Countable
 {
@@ -19,14 +20,7 @@ final class Cookies implements \Iterator, \Countable
     {
         $cookies = $cookies ?? new Map('string', 'scalar');
 
-        if (
-            (string) $cookies->keyType() !== 'string' ||
-            (string) $cookies->valueType() !== 'scalar'
-        ) {
-            throw new \TypeError(
-                'Argument 1 must be of type MapInterface<string, scalar>'
-            );
-        }
+        assertMap('string', 'scalar', $cookies, 1);
 
         $this->cookies = $cookies;
     }
