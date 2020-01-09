@@ -6,7 +6,7 @@ namespace Innmind\Http\Translator\ServerRequest;
 use Innmind\Http\{
     Message\ServerRequest,
     Message\Method,
-    Message\Environment\Environment,
+    Message\Environment,
     Message\Cookies\Cookies,
     Message\Query,
     Message\Form,

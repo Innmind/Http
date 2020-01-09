@@ -16,6 +16,7 @@ use Innmind\Http\{
     Message\Query,
     Message\Form,
     Message\Files,
+    Message\Environment,
     Headers,
 };
 use PHPUnit\Framework\TestCase;
@@ -48,6 +49,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Files::of());
+        $env
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(new Environment);
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -65,7 +70,7 @@ class ServerRequestFactoryTest extends TestCase
     {
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            $this->createMock(EnvironmentFactory::class),
+            $environment = $this->createMock(EnvironmentFactory::class),
             $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
@@ -87,6 +92,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Files::of());
+        $environment
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(new Environment);
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -105,7 +114,7 @@ class ServerRequestFactoryTest extends TestCase
     {
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            $this->createMock(EnvironmentFactory::class),
+            $environment = $this->createMock(EnvironmentFactory::class),
             $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
@@ -127,6 +136,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Files::of());
+        $environment
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(new Environment);
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 

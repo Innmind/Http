@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Environment;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    Environment\Environment,
-    Environment as EnvironmentInterface
+    Environment,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +18,6 @@ class EnvironmentTest extends TestCase
                 ->put('foo', 42)
         );
 
-        $this->assertInstanceOf(EnvironmentInterface::class, $f);
         $this->assertTrue($f->has('foo'));
         $this->assertFalse($f->has('bar'));
         $this->assertSame(42, $f->get('foo'));

@@ -26,6 +26,6 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
             );
         }
 
-        return new Environment\Environment($map);
+        return new Environment($map);
     }
 }

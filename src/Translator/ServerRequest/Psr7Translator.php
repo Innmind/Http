@@ -7,7 +7,7 @@ use Innmind\Http\{
     Translator\Request\Psr7Translator as RequestTranslator,
     Message\ServerRequest\ServerRequest,
     Message\Files,
-    Message\Environment\Environment,
+    Message\Environment,
     Message\Cookies\Cookies,
     Message\Query,
     Message\Query\Parameter as QueryParameterInterface,
