@@ -22,6 +22,7 @@ class FileTest extends TestCase
         $f = new File(
             'foo',
             $s = $this->createMock(Readable::class),
+            'foo[bar]',
             $ok = new Ok,
             $m = new NullMediaType
         );
@@ -31,5 +32,6 @@ class FileTest extends TestCase
         $this->assertSame('foo', (string) $f->name());
         $this->assertSame($s, $f->content());
         $this->assertSame($ok, $f->status());
+        $this->assertSame('foo[bar]', $f->uploadKey());
     }
 }

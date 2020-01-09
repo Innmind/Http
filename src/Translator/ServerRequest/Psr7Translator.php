@@ -131,6 +131,7 @@ final class Psr7Translator
                 new File\File(
                     $file->getClientFilename(),
                     new Stream($file->getStream()),
+                    $name,
                     $this->status($file->getError()),
                     $mediaType
                 )

@@ -39,7 +39,8 @@ final class FilesFactory implements FilesFactoryInterface
                             $content['name'][$subName],
                             $content['tmp_name'][$subName],
                             $content['error'][$subName],
-                            $content['type'][$subName]
+                            $content['type'][$subName],
+                            $name.'.'.$subName,
                         )
                     );
                 }
@@ -53,7 +54,8 @@ final class FilesFactory implements FilesFactoryInterface
                     $content['name'],
                     $content['tmp_name'],
                     $content['error'],
-                    $content['type']
+                    $content['type'],
+                    $name,
                 )
             );
         }
@@ -65,13 +67,15 @@ final class FilesFactory implements FilesFactoryInterface
         string $name,
         string $path,
         int $status,
-        string $media
+        string $media,
+        string $uploadKey
     ): File {
         $media = (new Str($media))->split('/');
 
         return new File\File(
             $name,
             new Stream(fopen($path, 'r')),
+            $uploadKey,
             $this->status($status),
             new MediaType(
                 (string) $media->get(0),

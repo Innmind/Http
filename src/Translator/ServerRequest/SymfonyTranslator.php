@@ -165,6 +165,7 @@ final class SymfonyTranslator
                     new Stream(
                         fopen($file->getPathname(), 'r')
                     ),
+                    $name,
                     $this->buildFileStatus($file->getError()),
                     MediaType::fromString((string) $file->getClientMimeType())
                 )

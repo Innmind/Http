@@ -14,17 +14,20 @@ final class File implements FileInterface
 {
     private $name;
     private $content;
+    private $uploadKey;
     private $status;
     private $mediaType;
 
     public function __construct(
         string $name,
         Readable $content,
+        string $uploadKey,
         Status $status,
         MediaType $mediaType
     ) {
         $this->name = new Name\Name($name);
         $this->content = $content;
+        $this->uploadKey = $uploadKey;
         $this->status = $status;
         $this->mediaType = $mediaType;
     }
@@ -37,6 +40,11 @@ final class File implements FileInterface
     public function content(): Readable
     {
         return $this->content;
+    }
+
+    public function uploadKey(): string
+    {
+        return $this->uploadKey;
     }
 
     public function status(): Status
