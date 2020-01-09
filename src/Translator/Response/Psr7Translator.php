@@ -28,7 +28,7 @@ final class Psr7Translator
         $this->headerFactory = $headerFactory;
     }
 
-    public function translate(ResponseInterface $response): Response
+    public function __invoke(ResponseInterface $response): Response
     {
         list($major, $minor) = explode('.', $response->getProtocolVersion());
 
@@ -46,7 +46,7 @@ final class Psr7Translator
         $headers = [];
 
         foreach ($rawHeaders as $name => $values) {
-            $headers[] = $this->headerFactory->make(
+            $headers[] = ($this->headerFactory)(
                 new Str($name),
                 new Str(implode(', ', $values))
             );

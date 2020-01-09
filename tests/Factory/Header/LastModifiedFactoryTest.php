@@ -23,7 +23,7 @@ class LastModifiedFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new LastModifiedFactory)->make(
+        $header = (new LastModifiedFactory)(
             new Str('Last-Modified'),
             new Str('Tue, 15 Nov 1994 08:12:31 GMT')
         );
@@ -40,7 +40,7 @@ class LastModifiedFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new LastModifiedFactory)->make(
+        (new LastModifiedFactory)(
             new Str('foo'),
             new Str('')
         );

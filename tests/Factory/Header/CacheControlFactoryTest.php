@@ -19,7 +19,7 @@ class CacheControlFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('Cache-Control'),
             new Str('no-cache="field", no-store, max-age=42, max-stale=42, min-fresh=42, no-transform, only-if-cached, public, private="field", must-revalidate, proxy-revalidate, s-maxage=42, immutable')
         );
@@ -36,7 +36,7 @@ class CacheControlFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new CacheControlFactory)->make(
+        (new CacheControlFactory)(
             new Str('foo'),
             new Str('')
         );

@@ -31,7 +31,7 @@ class TryFactoryTest extends TestCase
         $try = $this->createMock(HeaderFactory::class);
         $try
             ->expects($this->once())
-            ->method('make')
+            ->method('__invoke')
             ->with($name, $value)
             ->willReturn(
                 $expected = $this->createMock(Header::class)
@@ -39,10 +39,10 @@ class TryFactoryTest extends TestCase
         $fallback = $this->createMock(HeaderFactory::class);
         $fallback
             ->expects($this->never())
-            ->method('make');
+            ->method('__invoke');
         $factory = new TryFactory($try, $fallback);
 
-        $this->assertSame($expected, $factory->make($name, $value));
+        $this->assertSame($expected, ($factory)($name, $value));
     }
 
     public function testMakeViaFallback()
@@ -52,7 +52,7 @@ class TryFactoryTest extends TestCase
         $try = $this->createMock(HeaderFactory::class);
         $try
             ->expects($this->once())
-            ->method('make')
+            ->method('__invoke')
             ->with($name, $value)
             ->will(
                 $this->throwException(new \Error)
@@ -60,13 +60,13 @@ class TryFactoryTest extends TestCase
         $fallback = $this->createMock(HeaderFactory::class);
         $fallback
             ->expects($this->once())
-            ->method('make')
+            ->method('__invoke')
             ->with($name, $value)
             ->willReturn(
                 $expected = $this->createMock(Header::class)
             );
         $factory = new TryFactory($try, $fallback);
 
-        $this->assertSame($expected, $factory->make($name, $value));
+        $this->assertSame($expected, ($factory)($name, $value));
     }
 }

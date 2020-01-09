@@ -16,7 +16,7 @@ final class AuthorizationFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
             (string) $name->toLower() !== 'authorization' ||

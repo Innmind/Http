@@ -19,7 +19,7 @@ class ReferrerFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('Referer'),
             new Str('http://www.w3.org/hypertext/DataSources/Overview.html')
         );
@@ -36,7 +36,7 @@ class ReferrerFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ReferrerFactory)->make(
+        (new ReferrerFactory)(
             new Str('foo'),
             new Str('')
         );

@@ -19,7 +19,7 @@ use Innmind\Immutable\Str;
 
 final class LastModifiedFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'last-modified') {
             throw new DomainException;

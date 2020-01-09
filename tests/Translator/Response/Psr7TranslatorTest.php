@@ -46,7 +46,7 @@ class Psr7TranslatorTest extends TestCase
             ->method('__toString')
             ->willReturn('content');
 
-        $response = $translator->translate($response);
+        $response = ($translator)($response);
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(201, $response->statusCode()->value());

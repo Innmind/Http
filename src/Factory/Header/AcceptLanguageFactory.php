@@ -21,7 +21,7 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-language') {
             throw new DomainException;

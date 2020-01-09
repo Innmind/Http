@@ -7,5 +7,5 @@ use Innmind\Http\Message\Environment;
 
 interface EnvironmentFactory
 {
-    public function make(): Environment;
+    public function __invoke(): Environment;
 }

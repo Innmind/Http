@@ -23,7 +23,7 @@ class ContentLanguageFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new ContentLanguageFactory)->make(
+        $header = (new ContentLanguageFactory)(
             new Str('Content-Language'),
             new Str('fr-FR, fr-CA')
         );
@@ -37,7 +37,7 @@ class ContentLanguageFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentLanguageFactory)->make(
+        (new ContentLanguageFactory)(
             new Str('foo'),
             new Str('')
         );

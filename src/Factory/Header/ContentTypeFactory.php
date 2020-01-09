@@ -20,7 +20,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
             (string) $name->toLower() !== 'content-type' ||

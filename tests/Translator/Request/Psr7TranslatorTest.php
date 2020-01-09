@@ -50,7 +50,7 @@ class Psr7TranslatorTest extends TestCase
             ->method('__toString')
             ->willReturn('content');
 
-        $request = $translator->translate($request);
+        $request = ($translator)($request);
 
         $this->assertInstanceOf(Request::class, $request);
         $this->assertSame('/foo', (string) $request->url());

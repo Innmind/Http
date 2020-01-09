@@ -23,7 +23,7 @@ class AcceptRangesFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new AcceptRangesFactory)->make(
+        $header = (new AcceptRangesFactory)(
             new Str('Accept-Ranges'),
             new Str('bytes')
         );
@@ -37,7 +37,7 @@ class AcceptRangesFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AcceptRangesFactory)->make(
+        (new AcceptRangesFactory)(
             new Str('foo'),
             new Str('')
         );

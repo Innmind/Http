@@ -26,10 +26,10 @@ class HeadersFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(HeadersFactoryInterface::class, $f);
-        $this->assertInstanceOf(Headers::class, $f->make());
-        $this->assertTrue($f->make()->contains('authorization'));
-        $this->assertTrue($f->make()->contains('content-length'));
-        $this->assertTrue($f->make()->contains('content-md5'));
-        $this->assertTrue($f->make()->contains('content-type'));
+        $this->assertInstanceOf(Headers::class, ($f)());
+        $this->assertTrue(($f)()->contains('authorization'));
+        $this->assertTrue(($f)()->contains('content-length'));
+        $this->assertTrue(($f)()->contains('content-md5'));
+        $this->assertTrue(($f)()->contains('content-type'));
     }
 }

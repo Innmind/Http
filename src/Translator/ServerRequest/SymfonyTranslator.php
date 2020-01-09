@@ -50,7 +50,7 @@ final class SymfonyTranslator
         $this->headerFactory = $headerFactory;
     }
 
-    public function translate(SfRequest $request): ServerRequest
+    public function __invoke(SfRequest $request): ServerRequest
     {
         $protocol = Str::of($request->server->get('SERVER_PROTOCOL'))->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
@@ -78,7 +78,7 @@ final class SymfonyTranslator
         $headers = [];
 
         foreach ($headerBag as $name => $value) {
-            $headers[] = $this->headerFactory->make(
+            $headers[] = ($this->headerFactory)(
                 new Str($name),
                 new Str(implode(', ', $value))
             );

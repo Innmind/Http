@@ -16,7 +16,7 @@ final class RangeFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
             (string) $name->toLower() !== 'range' ||

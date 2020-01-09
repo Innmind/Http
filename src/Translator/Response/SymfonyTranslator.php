@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response as SfResponse;
 
 final class SymfonyTranslator
 {
-    public function translate(Response $response): SfResponse
+    public function __invoke(Response $response): SfResponse
     {
         return new SfResponse(
             (string) $response->body(),

@@ -15,7 +15,7 @@ use Innmind\Immutable\Str;
 
 final class ContentLocationFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'content-location') {
             throw new DomainException;

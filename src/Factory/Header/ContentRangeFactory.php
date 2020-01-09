@@ -16,7 +16,7 @@ final class ContentRangeFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         $value = $value->trim();
 

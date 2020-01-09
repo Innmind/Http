@@ -42,7 +42,7 @@ class DelegationFactoryTest extends TestCase
         $mock = $this->createMock(HeaderFactory::class);
         $mock
             ->expects($this->once())
-            ->method('make')
+            ->method('__invoke')
             ->with($name, $value)
             ->willReturn(
                 $expected = $this->createMock(Header::class)
@@ -50,13 +50,13 @@ class DelegationFactoryTest extends TestCase
         $neverToBeCalled = $this->createMock(HeaderFactory::class);
         $neverToBeCalled
             ->expects($this->never())
-            ->method('make');
+            ->method('__invoke');
         $factory = new DelegationFactory(
             (new Map('string', HeaderFactory::class))
                 ->put('x-foo', $mock)
                 ->put('foo', $neverToBeCalled)
         );
 
-        $header = $factory->make($name, $value);
+        $header = ($factory)($name, $value);
     }
 }

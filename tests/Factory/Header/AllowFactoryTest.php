@@ -23,7 +23,7 @@ class AllowFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new AllowFactory)->make(
+        $header = (new AllowFactory)(
             new Str('Allow'),
             new Str('get, post')
         );
@@ -37,7 +37,7 @@ class AllowFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AllowFactory)->make(
+        (new AllowFactory)(
             new Str('foo'),
             new Str('')
         );

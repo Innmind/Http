@@ -12,7 +12,7 @@ use Innmind\Immutable\Map;
 
 final class FormFactory implements FormFactoryInterface
 {
-    public function make(): Form
+    public function __invoke(): Form
     {
         $forms = [];
 

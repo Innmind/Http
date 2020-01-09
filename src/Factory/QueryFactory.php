@@ -7,5 +7,5 @@ use Innmind\Http\Message\Query;
 
 interface QueryFactory
 {
-    public function make(): Query;
+    public function __invoke(): Query;
 }

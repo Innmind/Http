@@ -12,7 +12,7 @@ use Innmind\Immutable\Map;
 
 final class QueryFactory implements QueryFactoryInterface
 {
-    public function make(): Query
+    public function __invoke(): Query
     {
         $queries = [];
 

@@ -21,7 +21,7 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-encoding') {
             throw new DomainException;

@@ -23,7 +23,7 @@ class ExpiresFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new ExpiresFactory)->make(
+        $header = (new ExpiresFactory)(
             new Str('Expires'),
             new Str('Tue, 15 Nov 1994 08:12:31 GMT')
         );
@@ -40,7 +40,7 @@ class ExpiresFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ExpiresFactory)->make(
+        (new ExpiresFactory)(
             new Str('foo'),
             new Str('')
         );

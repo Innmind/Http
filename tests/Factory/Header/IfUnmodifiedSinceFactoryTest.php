@@ -19,7 +19,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('If-Unmodified-Since'),
             new Str('Tue, 15 Nov 1994 08:12:31 GMT')
         );
@@ -36,7 +36,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new IfUnmodifiedSinceFactory)->make(
+        (new IfUnmodifiedSinceFactory)(
             new Str('foo'),
             new Str('')
         );

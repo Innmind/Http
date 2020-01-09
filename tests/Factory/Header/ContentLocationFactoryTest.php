@@ -23,7 +23,7 @@ class ContentLocationFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new ContentLocationFactory)->make(
+        $header = (new ContentLocationFactory)(
             new Str('Content-Location'),
             new Str('http://example.com')
         );
@@ -37,7 +37,7 @@ class ContentLocationFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentLocationFactory)->make(
+        (new ContentLocationFactory)(
             new Str('foo'),
             new Str('')
         );

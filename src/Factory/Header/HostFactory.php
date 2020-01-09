@@ -18,7 +18,7 @@ use Innmind\Immutable\Str;
 
 final class HostFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'host') {
             throw new DomainException;

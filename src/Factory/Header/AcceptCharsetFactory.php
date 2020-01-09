@@ -21,7 +21,7 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-charset') {
             throw new DomainException;

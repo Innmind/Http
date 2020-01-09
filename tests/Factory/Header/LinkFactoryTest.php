@@ -23,7 +23,7 @@ class LinkFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new LinkFactory)->make(
+        $header = (new LinkFactory)(
             new Str('Link'),
             new Str('</foo>; rel="next"; title=foo; bar="baz", </bar>')
         );
@@ -37,7 +37,7 @@ class LinkFactoryTest extends TestCase
 
     public function testMakeWithComplexParameterValue()
     {
-        $header = (new LinkFactory)->make(
+        $header = (new LinkFactory)(
             new Str('Link'),
             new Str('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~"')
         );
@@ -54,7 +54,7 @@ class LinkFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new LinkFactory)->make(
+        (new LinkFactory)(
             new Str('foo'),
             new Str('')
         );
@@ -65,7 +65,7 @@ class LinkFactoryTest extends TestCase
      */
     public function testThrowWhenNotValid()
     {
-        (new LinkFactory)->make(
+        (new LinkFactory)(
             new Str('Link'),
             new Str('foo')
         );

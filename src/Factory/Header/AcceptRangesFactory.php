@@ -14,7 +14,7 @@ use Innmind\Immutable\Str;
 
 final class AcceptRangesFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept-ranges') {
             throw new DomainException;

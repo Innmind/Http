@@ -31,11 +31,11 @@ final class DelegationFactory implements HeaderFactoryInterface
         $this->factories = $factories;
     }
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         return $this
             ->factories
             ->get((string) $name->toLower())
-            ->make($name, $value);
+            ($name, $value);
     }
 }

@@ -19,7 +19,7 @@ class DateFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('Date'),
             new Str('Tue, 15 Nov 1994 08:12:31 GMT')
         );
@@ -36,7 +36,7 @@ class DateFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new DateFactory)->make(
+        (new DateFactory)(
             new Str('foo'),
             new Str('')
         );

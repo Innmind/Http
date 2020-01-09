@@ -19,7 +19,7 @@ class RangeFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('Range'),
             new Str('bytes=0-42')
         );
@@ -36,7 +36,7 @@ class RangeFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new RangeFactory)->make(
+        (new RangeFactory)(
             new Str('foo'),
             new Str('')
         );
@@ -47,7 +47,7 @@ class RangeFactoryTest extends TestCase
      */
     public function testThrowWhenNotValid()
     {
-        (new RangeFactory)->make(
+        (new RangeFactory)(
             new Str('Range'),
             new Str('foo')
         );

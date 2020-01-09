@@ -26,7 +26,7 @@ use Innmind\Immutable\{
 
 final class FilesFactory implements FilesFactoryInterface
 {
-    public function make(): Files
+    public function __invoke(): Files
     {
         $map = [];
 

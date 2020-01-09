@@ -22,7 +22,7 @@ final class AcceptFactory implements HeaderFactoryInterface
 {
     const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'accept') {
             throw new DomainException;

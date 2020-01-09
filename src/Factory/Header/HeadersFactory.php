@@ -24,12 +24,12 @@ final class HeadersFactory implements HeadersFactoryInterface
         $this->headerFactory = $headerFactory;
     }
 
-    public function make(): Headers
+    public function __invoke(): Headers
     {
         $headers = [];
 
         foreach ($this->headers() as $name => $value) {
-            $headers[] = $this->headerFactory->make(
+            $headers[] = ($this->headerFactory)(
                 new Str((string) $name),
                 new Str((string) $value)
             );

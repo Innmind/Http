@@ -30,7 +30,7 @@ class FormFactoryTest extends TestCase
             ],
             'another' => 'value',
         ];
-        $f = $f->make();
+        $f = ($f)();
 
         $this->assertInstanceOf(Form::class, $f);
         $this->assertSame(2, $f->count());

@@ -11,7 +11,7 @@ use Innmind\Immutable\Map;
 
 final class CookiesFactory implements CookiesFactoryInterface
 {
-    public function make(): Cookies
+    public function __invoke(): Cookies
     {
         $map = new Map('string', 'scalar');
 

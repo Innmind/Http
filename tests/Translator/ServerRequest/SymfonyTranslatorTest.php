@@ -22,7 +22,7 @@ class RequestTranslatorTest extends TestCase
             new HeaderFactory
         );
 
-        $request = $translator->translate(
+        $request = ($translator)(
             new Request(
                 [
                     'search' => 'foo',

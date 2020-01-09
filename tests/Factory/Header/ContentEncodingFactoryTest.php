@@ -23,7 +23,7 @@ class ContentEncodingFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new ContentEncodingFactory)->make(
+        $header = (new ContentEncodingFactory)(
             new Str('Content-Encoding'),
             new Str('x-gzip')
         );
@@ -37,7 +37,7 @@ class ContentEncodingFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentEncodingFactory)->make(
+        (new ContentEncodingFactory)(
             new Str('foo'),
             new Str('')
         );

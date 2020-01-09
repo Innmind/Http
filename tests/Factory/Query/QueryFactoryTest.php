@@ -23,7 +23,7 @@ class QueryFactoryTest extends TestCase
             'foo' => 'bar',
             'baz' => 'foo',
         ];
-        $q = $f->make();
+        $q = ($f)();
 
         $this->assertInstanceOf(Query::class, $q);
         $this->assertSame(2, $q->count());

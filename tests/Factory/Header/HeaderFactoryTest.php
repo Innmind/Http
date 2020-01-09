@@ -25,7 +25,7 @@ class HeaderFactoryTest extends TestCase
     {
         $factory = new HeaderFactory;
 
-        $header = $factory->make(
+        $header = ($factory)(
             new Str('X-Foo'),
             new Str('bar')
         );

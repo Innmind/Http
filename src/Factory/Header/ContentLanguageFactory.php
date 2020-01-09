@@ -18,7 +18,7 @@ use Innmind\Immutable\{
 
 final class ContentLanguageFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'content-language') {
             throw new DomainException;

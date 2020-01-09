@@ -11,7 +11,7 @@ use Innmind\Immutable\Map;
 
 final class EnvironmentFactory implements EnvironmentFactoryInterface
 {
-    public function make(): Environment
+    public function __invoke(): Environment
     {
         $map = new Map('string', 'scalar');
 

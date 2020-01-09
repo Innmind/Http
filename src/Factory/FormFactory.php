@@ -7,5 +7,5 @@ use Innmind\Http\Message\Form;
 
 interface FormFactory
 {
-    public function make(): Form;
+    public function __invoke(): Form;
 }

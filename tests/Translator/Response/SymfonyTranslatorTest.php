@@ -33,7 +33,7 @@ class SymfonyTranslatorTest extends TestCase
             new StringStream('watev')
         );
 
-        $response = $translator->translate($response);
+        $response = ($translator)($response);
 
         $this->assertInstanceOf(SfResponse::class, $response);
         $this->assertSame(200, $response->getStatusCode());

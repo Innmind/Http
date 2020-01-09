@@ -41,9 +41,9 @@ final class Psr7Translator
         $this->requestTranslator = $requestTranslator;
     }
 
-    public function translate(ServerRequestInterface $serverRequest): ServerRequest
+    public function __invoke(ServerRequestInterface $serverRequest): ServerRequest
     {
-        $request = $this->requestTranslator->translate($serverRequest);
+        $request = ($this->requestTranslator)($serverRequest);
 
         return new ServerRequest(
             $request->url(),

@@ -7,5 +7,5 @@ use Innmind\Http\Message\Files;
 
 interface FilesFactory
 {
-    public function make(): Files;
+    public function __invoke(): Files;
 }

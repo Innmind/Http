@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 
 final class HeaderFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         return new Header\Header(
             (string) $name,

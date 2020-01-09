@@ -22,12 +22,12 @@ final class TryFactory implements HeaderFactoryInterface
         $this->fallback = $fallback;
     }
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         try {
-            return $this->try->make($name, $value);
+            return ($this->try)($name, $value);
         } catch (\Throwable $e) {
-            return $this->fallback->make($name, $value);
+            return ($this->fallback)($name, $value);
         }
     }
 }

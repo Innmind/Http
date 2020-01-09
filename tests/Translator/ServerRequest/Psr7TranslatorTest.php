@@ -103,7 +103,7 @@ class Psr7TranslatorTest extends TestCase
             ->method('getError')
             ->willReturn(UPLOAD_ERR_OK);
 
-        $request = $translator->translate($request);
+        $request = ($translator)($request);
 
         $this->assertInstanceOf(ServerRequest::class, $request);
         $this->assertSame('/foo', (string) $request->url());

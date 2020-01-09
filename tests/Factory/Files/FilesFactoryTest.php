@@ -33,7 +33,7 @@ class FilesFactoryTest extends TestCase
             ],
         ];
         file_put_contents('/tmp/foo.txt', 'foo');
-        $f = $f->make();
+        $f = ($f)();
 
         $this->assertInstanceOf(Files::class, $f);
         $this->assertSame(1, $f->count());
@@ -68,7 +68,7 @@ class FilesFactoryTest extends TestCase
             ],
         ];
         file_put_contents('/tmp/bar.txt', 'bar');
-        $f = $f->make();
+        $f = ($f)();
 
         $this->assertInstanceOf(Files::class, $f);
         $this->assertSame(1, $f->count());

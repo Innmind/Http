@@ -23,7 +23,7 @@ class ContentLengthFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new ContentLengthFactory)->make(
+        $header = (new ContentLengthFactory)(
             new Str('Content-Length'),
             new Str('42')
         );
@@ -37,7 +37,7 @@ class ContentLengthFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentLengthFactory)->make(
+        (new ContentLengthFactory)(
             new Str('foo'),
             new Str('')
         );

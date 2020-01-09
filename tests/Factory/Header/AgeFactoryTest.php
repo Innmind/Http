@@ -23,7 +23,7 @@ class AgeFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new AgeFactory)->make(
+        $header = (new AgeFactory)(
             new Str('Age'),
             new Str('42')
         );
@@ -37,7 +37,7 @@ class AgeFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AgeFactory)->make(
+        (new AgeFactory)(
             new Str('foo'),
             new Str('')
         );

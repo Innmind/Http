@@ -22,7 +22,7 @@ class HostFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('Host'),
             new Str($host)
         );
@@ -39,7 +39,7 @@ class HostFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new HostFactory)->make(
+        (new HostFactory)(
             new Str('foo'),
             new Str('')
         );

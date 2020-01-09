@@ -49,7 +49,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         $this->filesFactory = $filesFactory;
     }
 
-    public function make(): ServerRequest
+    public function __invoke(): ServerRequest
     {
         $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
@@ -80,13 +80,13 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 (int) (string) $protocol['major'],
                 (int) (string) $protocol['minor']
             ),
-            $this->headersFactory->make(),
+            ($this->headersFactory)(),
             new LazyStream('php://input'),
-            $this->environmentFactory->make(),
-            $this->cookiesFactory->make(),
-            $this->queryFactory->make(),
-            $this->formFactory->make(),
-            $this->filesFactory->make()
+            ($this->environmentFactory)(),
+            ($this->cookiesFactory)(),
+            ($this->queryFactory)(),
+            ($this->formFactory)(),
+            ($this->filesFactory)()
         );
     }
 

@@ -19,7 +19,7 @@ class AuthorizationFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
+        $h = ($f)(
             new Str('Authorization'),
             new Str('Basic realm="WallyWorld"')
         );
@@ -36,7 +36,7 @@ class AuthorizationFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AuthorizationFactory)->make(
+        (new AuthorizationFactory)(
             new Str('foo'),
             new Str('')
         );
@@ -47,7 +47,7 @@ class AuthorizationFactoryTest extends TestCase
      */
     public function testThrowWhenNotValid()
     {
-        (new AuthorizationFactory)->make(
+        (new AuthorizationFactory)(
             new Str('Authorization'),
             new Str('@')
         );

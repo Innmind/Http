@@ -18,7 +18,7 @@ use Innmind\Immutable\{
 
 final class AllowFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if ((string) $name->toLower() !== 'allow') {
             throw new DomainException;

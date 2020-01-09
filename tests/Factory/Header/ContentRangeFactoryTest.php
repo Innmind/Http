@@ -23,7 +23,7 @@ class ContentRangeFactoryTest extends TestCase
 
     public function testMakeWithoutLength()
     {
-        $header = (new ContentRangeFactory)->make(
+        $header = (new ContentRangeFactory)(
             new Str('Content-Range'),
             new Str('bytes 0-42/*')
         );
@@ -34,7 +34,7 @@ class ContentRangeFactoryTest extends TestCase
 
     public function testMakeWithLength()
     {
-        $header = (new ContentRangeFactory)->make(
+        $header = (new ContentRangeFactory)(
             new Str('Content-Range'),
             new Str('bytes 0-42/66')
         );
@@ -48,7 +48,7 @@ class ContentRangeFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentRangeFactory)->make(
+        (new ContentRangeFactory)(
             new Str('foo'),
             new Str('')
         );
@@ -59,7 +59,7 @@ class ContentRangeFactoryTest extends TestCase
      */
     public function testThrowWhenNotValid()
     {
-        (new ContentRangeFactory)->make(
+        (new ContentRangeFactory)(
             new Str('Content-Range'),
             new Str('foo')
         );

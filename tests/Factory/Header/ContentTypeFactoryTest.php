@@ -23,7 +23,7 @@ class ContentTypeFactoryTest extends TestCase
 
     public function testMakeWithoutParameters()
     {
-        $header = (new ContentTypeFactory)->make(
+        $header = (new ContentTypeFactory)(
             new Str('Content-Type'),
             new Str('image/gif')
         );
@@ -34,7 +34,7 @@ class ContentTypeFactoryTest extends TestCase
 
     public function testMakeWithParameters()
     {
-        $header = (new ContentTypeFactory)->make(
+        $header = (new ContentTypeFactory)(
             new Str('Content-Type'),
             new Str('image/gif; foo="bar"; q=0.5')
         );
@@ -48,7 +48,7 @@ class ContentTypeFactoryTest extends TestCase
      */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentTypeFactory)->make(
+        (new ContentTypeFactory)(
             new Str('foo'),
             new Str('')
         );
@@ -59,7 +59,7 @@ class ContentTypeFactoryTest extends TestCase
      */
     public function testThrowWhenNotValid()
     {
-        (new ContentTypeFactory)->make(
+        (new ContentTypeFactory)(
             new Str('Content-Type'),
             new Str('foo')
         );
