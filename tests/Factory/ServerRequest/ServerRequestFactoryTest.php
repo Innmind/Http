@@ -15,6 +15,7 @@ use Innmind\Http\{
     Message\ServerRequest,
     Message\Query,
     Message\Form,
+    Message\Files,
     Headers,
 };
 use PHPUnit\Framework\TestCase;
@@ -43,6 +44,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Form::of());
+        $files
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Files::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -64,7 +69,7 @@ class ServerRequestFactoryTest extends TestCase
             $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
-            $this->createMock(FilesFactory::class)
+            $files = $this->createMock(FilesFactory::class)
         );
         $headers
             ->expects($this->once())
@@ -78,6 +83,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Form::of());
+        $files
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Files::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -100,7 +109,7 @@ class ServerRequestFactoryTest extends TestCase
             $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
-            $this->createMock(FilesFactory::class)
+            $files = $this->createMock(FilesFactory::class)
         );
         $headers
             ->expects($this->once())
@@ -114,6 +123,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Form::of());
+        $files
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Files::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 

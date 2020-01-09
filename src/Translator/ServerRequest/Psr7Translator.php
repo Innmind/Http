@@ -6,7 +6,7 @@ namespace Innmind\Http\Translator\ServerRequest;
 use Innmind\Http\{
     Translator\Request\Psr7Translator as RequestTranslator,
     Message\ServerRequest\ServerRequest,
-    Message\Files\Files,
+    Message\Files,
     Message\Environment\Environment,
     Message\Cookies\Cookies,
     Message\Query,

@@ -10,7 +10,7 @@ use Innmind\Http\{
     Message\Cookies\Cookies,
     Message\Query,
     Message\Form,
-    Message\Files\Files,
+    Message\Files,
     Factory\HeaderFactory,
     ProtocolVersion,
     Headers,

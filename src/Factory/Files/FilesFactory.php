@@ -58,7 +58,7 @@ final class FilesFactory implements FilesFactoryInterface
             );
         }
 
-        return new Files\Files($map);
+        return new Files($map);
     }
 
     private function buildFile(

@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Files;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\{
-    Message\Files\Files,
-    Message\Files as FilesInterface,
+    Message\Files,
     File
 };
 use Innmind\Filesystem\Name\Name;
@@ -24,7 +23,6 @@ class FilesTest extends TestCase
                 )
         );
 
-        $this->assertInstanceOf(FilesInterface::class, $fs);
         $this->assertTrue($fs->has('foo'));
         $this->assertFalse($fs->has('bar'));
         $this->assertSame($f, $fs->get('foo'));
