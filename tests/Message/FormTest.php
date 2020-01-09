@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Form;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    Form\Form,
-    Form as FormInterface,
+    Form,
     Form\Parameter
 };
 use Innmind\Immutable\Map;
@@ -26,7 +25,6 @@ class FormTest extends TestCase
                 )
         );
 
-        $this->assertInstanceOf(FormInterface::class, $f);
         $this->assertTrue($f->has(42));
         $this->assertFalse($f->has('42'));
         $this->assertSame($p, $f->get(42));

@@ -14,6 +14,7 @@ use Innmind\Http\{
     Factory\FilesFactory,
     Message\ServerRequest,
     Message\Query,
+    Message\Form,
     Headers,
 };
 use PHPUnit\Framework\TestCase;
@@ -38,6 +39,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Query::of());
+        $form
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Form::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -58,7 +63,7 @@ class ServerRequestFactoryTest extends TestCase
             $this->createMock(EnvironmentFactory::class),
             $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
-            $this->createMock(FormFactory::class),
+            $form = $this->createMock(FormFactory::class),
             $this->createMock(FilesFactory::class)
         );
         $headers
@@ -69,6 +74,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Query::of());
+        $form
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Form::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -89,8 +98,8 @@ class ServerRequestFactoryTest extends TestCase
             $headers = $this->createMock(HeadersFactory::class),
             $this->createMock(EnvironmentFactory::class),
             $this->createMock(CookiesFactory::class),
-            $query =$this->createMock(QueryFactory::class),
-            $this->createMock(FormFactory::class),
+            $query = $this->createMock(QueryFactory::class),
+            $form = $this->createMock(FormFactory::class),
             $this->createMock(FilesFactory::class)
         );
         $headers
@@ -101,6 +110,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Query::of());
+        $form
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(Form::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 

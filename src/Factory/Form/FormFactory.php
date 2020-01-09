@@ -23,7 +23,7 @@ final class FormFactory implements FormFactoryInterface
             );
         }
 
-        return new Form\Form($map);
+        return new Form($map);
     }
 
     private function buildParameter($name, $value): Parameter

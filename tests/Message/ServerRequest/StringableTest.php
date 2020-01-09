@@ -123,7 +123,7 @@ RAW;
             null,
             null,
             null,
-            Form\Form::of(
+            Form::of(
                 new Form\Parameter\Parameter('foo', 'bar'),
                 new Form\Parameter\Parameter('bar', 42),
                 new Form\Parameter\Parameter(

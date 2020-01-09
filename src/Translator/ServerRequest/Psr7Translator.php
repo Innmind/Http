@@ -12,7 +12,7 @@ use Innmind\Http\{
     Message\Query,
     Message\Query\Parameter as QueryParameterInterface,
     Message\Query\Parameter\Parameter as QueryParameter,
-    Message\Form\Form,
+    Message\Form,
     Message\Form\Parameter as FormParameterInterface,
     Message\Form\Parameter\Parameter as FormParameter,
     File,

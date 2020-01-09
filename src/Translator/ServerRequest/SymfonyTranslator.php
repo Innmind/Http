@@ -141,7 +141,7 @@ final class SymfonyTranslator
             );
         }
 
-        return new Form\Form($map);
+        return new Form($map);
     }
 
     private function buildFormParameter($name, $value): Form\Parameter
