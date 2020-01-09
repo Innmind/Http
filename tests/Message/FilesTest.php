@@ -23,8 +23,8 @@ class FilesTest extends TestCase
                 )
         );
 
-        $this->assertTrue($fs->has('foo'));
-        $this->assertFalse($fs->has('bar'));
+        $this->assertTrue($fs->contains('foo'));
+        $this->assertFalse($fs->contains('bar'));
         $this->assertSame($f, $fs->get('foo'));
         $this->assertSame(1, $fs->count());
         $this->assertSame($f, $fs->current());
@@ -47,7 +47,7 @@ class FilesTest extends TestCase
         $files = Files::of($file);
 
         $this->assertInstanceOf(Files::class, $files);
-        $this->assertTrue($files->has('foo'));
+        $this->assertTrue($files->contains('foo'));
     }
 
     /**

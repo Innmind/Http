@@ -25,8 +25,8 @@ class QueryTest extends TestCase
                 )
         );
 
-        $this->assertTrue($f->has('foo'));
-        $this->assertFalse($f->has('bar'));
+        $this->assertTrue($f->contains('foo'));
+        $this->assertFalse($f->contains('bar'));
         $this->assertSame($p, $f->get('foo'));
         $this->assertSame(1, $f->count());
         $this->assertSame($p, $f->current());
@@ -44,7 +44,7 @@ class QueryTest extends TestCase
         $query = Query::of(new Parameter\Parameter('foo', 24));
 
         $this->assertInstanceOf(Query::class, $query);
-        $this->assertTrue($query->has('foo'));
+        $this->assertTrue($query->contains('foo'));
     }
 
     /**

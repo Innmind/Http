@@ -38,14 +38,14 @@ final class Cookies implements \Iterator, \Countable
      */
     public function get(string $name)
     {
-        if (!$this->has($name)) {
+        if (!$this->contains($name)) {
             throw new CookieNotFound;
         }
 
         return $this->cookies->get($name);
     }
 
-    public function has(string $name): bool
+    public function contains(string $name): bool
     {
         return $this->cookies->contains($name);
     }

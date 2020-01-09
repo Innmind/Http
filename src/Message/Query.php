@@ -58,14 +58,14 @@ final class Query implements \Iterator, \Countable
      */
     public function get(string $name): Parameter
     {
-        if (!$this->has($name)) {
+        if (!$this->contains($name)) {
             throw new QueryParameterNotFound;
         }
 
         return $this->parameters->get($name);
     }
 
-    public function has(string $name): bool
+    public function contains(string $name): bool
     {
         return $this->parameters->contains($name);
     }

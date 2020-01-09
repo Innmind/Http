@@ -62,7 +62,7 @@ final class Headers implements \Iterator, \Countable
      */
     public function get(string $name): Header
     {
-        if (!$this->has($name)) {
+        if (!$this->contains($name)) {
             throw new HeaderNotFound;
         }
 
@@ -76,7 +76,7 @@ final class Headers implements \Iterator, \Countable
      *
      * @return bool
      */
-    public function has(string $name): bool
+    public function contains(string $name): bool
     {
         return $this->headers->contains((string) (new Str($name))->toLower());
     }

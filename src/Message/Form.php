@@ -56,7 +56,7 @@ final class Form implements \Iterator, \Countable
      */
     public function get($key): Parameter
     {
-        if (!$this->has($key)) {
+        if (!$this->contains($key)) {
             throw new FormParameterNotFound;
         }
 
@@ -66,7 +66,7 @@ final class Form implements \Iterator, \Countable
     /**
      * @param scalar $key
      */
-    public function has($key): bool
+    public function contains($key): bool
     {
         return $this->parameters->contains($key);
     }

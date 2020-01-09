@@ -38,14 +38,14 @@ final class Environment implements \Iterator, \Countable
      */
     public function get(string $name)
     {
-        if (!$this->has($name)) {
+        if (!$this->contains($name)) {
             throw new EnvironmentVariableNotFound;
         }
 
         return $this->variables->get($name);
     }
 
-    public function has(string $name): bool
+    public function contains(string $name): bool
     {
         return $this->variables->contains($name);
     }

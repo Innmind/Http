@@ -25,8 +25,8 @@ class FormTest extends TestCase
                 )
         );
 
-        $this->assertTrue($f->has(42));
-        $this->assertFalse($f->has('42'));
+        $this->assertTrue($f->contains(42));
+        $this->assertFalse($f->contains('42'));
         $this->assertSame($p, $f->get(42));
         $this->assertSame(1, $f->count());
         $this->assertSame($p, $f->current());
@@ -44,7 +44,7 @@ class FormTest extends TestCase
         $form = Form::of(new Parameter\Parameter('42', 24));
 
         $this->assertInstanceOf(Form::class, $form);
-        $this->assertTrue($form->has('42'));
+        $this->assertTrue($form->contains('42'));
     }
 
     /**

@@ -37,7 +37,7 @@ final class ResponseSender implements Sender
             $response->reasonPhrase()
         ), true, $response->statusCode()->value());
 
-        if (!$response->headers()->has('date')) {
+        if (!$response->headers()->contains('date')) {
             header((string) new Date(new DateValue($this->clock->now())));
         }
 

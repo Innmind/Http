@@ -54,14 +54,14 @@ final class Files implements \Iterator, \Countable
      */
     public function get(string $name): File
     {
-        if (!$this->has($name)) {
+        if (!$this->contains($name)) {
             throw new FileNotFound;
         }
 
         return $this->files->get($name);
     }
 
-    public function has(string $name): bool
+    public function contains(string $name): bool
     {
         return $this->files->contains($name);
     }

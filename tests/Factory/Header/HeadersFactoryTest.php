@@ -27,9 +27,9 @@ class HeadersFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeadersFactoryInterface::class, $f);
         $this->assertInstanceOf(Headers::class, $f->make());
-        $this->assertTrue($f->make()->has('authorization'));
-        $this->assertTrue($f->make()->has('content-length'));
-        $this->assertTrue($f->make()->has('content-md5'));
-        $this->assertTrue($f->make()->has('content-type'));
+        $this->assertTrue($f->make()->contains('authorization'));
+        $this->assertTrue($f->make()->contains('content-length'));
+        $this->assertTrue($f->make()->contains('content-md5'));
+        $this->assertTrue($f->make()->contains('content-type'));
     }
 }

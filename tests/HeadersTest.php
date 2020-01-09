@@ -31,9 +31,9 @@ class HeadersTest extends TestCase
                 )
         );
 
-        $this->assertTrue($hs->has('content-type'));
-        $this->assertTrue($hs->has('Content-Type'));
-        $this->assertFalse($hs->has('content_type'));
+        $this->assertTrue($hs->contains('content-type'));
+        $this->assertTrue($hs->contains('Content-Type'));
+        $this->assertFalse($hs->contains('content_type'));
         $this->assertSame($ct, $hs->get('content-type'));
         $this->assertSame($ct, $hs->get('Content-Type'));
         $this->assertSame(1, $hs->count());
@@ -60,7 +60,7 @@ class HeadersTest extends TestCase
         );
 
         $this->assertInstanceOf(Headers::class, $headers);
-        $this->assertTrue($headers->has('content-type'));
+        $this->assertTrue($headers->contains('content-type'));
     }
 
     /**

@@ -18,8 +18,8 @@ class EnvironmentTest extends TestCase
                 ->put('foo', 42)
         );
 
-        $this->assertTrue($f->has('foo'));
-        $this->assertFalse($f->has('bar'));
+        $this->assertTrue($f->contains('foo'));
+        $this->assertFalse($f->contains('bar'));
         $this->assertSame(42, $f->get('foo'));
         $this->assertSame(1, $f->count());
         $this->assertSame(42, $f->current());
