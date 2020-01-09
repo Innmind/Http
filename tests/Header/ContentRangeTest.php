@@ -28,4 +28,12 @@ class ContentRangeTest extends TestCase
         $this->assertSame($cr, $v->current());
         $this->assertSame('Content-Range: bytes 0-42/*', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = ContentRange::of('bytes', 0, 42);
+
+        $this->assertInstanceOf(ContentRange::class, $header);
+        $this->assertSame('Content-Range: bytes 0-42/*', (string) $header);
+    }
 }

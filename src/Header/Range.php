@@ -9,4 +9,16 @@ final class Range extends Header
     {
         parent::__construct('Range', $range);
     }
+
+    public static function of(
+        string $unit,
+        int $firstPosition,
+        int $lastPosition
+    ): self {
+        return new self(new RangeValue(
+            $unit,
+            $firstPosition,
+            $lastPosition,
+        ));
+    }
 }

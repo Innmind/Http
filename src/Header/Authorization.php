@@ -9,4 +9,9 @@ final class Authorization extends Header
     {
         parent::__construct('Authorization', $authorization);
     }
+
+    public static function of(string $scheme, string $parameter): self
+    {
+        return new self(new AuthorizationValue($scheme, $parameter));
+    }
 }

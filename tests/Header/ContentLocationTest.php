@@ -29,4 +29,12 @@ class ContentLocationTest extends TestCase
         $this->assertSame($av, $v->current());
         $this->assertSame('Content-Location: /foo/bar', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = ContentLocation::of(Url::fromString('/foo/bar'));
+
+        $this->assertInstanceOf(ContentLocation::class, $header);
+        $this->assertSame('Content-Location: /foo/bar', (string) $header);
+    }
 }

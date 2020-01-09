@@ -29,4 +29,13 @@ class AllowTest extends TestCase
     {
         $this->assertSame('Allow: ', (string) new Allow);
     }
+
+    public function testOf()
+    {
+        $header = Allow::of('GET');
+
+        $this->assertInstanceOf(Allow::class, $header);
+        $this->assertSame('Allow', $header->name());
+        $this->assertSame('Allow: GET', (string) $header);
+    }
 }

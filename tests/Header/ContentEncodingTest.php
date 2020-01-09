@@ -28,4 +28,12 @@ class ContentEncodingTest extends TestCase
         $this->assertSame($ce, $v->current());
         $this->assertSame('Content-Encoding: compress', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = ContentEncoding::of('compress');
+
+        $this->assertInstanceOf(ContentEncoding::class, $header);
+        $this->assertSame('Content-Encoding: compress', (string) $header);
+    }
 }

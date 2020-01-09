@@ -32,4 +32,12 @@ class HostTest extends TestCase
         $this->assertSame($av, $v->current());
         $this->assertSame('Host: example.com', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = Host::of(new UrlHost('example.com'), new NullPort);
+
+        $this->assertInstanceOf(Host::class, $header);
+        $this->assertSame('Host: example.com', (string) $header);
+    }
 }

@@ -29,4 +29,12 @@ class DateTest extends TestCase
         $this->assertSame($d, $v->current());
         $this->assertSame('Date: Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = Date::of(new PointInTime('2016-01-01 12:12:12+0200'));
+
+        $this->assertInstanceOf(Date::class, $header);
+        $this->assertSame('Date: Fri, 01 Jan 2016 10:12:12 GMT', (string) $header);
+    }
 }

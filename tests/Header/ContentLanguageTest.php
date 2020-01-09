@@ -25,6 +25,14 @@ class ContentLanguageTest extends TestCase
         $this->assertSame('Content-Language: fr', (string) $h);
     }
 
+    public function test()
+    {
+        $header = ContentLanguage::of('fr');
+
+        $this->assertInstanceOf(ContentLanguage::class, $header);
+        $this->assertSame('Content-Language: fr', (string) $header);
+    }
+
     public function testWithoutValues()
     {
         $this->assertSame('Content-Language: ', (string) new ContentLanguage);

@@ -11,4 +11,9 @@ final class ContentEncoding extends Header
     {
         parent::__construct('Content-Encoding', $encoding);
     }
+
+    public static function of(string $coding): self
+    {
+        return new self(new ContentEncodingValue($coding));
+    }
 }

@@ -9,4 +9,9 @@ final class Cookie extends Header
     {
         parent::__construct('Cookie', $value);
     }
+
+    public static function of(Parameter ...$parameters): self
+    {
+        return new self(new CookieValue(...$parameters));
+    }
 }

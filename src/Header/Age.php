@@ -9,4 +9,9 @@ final class Age extends Header
     {
         parent::__construct('Age', $age);
     }
+
+    public static function of(int $age): self
+    {
+        return new self(new AgeValue($age));
+    }
 }

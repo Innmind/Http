@@ -37,4 +37,17 @@ class ContentTypeTest extends TestCase
         $this->assertSame($ct, $v->current());
         $this->assertSame('Content-Type: text/html;charset=UTF-8', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = ContentType::of(
+            'text',
+            'html',
+            (new Map('string', Parameter::class))
+                ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
+        );
+
+        $this->assertInstanceOf(ContentType::class, $header);
+        $this->assertSame('Content-Type: text/html;charset=UTF-8', (string) $header);
+    }
 }

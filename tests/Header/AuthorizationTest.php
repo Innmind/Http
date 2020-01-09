@@ -28,4 +28,12 @@ class AuthorizationTest extends TestCase
         $this->assertSame($av, $v->current());
         $this->assertSame('Authorization: "Basic"', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = Authorization::of('Basic', 'foo');
+
+        $this->assertInstanceOf(Authorization::class, $header);
+        $this->assertSame('Authorization: "Basic" foo', (string) $header);
+    }
 }

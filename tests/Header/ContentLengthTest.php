@@ -28,4 +28,12 @@ class ContentLengthTest extends TestCase
         $this->assertSame($av, $v->current());
         $this->assertSame('Content-Length: 42', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = ContentLength::of(42);
+
+        $this->assertInstanceOf(ContentLength::class, $header);
+        $this->assertSame('Content-Length: 42', (string) $header);
+    }
 }

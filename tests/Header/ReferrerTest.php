@@ -29,4 +29,12 @@ class ReferrerTest extends TestCase
         $this->assertSame($av, $v->current());
         $this->assertSame('Referer: /foo/bar', (string) $h);
     }
+
+    public function testOf()
+    {
+        $header = Referrer::of(Url::fromString('/foo/bar'));
+
+        $this->assertInstanceOf(Referrer::class, $header);
+        $this->assertSame('Referer: /foo/bar', (string) $header);
+    }
 }

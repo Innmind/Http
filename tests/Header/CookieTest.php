@@ -30,4 +30,12 @@ class CookieTest extends TestCase
         $this->assertSame($value, $values->current());
         $this->assertSame('Cookie: foo=bar', (string) $cookie);
     }
+
+    public function testOf()
+    {
+        $cookie = Cookie::of(new Parameter('foo', 'bar'));
+
+        $this->assertInstanceOf(Cookie::class, $cookie);
+        $this->assertSame('Cookie: foo=bar', (string) $cookie);
+    }
 }
