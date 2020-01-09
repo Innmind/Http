@@ -29,7 +29,7 @@ class ContentTypeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
-        $this->assertSame('Content-Type: image/gif', (string) $header);
+        $this->assertSame('Content-Type: image/gif', $header->toString());
     }
 
     public function testMakeWithParameters()
@@ -40,7 +40,7 @@ class ContentTypeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
-        $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', (string) $header);
+        $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->toString());
     }
 
     /**

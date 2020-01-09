@@ -25,7 +25,7 @@ class ContentTypeValueTest extends TestCase
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
         $this->assertSame($p, $a->parameters()->get('charset'));
-        $this->assertSame('text/x-c;charset=UTF-8', (string) $a);
+        $this->assertSame('text/x-c;charset=UTF-8', $a->toString());
 
         new ContentTypeValue(
             'application',

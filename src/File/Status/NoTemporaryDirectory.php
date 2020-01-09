@@ -12,7 +12,7 @@ final class NoTemporaryDirectory implements Status
         return UPLOAD_ERR_NO_TMP_DIR;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_NO_TMP_DIR';
     }

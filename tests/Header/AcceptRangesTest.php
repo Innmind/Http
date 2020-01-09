@@ -26,7 +26,7 @@ class AcceptRangesTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($ar, $v->current());
-        $this->assertSame('Accept-Ranges: bytes', (string) $h);
+        $this->assertSame('Accept-Ranges: bytes', $h->toString());
     }
 
     public function testOf()
@@ -38,6 +38,6 @@ class AcceptRangesTest extends TestCase
         $values = $header->values();
         $this->assertInstanceOf(SetInterface::class, $values);
         $this->assertSame(Value::class, (string) $values->type());
-        $this->assertSame('Accept-Ranges: bytes', (string) $header);
+        $this->assertSame('Accept-Ranges: bytes', $header->toString());
     }
 }

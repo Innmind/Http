@@ -19,7 +19,7 @@ class RangeValueTest extends TestCase
         $this->assertSame('resources', $h->unit());
         $this->assertSame(0, $h->firstPosition());
         $this->assertSame(42, $h->lastPosition());
-        $this->assertSame('resources=0-42', (string) $h);
+        $this->assertSame('resources=0-42', $h->toString());
     }
 
     /**

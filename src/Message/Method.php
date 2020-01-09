@@ -85,7 +85,7 @@ final class Method
         return new self(self::UNLINK);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->method;
     }

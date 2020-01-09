@@ -5,5 +5,5 @@ namespace Innmind\Http\Header;
 
 interface Value
 {
-    public function __toString(): string;
+    public function toString(): string;
 }

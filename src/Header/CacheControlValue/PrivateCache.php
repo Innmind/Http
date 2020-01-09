@@ -27,7 +27,7 @@ final class PrivateCache implements CacheControlValue
         return $this->field;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             'private%s',

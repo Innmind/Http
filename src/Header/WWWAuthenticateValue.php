@@ -24,7 +24,7 @@ final class WWWAuthenticateValue extends Value\Value
         parent::__construct(
             (string) $scheme
                 ->append(' ')
-                ->append((string) new Parameter\Parameter('realm', $realm))
+                ->append((new Parameter\Parameter('realm', $realm))->toString())
                 ->trim()
         );
     }

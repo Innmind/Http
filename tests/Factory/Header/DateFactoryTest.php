@@ -27,7 +27,7 @@ class DateFactoryTest extends TestCase
         $this->assertInstanceOf(Date::class, $h);
         $this->assertSame(
             'Date: Tue, 15 Nov 1994 08:12:31 GMT',
-            (string) $h
+            $h->toString(),
         );
     }
 

@@ -17,7 +17,7 @@ class AcceptRangesValueTest extends TestCase
         $a = new AcceptRangesValue('bytes');
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('bytes', (string) $a);
+        $this->assertSame('bytes', $a->toString());
 
         new AcceptRangesValue('none');
         new AcceptRangesValue('whatever');

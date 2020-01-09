@@ -23,7 +23,7 @@ final class ReasonPhrase
         $this->phrase = $phrase;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->phrase;
     }

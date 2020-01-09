@@ -26,7 +26,7 @@ class ContentLengthTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Content-Length: 42', (string) $h);
+        $this->assertSame('Content-Length: 42', $h->toString());
     }
 
     public function testOf()
@@ -34,6 +34,6 @@ class ContentLengthTest extends TestCase
         $header = ContentLength::of(42);
 
         $this->assertInstanceOf(ContentLength::class, $header);
-        $this->assertSame('Content-Length: 42', (string) $header);
+        $this->assertSame('Content-Length: 42', $header->toString());
     }
 }

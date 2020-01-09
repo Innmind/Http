@@ -16,6 +16,6 @@ class SecureTest extends TestCase
         $secure = new Secure;
 
         $this->assertInstanceOf(Parameter::class, $secure);
-        $this->assertSame('Secure', (string) $secure);
+        $this->assertSame('Secure', $secure->toString());
     }
 }

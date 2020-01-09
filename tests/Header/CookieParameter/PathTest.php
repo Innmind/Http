@@ -17,6 +17,6 @@ class PathTest extends TestCase
         $path = new Path(new UrlPath('/foo'));
 
         $this->assertInstanceOf(Parameter::class, $path);
-        $this->assertSame('Path=/foo', (string) $path);
+        $this->assertSame('Path=/foo', $path->toString());
     }
 }

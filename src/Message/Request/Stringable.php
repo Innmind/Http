@@ -7,7 +7,8 @@ use Innmind\Http\{
     Message\Request as RequestInterface,
     Message\Method,
     ProtocolVersion,
-    Headers
+    Headers,
+    Header,
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Stream\Readable;
@@ -46,13 +47,14 @@ final class Stringable implements RequestInterface
         return $this->request->body();
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         $headers = \iterator_to_array($this->headers());
+        $headers = \array_map(fn(Header $header): string => $header->toString(), $headers);
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-{$this->method()} {$this->url()} HTTP/{$this->protocolVersion()}
+{$this->method()->toString()} {$this->url()} HTTP/{$this->protocolVersion()->toString()}
 $headers
 
 {$this->body()}

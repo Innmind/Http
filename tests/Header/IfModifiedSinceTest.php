@@ -27,7 +27,7 @@ class IfModifiedSinceTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
-        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
+        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 
     public function testOf()
@@ -35,6 +35,6 @@ class IfModifiedSinceTest extends TestCase
         $header = IfModifiedSince::of(new PointInTime('2016-01-01 12:12:12+0200'));
 
         $this->assertInstanceOf(IfModifiedSince::class, $header);
-        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', (string) $header);
+        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());
     }
 }

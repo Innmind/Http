@@ -12,7 +12,7 @@ final class NotUploaded implements Status
         return UPLOAD_ERR_NO_FILE;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_NO_FILE';
     }

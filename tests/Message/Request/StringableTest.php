@@ -46,6 +46,6 @@ Content-Type: text/plain
 
 some body
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 }

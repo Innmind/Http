@@ -14,6 +14,6 @@ class ProtocolVersionTest extends TestCase
 
         $this->assertSame(2, $p->major());
         $this->assertSame(0, $p->minor());
-        $this->assertSame('2.0', (string) $p);
+        $this->assertSame('2.0', $p->toString());
     }
 }

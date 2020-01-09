@@ -22,12 +22,12 @@ class AllowTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Allow', $h->name());
         $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Allow: GET', (string) $h);
+        $this->assertSame('Allow: GET', $h->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Allow: ', (string) new Allow);
+        $this->assertSame('Allow: ', (new Allow)->toString());
     }
 
     public function testOf()
@@ -36,6 +36,6 @@ class AllowTest extends TestCase
 
         $this->assertInstanceOf(Allow::class, $header);
         $this->assertSame('Allow', $header->name());
-        $this->assertSame('Allow: GET', (string) $header);
+        $this->assertSame('Allow: GET', $header->toString());
     }
 }

@@ -29,7 +29,7 @@ class ContentEncodingFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentEncoding::class, $header);
-        $this->assertSame('Content-Encoding: x-gzip', (string) $header);
+        $this->assertSame('Content-Encoding: x-gzip', $header->toString());
     }
 
     /**

@@ -20,12 +20,12 @@ class ContentRangeValueTest extends TestCase
         $this->assertSame(0, $h->firstPosition());
         $this->assertSame(42, $h->lastPosition());
         $this->assertFalse($h->isLengthKnown());
-        $this->assertSame('resources 0-42/*', (string) $h);
+        $this->assertSame('resources 0-42/*', $h->toString());
 
         $h = new ContentRangeValue('bytes', 0, 499, 1234);
         $this->assertTrue($h->isLengthKnown());
         $this->assertSame(1234, $h->length());
-        $this->assertSame('bytes 0-499/1234', (string) $h);
+        $this->assertSame('bytes 0-499/1234', $h->toString());
     }
 
     /**

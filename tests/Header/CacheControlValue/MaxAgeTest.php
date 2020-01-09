@@ -17,7 +17,7 @@ class MaxAgeTest extends TestCase
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame(42, $h->age());
-        $this->assertSame('max-age=42', (string) $h);
+        $this->assertSame('max-age=42', $h->toString());
     }
 
     /**

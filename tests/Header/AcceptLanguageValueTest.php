@@ -18,7 +18,7 @@ class AcceptLanguageValueTest extends TestCase
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame($q, $a->quality());
-        $this->assertSame('en-gb;q=0.8', (string) $a);
+        $this->assertSame('en-gb;q=0.8', $a->toString());
 
         new AcceptLanguageValue('fr', new Quality(1));
         new AcceptLanguageValue('fr-FR', new Quality(1));

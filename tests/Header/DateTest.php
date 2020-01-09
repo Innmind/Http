@@ -27,7 +27,7 @@ class DateTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
-        $this->assertSame('Date: Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
+        $this->assertSame('Date: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 
     public function testOf()
@@ -35,6 +35,6 @@ class DateTest extends TestCase
         $header = Date::of(new PointInTime('2016-01-01 12:12:12+0200'));
 
         $this->assertInstanceOf(Date::class, $header);
-        $this->assertSame('Date: Fri, 01 Jan 2016 10:12:12 GMT', (string) $header);
+        $this->assertSame('Date: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());
     }
 }

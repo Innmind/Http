@@ -24,7 +24,13 @@ final class CookieValue extends Value\Value
             );
         }
 
-        parent::__construct((string) $this->parameters->values()->join('; '));
+        parent::__construct(\implode(
+            '; ',
+            \array_map(
+                fn(Parameter $paramater): string => $paramater->toString(),
+                $this->parameters->values()->toPrimitive(),
+            ),
+        ));
     }
 
     /**

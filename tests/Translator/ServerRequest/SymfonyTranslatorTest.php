@@ -64,32 +64,32 @@ class RequestTranslatorTest extends TestCase
 
         $this->assertInstanceOf(ServerRequest::class, $request);
         $this->assertSame('http://innmind/foo', (string) $request->url());
-        $this->assertSame('PUT', (string) $request->method());
-        $this->assertSame('1.1', (string) $request->protocolVersion());
+        $this->assertSame('PUT', $request->method()->toString());
+        $this->assertSame('1.1', $request->protocolVersion()->toString());
         $this->assertSame(6, $request->headers()->count());
         $this->assertSame(
             'content-type: text/html',
-            (string) $request->headers()->get('Content-Type')
+            $request->headers()->get('Content-Type')->toString(),
         );
         $this->assertSame(
             'content-length: 0',
-            (string) $request->headers()->get('Content-Length')
+            $request->headers()->get('Content-Length')->toString(),
         );
         $this->assertSame(
             'etag: asdf',
-            (string) $request->headers()->get('etag')
+            $request->headers()->get('etag')->toString(),
         );
         $this->assertSame(
             'php-auth-user: foo',
-            (string) $request->headers()->get('php-auth-user')
+            $request->headers()->get('php-auth-user')->toString(),
         );
         $this->assertSame(
             'php-auth-pw: bar',
-            (string) $request->headers()->get('php-auth-pw')
+            $request->headers()->get('php-auth-pw')->toString(),
         );
         $this->assertSame(
             'authorization: Basic '.base64_encode('foo:bar'),
-            (string) $request->headers()->get('authorization')
+            $request->headers()->get('authorization')->toString(),
         );
         $this->assertSame('some content', (string) $request->body());
         $this->assertSame(13, $request->environment()->count());

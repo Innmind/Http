@@ -12,7 +12,7 @@ final class Ok implements Status
         return UPLOAD_ERR_OK;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_OK';
     }

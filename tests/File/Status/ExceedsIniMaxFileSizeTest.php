@@ -17,6 +17,6 @@ class ExceedsIniMaxFileSizeTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(1, $s->value());
-        $this->assertSame('UPLOAD_ERR_INI_SIZE', (string) $s);
+        $this->assertSame('UPLOAD_ERR_INI_SIZE', $s->toString());
     }
 }

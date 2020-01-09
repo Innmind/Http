@@ -29,7 +29,7 @@ final class AcceptLanguageValue extends Value\Value
         parent::__construct(
             (string) $language
                 ->append(';')
-                ->append((string) $quality)
+                ->append($quality->toString())
         );
     }
 

@@ -39,7 +39,13 @@ final class LinkValue extends Value\Value
         $this->url = $url;
         $this->rel = $rel;
 
-        $parameters = $this->parameters->values()->join(';');
+        $parameters = Str::of(\implode(
+            ';',
+            \array_map(
+                fn(Parameter $paramater): string => $paramater->toString(),
+                $this->parameters->values()->toPrimitive(),
+            ),
+        ));
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
         $link = (new Str('<%s>; rel="%s"'))->sprintf((string) $url, $rel);
 

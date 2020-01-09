@@ -17,7 +17,7 @@ class AllowValueTest extends TestCase
         $a = new AllowValue('HEAD');
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('HEAD', (string) $a);
+        $this->assertSame('HEAD', $a->toString());
 
         new AllowValue('GET');
         new AllowValue('POST');

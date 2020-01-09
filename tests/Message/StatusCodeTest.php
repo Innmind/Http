@@ -17,7 +17,7 @@ class StatusCodeTest extends TestCase
         $c = new StatusCode(200);
 
         $this->assertSame(200, $c->value());
-        $this->assertSame('200', (string) $c);
+        $this->assertSame('200', $c->toString());
     }
 
     /**
@@ -35,8 +35,8 @@ class StatusCodeTest extends TestCase
 
             $this->assertInstanceOf(ReasonPhrase::class, $reason);
             $this->assertSame(
-                (string) ReasonPhrase::defaults()->get($code),
-                (string) $reason
+                ReasonPhrase::defaults()->get($code),
+                $reason->toString()
             );
         });
     }

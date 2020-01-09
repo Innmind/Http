@@ -26,7 +26,7 @@ final class MinimumFresh implements CacheControlValue
         return $this->age;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             'min-fresh=%s',

@@ -30,11 +30,11 @@ class CookieFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Cookie::class, $header);
-        $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', (string) $header);
-        $this->assertSame('Cookie: ', (string) (new CookieFactory)->make(
+        $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', $header->toString());
+        $this->assertSame('Cookie: ', (new CookieFactory)->make(
             new Str('Cookie'),
             new Str('')
-        ));
+        )->toString());
     }
 
     public function testThrowWhenNotExpectedHeader()

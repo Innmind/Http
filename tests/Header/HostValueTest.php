@@ -23,10 +23,10 @@ class HostValueTest extends TestCase
         $this->assertInstanceOf(Value::class, $h);
         $this->assertSame($host, $h->host());
         $this->assertSame($p, $h->port());
-        $this->assertSame('example.com', (string) $h);
+        $this->assertSame('example.com', $h->toString());
         $this->assertSame(
             'example.com:8080',
-            (string) new HostValue(new Host('example.com'), new Port(8080))
+            (new HostValue(new Host('example.com'), new Port(8080)))->toString(),
         );
     }
 }

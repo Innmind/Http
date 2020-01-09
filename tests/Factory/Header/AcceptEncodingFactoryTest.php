@@ -27,7 +27,7 @@ class AcceptEncodingFactoryTest extends TestCase
         $this->assertInstanceOf(AcceptEncoding::class, $h);
         $this->assertSame(
             'Accept-Encoding: gzip;q=1, identity;q=0.5, *;q=0',
-            (string) $h
+            $h->toString(),
         );
     }
 

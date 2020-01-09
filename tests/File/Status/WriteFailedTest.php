@@ -17,6 +17,6 @@ class WriteFailedTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(7, $s->value());
-        $this->assertSame('UPLOAD_ERR_CANT_WRITE', (string) $s);
+        $this->assertSame('UPLOAD_ERR_CANT_WRITE', $s->toString());
     }
 }

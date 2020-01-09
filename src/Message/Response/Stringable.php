@@ -8,7 +8,8 @@ use Innmind\Http\{
     Message\StatusCode,
     Message\ReasonPhrase,
     ProtocolVersion,
-    Headers
+    Headers,
+    Header,
 };
 use Innmind\Stream\Readable;
 
@@ -46,13 +47,17 @@ final class Stringable implements ResponseInterface
         return $this->response->body();
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         $headers = \iterator_to_array($this->headers());
+        $headers = \array_map(
+            fn(Header $header): string => $header->toString(),
+            $headers,
+        );
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-HTTP/{$this->protocolVersion()} {$this->statusCode()} {$this->reasonPhrase()}
+HTTP/{$this->protocolVersion()->toString()} {$this->statusCode()->toString()} {$this->reasonPhrase()->toString()}
 $headers
 
 {$this->body()}

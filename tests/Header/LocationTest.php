@@ -27,7 +27,7 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Location: /foo/bar', (string) $h);
+        $this->assertSame('Location: /foo/bar', $h->toString());
     }
 
     public function testOf()
@@ -35,6 +35,6 @@ class LocationTest extends TestCase
         $header = Location::of(Url::fromString('/foo/bar'));
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location: /foo/bar', (string) $header);
+        $this->assertSame('Location: /foo/bar', $header->toString());
     }
 }

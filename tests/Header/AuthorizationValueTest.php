@@ -19,7 +19,7 @@ class AuthorizationValueTest extends TestCase
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('Basic', $a->scheme());
         $this->assertSame('realm', $a->parameter());
-        $this->assertSame('"Basic" realm', (string) $a);
+        $this->assertSame('"Basic" realm', $a->toString());
 
         new AuthorizationValue('Basic', '');
         new AuthorizationValue('Basic', 'realm="some value"');

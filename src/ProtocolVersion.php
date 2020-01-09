@@ -24,7 +24,7 @@ final class ProtocolVersion
         return $this->minor;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->major.'.'.$this->minor;
     }

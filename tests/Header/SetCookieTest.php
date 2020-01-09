@@ -35,7 +35,7 @@ class SetCookieTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $values);
         $this->assertSame(Value::class, (string) $values->type());
         $this->assertSame($value, $values->current());
-        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', (string) $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toString());
     }
 
     public function testOf()
@@ -46,6 +46,6 @@ class SetCookieTest extends TestCase
         );
 
         $this->assertInstanceOf(SetCookie::class, $cookie);
-        $this->assertSame('Set-Cookie: foo=bar; bar=baz', (string) $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->toString());
     }
 }

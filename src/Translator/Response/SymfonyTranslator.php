@@ -29,7 +29,7 @@ final class SymfonyTranslator
             $symfony[$header->name()] = $header->values()->reduce(
                 [],
                 static function(array $values, Value $value): array {
-                    $values[] = (string) $value;
+                    $values[] = $value->toString();
 
                     return $values;
                 }

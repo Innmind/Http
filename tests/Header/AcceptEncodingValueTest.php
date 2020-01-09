@@ -18,7 +18,7 @@ class AcceptEncodingValueTest extends TestCase
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame($q, $a->quality());
-        $this->assertSame('compress;q=1', (string) $a);
+        $this->assertSame('compress;q=1', $a->toString());
 
         new AcceptEncodingValue('*', new Quality(1));
         new AcceptEncodingValue('compress', new Quality(0.5));

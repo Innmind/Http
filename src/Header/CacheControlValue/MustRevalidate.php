@@ -7,7 +7,7 @@ use Innmind\Http\Header\CacheControlValue;
 
 final class MustRevalidate implements CacheControlValue
 {
-    public function __toString(): string
+    public function toString(): string
     {
         return 'must-revalidate';
     }

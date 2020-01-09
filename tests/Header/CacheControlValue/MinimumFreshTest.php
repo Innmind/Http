@@ -17,7 +17,7 @@ class MinimumFreshTest extends TestCase
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame(42, $h->age());
-        $this->assertSame('min-fresh=42', (string) $h);
+        $this->assertSame('min-fresh=42', $h->toString());
     }
 
     /**

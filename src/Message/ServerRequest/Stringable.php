@@ -12,7 +12,8 @@ use Innmind\Http\{
     Message\Form,
     Message\Files,
     ProtocolVersion,
-    Headers
+    Headers,
+    Header,
 };
 use Innmind\Url\UrlInterface;
 use Innmind\Stream\Readable;
@@ -77,13 +78,17 @@ final class Stringable implements ServerRequestInterface
         return $this->request->files();
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         $headers = \iterator_to_array($this->headers());
+        $headers = \array_map(
+            fn(Header $header): string => $header->toString(),
+            $headers,
+        );
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-{$this->method()} {$this->url()->path()}{$this->queryString()} HTTP/{$this->protocolVersion()}
+{$this->method()->toString()} {$this->url()->path()}{$this->queryString()} HTTP/{$this->protocolVersion()->toString()}
 $headers
 
 {$this->bodyString()}

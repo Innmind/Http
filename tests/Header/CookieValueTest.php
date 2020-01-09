@@ -27,6 +27,6 @@ class CookieValueTest extends TestCase
         $this->assertCount(2, $cookie->parameters());
         $this->assertSame('bar', $cookie->parameters()->get('foo')->value());
         $this->assertSame('baz', $cookie->parameters()->get('bar')->value());
-        $this->assertSame('foo=bar; bar=baz', (string) $cookie);
+        $this->assertSame('foo=bar; bar=baz', $cookie->toString());
     }
 }

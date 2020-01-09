@@ -18,9 +18,9 @@ class QualityTest extends TestCase
         $this->assertInstanceOf(Parameter::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('0.8', $p->value());
-        $this->assertSame('q=0.8', (string) $p);
+        $this->assertSame('q=0.8', $p->toString());
 
-        $this->assertSame('q=0', (string) new Quality(0));
+        $this->assertSame('q=0', (new Quality(0))->toString());
     }
 
     /**

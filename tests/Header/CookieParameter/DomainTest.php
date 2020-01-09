@@ -17,6 +17,6 @@ class DomainTest extends TestCase
         $domain = new Domain(new Host('localhost'));
 
         $this->assertInstanceOf(Parameter::class, $domain);
-        $this->assertSame('Domain=localhost', (string) $domain);
+        $this->assertSame('Domain=localhost', $domain->toString());
     }
 }

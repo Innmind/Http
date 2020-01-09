@@ -17,6 +17,6 @@ class ReferrerValueTest extends TestCase
         $a = new ReferrerValue(Url::fromString('/foo/bar'));
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('/foo/bar', (string) $a);
+        $this->assertSame('/foo/bar', $a->toString());
     }
 }

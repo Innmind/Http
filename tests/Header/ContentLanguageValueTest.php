@@ -16,7 +16,7 @@ class ContentLanguageValueTest extends TestCase
         $a = new ContentLanguageValue('en-gb');
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('en-gb', (string) $a);
+        $this->assertSame('en-gb', $a->toString());
 
         new ContentLanguageValue('fr');
         new ContentLanguageValue('fr-FR');

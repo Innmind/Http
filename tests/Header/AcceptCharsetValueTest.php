@@ -18,7 +18,7 @@ class AcceptCharsetValueTest extends TestCase
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame($q, $a->quality());
-        $this->assertSame('unicode-1-1;q=0.8', (string) $a);
+        $this->assertSame('unicode-1-1;q=0.8', $a->toString());
 
         new AcceptCharsetValue('iso-8859-5', new Quality(1));
         new AcceptCharsetValue('Shift_JIS', new Quality(1));

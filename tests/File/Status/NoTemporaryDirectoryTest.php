@@ -17,6 +17,6 @@ class NoTemporaryDirectoryTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(6, $s->value());
-        $this->assertSame('UPLOAD_ERR_NO_TMP_DIR', (string) $s);
+        $this->assertSame('UPLOAD_ERR_NO_TMP_DIR', $s->toString());
     }
 }

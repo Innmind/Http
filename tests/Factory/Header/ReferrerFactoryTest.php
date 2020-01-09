@@ -27,7 +27,7 @@ class ReferrerFactoryTest extends TestCase
         $this->assertInstanceOf(Referrer::class, $h);
         $this->assertSame(
             'Referer: http://www.w3.org/hypertext/DataSources/Overview.html',
-            (string) $h
+            $h->toString(),
         );
     }
 

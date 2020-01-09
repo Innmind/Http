@@ -12,7 +12,7 @@ final class WriteFailed implements Status
         return UPLOAD_ERR_CANT_WRITE;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_CANT_WRITE';
     }

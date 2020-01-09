@@ -26,7 +26,7 @@ final class MaxStale implements CacheControlValue
         return $this->age;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             'max-stale%s',

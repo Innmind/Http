@@ -29,7 +29,7 @@ class ContentRangeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
-        $this->assertSame('Content-Range: bytes 0-42/*', (string) $header);
+        $this->assertSame('Content-Range: bytes 0-42/*', $header->toString());
     }
 
     public function testMakeWithLength()
@@ -40,7 +40,7 @@ class ContentRangeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
-        $this->assertSame('Content-Range: bytes 0-42/66', (string) $header);
+        $this->assertSame('Content-Range: bytes 0-42/66', $header->toString());
     }
 
     /**

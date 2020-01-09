@@ -17,8 +17,8 @@ class PrivateCacheTest extends TestCase
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame('field', $h->field());
-        $this->assertSame('private="field"', (string) $h);
-        $this->assertSame('private', (string) new PrivateCache(''));
+        $this->assertSame('private="field"', $h->toString());
+        $this->assertSame('private', (new PrivateCache(''))->toString());
     }
 
     /**

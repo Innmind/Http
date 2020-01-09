@@ -27,7 +27,7 @@ class IfUnmodifiedSinceTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($d, $v->current());
-        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
+        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 
     public function testOf()
@@ -35,6 +35,6 @@ class IfUnmodifiedSinceTest extends TestCase
         $header = IfUnmodifiedSince::of(new PointInTime('2016-01-01 12:12:12+0200'));
 
         $this->assertInstanceOf(IfUnmodifiedSince::class, $header);
-        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', (string) $header);
+        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());
     }
 }

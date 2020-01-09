@@ -14,7 +14,7 @@ class MethodTest extends TestCase
     {
         $m = new Method('GET');
 
-        $this->assertSame('GET', (string) $m);
+        $this->assertSame('GET', $m->toString());
 
         new Method('POST');
         new Method('PUT');
@@ -31,7 +31,7 @@ class MethodTest extends TestCase
      */
     public function testNamedConstructors($method)
     {
-        $this->assertSame($method, (string) Method::{strtolower($method)}());
+        $this->assertSame($method, Method::{strtolower($method)}()->toString());
     }
 
     /**

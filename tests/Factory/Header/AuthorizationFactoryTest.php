@@ -27,7 +27,7 @@ class AuthorizationFactoryTest extends TestCase
         $this->assertInstanceOf(Authorization::class, $h);
         $this->assertSame(
             'Authorization: "Basic" realm="WallyWorld"',
-            (string) $h
+            $h->toString(),
         );
     }
 

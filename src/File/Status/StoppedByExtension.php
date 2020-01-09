@@ -12,7 +12,7 @@ final class StoppedByExtension implements Status
         return UPLOAD_ERR_EXTENSION;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_EXTENSION';
     }

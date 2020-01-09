@@ -30,7 +30,7 @@ class HostTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Host: example.com', (string) $h);
+        $this->assertSame('Host: example.com', $h->toString());
     }
 
     public function testOf()
@@ -38,6 +38,6 @@ class HostTest extends TestCase
         $header = Host::of(new UrlHost('example.com'), new NullPort);
 
         $this->assertInstanceOf(Host::class, $header);
-        $this->assertSame('Host: example.com', (string) $header);
+        $this->assertSame('Host: example.com', $header->toString());
     }
 }

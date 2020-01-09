@@ -57,7 +57,7 @@ Host: example.com
 
 some body
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 
     public function testIntegrateQuery()
@@ -102,7 +102,7 @@ Host: example.com
 
 some body
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 
     public function testIntegrateFormWhenNoBody()
@@ -152,6 +152,6 @@ Host: example.com
 
 foo=bar&bar=42&baz[0]=foo
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 }

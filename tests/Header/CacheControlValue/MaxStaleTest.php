@@ -17,8 +17,8 @@ class MaxStaleTest extends TestCase
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame(42, $h->age());
-        $this->assertSame('max-stale=42', (string) $h);
-        $this->assertSame('max-stale', (string) new MaxStale(0));
+        $this->assertSame('max-stale=42', $h->toString());
+        $this->assertSame('max-stale', (new MaxStale(0))->toString());
     }
 
     /**

@@ -16,6 +16,6 @@ class OnlyIfCachedTest extends TestCase
         $h = new OnlyIfCached;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('only-if-cached', (string) $h);
+        $this->assertSame('only-if-cached', $h->toString());
     }
 }

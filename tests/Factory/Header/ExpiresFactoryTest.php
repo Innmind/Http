@@ -31,7 +31,7 @@ class ExpiresFactoryTest extends TestCase
         $this->assertInstanceOf(Expires::class, $header);
         $this->assertSame(
             'Expires: Tue, 15 Nov 1994 08:12:31 GMT',
-            (string) $header
+            $header->toString(),
         );
     }
 

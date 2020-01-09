@@ -16,7 +16,7 @@ class ContentLengthValueTest extends TestCase
         $a = new ContentLengthValue(42);
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('42', (string) $a);
+        $this->assertSame('42', $a->toString());
 
         new ContentLengthValue(0);
     }

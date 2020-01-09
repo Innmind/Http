@@ -27,7 +27,7 @@ class AcceptCharsetFactoryTest extends TestCase
         $this->assertInstanceOf(AcceptCharset::class, $h);
         $this->assertSame(
             'Accept-Charset: iso-8859-5;q=1, unicode-1-1;q=0.8',
-            (string) $h
+            $h->toString(),
         );
     }
 

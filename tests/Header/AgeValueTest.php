@@ -16,7 +16,7 @@ class AgeValueTest extends TestCase
         $a = new AgeValue(42);
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('42', (string) $a);
+        $this->assertSame('42', $a->toString());
 
         new AgeValue(0);
     }

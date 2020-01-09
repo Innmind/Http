@@ -15,7 +15,7 @@ class ReasonPhraseTest extends TestCase
     {
         $m = new ReasonPhrase('OK');
 
-        $this->assertSame('OK', (string) $m);
+        $this->assertSame('OK', $m->toString());
     }
 
     /**
@@ -32,7 +32,7 @@ class ReasonPhraseTest extends TestCase
             $reason = ReasonPhrase::of($statusCode);
 
             $this->assertInstanceOf(ReasonPhrase::class, $reason);
-            $this->assertSame($message, (string) $reason);
+            $this->assertSame($message, $reason->toString());
         });
     }
 

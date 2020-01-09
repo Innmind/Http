@@ -52,6 +52,6 @@ Allow: GET
 {"some":"json", "value":42}
 RAW;
 
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 }

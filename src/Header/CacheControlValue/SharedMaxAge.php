@@ -26,7 +26,7 @@ final class SharedMaxAge implements CacheControlValue
         return $this->age;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return sprintf(
             's-maxage=%s',

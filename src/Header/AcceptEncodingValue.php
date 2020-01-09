@@ -29,7 +29,7 @@ final class AcceptEncodingValue extends Value\Value
         parent::__construct(
             (string) $coding
                 ->append(';')
-                ->append((string) $quality)
+                ->append($quality->toString())
         );
     }
 

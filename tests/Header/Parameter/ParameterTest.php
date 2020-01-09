@@ -18,16 +18,16 @@ class ParameterTest extends TestCase
         $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('foo', $p->value());
-        $this->assertSame('q=foo', (string) $p);
+        $this->assertSame('q=foo', $p->toString());
 
-        $this->assertSame('level', (string) new Parameter('level', ''));
+        $this->assertSame('level', (new Parameter('level', ''))->toString());
     }
 
     public function testQuoteWhenThereIsAWithespace()
     {
         $this->assertSame(
             'foo="bar baz"',
-            (string) new Parameter('foo', 'bar baz')
+            (new Parameter('foo', 'bar baz'))->toString(),
         );
     }
 
@@ -35,7 +35,7 @@ class ParameterTest extends TestCase
     {
         $this->assertSame(
             "foo=\"bar\tbaz\"",
-            (string) new Parameter('foo', "bar\tbaz")
+            (new Parameter('foo', "bar\tbaz"))->toString(),
         );
     }
 
@@ -43,7 +43,7 @@ class ParameterTest extends TestCase
     {
         $this->assertSame(
             'foo="bar baz"',
-            (string) new Parameter('foo', '"bar baz"')
+            (new Parameter('foo', '"bar baz"'))->toString(),
         );
     }
 
@@ -51,7 +51,7 @@ class ParameterTest extends TestCase
     {
         $this->assertSame(
             'foo="bar"',
-            (string) new Parameter('foo', '"bar"')
+            (new Parameter('foo', '"bar"'))->toString(),
         );
     }
 }

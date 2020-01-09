@@ -39,12 +39,17 @@ class Header implements HeaderInterface
         return $this->values;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return sprintf(
+        $values = \array_map(
+            fn(Value $value): string => $value->toString(),
+            $this->values->toPrimitive(),
+        );
+
+        return \sprintf(
             '%s: %s',
             $this->name,
-            $this->values->join(', ')
+            \implode(', ', $values),
         );
     }
 }

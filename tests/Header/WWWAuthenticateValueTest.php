@@ -19,7 +19,7 @@ class WWWAuthenticateValueTest extends TestCase
         $this->assertInstanceOf(Value::class, $value);
         $this->assertSame('Basic', $value->scheme());
         $this->assertSame('some value', $value->realm());
-        $this->assertSame('Basic realm="some value"', (string) $value);
+        $this->assertSame('Basic realm="some value"', $value->toString());
     }
 
     public function testThrowWhenInvalidSchemeFormat()

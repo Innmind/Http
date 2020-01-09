@@ -26,7 +26,7 @@ class AgeTest extends TestCase
         $this->assertInstanceOf(SetInterface::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
         $this->assertSame($av, $v->current());
-        $this->assertSame('Age: 42', (string) $h);
+        $this->assertSame('Age: 42', $h->toString());
     }
 
     public function testOf()
@@ -38,6 +38,6 @@ class AgeTest extends TestCase
         $values = $header->values();
         $this->assertInstanceOf(SetInterface::class, $values);
         $this->assertSame(Value::class, (string) $values->type());
-        $this->assertSame('Age: 42', (string) $header);
+        $this->assertSame('Age: 42', $header->toString());
     }
 }

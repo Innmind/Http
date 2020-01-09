@@ -16,7 +16,7 @@ class ContentEncodingValueTest extends TestCase
         $a = new ContentEncodingValue('compress');
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('compress', (string) $a);
+        $this->assertSame('compress', $a->toString());
 
         new ContentEncodingValue('identity');
         new ContentEncodingValue('x-compress');

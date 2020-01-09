@@ -12,7 +12,7 @@ final class ExceedsIniMaxFileSize implements Status
         return UPLOAD_ERR_INI_SIZE;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_INI_SIZE';
     }

@@ -38,7 +38,13 @@ final class ContentTypeValue extends Value\Value
         $this->type = $type;
         $this->subType = $subType;
 
-        $parameters = $this->parameters->values()->join(';');
+        $parameters = Str::of(\implode(
+            ';',
+            \array_map(
+                fn(Parameter $paramater): string => $paramater->toString(),
+                $this->parameters->values()->toPrimitive(),
+            ),
+        ));
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
 
         parent::__construct((string) $media->append((string) $parameters));

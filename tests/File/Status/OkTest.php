@@ -17,6 +17,6 @@ class OkTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(0, $s->value());
-        $this->assertSame('UPLOAD_ERR_OK', (string) $s);
+        $this->assertSame('UPLOAD_ERR_OK', $s->toString());
     }
 }

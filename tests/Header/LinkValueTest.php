@@ -28,7 +28,7 @@ class LinkValueTest extends TestCase
         $this->assertSame($p, $l->parameters()->get('title'));
         $this->assertSame(
             '</some/resource>; rel="relationship";title=Foo',
-            (string) $l
+            $l->toString(),
         );
     }
 

@@ -16,6 +16,6 @@ class PublicCacheTest extends TestCase
         $h = new PublicCache;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('public', (string) $h);
+        $this->assertSame('public', $h->toString());
     }
 }

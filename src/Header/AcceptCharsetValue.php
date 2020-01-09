@@ -29,7 +29,7 @@ final class AcceptCharsetValue extends Value\Value
         parent::__construct(
             (string) $charset
                 ->append(';')
-                ->append((string) $quality)
+                ->append($quality->toString())
         );
     }
 

@@ -17,6 +17,6 @@ class DateValueTest extends TestCase
         $h = new DateValue(new PointInTime('2016-01-01 12:12:12+0200'));
 
         $this->assertInstanceOf(Value::class, $h);
-        $this->assertSame('Fri, 01 Jan 2016 10:12:12 GMT', (string) $h);
+        $this->assertSame('Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 }

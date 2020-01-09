@@ -13,6 +13,6 @@ class ValueTest extends TestCase
         $hv = new Value\Value('foo');
 
         $this->assertInstanceOf(Value::class, $hv);
-        $this->assertSame('foo', (string) $hv);
+        $this->assertSame('foo', $hv->toString());
     }
 }
