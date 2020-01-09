@@ -26,7 +26,7 @@ final class FormFactory implements FormFactoryInterface
     private function buildParameter($name, $value): Parameter
     {
         if (!is_array($value)) {
-            return new Parameter\Parameter((string) $name, $value);
+            return new Parameter((string) $name, $value);
         }
 
         $map = new Map('scalar', Parameter::class);
@@ -38,6 +38,6 @@ final class FormFactory implements FormFactoryInterface
             );
         }
 
-        return new Parameter\Parameter((string) $name, $map);
+        return new Parameter((string) $name, $map);
     }
 }

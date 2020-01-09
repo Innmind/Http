@@ -118,7 +118,7 @@ final class SymfonyTranslator
         $queries = [];
 
         foreach ($query as $key => $value) {
-            $queries[] = new Query\Parameter\Parameter($key, $value);
+            $queries[] = new Query\Parameter($key, $value);
         }
 
         return new Query(...$queries);
@@ -138,7 +138,7 @@ final class SymfonyTranslator
     private function buildFormParameter($name, $value): Form\Parameter
     {
         if (!is_array($value)) {
-            return new Form\Parameter\Parameter((string) $name, $value);
+            return new Form\Parameter((string) $name, $value);
         }
 
         $map = new Map('scalar', Form\Parameter::class);
@@ -150,7 +150,7 @@ final class SymfonyTranslator
             );
         }
 
-        return new Form\Parameter\Parameter((string) $name, $map);
+        return new Form\Parameter((string) $name, $map);
     }
 
     private function translateFiles(FileBag $files): Files

@@ -17,7 +17,7 @@ final class QueryFactory implements QueryFactoryInterface
         $queries = [];
 
         foreach ($_GET as $name => $value) {
-            $queries[] = new Parameter\Parameter($name, $value);
+            $queries[] = new Parameter($name, $value);
         }
 
         return new Query(...$queries);

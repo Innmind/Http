@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Form\Parameter;
+namespace Tests\Innmind\Http\Message\Query;
 
-use Innmind\Http\Message\Form\{
-    Parameter\Parameter,
-    Parameter as ParameterInterface
+use Innmind\Http\Message\Query\{
+    Parameter,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +14,6 @@ class ParameterTest extends TestCase
     {
         $p = new Parameter('foo', 42);
 
-        $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('foo', $p->name());
         $this->assertSame(42, $p->value());
     }

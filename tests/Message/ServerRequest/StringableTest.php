@@ -78,9 +78,9 @@ RAW;
             null,
             null,
             Query::of(
-                new Query\Parameter\Parameter('foo', 'bar'),
-                new Query\Parameter\Parameter('bar', 42),
-                new Query\Parameter\Parameter('baz', ['foo'])
+                new Query\Parameter('foo', 'bar'),
+                new Query\Parameter('bar', 42),
+                new Query\Parameter('baz', ['foo'])
             )
         );
         $stringable = new Stringable($request);
@@ -124,12 +124,12 @@ RAW;
             null,
             null,
             Form::of(
-                new Form\Parameter\Parameter('foo', 'bar'),
-                new Form\Parameter\Parameter('bar', 42),
-                new Form\Parameter\Parameter(
+                new Form\Parameter('foo', 'bar'),
+                new Form\Parameter('bar', 42),
+                new Form\Parameter(
                     'baz',
                     Map::of('scalar', Form\Parameter::class)
-                        (0, new Form\Parameter\Parameter('0', 'foo'))
+                        (0, new Form\Parameter('0', 'foo'))
                 )
             )
         );
