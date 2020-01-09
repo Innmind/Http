@@ -115,16 +115,13 @@ final class SymfonyTranslator
 
     private function translateQuery(ParameterBag $query): Query
     {
-        $map = new Map('string', Query\Parameter::class);
+        $queries = [];
 
         foreach ($query as $key => $value) {
-            $map = $map->put(
-                $key,
-                new Query\Parameter\Parameter($key, $value)
-            );
+            $queries[] = new Query\Parameter\Parameter($key, $value);
         }
 
-        return new Query($map);
+        return new Query(...$queries);
     }
 
     private function translateForm(ParameterBag $form): Form

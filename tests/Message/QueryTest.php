@@ -15,14 +15,10 @@ class QueryTest extends TestCase
     public function testInterface()
     {
         $f = new Query(
-            (new Map('string', Parameter::class))
-                ->put(
-                    'foo',
-                    $p = new Parameter\Parameter(
-                        'foo',
-                        24
-                    )
-                )
+            $p = new Parameter\Parameter(
+                'foo',
+                24
+            )
         );
 
         $this->assertTrue($f->contains('foo'));
@@ -53,14 +49,5 @@ class QueryTest extends TestCase
     public function testThrowWhenAccessingUnknownParameter()
     {
         (new Query)->get('foo');
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, Innmind\Http\Message\Query\Parameter>
-     */
-    public function testThrowWhenInvalidMap()
-    {
-        new Query(new Map('string', 'string'));
     }
 }

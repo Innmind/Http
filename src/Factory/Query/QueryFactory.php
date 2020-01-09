@@ -14,15 +14,12 @@ final class QueryFactory implements QueryFactoryInterface
 {
     public function make(): Query
     {
-        $map = new Map('string', Parameter::class);
+        $queries = [];
 
         foreach ($_GET as $name => $value) {
-            $map = $map->put(
-                $name,
-                new Parameter\Parameter($name, $value)
-            );
+            $queries[] = new Parameter\Parameter($name, $value);
         }
 
-        return new Query($map);
+        return new Query(...$queries);
     }
 }

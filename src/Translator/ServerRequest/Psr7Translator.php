@@ -89,18 +89,15 @@ final class Psr7Translator
 
     private function translateQuery(array $params): Query
     {
-        $map = new Map('string', QueryParameterInterface::class);
+        $queries = [];
 
         foreach ($params as $key => $value) {
             if (is_scalar($value)) {
-                $map = $map->put(
-                    $key,
-                    new QueryParameter($key, $value)
-                );
+                $queries[] = new QueryParameter($key, $value);
             }
         }
 
-        return new Query($map);
+        return new Query(...$queries);
     }
 
     private function translateForm($params): Form
