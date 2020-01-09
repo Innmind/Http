@@ -15,22 +15,18 @@ class FormTest extends TestCase
     public function testInterface()
     {
         $f = new Form(
-            (new Map('scalar', Parameter::class))
-                ->put(
-                    42,
-                    $p = new Parameter\Parameter(
-                        '42',
-                        24
-                    )
-                )
+            $p = new Parameter\Parameter(
+                '42',
+                24
+            )
         );
 
-        $this->assertTrue($f->contains(42));
-        $this->assertFalse($f->contains('42'));
-        $this->assertSame($p, $f->get(42));
+        $this->assertFalse($f->contains(24));
+        $this->assertTrue($f->contains('42'));
+        $this->assertSame($p, $f->get('42'));
         $this->assertSame(1, $f->count());
         $this->assertSame($p, $f->current());
-        $this->assertSame(42, $f->key());
+        $this->assertSame('42', $f->key());
         $this->assertTrue($f->valid());
         $this->assertSame(null, $f->next());
         $this->assertFalse($f->valid());
@@ -53,14 +49,5 @@ class FormTest extends TestCase
     public function testThrowWhenAccessingUnknownParameter()
     {
         (new Form)->get('foo');
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type MapInterface<scalar, Innmind\Http\Message\Form\Parameter>
-     */
-    public function testThrowWhenInvalidMap()
-    {
-        new Form(new Map('string', 'string'));
     }
 }

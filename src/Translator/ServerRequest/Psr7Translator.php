@@ -106,18 +106,15 @@ final class Psr7Translator
             return new Form;
         }
 
-        $map = new Map('scalar', FormParameterInterface::class);
+        $forms = [];
 
         foreach ($params as $key => $value) {
             if (is_scalar($value)) {
-                $map = $map->put(
-                    $key,
-                    new FormParameter($key, $value)
-                );
+                $forms[] = new FormParameter($key, $value);
             }
         }
 
-        return new Form($map);
+        return new Form(...$forms);
     }
 
     private function translateFiles(array $files): Files

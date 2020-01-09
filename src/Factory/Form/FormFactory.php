@@ -14,16 +14,13 @@ final class FormFactory implements FormFactoryInterface
 {
     public function make(): Form
     {
-        $map = new Map('scalar', Parameter::class);
+        $forms = [];
 
         foreach ($_POST as $name => $value) {
-            $map = $map->put(
-                $name,
-                $this->buildParameter($name, $value)
-            );
+            $forms[] = $this->buildParameter($name, $value);
         }
 
-        return new Form($map);
+        return new Form(...$forms);
     }
 
     private function buildParameter($name, $value): Parameter

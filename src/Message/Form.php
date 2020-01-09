@@ -17,36 +17,21 @@ final class Form implements \Iterator, \Countable
 {
     private $parameters;
 
-    public function __construct(MapInterface $parameters = null)
+    public function __construct(Parameter ...$parameters)
     {
-        $parameters = $parameters ?? new Map('scalar', Parameter::class);
+        $this->parameters = Map::of('string', Parameter::class);
 
-        if (
-            (string) $parameters->keyType() !== 'scalar' ||
-            (string) $parameters->valueType() !== Parameter::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 1 must be of type MapInterface<scalar, %s>',
-                Parameter::class
-            ));
+        foreach ($parameters as $parameter) {
+            $this->parameters = $this->parameters->put(
+                $parameter->name(),
+                $parameter,
+            );
         }
-
-        $this->parameters = $parameters;
     }
 
     public static function of(Parameter ...$parameters): self
     {
-        return new self(
-            Sequence::of(...$parameters)->reduce(
-                new Map('scalar', Parameter::class),
-                static function(MapInterface $parameters, Parameter $parameter): MapInterface {
-                    return $parameters->put(
-                        $parameter->name(),
-                        $parameter
-                    );
-                }
-            )
-        );
+        return new self(...$parameters);
     }
 
     /**

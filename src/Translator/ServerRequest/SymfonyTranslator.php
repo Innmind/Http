@@ -126,16 +126,13 @@ final class SymfonyTranslator
 
     private function translateForm(ParameterBag $form): Form
     {
-        $map = new Map('scalar', Form\Parameter::class);
+        $forms = [];
 
         foreach ($form as $key => $value) {
-            $map = $map->put(
-                $key,
-                $this->buildFormParameter($key, $value)
-            );
+            $forms[] = $this->buildFormParameter($key, $value);
         }
 
-        return new Form($map);
+        return new Form(...$forms);
     }
 
     private function buildFormParameter($name, $value): Form\Parameter
