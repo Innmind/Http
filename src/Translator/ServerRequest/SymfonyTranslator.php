@@ -155,24 +155,21 @@ final class SymfonyTranslator
 
     private function translateFiles(FileBag $files): Files
     {
-        $map = new Map('string', File::class);
+        $map = [];
 
         foreach ($files as $name => $file) {
-            $map = $map->put(
+            $map[] = new File\File(
+                $file->getClientOriginalName(),
+                new Stream(
+                    fopen($file->getPathname(), 'r')
+                ),
                 $name,
-                new File\File(
-                    $file->getClientOriginalName(),
-                    new Stream(
-                        fopen($file->getPathname(), 'r')
-                    ),
-                    $name,
-                    $this->buildFileStatus($file->getError()),
-                    MediaType::fromString((string) $file->getClientMimeType())
-                )
+                $this->buildFileStatus($file->getError()),
+                MediaType::fromString((string) $file->getClientMimeType())
             );
         }
 
-        return new Files($map);
+        return new Files(...$map);
     }
 
     private function buildFileStatus(int $status): Status

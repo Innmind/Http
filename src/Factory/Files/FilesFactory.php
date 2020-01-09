@@ -28,39 +28,33 @@ final class FilesFactory implements FilesFactoryInterface
 {
     public function make(): Files
     {
-        $map = new Map('string', File::class);
+        $map = [];
 
         foreach ($_FILES as $name => $content) {
             if (is_array($content['name'])) {
                 foreach ($content['name'] as $subName => $filename) {
-                    $map = $map->put(
+                    $map[] = $this->buildFile(
+                        $content['name'][$subName],
+                        $content['tmp_name'][$subName],
+                        $content['error'][$subName],
+                        $content['type'][$subName],
                         $name.'.'.$subName,
-                        $this->buildFile(
-                            $content['name'][$subName],
-                            $content['tmp_name'][$subName],
-                            $content['error'][$subName],
-                            $content['type'][$subName],
-                            $name.'.'.$subName,
-                        )
                     );
                 }
 
                 continue;
             }
 
-            $map = $map->put(
+            $map[] = $this->buildFile(
+                $content['name'],
+                $content['tmp_name'],
+                $content['error'],
+                $content['type'],
                 $name,
-                $this->buildFile(
-                    $content['name'],
-                    $content['tmp_name'],
-                    $content['error'],
-                    $content['type'],
-                    $name,
-                )
             );
         }
 
-        return new Files($map);
+        return new Files(...$map);
     }
 
     private function buildFile(

@@ -7,7 +7,6 @@ use Innmind\Http\{
     Message\Files,
     File
 };
-use Innmind\Filesystem\Name\Name;
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
@@ -15,13 +14,12 @@ class FilesTest extends TestCase
 {
     public function testInterface()
     {
-        $fs = new Files(
-            (new Map('string', File::class))
-                ->put(
-                    'foo',
-                    $f = $this->createMock(File::class)
-                )
-        );
+        $f = $this->createMock(File::class);
+        $f
+            ->expects($this->once())
+            ->method('uploadKey')
+            ->willReturn('foo');
+        $fs = new Files($f);
 
         $this->assertTrue($fs->contains('foo'));
         $this->assertFalse($fs->contains('bar'));
@@ -42,8 +40,8 @@ class FilesTest extends TestCase
         $file = $this->createMock(File::class);
         $file
             ->expects($this->once())
-            ->method('name')
-            ->willReturn(new Name('foo'));
+            ->method('uploadKey')
+            ->willReturn('foo');
         $files = Files::of($file);
 
         $this->assertInstanceOf(Files::class, $files);
@@ -56,14 +54,5 @@ class FilesTest extends TestCase
     public function testThrowWhenAccessingUnknownFile()
     {
         (new Files)->get('foo');
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, Innmind\Http\File>
-     */
-    public function testThrowWhenInvalidMap()
-    {
-        new Files(new Map('string', 'string'));
     }
 }

@@ -117,7 +117,7 @@ final class Psr7Translator
 
     private function translateFiles(array $files): Files
     {
-        $map = new Map('string', File::class);
+        $map = [];
 
         foreach ($files as $name => $file) {
             $mediaType = new NullMediaType;
@@ -126,19 +126,16 @@ final class Psr7Translator
                 $mediaType = MediaType::fromString($file->getClientMediaType());
             }
 
-            $map = $map->put(
+            $map[] = new File\File(
+                $file->getClientFilename(),
+                new Stream($file->getStream()),
                 $name,
-                new File\File(
-                    $file->getClientFilename(),
-                    new Stream($file->getStream()),
-                    $name,
-                    $this->status($file->getError()),
-                    $mediaType
-                )
+                $this->status($file->getError()),
+                $mediaType
             );
         }
 
-        return new Files($map);
+        return new Files(...$map);
     }
 
     private function status(int $status): Status

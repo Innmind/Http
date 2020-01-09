@@ -17,36 +17,21 @@ final class Files implements \Iterator, \Countable
 {
     private $files;
 
-    public function __construct(MapInterface $files = null)
+    public function __construct(File ...$files)
     {
-        $files = $files ?? new Map('string', File::class);
+        $this->files = Map::of('string', File::class);
 
-        if (
-            (string) $files->keyType() !== 'string' ||
-            (string) $files->valueType() !== File::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 1 must be of type MapInterface<string, %s>',
-                File::class
-            ));
+        foreach ($files as $file) {
+            $this->files = $this->files->put(
+                $file->uploadKey(),
+                $file,
+            );
         }
-
-        $this->files = $files;
     }
 
     public static function of(File ...$files): self
     {
-        return new self(
-            Sequence::of(...$files)->reduce(
-                new Map('string', File::class),
-                static function(MapInterface $files, File $file): MapInterface {
-                    return $files->put(
-                        (string) $file->name(),
-                        $file
-                    );
-                }
-            )
-        );
+        return new self(...$files);
     }
 
     /**
