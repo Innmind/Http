@@ -18,17 +18,13 @@ class HeadersTest extends TestCase
     public function testInterface()
     {
         $hs = new Headers(
-            (new Map('string', Header::class))
-                ->put(
-                    'Content-Type',
-                    $ct = new ContentType(
-                        new ContentTypeValue(
-                            'application',
-                            'json',
-                            new Map('string', Parameter::class)
-                        )
-                    )
+            $ct = new ContentType(
+                new ContentTypeValue(
+                    'application',
+                    'json',
+                    new Map('string', Parameter::class)
                 )
+            )
         );
 
         $this->assertTrue($hs->contains('content-type'));
@@ -69,14 +65,5 @@ class HeadersTest extends TestCase
     public function testThrowWhenAccessingUnknownHeader()
     {
         (new Headers)->get('foo');
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, Innmind\Http\Header>
-     */
-    public function testThrowWhenInvalidMap()
-    {
-        new Headers(new Map('string', 'string'));
     }
 }

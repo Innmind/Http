@@ -26,19 +26,16 @@ final class HeadersFactory implements HeadersFactoryInterface
 
     public function make(): Headers
     {
-        $map = new Map('string', Header::class);
+        $headers = [];
 
         foreach ($this->headers() as $name => $value) {
-            $map = $map->put(
-                $name,
-                $this->headerFactory->make(
-                    new Str((string) $name),
-                    new Str((string) $value)
-                )
+            $headers[] = $this->headerFactory->make(
+                new Str((string) $name),
+                new Str((string) $value)
             );
         }
 
-        return new Headers($map);
+        return new Headers(...$headers);
     }
 
     /**

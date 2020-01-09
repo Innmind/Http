@@ -75,19 +75,16 @@ final class SymfonyTranslator
 
     private function translateHeaders(HeaderBag $headerBag): Headers
     {
-        $map = new Map('string', Header::class);
+        $headers = [];
 
         foreach ($headerBag as $name => $value) {
-            $map = $map->put(
-                $name,
-                $this->headerFactory->make(
-                    new Str($name),
-                    new Str(implode(', ', $value))
-                )
+            $headers[] = $this->headerFactory->make(
+                new Str($name),
+                new Str(implode(', ', $value))
             );
         }
 
-        return new Headers($map);
+        return new Headers(...$headers);
     }
 
     private function translateEnvironment(ServerBag $server): Environment

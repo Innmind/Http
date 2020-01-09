@@ -16,41 +16,21 @@ final class Headers implements \Iterator, \Countable
 {
     private $headers;
 
-    public function __construct(MapInterface $headers = null)
+    public function __construct(Header ...$headers)
     {
-        $headers = $headers ?? new Map('string', Header::class);
+        $this->headers = Map::of('string', Header::class);
 
-        if (
-            (string) $headers->keyType() !== 'string' ||
-            (string) $headers->valueType() !== Header::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 1 must be of type MapInterface<string, %s>',
-                Header::class
-            ));
-        }
-
-        $this->headers = $headers->map(function(string $name, Header $header) {
-            return new Pair(
-                (string) (new Str($name))->toLower(),
-                $header
+        foreach ($headers as $header) {
+            $this->headers = $this->headers->put(
+                (string) Str::of($header->name())->toLower(),
+                $header,
             );
-        });
+        }
     }
 
     public static function of(Header ...$headers): self
     {
-        return new self(
-            Sequence::of(...$headers)->reduce(
-                new Map('string', Header::class),
-                static function(MapInterface $headers, Header $header): MapInterface {
-                    return $headers->put(
-                        $header->name(),
-                        $header
-                    );
-                }
-            )
-        );
+        return new self(...$headers);
     }
 
     /**

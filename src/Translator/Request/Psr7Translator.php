@@ -43,19 +43,15 @@ final class Psr7Translator
 
     private function translateHeaders(array $rawHeaders): Headers
     {
-        $headers = new Map('string', Header::class);
+        $headers = [];
 
         foreach ($rawHeaders as $name => $values) {
-            $header = $this->headerFactory->make(
+            $headers[] = $this->headerFactory->make(
                 new Str($name),
                 new Str(implode(', ', $values))
             );
-            $headers = $headers->put(
-                $header->name(),
-                $header
-            );
         }
 
-        return new Headers($headers);
+        return new Headers(...$headers);
     }
 }
