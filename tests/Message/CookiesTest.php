@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Cookies;
+namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\Message\{
-    Cookies\Cookies,
-    Cookies as CookiesInterface
+    Cookies,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +18,6 @@ class CookiesTest extends TestCase
                 ->put('foo', 42)
         );
 
-        $this->assertInstanceOf(CookiesInterface::class, $f);
         $this->assertTrue($f->has('foo'));
         $this->assertFalse($f->has('bar'));
         $this->assertSame(42, $f->get('foo'));

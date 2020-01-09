@@ -7,7 +7,7 @@ use Innmind\Http\{
     Message\ServerRequest,
     Message\Method,
     Message\Environment,
-    Message\Cookies\Cookies,
+    Message\Cookies,
     Message\Query,
     Message\Form,
     Message\Files,

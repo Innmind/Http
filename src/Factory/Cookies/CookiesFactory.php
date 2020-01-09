@@ -22,6 +22,6 @@ final class CookiesFactory implements CookiesFactoryInterface
             );
         }
 
-        return new Cookies\Cookies($map);
+        return new Cookies($map);
     }
 }

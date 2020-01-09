@@ -17,6 +17,7 @@ use Innmind\Http\{
     Message\Form,
     Message\Files,
     Message\Environment,
+    Message\Cookies,
     Headers,
 };
 use PHPUnit\Framework\TestCase;
@@ -49,6 +50,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Files::of());
+        $cookies
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(new Cookies);
         $env
             ->expects($this->once())
             ->method('make')
@@ -71,7 +76,7 @@ class ServerRequestFactoryTest extends TestCase
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
             $environment = $this->createMock(EnvironmentFactory::class),
-            $this->createMock(CookiesFactory::class),
+            $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
             $files = $this->createMock(FilesFactory::class)
@@ -92,6 +97,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Files::of());
+        $cookies
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(new Cookies);
         $environment
             ->expects($this->once())
             ->method('make')
@@ -115,7 +124,7 @@ class ServerRequestFactoryTest extends TestCase
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
             $environment = $this->createMock(EnvironmentFactory::class),
-            $this->createMock(CookiesFactory::class),
+            $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
             $files = $this->createMock(FilesFactory::class)
@@ -136,6 +145,10 @@ class ServerRequestFactoryTest extends TestCase
             ->expects($this->once())
             ->method('make')
             ->willReturn(Files::of());
+        $cookies
+            ->expects($this->once())
+            ->method('make')
+            ->willReturn(new Cookies);
         $environment
             ->expects($this->once())
             ->method('make')

@@ -8,7 +8,7 @@ use Innmind\Http\{
     Message\ServerRequest\ServerRequest,
     Message\Files,
     Message\Environment,
-    Message\Cookies\Cookies,
+    Message\Cookies,
     Message\Query,
     Message\Query\Parameter as QueryParameterInterface,
     Message\Query\Parameter\Parameter as QueryParameter,
