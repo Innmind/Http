@@ -68,11 +68,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isInformational(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isInformational());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isInformational(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isInformational());
         });
     }
 
@@ -83,11 +83,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isSuccessful(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isSuccessful());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isSuccessful(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isSuccessful());
         });
     }
 
@@ -98,11 +98,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isRedirection(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isRedirection());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isRedirection(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isRedirection());
         });
     }
 
@@ -113,11 +113,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isClientError(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isClientError());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isClientError(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isClientError());
         });
     }
 
@@ -128,11 +128,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isServerError(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isServerError());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isServerError(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isServerError());
         });
     }
 }

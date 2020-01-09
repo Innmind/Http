@@ -45,29 +45,29 @@ final class StatusCode
         return new self(self::codes()->get($name));
     }
 
-    public static function isInformational(self $code): bool
+    public function isInformational(): bool
     {
-        return ((int) ($code->value() / 100)) === 1;
+        return ((int) ($this->value() / 100)) === 1;
     }
 
-    public static function isSuccessful(self $code): bool
+    public function isSuccessful(): bool
     {
-        return ((int) ($code->value() / 100)) === 2;
+        return ((int) ($this->value() / 100)) === 2;
     }
 
-    public static function isRedirection(self $code): bool
+    public function isRedirection(): bool
     {
-        return ((int) ($code->value() / 100)) === 3;
+        return ((int) ($this->value() / 100)) === 3;
     }
 
-    public static function isClientError(self $code): bool
+    public function isClientError(): bool
     {
-        return ((int) ($code->value() / 100)) === 4;
+        return ((int) ($this->value() / 100)) === 4;
     }
 
-    public static function isServerError(self $code): bool
+    public function isServerError(): bool
     {
-        return ((int) ($code->value() / 100)) === 5;
+        return ((int) ($this->value() / 100)) === 5;
     }
 
     /**
