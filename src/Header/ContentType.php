@@ -15,12 +15,12 @@ final class ContentType extends Header
     public static function of(
         string $type,
         string $subType,
-        MapInterface $parameters = null
+        Parameter ...$parameters
     ): self {
         return new self(new ContentTypeValue(
             $type,
             $subType,
-            $parameters,
+            ...$parameters,
         ));
     }
 }

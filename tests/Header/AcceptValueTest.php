@@ -19,14 +19,13 @@ class AcceptValueTest extends TestCase
         $a = new AcceptValue(
             'text',
             'x-c',
-            $ps = (new Map('string', Parameter::class))
-                ->put('q', new Quality(0.8))
+            $q = new Quality(0.8)
         );
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
-        $this->assertSame($ps, $a->parameters());
+        $this->assertSame($q, $a->parameters()->get('q'));
         $this->assertSame('text/x-c;q=0.8', (string) $a);
 
         new AcceptValue(
@@ -44,19 +43,9 @@ class AcceptValueTest extends TestCase
         new AcceptValue(
             'application',
             'octet-stream',
-            (new Map('string', Parameter::class))
-                ->put('q', new Quality(0.4))
-                ->put('level', new Parameter\Parameter('level', '1'))
+            new Quality(0.4),
+            new Parameter\Parameter('level', '1'),
         );
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedException Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
-     */
-    public function testThrowWhenInvalidParameters()
-    {
-        new AcceptValue('*', '*', new Map('string', 'string'));
     }
 
     /**

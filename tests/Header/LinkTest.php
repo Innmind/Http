@@ -24,8 +24,7 @@ class LinkTest extends TestCase
             $v = new LinkValue(
                 Url::fromString('/some/resource'),
                 'some relation',
-                (new Map('string', Parameter::class))
-                    ->put('title', new Parameter\Parameter('title', 'Foo'))
+                new Parameter\Parameter('title', 'Foo'),
             )
         );
 

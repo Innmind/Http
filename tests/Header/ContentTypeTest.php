@@ -24,8 +24,7 @@ class ContentTypeTest extends TestCase
             $ct = new ContentTypeValue(
                 'text',
                 'html',
-                (new Map('string', Parameter::class))
-                    ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
+                new Parameter\Parameter('charset', 'UTF-8'),
             )
         );
 
@@ -43,8 +42,7 @@ class ContentTypeTest extends TestCase
         $header = ContentType::of(
             'text',
             'html',
-            (new Map('string', Parameter::class))
-                ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
+            new Parameter\Parameter('charset', 'UTF-8'),
         );
 
         $this->assertInstanceOf(ContentType::class, $header);

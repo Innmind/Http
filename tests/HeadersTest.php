@@ -22,7 +22,6 @@ class HeadersTest extends TestCase
                 new ContentTypeValue(
                     'application',
                     'json',
-                    new Map('string', Parameter::class)
                 )
             )
         );
@@ -50,7 +49,6 @@ class HeadersTest extends TestCase
                 new ContentTypeValue(
                     'application',
                     'json',
-                    new Map('string', Parameter::class)
                 )
             )
         );

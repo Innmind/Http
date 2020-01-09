@@ -19,30 +19,26 @@ final class ContentTypeValue extends Value\Value
     public function __construct(
         string $type,
         string $subType,
-        MapInterface $parameters = null
+        Parameter ...$parameters
     ) {
         $media = (new Str('%s/%s'))->sprintf($type, $subType);
-        $parameters = $parameters ?? new Map('string', Parameter::class);
+        $this->parameters = Map::of('string', Parameter::class);
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
             throw new DomainException;
         }
 
-        if (
-            (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== Parameter::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 3 must be of type MapInterface<string, %s>',
-                Parameter::class
-            ));
+        foreach ($parameters as $parameter) {
+            $this->parameters = $this->parameters->put(
+                $parameter->name(),
+                $parameter,
+            );
         }
 
         $this->type = $type;
         $this->subType = $subType;
-        $this->parameters = $parameters;
 
-        $parameters = $parameters->values()->join(';');
+        $parameters = $this->parameters->values()->join(';');
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
 
         parent::__construct((string) $media->append((string) $parameters));

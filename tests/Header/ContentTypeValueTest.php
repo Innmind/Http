@@ -18,14 +18,13 @@ class ContentTypeValueTest extends TestCase
         $a = new ContentTypeValue(
             'text',
             'x-c',
-            $ps = (new Map('string', Parameter::class))
-                ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
+            $p = new Parameter\Parameter('charset', 'UTF-8'),
         );
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
-        $this->assertSame($ps, $a->parameters());
+        $this->assertSame($p, $a->parameters()->get('charset'));
         $this->assertSame('text/x-c;charset=UTF-8', (string) $a);
 
         new ContentTypeValue(
@@ -35,19 +34,9 @@ class ContentTypeValueTest extends TestCase
         new ContentTypeValue(
             'application',
             'octet-stream',
-            (new Map('string', Parameter::class))
-                ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
-                ->put('level', new Parameter\Parameter('level', '1'))
+            new Parameter\Parameter('charset', 'UTF-8'),
+            new Parameter\Parameter('level', '1'),
         );
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
-     */
-    public function testThrowWhenInvalidParameters()
-    {
-        new ContentTypeValue('text', 'html', new Map('string', 'string'));
     }
 
     /**

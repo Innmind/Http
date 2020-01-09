@@ -53,8 +53,10 @@ final class LinkFactory implements HeaderFactoryInterface
                                 Url::fromString((string) $matches->get('url')),
                                 $params->contains('rel') ?
                                     $params->get('rel')->value() : null,
-                                $params->contains('rel') ?
-                                    $params->remove('rel') : $params
+                                ...$params
+                                    ->remove('rel')
+                                    ->values()
+                                    ->toPrimitive(),
                             )
                         );
                     }

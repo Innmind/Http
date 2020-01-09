@@ -24,8 +24,7 @@ class AcceptTest extends TestCase
             $v = new AcceptValue(
                 'text',
                 'html',
-                (new Map('string', Parameter::class))
-                    ->put('q', new Quality(0.8))
+                new Quality(0.8),
             )
         );
 

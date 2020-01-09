@@ -19,14 +19,13 @@ class LinkValueTest extends TestCase
         $l = new LinkValue(
             $url = Url::fromString('/some/resource'),
             'relationship',
-            $ps = (new Map('string', Parameter::class))
-                ->put('title', new Parameter\Parameter('title', 'Foo'))
+            $p = new Parameter\Parameter('title', 'Foo'),
         );
 
         $this->assertInstanceOf(Value::class, $l);
         $this->assertSame($url, $l->url());
         $this->assertSame('relationship', $l->relationship());
-        $this->assertSame($ps, $l->parameters());
+        $this->assertSame($p, $l->parameters()->get('title'));
         $this->assertSame(
             '</some/resource>; rel="relationship";title=Foo',
             (string) $l
@@ -39,15 +38,6 @@ class LinkValueTest extends TestCase
             'related',
             (new LinkValue(Url::fromString('/')))->relationship()
         );
-    }
-
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 3 must be of type MapInterface<string, Innmind\Http\Header\Parameter>
-     */
-    public function testThrowWhenInvalidParameters()
-    {
-        new LinkValue(Url::fromString('/foo'), 'rel', new Map('string', 'string'));
     }
 
     /**

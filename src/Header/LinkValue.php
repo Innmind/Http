@@ -20,32 +20,26 @@ final class LinkValue extends Value\Value
     public function __construct(
         UrlInterface $url,
         string $rel = null,
-        MapInterface $parameters = null
+        Parameter ...$parameters
     ) {
         $rel = $rel ?? 'related';
-        $parameters = $parameters ?? new Map('string', Parameter::class);
+        $this->parameters = Map::of('string', Parameter::class);
 
         if (empty($rel)) {
             throw new DomainException;
         }
 
-        if (
-            (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== Parameter::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 3 must be of type MapInterface<string, %s>',
-                Parameter::class
-            ));
+        foreach ($parameters as $parameter) {
+            $this->parameters = $this->parameters->put(
+                $parameter->name(),
+                $parameter,
+            );
         }
 
         $this->url = $url;
         $this->rel = $rel;
-        $this->parameters = $parameters;
 
-        $parameters = $parameters
-            ->values()
-            ->join(';');
+        $parameters = $this->parameters->values()->join(';');
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
         $link = (new Str('<%s>; rel="%s"'))->sprintf((string) $url, $rel);
 

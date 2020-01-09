@@ -35,7 +35,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
             new ContentTypeValue(
                 (string) $matches->get('type'),
                 (string) $matches->get('subType'),
-                $this->buildParams(
+                ...$this->buildParams(
                     $matches->contains('params') ?
                         $matches->get('params') : new Str('')
                 )
@@ -43,7 +43,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
         );
     }
 
-    private function buildParams(Str $params): Map
+    private function buildParams(Str $params): array
     {
         return $params
             ->split(';')
@@ -51,17 +51,15 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                 return $value->trim()->length() > 0;
             })
             ->reduce(
-                new Map('string', Parameter::class),
-                static function(Map $carry, Str $value): Map {
+                [],
+                static function(array $carry, Str $value): array {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
-
-                    return $carry->put(
+                    $carry[] = new Parameter\Parameter(
                         (string) $matches->get('key'),
-                        new Parameter\Parameter(
-                            (string) $matches->get('key'),
-                            (string) $matches->get('value')
-                        )
+                        (string) $matches->get('value')
                     );
+
+                    return $carry;
                 }
             );
     }
