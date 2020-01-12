@@ -17,7 +17,7 @@ class QueryTest extends TestCase
         $f = new Query(
             $p = new Parameter(
                 'foo',
-                24
+                '24'
             )
         );
 
@@ -29,7 +29,7 @@ class QueryTest extends TestCase
 
     public function testOf()
     {
-        $query = Query::of(new Parameter('foo', 24));
+        $query = Query::of(new Parameter('foo', '24'));
 
         $this->assertInstanceOf(Query::class, $query);
         $this->assertTrue($query->contains('foo'));

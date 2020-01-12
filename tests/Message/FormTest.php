@@ -17,7 +17,7 @@ class FormTest extends TestCase
         $f = new Form(
             $p = new Parameter(
                 '42',
-                24
+                '24'
             )
         );
 
@@ -29,7 +29,7 @@ class FormTest extends TestCase
 
     public function testOf()
     {
-        $form = Form::of(new Parameter('42', 24));
+        $form = Form::of(new Parameter('42', '24'));
 
         $this->assertInstanceOf(Form::class, $form);
         $this->assertTrue($form->contains('42'));

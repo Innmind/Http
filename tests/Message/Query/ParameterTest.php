@@ -12,10 +12,10 @@ class ParameterTest extends TestCase
 {
     public function testInterface()
     {
-        $p = new Parameter('foo', 42);
+        $p = new Parameter('foo', '42');
 
         $this->assertSame('foo', $p->name());
-        $this->assertSame(42, $p->value());
+        $this->assertSame('42', $p->value());
     }
 
     /**
@@ -23,6 +23,14 @@ class ParameterTest extends TestCase
      */
     public function testThrowWhenEmptyName()
     {
-        new Parameter('', 42);
+        new Parameter('', '42');
+    }
+
+    public function testThrowWhenValueNeitherStringNorArray()
+    {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Argument 2 must be of type string|array, integer given');
+
+        new Parameter('foo', 42);
     }
 }

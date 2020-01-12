@@ -31,10 +31,13 @@ class FormFactoryTest extends TestCase
 
         $this->assertInstanceOf(Form::class, $f);
         $this->assertSame(2, $f->count());
-        $this->assertInstanceOf(Map::class, $f->get('tree')->value());
         $this->assertSame(
-            'value',
-            $f->get('tree')->value()->get('subtree')->value()->get('some')->value()
+            [
+                'subtree' => [
+                    'some' => 'value',
+                ],
+            ],
+            $f->get('tree')->value(),
         );
         $this->assertSame('value', $f->get('another')->value());
     }

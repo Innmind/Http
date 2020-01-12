@@ -17,7 +17,6 @@ use Innmind\Http\{
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Readable\Stream;
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -79,7 +78,7 @@ RAW;
             null,
             Query::of(
                 new Query\Parameter('foo', 'bar'),
-                new Query\Parameter('bar', 42),
+                new Query\Parameter('bar', '42'),
                 new Query\Parameter('baz', ['foo'])
             )
         );
@@ -125,13 +124,12 @@ RAW;
             null,
             Form::of(
                 new Form\Parameter('foo', 'bar'),
-                new Form\Parameter('bar', 42),
+                new Form\Parameter('bar', '42'),
                 new Form\Parameter(
                     'baz',
-                    Map::of('scalar', Form\Parameter::class)
-                        (0, new Form\Parameter('0', 'foo'))
-                )
-            )
+                    ['foo'],
+                ),
+            ),
         );
         $stringable = new Stringable($request);
 
