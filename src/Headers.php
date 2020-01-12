@@ -47,6 +47,20 @@ final class Headers implements \Iterator, \Countable
         return $this->headers->get((string) (new Str($name))->toLower());
     }
 
+    public function add(Header ...$headers): self
+    {
+        $self = clone $this;
+
+        foreach ($headers as $header) {
+            $self->headers = $self->headers->put(
+                (string) Str::of($header->name())->toLower(),
+                $header,
+            );
+        }
+
+        return $self;
+    }
+
     /**
      * Check if the header is present
      *
