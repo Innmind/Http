@@ -95,7 +95,7 @@ class RequestTranslatorTest extends TestCase
         $this->assertSame(13, $request->environment()->count());
         $this->assertSame('dev', $request->environment()->get('SYMFONY_ENV'));
         $this->assertSame(1, $request->cookies()->count());
-        $this->assertSame(42, $request->cookies()->get('sess'));
+        $this->assertSame('42', $request->cookies()->get('sess'));
         $this->assertSame(1, $request->query()->count());
         $this->assertSame('foo', $request->query()->get('search')->value());
         $this->assertSame(1, $request->form()->count());

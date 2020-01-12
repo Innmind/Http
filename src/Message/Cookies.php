@@ -13,19 +13,17 @@ final class Cookies implements \Countable
 
     public function __construct(Map $cookies = null)
     {
-        $cookies = $cookies ?? Map::of('string', 'scalar');
+        $cookies = $cookies ?? Map::of('string', 'string');
 
-        assertMap('string', 'scalar', $cookies, 1);
+        assertMap('string', 'string', $cookies, 1);
 
         $this->cookies = $cookies;
     }
 
     /**
      * @throws CookieNotFoundException
-     *
-     * @return mixed
      */
-    public function get(string $name)
+    public function get(string $name): string
     {
         if (!$this->contains($name)) {
             throw new CookieNotFound($name);
@@ -40,7 +38,7 @@ final class Cookies implements \Countable
     }
 
     /**
-     * @param callable(string, scalar): void $function
+     * @param callable(string, string): void $function
      */
     public function foreach(callable $function): void
     {
@@ -51,7 +49,7 @@ final class Cookies implements \Countable
      * @template R
      *
      * @param R $carry
-     * @param callable(R, string, scalar): R $reducer
+     * @param callable(R, string, string): R $reducer
      *
      * @return R
      */

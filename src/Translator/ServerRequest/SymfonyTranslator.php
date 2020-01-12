@@ -107,10 +107,10 @@ final class SymfonyTranslator
 
     private function translateCookies(ParameterBag $cookies): Cookies
     {
-        $map = Map::of('string', 'scalar');
+        $map = Map::of('string', 'string');
 
         foreach ($cookies as $key => $value) {
-            $map = ($map)($key, $value);
+            $map = ($map)((string) $key, (string) $value);
         }
 
         return new Cookies($map);

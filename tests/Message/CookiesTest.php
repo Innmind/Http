@@ -14,13 +14,13 @@ class CookiesTest extends TestCase
     public function testInterface()
     {
         $f = new Cookies(
-            Map::of('string', 'scalar')
-                ->put('foo', 42)
+            Map::of('string', 'string')
+                ('foo', '42')
         );
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
-        $this->assertSame(42, $f->get('foo'));
+        $this->assertSame('42', $f->get('foo'));
         $this->assertSame(1, $f->count());
     }
 
@@ -34,18 +34,18 @@ class CookiesTest extends TestCase
 
     /**
      * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type Map<string, scalar>
+     * @expectedExceptionMessage Argument 1 must be of type Map<string, string>
      */
     public function testThrowWhenInvalidMap()
     {
-        new Cookies(Map::of('string', 'string'));
+        new Cookies(Map::of('string', 'scalar'));
     }
 
     public function testForeach()
     {
         $cookies = new Cookies(
-            Map::of('string', 'scalar')
-                ('foo', 42)
+            Map::of('string', 'string')
+                ('foo', '42')
                 ('bar', 'baz')
         );
 
@@ -59,8 +59,8 @@ class CookiesTest extends TestCase
     public function testReduce()
     {
         $cookies = new Cookies(
-            Map::of('string', 'scalar')
-                ('foo', 42)
+            Map::of('string', 'string')
+                ('foo', '42')
                 ('bar', 'baz')
         );
 
@@ -74,6 +74,6 @@ class CookiesTest extends TestCase
             },
         );
 
-        $this->assertSame(['foo', 42, 'bar', 'baz'], $reduced);
+        $this->assertSame(['foo', '42', 'bar', 'baz'], $reduced);
     }
 }

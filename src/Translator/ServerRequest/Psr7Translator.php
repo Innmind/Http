@@ -71,7 +71,7 @@ final class Psr7Translator
 
     private function translateCookies(array $params): Cookies
     {
-        $map = Map::of('string', 'scalar');
+        $map = Map::of('string', 'string');
 
         foreach ($params as $key => $value) {
             if (\is_scalar($value)) {

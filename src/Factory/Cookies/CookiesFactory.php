@@ -13,7 +13,7 @@ final class CookiesFactory implements CookiesFactoryInterface
 {
     public function __invoke(): Cookies
     {
-        $map = Map::of('string', 'scalar');
+        $map = Map::of('string', 'string');
 
         foreach ($_COOKIE as $name => $value) {
             $map = ($map)($name, $value);
