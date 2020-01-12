@@ -10,8 +10,9 @@ use Innmind\Http\{
     Header\CookieValue,
     Header\Parameter\Parameter
 };
-use Innmind\TimeContinuum\PointInTime\Earth\PointInTime;
-use Innmind\Immutable\SetInterface;
+use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class CookieTest extends TestCase
@@ -25,9 +26,9 @@ class CookieTest extends TestCase
         $this->assertInstanceOf(Header::class, $cookie);
         $this->assertSame('Cookie', $cookie->name());
         $values = $cookie->values();
-        $this->assertInstanceOf(SetInterface::class, $values);
+        $this->assertInstanceOf(Set::class, $values);
         $this->assertSame(Value::class, (string) $values->type());
-        $this->assertSame($value, $values->current());
+        $this->assertSame($value, first($values));
         $this->assertSame('Cookie: foo=bar', $cookie->toString());
     }
 

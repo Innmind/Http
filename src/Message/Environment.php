@@ -6,19 +6,16 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Exception\EnvironmentVariableNotFound
 };
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Immutable\Map;
 use function Innmind\Immutable\assertMap;
 
 final class Environment implements \Countable
 {
     private Map $variables;
 
-    public function __construct(MapInterface $variables = null)
+    public function __construct(Map $variables = null)
     {
-        $variables = $variables ?? new Map('string', 'scalar');
+        $variables = $variables ?? Map::of('string', 'scalar');
 
         assertMap('string', 'scalar', $variables, 1);
 

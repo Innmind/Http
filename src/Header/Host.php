@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Url\Authority\{
     Host as UrlHost,
-    PortInterface,
+    Port,
 };
 
 final class Host extends Header
@@ -15,7 +15,7 @@ final class Host extends Header
         parent::__construct('Host', $host);
     }
 
-    public static function of(UrlHost $host, PortInterface $port): self
+    public static function of(UrlHost $host, Port $port): self
     {
         return new self(new HostValue($host, $port));
     }

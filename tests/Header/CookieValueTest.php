@@ -8,7 +8,7 @@ use Innmind\Http\Header\{
     Value,
     Parameter
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class CookieValueTest extends TestCase
@@ -21,7 +21,7 @@ class CookieValueTest extends TestCase
         );
 
         $this->assertInstanceOf(Value::class, $cookie);
-        $this->assertInstanceOf(MapInterface::class, $cookie->parameters());
+        $this->assertInstanceOf(Map::class, $cookie->parameters());
         $this->assertSame('string', (string) $cookie->parameters()->keyType());
         $this->assertSame(Parameter::class, (string) $cookie->parameters()->valueType());
         $this->assertCount(2, $cookie->parameters());

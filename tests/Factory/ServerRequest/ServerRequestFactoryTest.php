@@ -68,7 +68,7 @@ class ServerRequestFactoryTest extends TestCase
         $r = ($f)();
 
         $this->assertInstanceOf(ServerRequest::class, $r);
-        $this->assertSame('http://localhost:8080/index.php', (string) $r->url());
+        $this->assertSame('http://localhost:8080/index.php', $r->url()->toString());
     }
 
     public function testMakeWithUser()
@@ -116,7 +116,7 @@ class ServerRequestFactoryTest extends TestCase
         $request = ($factory)();
 
         $this->assertInstanceOf(ServerRequest::class, $request);
-        $this->assertSame('http://john@localhost:8080/index.php', (string) $request->url());
+        $this->assertSame('http://john@localhost:8080/index.php', $request->url()->toString());
     }
 
     public function testMakeWithUserAndPassword()
@@ -165,7 +165,7 @@ class ServerRequestFactoryTest extends TestCase
         $request = ($factory)();
 
         $this->assertInstanceOf(ServerRequest::class, $request);
-        $this->assertSame('http://john:duh@localhost:8080/index.php', (string) $request->url());
+        $this->assertSame('http://john:duh@localhost:8080/index.php', $request->url()->toString());
     }
 
     public function testDefault()

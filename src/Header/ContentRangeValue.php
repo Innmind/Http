@@ -20,7 +20,7 @@ final class ContentRangeValue extends Value\Value
         int $length = null
     ) {
         if (
-            !(new Str($unit))->matches('~^\w+$~') ||
+            !Str::of($unit)->matches('~^\w+$~') ||
             $firstPosition < 0 ||
             $lastPosition < 0 ||
             ($length !== null && $length < 0) ||

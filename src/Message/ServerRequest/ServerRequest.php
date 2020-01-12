@@ -16,7 +16,7 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
@@ -29,7 +29,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
     private Files $files;
 
     public function __construct(
-        UrlInterface $url,
+        Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,

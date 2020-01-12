@@ -15,14 +15,11 @@ use Innmind\Http\{
     Factory\QueryFactory,
     Factory\FormFactory,
     Factory\FilesFactory,
-    Factory
+    Factory,
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\Stream\LazyStream;
-use Innmind\Immutable\{
-    Str,
-    Map
-};
+use Innmind\Stream\Readable\Stream;
+use Innmind\Immutable\Str;
 
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
@@ -51,10 +48,10 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
 
     public function __invoke(): ServerRequest
     {
-        $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->capture(
+        $protocol = Str::of($_SERVER['SERVER_PROTOCOL'])->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~'
         );
-        $https = (string) Str::of($_SERVER['HTTPS'] ?? 'off')->toLower();
+        $https = Str::of($_SERVER['HTTPS'] ?? 'off')->toLower()->toString();
         $user = '';
 
         if (isset($_SERVER['PHP_AUTH_USER'])) {
@@ -68,7 +65,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return new ServerRequest\ServerRequest(
-            Url::fromString(sprintf(
+            Url::of(sprintf(
                 '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',
                 $user,
@@ -77,11 +74,11 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             )),
             new Method($_SERVER['REQUEST_METHOD']),
             new ProtocolVersion(
-                (int) (string) $protocol['major'],
-                (int) (string) $protocol['minor']
+                (int) $protocol->get('major')->toString(),
+                (int) $protocol->get('minor')->toString(),
             ),
             ($this->headersFactory)(),
-            new LazyStream('php://input'),
+            new Stream(fopen('php://input', 'r')),
             ($this->environmentFactory)(),
             ($this->cookiesFactory)(),
             ($this->queryFactory)(),

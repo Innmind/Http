@@ -16,7 +16,7 @@ use Innmind\Http\{
     Header\HostValue
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
@@ -25,7 +25,7 @@ class StringableTest extends TestCase
     public function testInterface()
     {
         $request = new ServerRequest(
-            $url = Url::fromString('http://example.com/foo/bar'),
+            $url = Url::of('http://example.com/foo/bar'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(
@@ -36,7 +36,7 @@ class StringableTest extends TestCase
                     )
                 )
             ),
-            new StringStream('some body')
+            Stream::ofContent('some body')
         );
         $stringable = new Stringable($request);
 
@@ -63,7 +63,7 @@ RAW;
     public function testIntegrateQuery()
     {
         $request = new ServerRequest(
-            $url = Url::fromString('http://example.com/foo/bar'),
+            $url = Url::of('http://example.com/foo/bar'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(
@@ -74,7 +74,7 @@ RAW;
                     )
                 )
             ),
-            new StringStream('some body'),
+            Stream::ofContent('some body'),
             null,
             null,
             Query::of(
@@ -108,7 +108,7 @@ RAW;
     public function testIntegrateFormWhenNoBody()
     {
         $request = new ServerRequest(
-            $url = Url::fromString('http://example.com/foo/bar'),
+            $url = Url::of('http://example.com/foo/bar'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(

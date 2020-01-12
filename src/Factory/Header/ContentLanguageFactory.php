@@ -20,7 +20,7 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'content-language') {
+        if ($name->toLower()->toString() !== 'content-language') {
             throw new DomainException;
         }
 
@@ -28,13 +28,15 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
             ...$value
                 ->split(',')
                 ->reduce(
-                    new Set(Value::class),
-                    static function(Set $carry, Str $language): Set {
-                        return $carry->add(new ContentLanguageValue(
-                            (string) $language->trim()
-                        ));
-                    }
-                )
+                    [],
+                    static function(array $carry, Str $language): array {
+                        $carry[] = new ContentLanguageValue(
+                            $language->trim()->toString(),
+                        );
+
+                        return $carry;
+                    },
+                ),
         );
     }
 }

@@ -24,8 +24,8 @@ class AgeFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new AgeFactory)(
-            new Str('Age'),
-            new Str('42')
+            Str::of('Age'),
+            Str::of('42'),
         );
 
         $this->assertInstanceOf(Age::class, $header);
@@ -38,8 +38,8 @@ class AgeFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AgeFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

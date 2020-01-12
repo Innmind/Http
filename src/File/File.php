@@ -4,10 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\File;
 
 use Innmind\Http\File as FileInterface;
-use Innmind\Filesystem\{
-    Name,
-    MediaType
-};
+use Innmind\Filesystem\Name;
+use Innmind\MediaType\MediaType;
 use Innmind\Stream\Readable;
 
 final class File implements FileInterface
@@ -25,7 +23,7 @@ final class File implements FileInterface
         Status $status,
         MediaType $mediaType
     ) {
-        $this->name = new Name\Name($name);
+        $this->name = new Name($name);
         $this->content = $content;
         $this->uploadKey = $uploadKey;
         $this->status = $status;

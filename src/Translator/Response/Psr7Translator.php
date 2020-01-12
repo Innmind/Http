@@ -12,10 +12,10 @@ use Innmind\Http\{
     Headers,
     Header
 };
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
     Map,
-    Str
+    Str,
 };
 use Psr\Http\Message\ResponseInterface;
 
@@ -37,7 +37,7 @@ final class Psr7Translator
             new ReasonPhrase(ReasonPhrase::defaults()->get($code)),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($response->getHeaders()),
-            new StringStream((string) $response->getBody())
+            Stream::ofContent((string) $response->getBody())
         );
     }
 
@@ -47,8 +47,8 @@ final class Psr7Translator
 
         foreach ($rawHeaders as $name => $values) {
             $headers[] = ($this->headerFactory)(
-                new Str($name),
-                new Str(implode(', ', $values))
+                Str::of($name),
+                Str::of(implode(', ', $values)),
             );
         }
 

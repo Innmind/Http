@@ -6,10 +6,7 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Exception\DomainException
 };
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Immutable\Map;
 
 final class StatusCode
 {
@@ -71,12 +68,12 @@ final class StatusCode
     }
 
     /**
-     * @return MapInterface<string, int>
+     * @return Map<string, int>
      */
-    public static function codes(): MapInterface
+    public static function codes(): Map
     {
         if (self::$codes === null) {
-            self::$codes = (new Map('string', 'int'))
+            self::$codes = Map::of('string', 'int')
                 ->put('CONTINUE', 100)
                 ->put('SWITCHING_PROTOCOLS', 101)
                 ->put('PROCESSING', 102) // RFC2518

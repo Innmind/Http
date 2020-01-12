@@ -14,7 +14,7 @@ class ReferrerValueTest extends TestCase
 {
     public function testInterface()
     {
-        $a = new ReferrerValue(Url::fromString('/foo/bar'));
+        $a = new ReferrerValue(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('/foo/bar', $a->toString());

@@ -15,11 +15,11 @@ final class AcceptLanguageValue extends Value\Value
 
     public function __construct(string $language, Quality $quality = null)
     {
-        $language = new Str($language);
+        $language = Str::of($language);
         $quality = $quality ?? new Quality(1);
 
         if (
-            (string) $language !== '*' &&
+            $language->toString() !== '*' &&
             !$language->matches('~^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$~')
         ) {
             throw new DomainException;
@@ -27,9 +27,10 @@ final class AcceptLanguageValue extends Value\Value
 
         $this->quality = $quality;
         parent::__construct(
-            (string) $language
+            $language
                 ->append(';')
                 ->append($quality->toString())
+                ->toString(),
         );
     }
 

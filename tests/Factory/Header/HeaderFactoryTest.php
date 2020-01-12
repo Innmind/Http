@@ -26,8 +26,8 @@ class HeaderFactoryTest extends TestCase
         $factory = new HeaderFactory;
 
         $header = ($factory)(
-            new Str('X-Foo'),
-            new Str('bar')
+            Str::of('X-Foo'),
+            Str::of('bar')
         );
 
         $this->assertInstanceOf(Header::class, $header);

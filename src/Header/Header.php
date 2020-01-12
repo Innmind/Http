@@ -4,10 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\{
-    SetInterface,
-    Set
-};
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\unwrap;
 
 class Header implements HeaderInterface
 {
@@ -22,7 +20,7 @@ class Header implements HeaderInterface
             static function(Set $carry, Value $value): Set {
                 return $carry->add($value);
             },
-            new Set(Value::class)
+            Set::of(Value::class)
         );
     }
 
@@ -34,7 +32,7 @@ class Header implements HeaderInterface
     /**
      * {@inheritdoc}
      */
-    public function values(): SetInterface
+    public function values(): Set
     {
         return $this->values;
     }
@@ -43,7 +41,7 @@ class Header implements HeaderInterface
     {
         $values = \array_map(
             fn(Value $value): string => $value->toString(),
-            $this->values->toPrimitive(),
+            unwrap($this->values),
         );
 
         return \sprintf(

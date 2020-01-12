@@ -27,7 +27,7 @@ final class Stream implements StreamInterface
 
     public function __toString()
     {
-        return (string) $this->stream;
+        return $this->stream->toString();
     }
 
     /**
@@ -154,7 +154,7 @@ final class Stream implements StreamInterface
      */
     public function read($length)
     {
-        return (string) $this->stream->read($length);
+        return $this->stream->read($length)->toString();
     }
 
     /**
@@ -162,7 +162,7 @@ final class Stream implements StreamInterface
      */
     public function getContents()
     {
-        return (string) $this->stream->read();
+        return $this->stream->read()->toString();
     }
 
     /**

@@ -4,23 +4,20 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\Factory\HeaderFactory as HeaderFactoryInterface;
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Immutable\Map;
 
 final class Factories
 {
-    private static ?MapInterface $all = null;
+    private static ?Map $all = null;
     private static ?HeaderFactoryInterface $default = null;
 
     /**
-     * @return MapInterface<string, HeaderFactoryInterface>
+     * @return Map<string, HeaderFactoryInterface>
      */
-    public static function all(): MapInterface
+    public static function all(): Map
     {
         if (self::$all === null) {
-            self::$all = (new Map('string', HeaderFactoryInterface::class))
+            self::$all = Map::of('string', HeaderFactoryInterface::class)
                 ->put('accept-charset', new AcceptCharsetFactory)
                 ->put('accept-encoding', new AcceptEncodingFactory)
                 ->put('accept', new AcceptFactory)

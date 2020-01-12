@@ -19,7 +19,7 @@ final class AuthorizationFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'authorization' ||
+            $name->toLower()->toString() !== 'authorization' ||
             !$value->matches(self::PATTERN)
         ) {
             throw new DomainException;
@@ -29,9 +29,9 @@ final class AuthorizationFactory implements HeaderFactoryInterface
 
         return new Authorization(
             new AuthorizationValue(
-                (string) $matches->get('scheme'),
-                $matches->contains('param') ? (string) $matches->get('param') : ''
-            )
+                $matches->get('scheme')->toString(),
+                $matches->contains('param') ? $matches->get('param')->toString() : '',
+            ),
         );
     }
 }

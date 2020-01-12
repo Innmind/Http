@@ -11,7 +11,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     Map,
-    Str
+    Str,
 };
 
 final class HeadersFactory implements HeadersFactoryInterface
@@ -30,8 +30,8 @@ final class HeadersFactory implements HeadersFactoryInterface
 
         foreach ($this->headers() as $name => $value) {
             $headers[] = ($this->headerFactory)(
-                new Str((string) $name),
-                new Str((string) $value)
+                Str::of((string) $name),
+                Str::of((string) $value)
             );
         }
 
@@ -52,9 +52,10 @@ final class HeadersFactory implements HeadersFactoryInterface
                 continue;
             }
 
-            $key = (string) $key
+            $key = $key
                 ->pregReplace('~^HTTP_~', '')
-                ->replace('_', '-');
+                ->replace('_', '-')
+                ->toString();
             $headers[$key] = $value;
         }
 

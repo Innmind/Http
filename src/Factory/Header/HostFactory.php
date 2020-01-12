@@ -10,27 +10,24 @@ use Innmind\Http\{
     Header\Host,
     Exception\DomainException
 };
-use Innmind\Url\{
-    Url,
-    Exception\ExceptionInterface
-};
+use Innmind\Url\Url;
 use Innmind\Immutable\Str;
 
 final class HostFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'host') {
+        if ($name->toLower()->toString() !== 'host') {
             throw new DomainException;
         }
 
-        $url = Url::fromString('http://'.$value);
+        $url = Url::of('http://'.$value->toString());
 
         return new Host(
             new HostValue(
                 $url->authority()->host(),
-                $url->authority()->port()
-            )
+                $url->authority()->port(),
+            ),
         );
     }
 }

@@ -6,19 +6,16 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Exception\CookieNotFound
 };
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Immutable\Map;
 use function Innmind\Immutable\assertMap;
 
 final class Cookies implements \Countable
 {
     private Map $cookies;
 
-    public function __construct(MapInterface $cookies = null)
+    public function __construct(Map $cookies = null)
     {
-        $cookies = $cookies ?? new Map('string', 'scalar');
+        $cookies = $cookies ?? Map::of('string', 'scalar');
 
         assertMap('string', 'scalar', $cookies, 1);
 

@@ -26,12 +26,15 @@ use Innmind\Http\{
     File\Status\StoppedByExtension as StoppedByExtensionStatus,
     File\Status\WriteFailed as WriteFailedStatus
 };
-use Innmind\Url\Url;
+use Innmind\Url\{
+    Url,
+    Path,
+};
 use Innmind\Stream\Readable\Stream;
-use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\{
     Str,
-    Map
+    Map,
 };
 use Symfony\Component\HttpFoundation\{
     Request as SfRequest,
@@ -57,11 +60,11 @@ final class SymfonyTranslator
         );
 
         return new ServerRequest\ServerRequest(
-            Url::fromString($request->getUri()),
+            Url::of($request->getUri()),
             new Method($request->getMethod()),
             new ProtocolVersion(
-                (int) (string) $protocol['major'],
-                (int) (string) $protocol['minor']
+                (int) $protocol->get('major')->toString(),
+                (int) $protocol->get('minor')->toString(),
             ),
             $this->translateHeaders($request->headers),
             new Stream($request->getContent(true)),
@@ -69,7 +72,7 @@ final class SymfonyTranslator
             $this->translateCookies($request->cookies),
             $this->translateQuery($request->query),
             $this->translateForm($request->request),
-            $this->translateFiles($request->files)
+            $this->translateFiles($request->files),
         );
     }
 
@@ -79,8 +82,8 @@ final class SymfonyTranslator
 
         foreach ($headerBag as $name => $value) {
             $headers[] = ($this->headerFactory)(
-                new Str($name),
-                new Str(implode(', ', $value))
+                Str::of($name),
+                Str::of(implode(', ', $value)),
             );
         }
 
@@ -89,7 +92,7 @@ final class SymfonyTranslator
 
     private function translateEnvironment(ServerBag $server): Environment
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'scalar');
 
         foreach ($server as $key => $value) {
             if (!is_scalar($value)) {
@@ -104,7 +107,7 @@ final class SymfonyTranslator
 
     private function translateCookies(ParameterBag $cookies): Cookies
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'scalar');
 
         foreach ($cookies as $key => $value) {
             $map = $map->put($key, $value);
@@ -141,7 +144,7 @@ final class SymfonyTranslator
             return new Form\Parameter((string) $name, $value);
         }
 
-        $map = new Map('scalar', Form\Parameter::class);
+        $map = Map::of('scalar', Form\Parameter::class);
 
         foreach ($value as $key => $sub) {
             $map = $map->put(
@@ -160,12 +163,10 @@ final class SymfonyTranslator
         foreach ($files as $name => $file) {
             $map[] = new File\File(
                 $file->getClientOriginalName(),
-                new Stream(
-                    fopen($file->getPathname(), 'r')
-                ),
+                Stream::open(Path::of($file->getPathname())),
                 $name,
                 $this->buildFileStatus($file->getError()),
-                MediaType::fromString((string) $file->getClientMimeType())
+                MediaType::of((string) $file->getClientMimeType())
             );
         }
 

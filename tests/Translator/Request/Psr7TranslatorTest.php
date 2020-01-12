@@ -53,7 +53,7 @@ class Psr7TranslatorTest extends TestCase
         $request = ($translator)($request);
 
         $this->assertInstanceOf(Request::class, $request);
-        $this->assertSame('/foo', (string) $request->url());
+        $this->assertSame('/foo', $request->url()->toString());
         $this->assertSame('POST', $request->method()->toString());
         $this->assertSame('1.1', $request->protocolVersion()->toString());
         $headers = $request->headers();
@@ -62,6 +62,6 @@ class Psr7TranslatorTest extends TestCase
             'content-type: application/json',
             $headers->get('content-type')->toString(),
         );
-        $this->assertSame('content', (string) $request->body());
+        $this->assertSame('content', $request->body()->toString());
     }
 }

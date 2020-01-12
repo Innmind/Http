@@ -17,14 +17,14 @@ final class LocationFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'location') {
+        if ($name->toLower()->toString() !== 'location') {
             throw new DomainException;
         }
 
         return new Location(
             new LocationValue(
-                Url::fromString((string) $value)
-            )
+                Url::of($value->toString()),
+            ),
         );
     }
 }

@@ -10,17 +10,17 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
 class Request extends Message implements RequestInterface
 {
-    private UrlInterface $url;
+    private Url $url;
     private Method $method;
 
     public function __construct(
-        UrlInterface $url,
+        Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
@@ -36,7 +36,7 @@ class Request extends Message implements RequestInterface
         );
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->url;
     }

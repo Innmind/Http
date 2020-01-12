@@ -16,14 +16,14 @@ final class ContentLengthFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'content-length') {
+        if ($name->toLower()->toString() !== 'content-length') {
             throw new DomainException;
         }
 
         return new ContentLength(
             new ContentLengthValue(
-                (int) (string) $value
-            )
+                (int) $value->toString(),
+            ),
         );
     }
 }

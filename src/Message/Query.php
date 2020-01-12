@@ -7,11 +7,7 @@ use Innmind\Http\{
     Message\Query\Parameter,
     Exception\QueryParameterNotFound
 };
-use Innmind\Immutable\{
-    MapInterface,
-    Map,
-    Sequence
-};
+use Innmind\Immutable\Map;
 
 final class Query implements \Countable
 {

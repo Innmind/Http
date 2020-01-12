@@ -7,11 +7,7 @@ use Innmind\Http\{
     File,
     Exception\FileNotFound
 };
-use Innmind\Immutable\{
-    MapInterface,
-    Map,
-    Sequence
-};
+use Innmind\Immutable\Map;
 
 final class Files implements \Countable
 {

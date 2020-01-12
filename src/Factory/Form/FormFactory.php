@@ -29,7 +29,7 @@ final class FormFactory implements FormFactoryInterface
             return new Parameter((string) $name, $value);
         }
 
-        $map = new Map('scalar', Parameter::class);
+        $map = Map::of('scalar', Parameter::class);
 
         foreach ($value as $key => $sub) {
             $map = $map->put(

@@ -4,10 +4,8 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Immutable\Map;
+use function Innmind\Immutable\unwrap;
 
 final class CookieValue extends Value\Value
 {
@@ -15,7 +13,7 @@ final class CookieValue extends Value\Value
 
     public function __construct(Parameter ...$parameters)
     {
-        $this->parameters = new Map('string', Parameter::class);
+        $this->parameters = Map::of('string', Parameter::class);
 
         foreach ($parameters as $paramater) {
             $this->parameters = $this->parameters->put(
@@ -28,15 +26,15 @@ final class CookieValue extends Value\Value
             '; ',
             \array_map(
                 fn(Parameter $paramater): string => $paramater->toString(),
-                $this->parameters->values()->toPrimitive(),
+                unwrap($this->parameters->values()),
             ),
         ));
     }
 
     /**
-     * @return MapInterface<string, Parameter>
+     * @return Map<string, Parameter>
      */
-    public function parameters(): MapInterface
+    public function parameters(): Map
     {
         return $this->parameters;
     }

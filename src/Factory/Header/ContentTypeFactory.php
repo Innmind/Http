@@ -11,10 +11,7 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException
 };
-use Innmind\Immutable\{
-    Str,
-    Map
-};
+use Innmind\Immutable\Str;
 
 final class ContentTypeFactory implements HeaderFactoryInterface
 {
@@ -23,7 +20,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'content-type' ||
+            $name->toLower()->toString() !== 'content-type' ||
             !$value->matches(self::PATTERN)
         ) {
             throw new DomainException;
@@ -33,11 +30,11 @@ final class ContentTypeFactory implements HeaderFactoryInterface
 
         return new ContentType(
             new ContentTypeValue(
-                (string) $matches->get('type'),
-                (string) $matches->get('subType'),
+                $matches->get('type')->toString(),
+                $matches->get('subType')->toString(),
                 ...$this->buildParams(
                     $matches->contains('params') ?
-                        $matches->get('params') : new Str('')
+                        $matches->get('params') : Str::of('')
                 )
             )
         );
@@ -55,8 +52,8 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                 static function(array $carry, Str $value): array {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
                     $carry[] = new Parameter\Parameter(
-                        (string) $matches->get('key'),
-                        (string) $matches->get('value')
+                        $matches->get('key')->toString(),
+                        $matches->get('value')->toString(),
                     );
 
                     return $carry;

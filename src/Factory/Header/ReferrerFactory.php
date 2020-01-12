@@ -17,14 +17,14 @@ final class ReferrerFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'referer') {
+        if ($name->toLower()->toString() !== 'referer') {
             throw new DomainException;
         }
 
         return new Referrer(
             new ReferrerValue(
-                Url::fromString((string) $value)
-            )
+                Url::of($value->toString()),
+            ),
         );
     }
 }

@@ -25,10 +25,7 @@ use Innmind\Http\{
     File\Status\WriteFailed,
     File\Status
 };
-use Innmind\Filesystem\MediaType\{
-    MediaType,
-    NullMediaType
-};
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Map;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -61,7 +58,7 @@ final class Psr7Translator
 
     private function translateEnvironment(array $params): Environment
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'scalar');
 
         foreach ($params as $key => $value) {
             if (is_scalar($value)) {
@@ -74,7 +71,7 @@ final class Psr7Translator
 
     private function translateCookies(array $params): Cookies
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'scalar');
 
         foreach ($params as $key => $value) {
             if (is_scalar($value)) {
@@ -120,10 +117,10 @@ final class Psr7Translator
         $map = [];
 
         foreach ($files as $name => $file) {
-            $mediaType = new NullMediaType;
+            $mediaType = MediaType::null();
 
             if (is_string($file->getClientMediaType())) {
-                $mediaType = MediaType::fromString($file->getClientMediaType());
+                $mediaType = MediaType::of($file->getClientMediaType());
             }
 
             $map[] = new File\File(

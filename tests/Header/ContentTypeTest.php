@@ -11,9 +11,10 @@ use Innmind\Http\{
     Header\Parameter
 };
 use Innmind\Immutable\{
-    SetInterface,
-    Map
+    Set,
+    Map,
 };
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeTest extends TestCase
@@ -31,9 +32,9 @@ class ContentTypeTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Type', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($ct, $v->current());
+        $this->assertSame($ct, first($v));
         $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toString());
     }
 

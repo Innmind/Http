@@ -13,19 +13,20 @@ final class WWWAuthenticateValue extends Value\Value
 
     public function __construct(string $scheme, string $realm)
     {
-        $scheme = new Str($scheme);
+        $scheme = Str::of($scheme);
 
         if (!$scheme->matches('~^\w+$~')) {
             throw new DomainException;
         }
 
-        $this->scheme = (string) $scheme;
+        $this->scheme = $scheme->toString();
         $this->realm = $realm;
         parent::__construct(
-            (string) $scheme
+            $scheme
                 ->append(' ')
                 ->append((new Parameter\Parameter('realm', $realm))->toString())
                 ->trim()
+                ->toString(),
         );
     }
 

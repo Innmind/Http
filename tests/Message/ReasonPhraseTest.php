@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Message;
 use Innmind\Http\Message\{
     ReasonPhrase,
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class ReasonPhraseTest extends TestCase
@@ -40,7 +40,7 @@ class ReasonPhraseTest extends TestCase
     {
         $defaults = ReasonPhrase::defaults();
 
-        $this->assertInstanceOf(MapInterface::class, $defaults);
+        $this->assertInstanceOf(Map::class, $defaults);
         $this->assertSame('int', (string) $defaults->keyType());
         $this->assertSame('string', (string) $defaults->valueType());
         $this->assertSame(74, $defaults->count());

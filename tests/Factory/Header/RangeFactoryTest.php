@@ -20,8 +20,8 @@ class RangeFactoryTest extends TestCase
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
-            new Str('Range'),
-            new Str('bytes=0-42')
+            Str::of('Range'),
+            Str::of('bytes=0-42'),
         );
 
         $this->assertInstanceOf(Range::class, $h);
@@ -37,8 +37,8 @@ class RangeFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new RangeFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -48,8 +48,8 @@ class RangeFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new RangeFactory)(
-            new Str('Range'),
-            new Str('foo')
+            Str::of('Range'),
+            Str::of('foo'),
         );
     }
 }

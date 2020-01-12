@@ -13,13 +13,13 @@ use Innmind\Http\{
     TimeContinuum\Format\Http,
     Exception\LogicException
 };
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
 
 final class ResponseSender implements Sender
 {
-    private TimeContinuumInterface $clock;
+    private Clock $clock;
 
-    public function __construct(TimeContinuumInterface $clock)
+    public function __construct(Clock $clock)
     {
         $this->clock = $clock;
     }

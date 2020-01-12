@@ -10,7 +10,7 @@ use Innmind\Http\{
     Headers,
     Header,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 
 final class Stringable implements RequestInterface
@@ -22,7 +22,7 @@ final class Stringable implements RequestInterface
         $this->request = $request;
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->request->url();
     }
@@ -61,10 +61,10 @@ final class Stringable implements RequestInterface
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-{$this->method()->toString()} {$this->url()} HTTP/{$this->protocolVersion()->toString()}
+{$this->method()->toString()} {$this->url()->toString()} HTTP/{$this->protocolVersion()->toString()}
 $headers
 
-{$this->body()}
+{$this->body()->toString()}
 RAW;
     }
 }

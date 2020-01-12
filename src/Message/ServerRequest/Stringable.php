@@ -15,9 +15,9 @@ use Innmind\Http\{
     Headers,
     Header,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 
 final class Stringable implements ServerRequestInterface
 {
@@ -28,7 +28,7 @@ final class Stringable implements ServerRequestInterface
         $this->request = $request;
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->request->url();
     }
@@ -95,7 +95,7 @@ final class Stringable implements ServerRequestInterface
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-{$this->method()->toString()} {$this->url()->path()}{$this->queryString()} HTTP/{$this->protocolVersion()->toString()}
+{$this->method()->toString()} {$this->url()->path()->toString()}{$this->queryString()} HTTP/{$this->protocolVersion()->toString()}
 $headers
 
 {$this->bodyString()}
@@ -128,7 +128,7 @@ RAW;
     private function bodyString(): string
     {
         if ($this->body()->knowsSize() && $this->body()->size()->toInt() > 0) {
-            return (string) $this->body();
+            return $this->body()->toString();
         }
 
         if (\count($this->form()) === 0) {
@@ -156,7 +156,7 @@ RAW;
 
     private function decodeFormParameter($value)
     {
-        if ($value instanceof MapInterface) {
+        if ($value instanceof Map) {
             return $value->reduce(
                 [],
                 function(array $values, $key, $parameter): array {

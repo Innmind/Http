@@ -19,7 +19,7 @@ final class RangeFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'range' ||
+            $name->toLower()->toString() !== 'range' ||
             !$value->matches(self::PATTERN)
         ) {
             throw new DomainException;
@@ -29,10 +29,10 @@ final class RangeFactory implements HeaderFactoryInterface
 
         return new Range(
             new RangeValue(
-                (string) $matches->get('unit'),
-                (int) (string) $matches->get('first'),
-                (int) (string) $matches->get('last')
-            )
+                $matches->get('unit')->toString(),
+                (int) $matches->get('first')->toString(),
+                (int) $matches->get('last')->toString(),
+            ),
         );
     }
 }

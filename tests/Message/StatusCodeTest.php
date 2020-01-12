@@ -7,7 +7,7 @@ use Innmind\Http\Message\{
     StatusCode,
     ReasonPhrase
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class StatusCodeTest extends TestCase
@@ -55,7 +55,7 @@ class StatusCodeTest extends TestCase
     {
         $codes = StatusCode::codes();
 
-        $this->assertInstanceOf(MapInterface::class, $codes);
+        $this->assertInstanceOf(Map::class, $codes);
         $this->assertSame('string', (string) $codes->keyType());
         $this->assertSame('int', (string) $codes->valueType());
         $this->assertSame(74, $codes->count());

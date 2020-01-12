@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CookieParameter\Expires,
     Parameter
 };
-use Innmind\TimeContinuum\PointInTime\Earth\PointInTime;
+use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use PHPUnit\Framework\TestCase;
 
 class ExpiresTest extends TestCase

@@ -24,8 +24,8 @@ class LastModifiedFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new LastModifiedFactory)(
-            new Str('Last-Modified'),
-            new Str('Tue, 15 Nov 1994 08:12:31 GMT')
+            Str::of('Last-Modified'),
+            Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
 
         $this->assertInstanceOf(LastModified::class, $header);
@@ -41,8 +41,8 @@ class LastModifiedFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new LastModifiedFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

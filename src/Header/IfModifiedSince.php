@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\TimeContinuum\PointInTimeInterface;
+use Innmind\TimeContinuum\PointInTime;
 
 final class IfModifiedSince extends Header
 {
@@ -12,7 +12,7 @@ final class IfModifiedSince extends Header
         parent::__construct('If-Modified-Since', $date);
     }
 
-    public static function of(PointInTimeInterface $point): self
+    public static function of(PointInTime $point): self
     {
         return new self(new DateValue($point));
     }

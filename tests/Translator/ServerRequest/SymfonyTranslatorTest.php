@@ -63,7 +63,7 @@ class RequestTranslatorTest extends TestCase
         );
 
         $this->assertInstanceOf(ServerRequest::class, $request);
-        $this->assertSame('http://innmind/foo', (string) $request->url());
+        $this->assertSame('http://innmind/foo', $request->url()->toString());
         $this->assertSame('PUT', $request->method()->toString());
         $this->assertSame('1.1', $request->protocolVersion()->toString());
         $this->assertSame(6, $request->headers()->count());
@@ -91,7 +91,7 @@ class RequestTranslatorTest extends TestCase
             'authorization: Basic '.base64_encode('foo:bar'),
             $request->headers()->get('authorization')->toString(),
         );
-        $this->assertSame('some content', (string) $request->body());
+        $this->assertSame('some content', $request->body()->toString());
         $this->assertSame(13, $request->environment()->count());
         $this->assertSame('dev', $request->environment()->get('SYMFONY_ENV'));
         $this->assertSame(1, $request->cookies()->count());
@@ -102,10 +102,10 @@ class RequestTranslatorTest extends TestCase
         $this->assertSame('some token', $request->form()->get('csrf')->value());
         $this->assertSame(1, $request->files()->count());
         $file = $request->files()->get('file');
-        $this->assertSame('uploaded-file', (string) $file->name());
-        $this->assertSame('some data', (string) $file->content());
+        $this->assertSame('uploaded-file', $file->name()->toString());
+        $this->assertSame('some data', $file->content()->toString());
         $this->assertInstanceOf(Ok::class, $file->status());
-        $this->assertSame('text/plain', (string) $file->mediaType());
+        $this->assertSame('text/plain', $file->mediaType()->toString());
         @unlink('/tmp/uploaded-file');
     }
 }

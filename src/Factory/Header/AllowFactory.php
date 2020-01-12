@@ -20,7 +20,7 @@ final class AllowFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'allow') {
+        if ($name->toLower()->toString() !== 'allow') {
             throw new DomainException;
         }
 
@@ -28,13 +28,15 @@ final class AllowFactory implements HeaderFactoryInterface
             ...$value
                 ->split(',')
                 ->reduce(
-                    new Set(Value::class),
-                    static function(Set $carry, Str $allow): Set {
-                        return $carry->add(new AllowValue(
-                            (string) $allow->trim()->toUpper()
-                        ));
-                    }
-                )
+                    [],
+                    static function(array $carry, Str $allow): array {
+                        $carry[] = new AllowValue(
+                            $allow->trim()->toUpper()->toString(),
+                        );
+
+                        return $carry;
+                    },
+                ),
         );
     }
 }

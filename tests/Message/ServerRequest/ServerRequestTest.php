@@ -17,7 +17,7 @@ use Innmind\Http\{
     Message\Form,
     Message\Files
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
@@ -26,7 +26,7 @@ class ServerRequestTest extends TestCase
     public function testInterface()
     {
         $r = new ServerRequest(
-            $url = $this->createMock(UrlInterface::class),
+            $url = Url::of('example.com'),
             $method = Method::get(),
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
@@ -56,7 +56,7 @@ class ServerRequestTest extends TestCase
     public function testDefaultValues()
     {
         $request = new ServerRequest(
-            $this->createMock(UrlInterface::class),
+            Url::of('example.com'),
             Method::get(),
             new ProtocolVersion(1, 1),
         );

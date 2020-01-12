@@ -24,8 +24,8 @@ class ContentEncodingFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new ContentEncodingFactory)(
-            new Str('Content-Encoding'),
-            new Str('x-gzip')
+            Str::of('Content-Encoding'),
+            Str::of('x-gzip'),
         );
 
         $this->assertInstanceOf(ContentEncoding::class, $header);
@@ -38,8 +38,8 @@ class ContentEncodingFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new ContentEncodingFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

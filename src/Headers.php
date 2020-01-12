@@ -5,11 +5,8 @@ namespace Innmind\Http;
 
 use Innmind\Http\Exception\HeaderNotFound;
 use Innmind\Immutable\{
-    MapInterface,
-    Pair,
     Str,
     Map,
-    Sequence
 };
 
 final class Headers implements \Countable
@@ -22,7 +19,7 @@ final class Headers implements \Countable
 
         foreach ($headers as $header) {
             $this->headers = $this->headers->put(
-                (string) Str::of($header->name())->toLower(),
+                Str::of($header->name())->toLower()->toString(),
                 $header,
             );
         }
@@ -44,7 +41,7 @@ final class Headers implements \Countable
             throw new HeaderNotFound;
         }
 
-        return $this->headers->get((string) (new Str($name))->toLower());
+        return $this->headers->get(Str::of($name)->toLower()->toString());
     }
 
     public function add(Header ...$headers): self
@@ -53,7 +50,7 @@ final class Headers implements \Countable
 
         foreach ($headers as $header) {
             $self->headers = $self->headers->put(
-                (string) Str::of($header->name())->toLower(),
+                Str::of($header->name())->toLower()->toString(),
                 $header,
             );
         }
@@ -68,7 +65,7 @@ final class Headers implements \Countable
      */
     public function contains(string $name): bool
     {
-        return $this->headers->contains((string) (new Str($name))->toLower());
+        return $this->headers->contains(Str::of($name)->toLower()->toString());
     }
 
     /**

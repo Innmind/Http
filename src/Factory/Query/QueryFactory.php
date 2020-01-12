@@ -8,7 +8,6 @@ use Innmind\Http\{
     Message\Query,
     Message\Query\Parameter
 };
-use Innmind\Immutable\Map;
 
 final class QueryFactory implements QueryFactoryInterface
 {

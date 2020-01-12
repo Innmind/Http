@@ -21,7 +21,7 @@ class FormTest extends TestCase
             )
         );
 
-        $this->assertFalse($f->contains(24));
+        $this->assertFalse($f->contains('24'));
         $this->assertTrue($f->contains('42'));
         $this->assertSame($p, $f->get('42'));
         $this->assertSame(1, $f->count());

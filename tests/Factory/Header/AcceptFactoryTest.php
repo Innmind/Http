@@ -20,8 +20,8 @@ class AcceptFactoryTest extends TestCase
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
-            new Str('Accept'),
-            new Str('audio/*; q=0.2; level="1", audio/basic')
+            Str::of('Accept'),
+            Str::of('audio/*; q=0.2; level="1", audio/basic'),
         );
 
         $this->assertInstanceOf(Accept::class, $h);
@@ -34,8 +34,8 @@ class AcceptFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AcceptFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -45,8 +45,8 @@ class AcceptFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new AcceptFactory)(
-            new Str('Accept'),
-            new Str('@')
+            Str::of('Accept'),
+            Str::of('@'),
         );
     }
 }

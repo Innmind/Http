@@ -15,11 +15,11 @@ final class AcceptCharsetValue extends Value\Value
 
     public function __construct(string $charset, Quality $quality = null)
     {
-        $charset = new Str($charset);
+        $charset = Str::of($charset);
         $quality = $quality ?? new Quality(1);
 
         if (
-            (string) $charset !== '*' &&
+            $charset->toString() !== '*' &&
             !$charset->matches('~^[a-zA-Z0-9\-_:\(\)]+$~')
         ) {
             throw new DomainException;
@@ -27,9 +27,10 @@ final class AcceptCharsetValue extends Value\Value
 
         $this->quality = $quality;
         parent::__construct(
-            (string) $charset
+            $charset
                 ->append(';')
                 ->append($quality->toString())
+                ->toString(),
         );
     }
 

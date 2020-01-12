@@ -5,13 +5,13 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\TimeContinuum\Format\Http;
 use Innmind\TimeContinuum\{
-    PointInTimeInterface,
-    Timezone\Earth\UTC
+    PointInTime,
+    Earth\Timezone\UTC,
 };
 
 final class DateValue extends Value\Value
 {
-    public function __construct(PointInTimeInterface $date)
+    public function __construct(PointInTime $date)
     {
         parent::__construct($date->changeTimezone(new UTC)->format(new Http));
     }

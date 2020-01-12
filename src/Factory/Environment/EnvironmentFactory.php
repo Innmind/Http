@@ -13,7 +13,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
 {
     public function __invoke(): Environment
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'scalar');
 
         foreach (\getenv() as $name => $value) {
             if (!is_scalar($value)) {

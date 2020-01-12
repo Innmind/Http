@@ -21,24 +21,24 @@ class DelegationFactoryTest extends TestCase
         $this->assertInstanceOf(
             HeaderFactory::class,
             new DelegationFactory(
-                new Map('string', HeaderFactory::class)
-            )
+                Map::of('string', HeaderFactory::class)
+            ),
         );
     }
 
     /**
      * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, Innmind\Http\Factory\HeaderFactory>
+     * @expectedExceptionMessage Argument 1 must be of type Map<string, Innmind\Http\Factory\HeaderFactory>
      */
     public function testThrowWhenInvalidMap()
     {
-        new DelegationFactory(new Map('string', 'callable'));
+        new DelegationFactory(Map::of('string', 'callable'));
     }
 
     public function testMake()
     {
-        $name = new Str('X-Foo');
-        $value = new Str('bar');
+        $name = Str::of('X-Foo');
+        $value = Str::of('bar');
         $mock = $this->createMock(HeaderFactory::class);
         $mock
             ->expects($this->once())
@@ -52,7 +52,7 @@ class DelegationFactoryTest extends TestCase
             ->expects($this->never())
             ->method('__invoke');
         $factory = new DelegationFactory(
-            (new Map('string', HeaderFactory::class))
+            Map::of('string', HeaderFactory::class)
                 ->put('x-foo', $mock)
                 ->put('foo', $neverToBeCalled)
         );

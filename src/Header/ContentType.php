@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Immutable\MapInterface;
-
 final class ContentType extends Header
 {
     public function __construct(ContentTypeValue $content)

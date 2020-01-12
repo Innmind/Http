@@ -21,22 +21,22 @@ final class ContentRangeFactory implements HeaderFactoryInterface
         $value = $value->trim();
 
         if (
-            (string) $name->toLower() !== 'content-range' ||
+            $name->toLower()->toString() !== 'content-range' ||
             !$value->matches(self::PATTERN)
         ) {
             throw new DomainException;
         }
 
         $matches = $value->capture(self::PATTERN);
-        $length = (string) $matches->get('length');
+        $length = $matches->get('length')->toString();
 
         return new ContentRange(
             new ContentRangeValue(
-                (string) $matches->get('unit'),
-                (int) (string) $matches->get('first'),
-                (int) (string) $matches->get('last'),
-                $length === '*' ? null : (int) $length
-            )
+                $matches->get('unit')->toString(),
+                (int) $matches->get('first')->toString(),
+                (int) $matches->get('last')->toString(),
+                $length === '*' ? null : (int) $length,
+            ),
         );
     }
 }

@@ -24,8 +24,8 @@ class ContentRangeFactoryTest extends TestCase
     public function testMakeWithoutLength()
     {
         $header = (new ContentRangeFactory)(
-            new Str('Content-Range'),
-            new Str('bytes 0-42/*')
+            Str::of('Content-Range'),
+            Str::of('bytes 0-42/*'),
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
@@ -35,8 +35,8 @@ class ContentRangeFactoryTest extends TestCase
     public function testMakeWithLength()
     {
         $header = (new ContentRangeFactory)(
-            new Str('Content-Range'),
-            new Str('bytes 0-42/66')
+            Str::of('Content-Range'),
+            Str::of('bytes 0-42/66'),
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
@@ -49,8 +49,8 @@ class ContentRangeFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new ContentRangeFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -60,8 +60,8 @@ class ContentRangeFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new ContentRangeFactory)(
-            new Str('Content-Range'),
-            new Str('foo')
+            Str::of('Content-Range'),
+            Str::of('foo'),
         );
     }
 }

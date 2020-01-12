@@ -8,30 +8,28 @@ use Innmind\Http\{
     Header,
     Header\Value
 };
-use Innmind\Immutable\{
-    Str,
-    Set
-};
+use Innmind\Immutable\Str;
 
 final class HeaderFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
         return new Header\Header(
-            (string) $name,
+            $name->toString(),
             ...$value
                 ->split(',')
                 ->map(function(Str $value): Str {
                     return $value->trim();
                 })
                 ->reduce(
-                    new Set(Value::class),
-                    function(Set $carry, Str $value): Set {
-                        return $carry->add(
-                            new Value\Value((string) $value)
-                        );
-                    }
-                )
+                    [],
+                    static function(array $carry, Str $value): array {
+                        $carry[] = new Value\Value($value->toString());
+
+
+                        return $carry;
+                    },
+                ),
         );
     }
 }

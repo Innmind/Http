@@ -17,12 +17,9 @@ use Innmind\Http\{
     File\Status\WriteFailed,
     File\Status
 };
-use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Stream\Readable\Stream;
-use Innmind\Immutable\{
-    Map,
-    Str
-};
+use Innmind\Immutable\Map;
 
 final class FilesFactory implements FilesFactoryInterface
 {
@@ -64,17 +61,12 @@ final class FilesFactory implements FilesFactoryInterface
         string $media,
         string $uploadKey
     ): File {
-        $media = (new Str($media))->split('/');
-
         return new File\File(
             $name,
             new Stream(fopen($path, 'r')),
             $uploadKey,
             $this->status($status),
-            new MediaType(
-                (string) $media->get(0),
-                (string) $media->get(1)
-            )
+            MediaType::of($media),
         );
     }
 

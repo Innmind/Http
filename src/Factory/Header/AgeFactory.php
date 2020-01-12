@@ -16,14 +16,14 @@ final class AgeFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'age') {
+        if ($name->toLower()->toString() !== 'age') {
             throw new DomainException;
         }
 
         return new Age(
             new AgeValue(
-                (int) (string) $value
-            )
+                (int) $value->toString(),
+            ),
         );
     }
 }

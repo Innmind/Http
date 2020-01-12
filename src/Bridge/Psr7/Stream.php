@@ -24,12 +24,10 @@ final class Stream implements Readable
         $this->stream = $stream;
     }
 
-    public function close(): StreamInterface
+    public function close(): void
     {
         $this->stream->close();
         $this->closed = true;
-
-        return $this;
     }
 
     public function closed(): bool
@@ -42,18 +40,14 @@ final class Stream implements Readable
         return new Position($this->stream->tell());
     }
 
-    public function seek(Position $position, Mode $mode = null): StreamInterface
+    public function seek(Position $position, Mode $mode = null): void
     {
         $this->stream->seek($position->toInt(), $mode ? $mode->toInt() : null);
-
-        return $this;
     }
 
-    public function rewind(): StreamInterface
+    public function rewind(): void
     {
         $this->stream->rewind();
-
-        return $this;
     }
 
     public function end(): bool
@@ -77,10 +71,10 @@ final class Stream implements Readable
     public function read(int $length = null): Str
     {
         if (is_null($length)) {
-            return new Str($this->stream->getContents());
+            return Str::of($this->stream->getContents());
         }
 
-        return new Str($this->stream->read($length));
+        return Str::of($this->stream->read($length));
     }
 
     public function readLine(): Str
@@ -88,7 +82,7 @@ final class Stream implements Readable
         throw new LogicException('not implemented');
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return (string) $this->stream;
     }

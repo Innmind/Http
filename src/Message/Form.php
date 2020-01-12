@@ -7,11 +7,7 @@ use Innmind\Http\{
     Message\Form\Parameter,
     Exception\FormParameterNotFound
 };
-use Innmind\Immutable\{
-    MapInterface,
-    Map,
-    Sequence
-};
+use Innmind\Immutable\Map;
 
 final class Form implements \Countable
 {
@@ -35,11 +31,9 @@ final class Form implements \Countable
     }
 
     /**
-     * @param scalar $key
-     *
      * @throws FormParameterNotFoundException
      */
-    public function get($key): Parameter
+    public function get(string $key): Parameter
     {
         if (!$this->contains($key)) {
             throw new FormParameterNotFound;
@@ -48,10 +42,7 @@ final class Form implements \Countable
         return $this->parameters->get($key);
     }
 
-    /**
-     * @param scalar $key
-     */
-    public function contains($key): bool
+    public function contains(string $key): bool
     {
         return $this->parameters->contains($key);
     }

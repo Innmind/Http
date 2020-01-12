@@ -14,7 +14,7 @@ class PathTest extends TestCase
 {
     public function testInterface()
     {
-        $path = new Path(new UrlPath('/foo'));
+        $path = new Path(UrlPath::of('/foo'));
 
         $this->assertInstanceOf(Parameter::class, $path);
         $this->assertSame('Path=/foo', $path->toString());

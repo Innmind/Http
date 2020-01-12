@@ -24,8 +24,8 @@ class ContentLengthFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new ContentLengthFactory)(
-            new Str('Content-Length'),
-            new Str('42')
+            Str::of('Content-Length'),
+            Str::of('42'),
         );
 
         $this->assertInstanceOf(ContentLength::class, $header);
@@ -38,8 +38,8 @@ class ContentLengthFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new ContentLengthFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

@@ -4,21 +4,21 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
-    MapInterface,
-    Map
+    Map,
 };
+use function Innmind\Immutable\unwrap;
 
 final class LinkValue extends Value\Value
 {
-    private UrlInterface $url;
+    private Url $url;
     private string $rel;
     private Map $parameters;
 
     public function __construct(
-        UrlInterface $url,
+        Url $url,
         string $rel = null,
         Parameter ...$parameters
     ) {
@@ -43,16 +43,20 @@ final class LinkValue extends Value\Value
             ';',
             \array_map(
                 fn(Parameter $paramater): string => $paramater->toString(),
-                $this->parameters->values()->toPrimitive(),
+                unwrap($this->parameters->values()),
             ),
         ));
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
-        $link = (new Str('<%s>; rel="%s"'))->sprintf((string) $url, $rel);
+        $link = Str::of('<%s>; rel="%s"')->sprintf($url->toString(), $rel);
 
-        parent::__construct((string) $link->append((string) $parameters));
+        parent::__construct(
+            $link
+                ->append($parameters->toString())
+                ->toString(),
+        );
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->url;
     }
@@ -63,9 +67,9 @@ final class LinkValue extends Value\Value
     }
 
     /**
-     * @return MapInterface<string, Parameter>
+     * @return Map<string, Parameter>
      */
-    public function parameters(): MapInterface
+    public function parameters(): Map
     {
         return $this->parameters;
     }

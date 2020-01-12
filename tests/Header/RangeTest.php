@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\Value,
     Header\RangeValue
 };
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class RangeTest extends TestCase
@@ -23,9 +24,9 @@ class RangeTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Range', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($cr, $v->current());
+        $this->assertSame($cr, first($v));
         $this->assertSame('Range: bytes=0-42', $h->toString());
     }
 

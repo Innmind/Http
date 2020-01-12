@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 
 final class Referrer extends Header
 {
@@ -12,7 +12,7 @@ final class Referrer extends Header
         parent::__construct('Referer', $referrer);
     }
 
-    public static function of(UrlInterface $referrer): self
+    public static function of(Url $referrer): self
     {
         return new self(new ReferrerValue($referrer));
     }

@@ -24,8 +24,8 @@ class AcceptRangesFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new AcceptRangesFactory)(
-            new Str('Accept-Ranges'),
-            new Str('bytes')
+            Str::of('Accept-Ranges'),
+            Str::of('bytes'),
         );
 
         $this->assertInstanceOf(AcceptRanges::class, $header);
@@ -38,8 +38,8 @@ class AcceptRangesFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AcceptRangesFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

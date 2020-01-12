@@ -11,11 +11,7 @@ use Innmind\Http\{
     Header\Parameter\Parameter,
     Exception\DomainException
 };
-use Innmind\Immutable\{
-    Str,
-    SequenceInterface,
-    Sequence
-};
+use Innmind\Immutable\Str;
 
 final class CookieFactory implements HeaderFactoryInterface
 {
@@ -24,7 +20,7 @@ final class CookieFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'cookie' ||
+            $name->toLower()->toString() !== 'cookie' ||
             !$value->matches(self::PATTERN)
         ) {
             throw new DomainException;
@@ -37,7 +33,7 @@ final class CookieFactory implements HeaderFactoryInterface
         );
     }
 
-    private function buildParams(Str $params): SequenceInterface
+    private function buildParams(Str $params): array
     {
         return $params
             ->split(';')
@@ -48,16 +44,15 @@ final class CookieFactory implements HeaderFactoryInterface
                 return $value->length() > 0;
             })
             ->reduce(
-                new Sequence,
-                static function(SequenceInterface $carry, Str $value): SequenceInterface {
+                [],
+                static function(array $carry, Str $value): array {
                     $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
-
-                    return $carry->add(
-                        new Parameter(
-                            (string) $matches->get('key'),
-                            (string) $matches->get('value')
-                        )
+                    $carry[] = new Parameter(
+                        $matches->get('key')->toString(),
+                        $matches->get('value')->toString(),
                     );
+
+                    return $carry;
                 }
             );
     }

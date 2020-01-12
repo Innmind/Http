@@ -8,22 +8,22 @@ use Innmind\Http\{
     Header
 };
 use Innmind\Immutable\{
-    MapInterface,
-    Str
+    Map,
+    Str,
 };
 
 final class DelegationFactory implements HeaderFactoryInterface
 {
-    private MapInterface $factories;
+    private Map $factories;
 
-    public function __construct(MapInterface $factories)
+    public function __construct(Map $factories)
     {
         if (
             (string) $factories->keyType() !== 'string' ||
             (string) $factories->valueType() !== HeaderFactoryInterface::class
         ) {
             throw new \TypeError(sprintf(
-                'Argument 1 must be of type MapInterface<string, %s>',
+                'Argument 1 must be of type Map<string, %s>',
                 HeaderFactoryInterface::class
             ));
         }
@@ -35,7 +35,7 @@ final class DelegationFactory implements HeaderFactoryInterface
     {
         return $this
             ->factories
-            ->get((string) $name->toLower())
+            ->get($name->toLower()->toString())
             ($name, $value);
     }
 }

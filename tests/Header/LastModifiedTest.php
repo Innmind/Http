@@ -9,8 +9,9 @@ use Innmind\Http\{
     Header\Value,
     Header\DateValue
 };
-use Innmind\TimeContinuum\PointInTime\Earth\PointInTime;
-use Innmind\Immutable\SetInterface;
+use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class LastModifiedTest extends TestCase
@@ -24,9 +25,9 @@ class LastModifiedTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Last-Modified', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($d, $v->current());
+        $this->assertSame($d, first($v));
         $this->assertSame('Last-Modified: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 

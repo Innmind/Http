@@ -17,7 +17,7 @@ class LinkValueTest extends TestCase
     public function testInterface()
     {
         $l = new LinkValue(
-            $url = Url::fromString('/some/resource'),
+            $url = Url::of('/some/resource'),
             'relationship',
             $p = new Parameter\Parameter('title', 'Foo'),
         );
@@ -36,7 +36,7 @@ class LinkValueTest extends TestCase
     {
         $this->assertSame(
             'related',
-            (new LinkValue(Url::fromString('/')))->relationship()
+            (new LinkValue(Url::of('/')))->relationship()
         );
     }
 
@@ -46,7 +46,7 @@ class LinkValueTest extends TestCase
     public function testThrowWhenInvalidLinkValue()
     {
         new LinkValue(
-            Url::fromString('/foo'),
+            Url::of('/foo'),
             ''
         );
     }

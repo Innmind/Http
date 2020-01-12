@@ -16,14 +16,14 @@ final class ContentEncodingFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'content-encoding') {
+        if ($name->toLower()->toString() !== 'content-encoding') {
             throw new DomainException;
         }
 
         return new ContentEncoding(
             new ContentEncodingValue(
-                (string) $value
-            )
+                $value->toString(),
+            ),
         );
     }
 }

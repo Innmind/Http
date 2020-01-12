@@ -24,8 +24,8 @@ class LinkFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new LinkFactory)(
-            new Str('Link'),
-            new Str('</foo>; rel="next"; title=foo; bar="baz", </bar>')
+            Str::of('Link'),
+            Str::of('</foo>; rel="next"; title=foo; bar="baz", </bar>'),
         );
 
         $this->assertInstanceOf(Link::class, $header);
@@ -38,8 +38,8 @@ class LinkFactoryTest extends TestCase
     public function testMakeWithComplexParameterValue()
     {
         $header = (new LinkFactory)(
-            new Str('Link'),
-            new Str('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~"')
+            Str::of('Link'),
+            Str::of('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~"'),
         );
 
         $this->assertInstanceOf(Link::class, $header);
@@ -55,8 +55,8 @@ class LinkFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new LinkFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -66,8 +66,8 @@ class LinkFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new LinkFactory)(
-            new Str('Link'),
-            new Str('foo')
+            Str::of('Link'),
+            Str::of('foo'),
         );
     }
 }

@@ -24,8 +24,8 @@ class ExpiresFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new ExpiresFactory)(
-            new Str('Expires'),
-            new Str('Tue, 15 Nov 1994 08:12:31 GMT')
+            Str::of('Expires'),
+            Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
 
         $this->assertInstanceOf(Expires::class, $header);
@@ -41,8 +41,8 @@ class ExpiresFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new ExpiresFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

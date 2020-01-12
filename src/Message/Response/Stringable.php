@@ -67,7 +67,7 @@ final class Stringable implements ResponseInterface
 HTTP/{$this->protocolVersion()->toString()} {$this->statusCode()->toString()} {$this->reasonPhrase()->toString()}
 $headers
 
-{$this->body()}
+{$this->body()->toString()}
 RAW;
     }
 }

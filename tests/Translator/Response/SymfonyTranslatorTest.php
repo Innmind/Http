@@ -13,7 +13,7 @@ use Innmind\Http\{
     Header\Header,
     Header\Value\Value
 };
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use Symfony\Component\HttpFoundation\Response as SfResponse;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +30,7 @@ class SymfonyTranslatorTest extends TestCase
                 new Header('foo', new Value('bar'), new Value('baz')),
                 new Header('foobar', new Value('barbar'), new Value('bazbar'))
             ),
-            new StringStream('watev')
+            Stream::ofContent('watev')
         );
 
         $response = ($translator)($response);

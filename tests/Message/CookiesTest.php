@@ -14,7 +14,7 @@ class CookiesTest extends TestCase
     public function testInterface()
     {
         $f = new Cookies(
-            (new Map('string', 'scalar'))
+            Map::of('string', 'scalar')
                 ->put('foo', 42)
         );
 
@@ -34,11 +34,11 @@ class CookiesTest extends TestCase
 
     /**
      * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type MapInterface<string, scalar>
+     * @expectedExceptionMessage Argument 1 must be of type Map<string, scalar>
      */
     public function testThrowWhenInvalidMap()
     {
-        new Cookies(new Map('string', 'string'));
+        new Cookies(Map::of('string', 'string'));
     }
 
     public function testForeach()

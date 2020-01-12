@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\Parameter;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
 
 final class Quality extends Parameter
 {

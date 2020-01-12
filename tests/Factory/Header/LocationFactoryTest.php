@@ -24,8 +24,8 @@ class LocationFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new LocationFactory)(
-            new Str('Location'),
-            new Str('http://example.com')
+            Str::of('Location'),
+            Str::of('http://example.com'),
         );
 
         $this->assertInstanceOf(Location::class, $header);
@@ -38,8 +38,8 @@ class LocationFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new LocationFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

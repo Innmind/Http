@@ -20,8 +20,8 @@ class AuthorizationFactoryTest extends TestCase
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
-            new Str('Authorization'),
-            new Str('Basic realm="WallyWorld"')
+            Str::of('Authorization'),
+            Str::of('Basic realm="WallyWorld"'),
         );
 
         $this->assertInstanceOf(Authorization::class, $h);
@@ -37,8 +37,8 @@ class AuthorizationFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AuthorizationFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -48,8 +48,8 @@ class AuthorizationFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new AuthorizationFactory)(
-            new Str('Authorization'),
-            new Str('@')
+            Str::of('Authorization'),
+            Str::of('@'),
         );
     }
 }

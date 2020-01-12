@@ -18,7 +18,7 @@ final class RangeValue extends Value\Value
         int $lastPosition
     ) {
         if (
-            !(new Str($unit))->matches('~^\w+$~') ||
+            !Str::of($unit)->matches('~^\w+$~') ||
             $firstPosition < 0 ||
             $lastPosition < 0 ||
             $firstPosition > $lastPosition

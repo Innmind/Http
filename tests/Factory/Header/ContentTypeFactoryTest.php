@@ -24,8 +24,8 @@ class ContentTypeFactoryTest extends TestCase
     public function testMakeWithoutParameters()
     {
         $header = (new ContentTypeFactory)(
-            new Str('Content-Type'),
-            new Str('image/gif')
+            Str::of('Content-Type'),
+            Str::of('image/gif'),
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
@@ -35,8 +35,8 @@ class ContentTypeFactoryTest extends TestCase
     public function testMakeWithParameters()
     {
         $header = (new ContentTypeFactory)(
-            new Str('Content-Type'),
-            new Str('image/gif; foo="bar"; q=0.5')
+            Str::of('Content-Type'),
+            Str::of('image/gif; foo="bar"; q=0.5'),
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
@@ -49,8 +49,8 @@ class ContentTypeFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new ContentTypeFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -60,8 +60,8 @@ class ContentTypeFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new ContentTypeFactory)(
-            new Str('Content-Type'),
-            new Str('foo')
+            Str::of('Content-Type'),
+            Str::of('foo'),
         );
     }
 }

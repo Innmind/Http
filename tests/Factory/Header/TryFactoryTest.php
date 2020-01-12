@@ -26,8 +26,8 @@ class TryFactoryTest extends TestCase
 
     public function testMake()
     {
-        $name = new Str('foo');
-        $value = new Str('bar');
+        $name = Str::of('foo');
+        $value = Str::of('bar');
         $try = $this->createMock(HeaderFactory::class);
         $try
             ->expects($this->once())
@@ -47,8 +47,8 @@ class TryFactoryTest extends TestCase
 
     public function testMakeViaFallback()
     {
-        $name = new Str('foo');
-        $value = new Str('bar');
+        $name = Str::of('foo');
+        $value = Str::of('bar');
         $try = $this->createMock(HeaderFactory::class);
         $try
             ->expects($this->once())

@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 
 final class LocationValue extends Value\Value
 {
-    public function __construct(UrlInterface $url)
+    public function __construct(Url $url)
     {
-        parent::__construct((string) $url);
+        parent::__construct($url->toString());
     }
 }

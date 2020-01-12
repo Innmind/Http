@@ -24,33 +24,34 @@ final class AcceptFactory implements HeaderFactoryInterface
 
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'accept') {
+        if ($name->toLower()->toString() !== 'accept') {
             throw new DomainException;
         }
 
-        return new Accept(
-            ...$value
-                ->split(',')
-                ->foreach(static function(Str $accept): void {
-                    if (!$accept->matches(self::PATTERN)) {
-                        throw new DomainException;
-                    }
-                })
-                ->reduce(
-                    new Set(Value::class),
-                    function(Set $carry, Str $accept): Set {
-                        $matches = $accept->capture(self::PATTERN);
+        $values = $value->split(',');
+        $values->foreach(static function(Str $accept): void {
+            if (!$accept->matches(self::PATTERN)) {
+                throw new DomainException;
+            }
+        });
 
-                        return $carry->add(new AcceptValue(
-                            (string) $matches->get('type'),
-                            (string) $matches->get('subType'),
-                            ...$this->buildParams(
-                                $matches->contains('params') ?
-                                    $matches->get('params') : new Str('')
-                            ),
-                        ));
-                    }
-                )
+        return new Accept(
+            ...$values->reduce(
+                [],
+                function(array $carry, Str $accept): array {
+                    $matches = $accept->capture(self::PATTERN);
+                    $carry[] = new AcceptValue(
+                        $matches->get('type')->toString(),
+                        $matches->get('subType')->toString(),
+                        ...$this->buildParams(
+                            $matches->contains('params') ?
+                                $matches->get('params') : Str::of('')
+                        ),
+                    );
+
+                    return $carry;
+                },
+            ),
         );
     }
 
@@ -66,8 +67,8 @@ final class AcceptFactory implements HeaderFactoryInterface
                 static function(array $carry, Str $value): array {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
                     $carry[] = new Parameter\Parameter(
-                        (string) $matches->get('key'),
-                        (string) $matches->get('value')
+                        $matches->get('key')->toString(),
+                        $matches->get('value')->toString(),
                     );
 
                     return $carry;

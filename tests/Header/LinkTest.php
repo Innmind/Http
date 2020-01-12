@@ -22,7 +22,7 @@ class LinkTest extends TestCase
     {
         $h = new Link(
             $v = new LinkValue(
-                Url::fromString('/some/resource'),
+                Url::of('/some/resource'),
                 'some relation',
                 new Parameter\Parameter('title', 'Foo'),
             )

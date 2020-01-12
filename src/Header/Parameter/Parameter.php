@@ -14,7 +14,7 @@ class Parameter implements ParameterInterface
 
     public function __construct(string $name, string $value)
     {
-        $value = (new Str($value))->trim();
+        $value = Str::of($value)->trim();
 
         if ($value->matches("/[ \t]/")) {
             $value = $value
@@ -24,7 +24,7 @@ class Parameter implements ParameterInterface
         }
 
         $this->name = $name;
-        $this->value = (string) $value;
+        $this->value = $value->toString();
         $this->string = sprintf(
             '%s%s%s',
             $this->name,

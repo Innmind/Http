@@ -8,7 +8,7 @@ use Innmind\Http\Factory\{
     Header\TryFactory,
     HeaderFactory
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class FactoriesTest extends TestCase
@@ -17,7 +17,7 @@ class FactoriesTest extends TestCase
     {
         $all = Factories::all();
 
-        $this->assertInstanceOf(MapInterface::class, $all);
+        $this->assertInstanceOf(Map::class, $all);
         $this->assertSame('string', (string) $all->keyType());
         $this->assertSame(HeaderFactory::class, (string) $all->valueType());
         $this->assertCount(26, $all);

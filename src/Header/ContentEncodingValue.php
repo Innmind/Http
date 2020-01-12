@@ -10,12 +10,12 @@ final class ContentEncodingValue extends Value\Value
 {
     public function __construct(string $coding)
     {
-        $coding = new Str($coding);
+        $coding = Str::of($coding);
 
         if (!$coding->matches('~^[\w\-]+$~')) {
             throw new DomainException;
         }
 
-        parent::__construct((string) $coding);
+        parent::__construct($coding->toString());
     }
 }

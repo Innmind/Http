@@ -20,8 +20,8 @@ class AcceptEncodingFactoryTest extends TestCase
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
-            new Str('Accept-Encoding'),
-            new Str('gzip, identity; q=0.5, *;q=0')
+            Str::of('Accept-Encoding'),
+            Str::of('gzip, identity; q=0.5, *;q=0'),
         );
 
         $this->assertInstanceOf(AcceptEncoding::class, $h);
@@ -37,8 +37,8 @@ class AcceptEncodingFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AcceptEncodingFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -48,8 +48,8 @@ class AcceptEncodingFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new AcceptEncodingFactory)(
-            new Str('Accept-Encoding'),
-            new Str('@')
+            Str::of('Accept-Encoding'),
+            Str::of('@'),
         );
     }
 }

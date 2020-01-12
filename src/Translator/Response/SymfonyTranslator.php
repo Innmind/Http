@@ -16,7 +16,7 @@ final class SymfonyTranslator
     public function __invoke(Response $response): SfResponse
     {
         return new SfResponse(
-            (string) $response->body(),
+            $response->body()->toString(),
             $response->statusCode()->value(),
             $this->translateHeaders($response->headers())
         );

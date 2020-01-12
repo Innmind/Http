@@ -24,8 +24,8 @@ class AllowFactoryTest extends TestCase
     public function testMake()
     {
         $header = (new AllowFactory)(
-            new Str('Allow'),
-            new Str('get, post')
+            Str::of('Allow'),
+            Str::of('get, post'),
         );
 
         $this->assertInstanceOf(Allow::class, $header);
@@ -38,8 +38,8 @@ class AllowFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AllowFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

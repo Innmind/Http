@@ -4,10 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Message;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\{
-    Map,
-    MapInterface
-};
+use Innmind\Immutable\Map;
 
 final class ReasonPhrase
 {
@@ -34,12 +31,12 @@ final class ReasonPhrase
     }
 
     /**
-     * @return MapInterface<int, string>
+     * @return Map<int, string>
      */
-    public static function defaults(): MapInterface
+    public static function defaults(): Map
     {
         if (self::$defaults === null) {
-            self::$defaults = (new Map('int', 'string'))
+            self::$defaults = Map::of('int', 'string')
                 ->put(100, 'Continue')
                 ->put(101, 'Switching Protocols')
                 ->put(102, 'Processing') // RFC2518

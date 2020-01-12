@@ -44,7 +44,7 @@ class StreamTest extends TestCase
                 );
                 $inner
                     ->expects($this->once())
-                    ->method('__toString')
+                    ->method('toString')
                     ->willReturn($content);
 
                 $this->assertSame($content, (string) $stream);
@@ -300,7 +300,7 @@ class StreamTest extends TestCase
                     ->expects($this->once())
                     ->method('read')
                     ->with($length)
-                    ->willReturn(new Str($content));
+                    ->willReturn(Str::of($content));
 
                 $this->assertSame($content, $stream->read($length));
             });
@@ -318,7 +318,7 @@ class StreamTest extends TestCase
                     ->expects($this->once())
                     ->method('read')
                     ->with($this->isNull())
-                    ->willReturn(new Str($content));
+                    ->willReturn(Str::of($content));
 
                 $this->assertSame($content, $stream->getContents());
             });

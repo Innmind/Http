@@ -6,9 +6,9 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
-    MapInterface,
-    Map
+    Map,
 };
+use function Innmind\Immutable\unwrap;
 
 final class ContentTypeValue extends Value\Value
 {
@@ -21,7 +21,7 @@ final class ContentTypeValue extends Value\Value
         string $subType,
         Parameter ...$parameters
     ) {
-        $media = (new Str('%s/%s'))->sprintf($type, $subType);
+        $media = Str::of('%s/%s')->sprintf($type, $subType);
         $this->parameters = Map::of('string', Parameter::class);
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
@@ -42,12 +42,16 @@ final class ContentTypeValue extends Value\Value
             ';',
             \array_map(
                 fn(Parameter $paramater): string => $paramater->toString(),
-                $this->parameters->values()->toPrimitive(),
+                unwrap($this->parameters->values()),
             ),
         ));
         $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
 
-        parent::__construct((string) $media->append((string) $parameters));
+        parent::__construct(
+            $media
+                ->append($parameters->toString())
+                ->toString(),
+        );
     }
 
     public function type(): string
@@ -61,9 +65,9 @@ final class ContentTypeValue extends Value\Value
     }
 
     /**
-     * @return MapInterface<string, Parameter>
+     * @return Map<string, Parameter>
      */
-    public function parameters(): MapInterface
+    public function parameters(): Map
     {
         return $this->parameters;
     }

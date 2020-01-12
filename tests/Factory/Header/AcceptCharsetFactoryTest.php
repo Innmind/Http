@@ -20,8 +20,8 @@ class AcceptCharsetFactoryTest extends TestCase
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
-            new Str('Accept-Charset'),
-            new Str('iso-8859-5, unicode-1-1;q=0.8')
+            Str::of('Accept-Charset'),
+            Str::of('iso-8859-5, unicode-1-1;q=0.8'),
         );
 
         $this->assertInstanceOf(AcceptCharset::class, $h);
@@ -37,8 +37,8 @@ class AcceptCharsetFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AcceptCharsetFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -48,8 +48,8 @@ class AcceptCharsetFactoryTest extends TestCase
     public function testThrowWhenInvalidValue()
     {
         (new AcceptCharsetFactory)(
-            new Str('Accept-Charset'),
-            new Str('@')
+            Str::of('Accept-Charset'),
+            Str::of('@'),
         );
     }
 }

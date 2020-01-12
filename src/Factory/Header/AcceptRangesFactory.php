@@ -16,14 +16,14 @@ final class AcceptRangesFactory implements HeaderFactoryInterface
 {
     public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'accept-ranges') {
+        if ($name->toLower()->toString() !== 'accept-ranges') {
             throw new DomainException;
         }
 
         return new AcceptRanges(
             new AcceptRangesValue(
-                (string) $value
-            )
+                $value->toString(),
+            ),
         );
     }
 }

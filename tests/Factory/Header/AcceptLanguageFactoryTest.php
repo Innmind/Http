@@ -20,8 +20,8 @@ class AcceptLanguageFactoryTest extends TestCase
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
-            new Str('Accept-Language'),
-            new Str('da, en-gb;q=0.8, en;q=0.7')
+            Str::of('Accept-Language'),
+            Str::of('da, en-gb;q=0.8, en;q=0.7'),
         );
 
         $this->assertInstanceOf(AcceptLanguage::class, $h);
@@ -37,8 +37,8 @@ class AcceptLanguageFactoryTest extends TestCase
     public function testThrowWhenNotExpectedHeader()
     {
         (new AcceptLanguageFactory)(
-            new Str('foo'),
-            new Str('')
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
@@ -48,8 +48,8 @@ class AcceptLanguageFactoryTest extends TestCase
     public function testThrowWhenNotValid()
     {
         (new AcceptLanguageFactory)(
-            new Str('Accept-Language'),
-            new Str('@')
+            Str::of('Accept-Language'),
+            Str::of('@'),
         );
     }
 }

@@ -15,11 +15,11 @@ final class AcceptEncodingValue extends Value\Value
 
     public function __construct(string $coding, Quality $quality = null)
     {
-        $coding = new Str($coding);
+        $coding = Str::of($coding);
         $quality = $quality ?? new Quality(1);
 
         if (
-            (string) $coding !== '*' &&
+            $coding->toString() !== '*' &&
             !$coding->matches('~^\w+$~')
         ) {
             throw new DomainException;
@@ -27,9 +27,10 @@ final class AcceptEncodingValue extends Value\Value
 
         $this->quality = $quality;
         parent::__construct(
-            (string) $coding
+            $coding
                 ->append(';')
                 ->append($quality->toString())
+                ->toString(),
         );
     }
 
