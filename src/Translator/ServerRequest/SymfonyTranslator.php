@@ -132,28 +132,10 @@ final class SymfonyTranslator
         $forms = [];
 
         foreach ($form as $key => $value) {
-            $forms[] = $this->buildFormParameter($key, $value);
+            $forms[] = new Form\Parameter($key, $value);
         }
 
         return new Form(...$forms);
-    }
-
-    private function buildFormParameter($name, $value): Form\Parameter
-    {
-        if (!\is_array($value)) {
-            return new Form\Parameter((string) $name, $value);
-        }
-
-        $map = Map::of('scalar', Form\Parameter::class);
-
-        foreach ($value as $key => $sub) {
-            $map = ($map)(
-                $key,
-                $this->buildFormParameter($key, $sub),
-            );
-        }
-
-        return new Form\Parameter((string) $name, $map);
     }
 
     private function translateFiles(FileBag $files): Files
