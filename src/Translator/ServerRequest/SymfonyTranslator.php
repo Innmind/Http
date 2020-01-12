@@ -166,7 +166,7 @@ final class SymfonyTranslator
                 Stream::open(Path::of($file->getPathname())),
                 $name,
                 $this->buildFileStatus($file->getError()),
-                MediaType::of((string) $file->getClientMimeType()),
+                MediaType::of((string) ($file->getMimeType() ?: 'application/octet-stream')),
             );
         }
 
