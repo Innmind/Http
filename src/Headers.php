@@ -37,8 +37,6 @@ final class Headers implements \Iterator, \Countable
      * @param string $name Case insensitive
      *
      * @throws HeaderNotFoundException
-     *
-     * @return Header
      */
     public function get(string $name): Header
     {
@@ -53,8 +51,6 @@ final class Headers implements \Iterator, \Countable
      * Check if the header is present
      *
      * @param string $name Case insensitive
-     *
-     * @return bool
      */
     public function contains(string $name): bool
     {
