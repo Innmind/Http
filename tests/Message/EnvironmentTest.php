@@ -14,13 +14,13 @@ class EnvironmentTest extends TestCase
     public function testInterface()
     {
         $f = new Environment(
-            Map::of('string', 'scalar')
-                ->put('foo', 42)
+            Map::of('string', 'string')
+                ('foo', '42')
         );
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
-        $this->assertSame(42, $f->get('foo'));
+        $this->assertSame('42', $f->get('foo'));
         $this->assertSame(1, $f->count());
     }
 
@@ -34,18 +34,18 @@ class EnvironmentTest extends TestCase
 
     /**
      * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type Map<string, scalar>
+     * @expectedExceptionMessage Argument 1 must be of type Map<string, string>
      */
     public function testThrowWhenInvalidMap()
     {
-        new Environment(Map::of('string', 'string'));
+        new Environment(Map::of('string', 'scalar'));
     }
 
     public function testForeach()
     {
         $variables = new Environment(
-            Map::of('string', 'scalar')
-                ('foo', 42)
+            Map::of('string', 'string')
+                ('foo', '42')
                 ('bar', 'baz')
         );
 
@@ -59,8 +59,8 @@ class EnvironmentTest extends TestCase
     public function testReduce()
     {
         $variables = new Environment(
-            Map::of('string', 'scalar')
-                ('foo', 42)
+            Map::of('string', 'string')
+                ('foo', '42')
                 ('bar', 'baz')
         );
 
@@ -74,6 +74,6 @@ class EnvironmentTest extends TestCase
             },
         );
 
-        $this->assertSame(['foo', 42, 'bar', 'baz'], $reduced);
+        $this->assertSame(['foo', '42', 'bar', 'baz'], $reduced);
     }
 }

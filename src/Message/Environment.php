@@ -13,19 +13,17 @@ final class Environment implements \Countable
 
     public function __construct(Map $variables = null)
     {
-        $variables = $variables ?? Map::of('string', 'scalar');
+        $variables = $variables ?? Map::of('string', 'string');
 
-        assertMap('string', 'scalar', $variables, 1);
+        assertMap('string', 'string', $variables, 1);
 
         $this->variables = $variables;
     }
 
     /**
      * @throws EnvironmentVariableNotFoundException
-     *
-     * @return mixed
      */
-    public function get(string $name)
+    public function get(string $name): string
     {
         if (!$this->contains($name)) {
             throw new EnvironmentVariableNotFound($name);
@@ -40,7 +38,7 @@ final class Environment implements \Countable
     }
 
     /**
-     * @param callable(string, scalar): void $function
+     * @param callable(string, string): void $function
      */
     public function foreach(callable $function): void
     {
@@ -51,7 +49,7 @@ final class Environment implements \Countable
      * @template R
      *
      * @param R $carry
-     * @param callable(R, string, scalar): R $reducer
+     * @param callable(R, string, string): R $reducer
      *
      * @return R
      */

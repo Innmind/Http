@@ -92,7 +92,7 @@ final class SymfonyTranslator
 
     private function translateEnvironment(ServerBag $server): Environment
     {
-        $map = Map::of('string', 'scalar');
+        $map = Map::of('string', 'string');
 
         foreach ($server as $key => $value) {
             if (!\is_scalar($value)) {

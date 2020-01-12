@@ -58,7 +58,7 @@ final class Psr7Translator
 
     private function translateEnvironment(array $params): Environment
     {
-        $map = Map::of('string', 'scalar');
+        $map = Map::of('string', 'string');
 
         foreach ($params as $key => $value) {
             if (\is_scalar($value)) {
