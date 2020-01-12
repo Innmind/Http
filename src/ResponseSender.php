@@ -117,36 +117,23 @@ final class ResponseSender implements Sender
                 }
             );
 
-            if (\PHP_VERSION_ID >= 70300) {
-                $options = [
-                    'path' => $parameters['path'] ?? '',
-                    'domain' => $parameters['domain'] ?? '',
-                    'secure' => $parameters['secure'] ?? false,
-                    'httponly' => $parameters['httponly'] ?? false,
-                ];
+            $options = [
+                'path' => $parameters['path'] ?? '',
+                'domain' => $parameters['domain'] ?? '',
+                'secure' => $parameters['secure'] ?? false,
+                'httponly' => $parameters['httponly'] ?? false,
+            ];
 
-                if (isset($parameters['samesite'])) {
-                    $options['samesite'] = $parameters['samesite'];
-                }
-
-                \setcookie(
-                    $parameters['key'] ?? '',
-                    $parameters['value'] ?? '',
-                    $parameters['expire'] ?? 0,
-                    $options
-                );
-            } else {
-                // same site not supported
-                \setcookie(
-                    $parameters['key'] ?? '',
-                    $parameters['value'] ?? '',
-                    $parameters['expire'] ?? 0,
-                    $parameters['path'] ?? '',
-                    $parameters['domain'] ?? '',
-                    $parameters['secure'] ?? false,
-                    $parameters['httponly'] ?? false
-                );
+            if (isset($parameters['samesite'])) {
+                $options['samesite'] = $parameters['samesite'];
             }
+
+            \setcookie(
+                $parameters['key'] ?? '',
+                $parameters['value'] ?? '',
+                $parameters['expire'] ?? 0,
+                $options
+            );
         });
     }
 }
