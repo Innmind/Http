@@ -9,7 +9,7 @@ final class PartiallyUploaded implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_PARTIAL;
+        return \UPLOAD_ERR_PARTIAL;
     }
 
     public function toString(): string

@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\Cookie,
     Header\CookieValue,
     Header\Parameter\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -28,8 +28,8 @@ final class CookieFactory implements HeaderFactoryInterface
 
         return new Cookie(
             new CookieValue(
-                ...$this->buildParams($value)
-            )
+                ...$this->buildParams($value),
+            ),
         );
     }
 
@@ -41,7 +41,7 @@ final class CookieFactory implements HeaderFactoryInterface
                 return $value->trim();
             })
             ->filter(static function(Str $value): bool {
-                return $value->length() > 0;
+                return !$value->empty();
             })
             ->reduce(
                 [],
@@ -53,7 +53,7 @@ final class CookieFactory implements HeaderFactoryInterface
                     );
 
                     return $carry;
-                }
+                },
             );
     }
 }

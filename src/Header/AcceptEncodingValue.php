@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\{
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 

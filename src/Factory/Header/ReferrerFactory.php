@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\ReferrerValue,
     Header\Referrer,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Str;

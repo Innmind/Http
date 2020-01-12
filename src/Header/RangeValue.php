@@ -29,11 +29,11 @@ final class RangeValue extends Value\Value
         $this->unit = $unit;
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             '%s=%s-%s',
             $unit,
             $firstPosition,
-            $lastPosition
+            $lastPosition,
         ));
     }
 

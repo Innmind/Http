@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    Exception\CookieNotFound
-};
+use Innmind\Http\Exception\CookieNotFound;
 use Innmind\Immutable\Map;
 use function Innmind\Immutable\assertMap;
 

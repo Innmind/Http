@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\AcceptRanges,
     Header\AcceptRangesValue,
     Header,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 

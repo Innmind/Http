@@ -9,12 +9,9 @@ use Innmind\Http\{
     Header\Value,
     Header\Allow,
     Header\AllowValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    Set
-};
+use Innmind\Immutable\Str;
 
 final class AllowFactory implements HeaderFactoryInterface
 {

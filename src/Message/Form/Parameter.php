@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message\Form;
 
-use Innmind\Http\{
-    Exception\DomainException
-};
+use Innmind\Http\Exception\DomainException;
 
 final class Parameter
 {

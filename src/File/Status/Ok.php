@@ -9,7 +9,7 @@ final class Ok implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_OK;
+        return \UPLOAD_ERR_OK;
     }
 
     public function toString(): string

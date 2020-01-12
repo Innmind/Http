@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Map;
-use function Innmind\Immutable\unwrap;
+use function Innmind\Immutable\join;
 
 final class CookieValue extends Value\Value
 {
@@ -16,19 +16,18 @@ final class CookieValue extends Value\Value
         $this->parameters = Map::of('string', Parameter::class);
 
         foreach ($parameters as $paramater) {
-            $this->parameters = $this->parameters->put(
+            $this->parameters = ($this->parameters)(
                 $paramater->name(),
                 $paramater
             );
         }
 
-        parent::__construct(\implode(
-            '; ',
-            \array_map(
-                fn(Parameter $paramater): string => $paramater->toString(),
-                unwrap($this->parameters->values()),
-            ),
-        ));
+        $parameters = $this->parameters->values()->toSequenceOf(
+            'string',
+            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        );
+
+        parent::__construct(join('; ', $parameters)->toString());
     }
 
     /**

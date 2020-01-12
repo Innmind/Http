@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\ContentLength,
     Header\ContentLengthValue,
     Header,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 

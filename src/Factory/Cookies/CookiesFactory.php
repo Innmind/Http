@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Cookies;
 
 use Innmind\Http\{
     Factory\CookiesFactory as CookiesFactoryInterface,
-    Message\Cookies
+    Message\Cookies,
 };
 use Innmind\Immutable\Map;
 
@@ -16,10 +16,7 @@ final class CookiesFactory implements CookiesFactoryInterface
         $map = Map::of('string', 'scalar');
 
         foreach ($_COOKIE as $name => $value) {
-            $map = $map->put(
-                $name,
-                $value
-            );
+            $map = ($map)($name, $value);
         }
 
         return new Cookies($map);

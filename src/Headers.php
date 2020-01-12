@@ -18,7 +18,7 @@ final class Headers implements \Countable
         $this->headers = Map::of('string', Header::class);
 
         foreach ($headers as $header) {
-            $this->headers = $this->headers->put(
+            $this->headers = ($this->headers)(
                 Str::of($header->name())->toLower()->toString(),
                 $header,
             );
@@ -49,7 +49,7 @@ final class Headers implements \Countable
         $self = clone $this;
 
         foreach ($headers as $header) {
-            $self->headers = $self->headers->put(
+            $self->headers = ($self->headers)(
                 Str::of($header->name())->toLower()->toString(),
                 $header,
             );

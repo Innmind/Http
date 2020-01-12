@@ -9,7 +9,7 @@ use Innmind\Http\{
     Message\ReasonPhrase,
     Message\StatusCode,
     ProtocolVersion,
-    Headers
+    Headers,
 };
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
@@ -32,7 +32,7 @@ final class Response extends Message implements ResponseInterface
         parent::__construct(
             $protocolVersion,
             $headers ?? new Headers,
-            $body ?? new NullStream
+            $body ?? new NullStream,
         );
     }
 

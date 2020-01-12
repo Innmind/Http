@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\Age,
     Header\AgeValue,
     Header,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 

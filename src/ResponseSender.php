@@ -11,7 +11,7 @@ use Innmind\Http\{
     Header\CookieValue,
     Header\Parameter,
     TimeContinuum\Format\Http,
-    Exception\LogicException
+    Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
 
@@ -26,19 +26,23 @@ final class ResponseSender implements Sender
 
     public function __invoke(Response $response): void
     {
-        if (headers_sent()) {
+        if (\headers_sent()) {
             throw new LogicException('Headers already sent');
         }
 
-        header(sprintf(
-            'HTTP/%s %s %s',
-            $response->protocolVersion(),
-            $response->statusCode(),
-            $response->reasonPhrase()
-        ), true, $response->statusCode()->value());
+        \header(
+            \sprintf(
+                'HTTP/%s %s %s',
+                $response->protocolVersion()->toString(),
+                $response->statusCode()->toString(),
+                $response->reasonPhrase()->toString(),
+            ),
+            true,
+            $response->statusCode()->value(),
+        );
 
         if (!$response->headers()->contains('date')) {
-            header((string) new Date(new DateValue($this->clock->now())));
+            \header((new Date(new DateValue($this->clock->now())))->toString());
         }
 
         $response->headers()->foreach(function($header): void {
@@ -47,7 +51,7 @@ final class ResponseSender implements Sender
                 continue;
             }
 
-            header((string) $header, false);
+            \header($header->toString(), false);
         });
 
         $body = $response->body();
@@ -55,11 +59,11 @@ final class ResponseSender implements Sender
 
         while (!$body->end()) {
             echo $body->read(4096);
-            flush();
+            \flush();
         }
 
-        if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
+        if (\function_exists('fastcgi_finish_request')) {
+            \fastcgi_finish_request();
         }
     }
 
@@ -76,8 +80,8 @@ final class ResponseSender implements Sender
 
                         case 'Expires':
                             $timestamp = \DateTimeImmutable::createFromFormat(
-                                (string) new Http,
-                                substr($parameter->value(), 1, -1) // remove double quotes
+                                (new Http)->toString(),
+                                \substr($parameter->value(), 1, -1) // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence
                             $parameters['expire'] = ($parameters['expire'] ?? 0 !== 0) ? $parameters['expire'] : $timestamp;
@@ -125,7 +129,7 @@ final class ResponseSender implements Sender
                     $options['samesite'] = $parameters['samesite'];
                 }
 
-                setcookie(
+                \setcookie(
                     $parameters['key'] ?? '',
                     $parameters['value'] ?? '',
                     $parameters['expire'] ?? 0,
@@ -133,7 +137,7 @@ final class ResponseSender implements Sender
                 );
             } else {
                 // same site not supported
-                setcookie(
+                \setcookie(
                     $parameters['key'] ?? '',
                     $parameters['value'] ?? '',
                     $parameters['expire'] ?? 0,

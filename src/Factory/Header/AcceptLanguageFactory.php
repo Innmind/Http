@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -40,8 +40,8 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
                         $matches->get('lang')->toString(),
                         new Quality(
                             $matches->contains('quality') ?
-                                (float) $matches->get('quality')->toString() : 1
-                        )
+                                (float) $matches->get('quality')->toString() : 1,
+                        ),
                     );
 
                     return $carry;

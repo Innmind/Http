@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\{
     File,
-    Exception\FileNotFound
+    Exception\FileNotFound,
 };
 use Innmind\Immutable\Map;
 
@@ -18,7 +18,7 @@ final class Files implements \Countable
         $this->files = Map::of('string', File::class);
 
         foreach ($files as $file) {
-            $this->files = $this->files->put(
+            $this->files = ($this->files)(
                 $file->uploadKey(),
                 $file,
             );

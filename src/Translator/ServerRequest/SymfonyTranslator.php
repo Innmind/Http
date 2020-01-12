@@ -24,7 +24,7 @@ use Innmind\Http\{
     File\Status\NotUploaded as NotUploadedStatus,
     File\Status\PartiallyUploaded as PartiallyUploadedStatus,
     File\Status\StoppedByExtension as StoppedByExtensionStatus,
-    File\Status\WriteFailed as WriteFailedStatus
+    File\Status\WriteFailed as WriteFailedStatus,
 };
 use Innmind\Url\{
     Url,
@@ -41,7 +41,7 @@ use Symfony\Component\HttpFoundation\{
     HeaderBag,
     ServerBag,
     ParameterBag,
-    FileBag
+    FileBag,
 };
 
 final class SymfonyTranslator
@@ -56,7 +56,7 @@ final class SymfonyTranslator
     public function __invoke(SfRequest $request): ServerRequest
     {
         $protocol = Str::of($request->server->get('SERVER_PROTOCOL'))->capture(
-            '~HTTP/(?<major>\d)\.(?<minor>\d)~'
+            '~HTTP/(?<major>\d)\.(?<minor>\d)~',
         );
 
         return new ServerRequest\ServerRequest(
@@ -95,11 +95,11 @@ final class SymfonyTranslator
         $map = Map::of('string', 'scalar');
 
         foreach ($server as $key => $value) {
-            if (!is_scalar($value)) {
+            if (!\is_scalar($value)) {
                 continue;
             }
 
-            $map = $map->put($key, $value);
+            $map = ($map)($key, $value);
         }
 
         return new Environment($map);
@@ -110,7 +110,7 @@ final class SymfonyTranslator
         $map = Map::of('string', 'scalar');
 
         foreach ($cookies as $key => $value) {
-            $map = $map->put($key, $value);
+            $map = ($map)($key, $value);
         }
 
         return new Cookies($map);
@@ -140,16 +140,16 @@ final class SymfonyTranslator
 
     private function buildFormParameter($name, $value): Form\Parameter
     {
-        if (!is_array($value)) {
+        if (!\is_array($value)) {
             return new Form\Parameter((string) $name, $value);
         }
 
         $map = Map::of('scalar', Form\Parameter::class);
 
         foreach ($value as $key => $sub) {
-            $map = $map->put(
+            $map = ($map)(
                 $key,
-                $this->buildFormParameter($key, $sub)
+                $this->buildFormParameter($key, $sub),
             );
         }
 
@@ -166,7 +166,7 @@ final class SymfonyTranslator
                 Stream::open(Path::of($file->getPathname())),
                 $name,
                 $this->buildFileStatus($file->getError()),
-                MediaType::of((string) $file->getClientMimeType())
+                MediaType::of((string) $file->getClientMimeType()),
             );
         }
 
@@ -176,21 +176,21 @@ final class SymfonyTranslator
     private function buildFileStatus(int $status): Status
     {
         switch ($status) {
-            case UPLOAD_ERR_FORM_SIZE:
+            case \UPLOAD_ERR_FORM_SIZE:
                 return new ExceedsFormMaxFileSizeStatus;
-            case UPLOAD_ERR_INI_SIZE:
+            case \UPLOAD_ERR_INI_SIZE:
                 return new ExceedsIniMaxFileSizeStatus;
-            case UPLOAD_ERR_NO_TMP_DIR:
+            case \UPLOAD_ERR_NO_TMP_DIR:
                 return new NoTemporaryDirectoryStatus;
-            case UPLOAD_ERR_NO_FILE:
+            case \UPLOAD_ERR_NO_FILE:
                 return new NotUploadedStatus;
-            case UPLOAD_ERR_OK:
+            case \UPLOAD_ERR_OK:
                 return new OkStatus;
-            case UPLOAD_ERR_PARTIAL:
+            case \UPLOAD_ERR_PARTIAL:
                 return new PartiallyUploadedStatus;
-            case UPLOAD_ERR_EXTENSION:
+            case \UPLOAD_ERR_EXTENSION:
                 return new StoppedByExtensionStatus;
-            case UPLOAD_ERR_CANT_WRITE:
+            case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailedStatus;
         }
     }

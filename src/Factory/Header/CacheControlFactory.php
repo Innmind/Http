@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\Value,
     Header\CacheControlValue,
     Header\CacheControl,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -55,7 +55,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
 
                             case $split->matches('~^no-cache(="?\w+"?)?$~'):
                                 $matches = $split->capture(
-                                    '~^no-cache(="?(?<field>\w+)"?)?$~'
+                                    '~^no-cache(="?(?<field>\w+)"?)?$~',
                                 );
 
                                 $carry[] = new CacheControlValue\NoCache(
@@ -82,12 +82,12 @@ final class CacheControlFactory implements HeaderFactoryInterface
 
                             case $split->matches('~^private(="?\w+"?)?$~'):
                                 $matches = $split->capture(
-                                    '~^private(="?(?<field>\w+)"?)?$~'
+                                    '~^private(="?(?<field>\w+)"?)?$~',
                                 );
 
                                 $carry[] = new CacheControlValue\PrivateCache(
                                     $matches->contains('field') ?
-                                        $matches->get('field')->toString() : ''
+                                        $matches->get('field')->toString() : '',
                                 );
                                 break;
 

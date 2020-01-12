@@ -14,7 +14,7 @@ use Innmind\Http\{
     Message\Form,
     Message\Files,
     ProtocolVersion,
-    Headers
+    Headers,
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Readable;
@@ -45,7 +45,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
             $method,
             $protocolVersion,
             $headers ?? new Headers,
-            $body ?? new NullStream
+            $body ?? new NullStream,
         );
 
         $this->environment = $environment ?? new Environment;

@@ -49,7 +49,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     public function __invoke(): ServerRequest
     {
         $protocol = Str::of($_SERVER['SERVER_PROTOCOL'])->capture(
-            '~HTTP/(?<major>\d)\.(?<minor>\d)~'
+            '~HTTP/(?<major>\d)\.(?<minor>\d)~',
         );
         $https = Str::of($_SERVER['HTTPS'] ?? 'off')->toLower()->toString();
         $user = '';
@@ -65,12 +65,12 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return new ServerRequest\ServerRequest(
-            Url::of(sprintf(
+            Url::of(\sprintf(
                 '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',
                 $user,
                 $_SERVER['HTTP_HOST'],
-                $_SERVER['REQUEST_URI']
+                $_SERVER['REQUEST_URI'],
             )),
             new Method($_SERVER['REQUEST_METHOD']),
             new ProtocolVersion(
@@ -78,12 +78,12 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 (int) $protocol->get('minor')->toString(),
             ),
             ($this->headersFactory)(),
-            new Stream(fopen('php://input', 'r')),
+            new Stream(\fopen('php://input', 'r')),
             ($this->environmentFactory)(),
             ($this->cookiesFactory)(),
             ($this->queryFactory)(),
             ($this->formFactory)(),
-            ($this->filesFactory)()
+            ($this->filesFactory)(),
         );
     }
 
@@ -96,13 +96,13 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     {
         return new self(
             new Factory\Header\HeadersFactory(
-                Factories::default()
+                Factories::default(),
             ),
             new Factory\Environment\EnvironmentFactory,
             new Factory\Cookies\CookiesFactory,
             new Factory\Query\QueryFactory,
             new Factory\Form\FormFactory,
-            new Factory\Files\FilesFactory
+            new Factory\Files\FilesFactory,
         );
     }
 }

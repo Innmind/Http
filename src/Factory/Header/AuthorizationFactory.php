@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\AuthorizationValue,
     Header\Authorization,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 

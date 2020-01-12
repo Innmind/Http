@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
-    Header\Value
+    Header\Value,
 };
 use Innmind\Immutable\Str;
 
@@ -25,7 +25,6 @@ final class HeaderFactory implements HeaderFactoryInterface
                     [],
                     static function(array $carry, Str $value): array {
                         $carry[] = new Value\Value($value->toString());
-
 
                         return $carry;
                     },

@@ -23,7 +23,7 @@ use Innmind\Http\{
     File\Status\PartiallyUploaded,
     File\Status\StoppedByExtension,
     File\Status\WriteFailed,
-    File\Status
+    File\Status,
 };
 use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Map;
@@ -52,7 +52,7 @@ final class Psr7Translator
             $this->translateCookies($serverRequest->getCookieParams()),
             $this->translateQuery($serverRequest->getQueryParams()),
             $this->translateForm($serverRequest->getParsedBody()),
-            $this->translateFiles($serverRequest->getUploadedFiles())
+            $this->translateFiles($serverRequest->getUploadedFiles()),
         );
     }
 
@@ -61,8 +61,8 @@ final class Psr7Translator
         $map = Map::of('string', 'scalar');
 
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
-                $map = $map->put($key, $value);
+            if (\is_scalar($value)) {
+                $map = ($map)($key, $value);
             }
         }
 
@@ -74,8 +74,8 @@ final class Psr7Translator
         $map = Map::of('string', 'scalar');
 
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
-                $map = $map->put($key, $value);
+            if (\is_scalar($value)) {
+                $map = ($map)($key, $value);
             }
         }
 
@@ -87,7 +87,7 @@ final class Psr7Translator
         $queries = [];
 
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
+            if (\is_scalar($value)) {
                 $queries[] = new QueryParameter($key, $value);
             }
         }
@@ -97,14 +97,14 @@ final class Psr7Translator
 
     private function translateForm($params): Form
     {
-        if (!is_array($params) && !$params instanceof \Traversable) {
+        if (!\is_array($params) && !$params instanceof \Traversable) {
             return new Form;
         }
 
         $forms = [];
 
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
+            if (\is_scalar($value)) {
                 $forms[] = new FormParameter($key, $value);
             }
         }
@@ -119,7 +119,7 @@ final class Psr7Translator
         foreach ($files as $name => $file) {
             $mediaType = MediaType::null();
 
-            if (is_string($file->getClientMediaType())) {
+            if (\is_string($file->getClientMediaType())) {
                 $mediaType = MediaType::of($file->getClientMediaType());
             }
 
@@ -128,7 +128,7 @@ final class Psr7Translator
                 new Stream($file->getStream()),
                 $name,
                 $this->status($file->getError()),
-                $mediaType
+                $mediaType,
             );
         }
 
@@ -138,21 +138,21 @@ final class Psr7Translator
     private function status(int $status): Status
     {
         switch ($status) {
-            case UPLOAD_ERR_FORM_SIZE:
+            case \UPLOAD_ERR_FORM_SIZE:
                 return new ExceedsFormMaxFileSize;
-            case UPLOAD_ERR_INI_SIZE:
+            case \UPLOAD_ERR_INI_SIZE:
                 return new ExceedsIniMaxFileSize;
-            case UPLOAD_ERR_NO_TMP_DIR:
+            case \UPLOAD_ERR_NO_TMP_DIR:
                 return new NoTemporaryDirectory;
-            case UPLOAD_ERR_NO_FILE:
+            case \UPLOAD_ERR_NO_FILE:
                 return new NotUploaded;
-            case UPLOAD_ERR_OK:
+            case \UPLOAD_ERR_OK:
                 return new Ok;
-            case UPLOAD_ERR_PARTIAL:
+            case \UPLOAD_ERR_PARTIAL:
                 return new PartiallyUploaded;
-            case UPLOAD_ERR_EXTENSION:
+            case \UPLOAD_ERR_EXTENSION:
                 return new StoppedByExtension;
-            case UPLOAD_ERR_CANT_WRITE:
+            case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailed;
         }
     }

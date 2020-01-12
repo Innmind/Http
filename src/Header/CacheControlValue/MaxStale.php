@@ -5,7 +5,7 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
     Header\CacheControlValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 
 final class MaxStale implements CacheControlValue
@@ -28,9 +28,9 @@ final class MaxStale implements CacheControlValue
 
     public function toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'max-stale%s',
-            $this->age > 0 ? '='.$this->age : ''
+            $this->age > 0 ? '='.$this->age : '',
         );
     }
 }

@@ -5,14 +5,14 @@ namespace Innmind\Http\Header\CookieParameter;
 
 use Innmind\Http\{
     Header\Parameter\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
 
 final class SameSite extends Parameter
 {
     public function __construct(string $value)
     {
-        if (!in_array($value, ['Strict', 'Lax', true])) {
+        if (!\in_array($value, ['Strict', 'Lax'], true)) {
             throw new DomainException($value);
         }
 

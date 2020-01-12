@@ -15,10 +15,11 @@ use Innmind\Http\{
     File\Status\PartiallyUploaded,
     File\Status\StoppedByExtension,
     File\Status\WriteFailed,
-    File\Status
+    File\Status,
 };
 use Innmind\MediaType\MediaType;
-use Innmind\Stream\Readable\Stream;
+use Innmind\Filesystem\Stream\LazyStream;
+use Innmind\Url\Path;
 use Innmind\Immutable\Map;
 
 final class FilesFactory implements FilesFactoryInterface
@@ -28,7 +29,7 @@ final class FilesFactory implements FilesFactoryInterface
         $map = [];
 
         foreach ($_FILES as $name => $content) {
-            if (is_array($content['name'])) {
+            if (\is_array($content['name'])) {
                 foreach ($content['name'] as $subName => $filename) {
                     $map[] = $this->buildFile(
                         $content['name'][$subName],
@@ -63,7 +64,7 @@ final class FilesFactory implements FilesFactoryInterface
     ): File {
         return new File\File(
             $name,
-            new Stream(fopen($path, 'r')),
+            new LazyStream(Path::of($path)),
             $uploadKey,
             $this->status($status),
             MediaType::of($media),
@@ -73,21 +74,21 @@ final class FilesFactory implements FilesFactoryInterface
     private function status(int $status): Status
     {
         switch ($status) {
-            case UPLOAD_ERR_FORM_SIZE:
+            case \UPLOAD_ERR_FORM_SIZE:
                 return new ExceedsFormMaxFileSize;
-            case UPLOAD_ERR_INI_SIZE:
+            case \UPLOAD_ERR_INI_SIZE:
                 return new ExceedsIniMaxFileSize;
-            case UPLOAD_ERR_NO_TMP_DIR:
+            case \UPLOAD_ERR_NO_TMP_DIR:
                 return new NoTemporaryDirectory;
-            case UPLOAD_ERR_NO_FILE:
+            case \UPLOAD_ERR_NO_FILE:
                 return new NotUploaded;
-            case UPLOAD_ERR_OK:
+            case \UPLOAD_ERR_OK:
                 return new Ok;
-            case UPLOAD_ERR_PARTIAL:
+            case \UPLOAD_ERR_PARTIAL:
                 return new PartiallyUploaded;
-            case UPLOAD_ERR_EXTENSION:
+            case \UPLOAD_ERR_EXTENSION:
                 return new StoppedByExtension;
-            case UPLOAD_ERR_CANT_WRITE:
+            case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailed;
         }
     }

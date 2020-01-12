@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
-    Header
+    Header,
 };
 use Innmind\Immutable\Str;
 

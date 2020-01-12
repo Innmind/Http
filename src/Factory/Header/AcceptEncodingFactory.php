@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\AcceptEncodingValue,
     Header\AcceptEncoding,
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -40,8 +40,8 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
                         $matches->get('coding')->toString(),
                         new Quality(
                             $matches->contains('quality') ?
-                                (float) $matches->get('quality')->toString() : 1
-                        )
+                                (float) $matches->get('quality')->toString() : 1,
+                        ),
                     );
 
                     return $carry;

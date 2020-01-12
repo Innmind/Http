@@ -34,12 +34,12 @@ final class ContentRangeValue extends Value\Value
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
         $this->length = $length;
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             '%s %s-%s/%s',
             $unit,
             $firstPosition,
             $lastPosition,
-            $length ?? '*'
+            $length ?? '*',
         ));
     }
 

@@ -8,7 +8,7 @@ use Innmind\Http\{
     Message\Message,
     Message\Method,
     ProtocolVersion,
-    Headers
+    Headers,
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Readable;
@@ -32,7 +32,7 @@ class Request extends Message implements RequestInterface
         parent::__construct(
             $protocolVersion,
             $headers ?? new Headers,
-            $body ?? new NullStream
+            $body ?? new NullStream,
         );
     }
 

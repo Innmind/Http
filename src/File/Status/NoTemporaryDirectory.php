@@ -9,7 +9,7 @@ final class NoTemporaryDirectory implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_NO_TMP_DIR;
+        return \UPLOAD_ERR_NO_TMP_DIR;
     }
 
     public function toString(): string

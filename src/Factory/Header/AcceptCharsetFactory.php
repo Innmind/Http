@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\AcceptCharsetValue,
     Header\AcceptCharset,
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -40,8 +40,8 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
                         $matches->get('charset')->toString(),
                         new Quality(
                             $matches->contains('quality') ?
-                                (float) $matches->get('quality')->toString() : 1
-                        )
+                                (float) $matches->get('quality')->toString() : 1,
+                        ),
                     );
 
                     return $carry;

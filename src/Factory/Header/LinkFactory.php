@@ -68,14 +68,14 @@ final class LinkFactory implements HeaderFactoryInterface
         return $params
             ->split(';')
             ->filter(static function(Str $value): bool {
-                return $value->trim()->length() > 0;
+                return !$value->trim()->empty();
             })
             ->reduce(
                 Map::of('string', Parameter::class),
                 static function(Map $carry, Str $value): Map {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
-                    return $carry->put(
+                    return ($carry)(
                         $matches->get('key')->toString(),
                         new Parameter\Parameter(
                             $matches->get('key')->toString(),

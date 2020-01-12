@@ -6,7 +6,7 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Message as MessageInterface,
     ProtocolVersion,
-    Headers
+    Headers,
 };
 use Innmind\Stream\Readable;
 

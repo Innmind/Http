@@ -7,12 +7,9 @@ use Innmind\Http\{
     Factory\HeadersFactory as HeadersFactoryInterface,
     Factory\HeaderFactory as HeaderFactoryInterface,
     Headers,
-    Header
+    Header,
 };
-use Innmind\Immutable\{
-    Map,
-    Str,
-};
+use Innmind\Immutable\Str;
 
 final class HeadersFactory implements HeadersFactoryInterface
 {
@@ -31,7 +28,7 @@ final class HeadersFactory implements HeadersFactoryInterface
         foreach ($this->headers() as $name => $value) {
             $headers[] = ($this->headerFactory)(
                 Str::of((string) $name),
-                Str::of((string) $value)
+                Str::of((string) $value),
             );
         }
 

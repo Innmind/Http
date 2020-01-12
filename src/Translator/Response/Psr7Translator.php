@@ -10,7 +10,7 @@ use Innmind\Http\{
     Message\ReasonPhrase,
     ProtocolVersion,
     Headers,
-    Header
+    Header,
 };
 use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
@@ -30,14 +30,14 @@ final class Psr7Translator
 
     public function __invoke(ResponseInterface $response): Response
     {
-        list($major, $minor) = explode('.', $response->getProtocolVersion());
+        [$major, $minor] = \explode('.', $response->getProtocolVersion());
 
         return new Response(
             new StatusCode($code = $response->getStatusCode()),
             new ReasonPhrase(ReasonPhrase::defaults()->get($code)),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($response->getHeaders()),
-            Stream::ofContent((string) $response->getBody())
+            Stream::ofContent((string) $response->getBody()),
         );
     }
 
@@ -48,7 +48,7 @@ final class Psr7Translator
         foreach ($rawHeaders as $name => $values) {
             $headers[] = ($this->headerFactory)(
                 Str::of($name),
-                Str::of(implode(', ', $values)),
+                Str::of(\implode(', ', $values)),
             );
         }
 

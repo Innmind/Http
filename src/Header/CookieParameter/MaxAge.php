@@ -5,7 +5,7 @@ namespace Innmind\Http\Header\CookieParameter;
 
 use Innmind\Http\{
     Header\Parameter\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
 
 final class MaxAge extends Parameter

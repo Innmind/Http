@@ -9,12 +9,9 @@ use Innmind\Http\{
     Header\Value,
     Header\ContentLanguage,
     Header\ContentLanguageValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    Set
-};
+use Innmind\Immutable\Str;
 
 final class ContentLanguageFactory implements HeaderFactoryInterface
 {

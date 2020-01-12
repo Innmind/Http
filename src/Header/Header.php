@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\unwrap;
+use function Innmind\Immutable\join;
 
 class Header implements HeaderInterface
 {
@@ -15,13 +15,7 @@ class Header implements HeaderInterface
     public function __construct(string $name, Value ...$values)
     {
         $this->name = $name;
-        $this->values = array_reduce(
-            $values,
-            static function(Set $carry, Value $value): Set {
-                return $carry->add($value);
-            },
-            Set::of(Value::class)
-        );
+        $this->values = Set::of(Value::class, ...$values);
     }
 
     public function name(): string
@@ -39,15 +33,12 @@ class Header implements HeaderInterface
 
     public function toString(): string
     {
-        $values = \array_map(
+        $values = $this->values->mapTo(
+            'string',
             fn(Value $value): string => $value->toString(),
-            unwrap($this->values),
         );
+        $values = join(', ', $values);
 
-        return \sprintf(
-            '%s: %s',
-            $this->name,
-            \implode(', ', $values),
-        );
+        return $values->prepend("{$this->name}: ")->toString();
     }
 }

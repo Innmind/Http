@@ -8,7 +8,7 @@ use Innmind\Immutable\{
     Str,
     Map,
 };
-use function Innmind\Immutable\unwrap;
+use function Innmind\Immutable\join;
 
 final class ContentTypeValue extends Value\Value
 {
@@ -29,7 +29,7 @@ final class ContentTypeValue extends Value\Value
         }
 
         foreach ($parameters as $parameter) {
-            $this->parameters = $this->parameters->put(
+            $this->parameters = ($this->parameters)(
                 $parameter->name(),
                 $parameter,
             );
@@ -38,14 +38,12 @@ final class ContentTypeValue extends Value\Value
         $this->type = $type;
         $this->subType = $subType;
 
-        $parameters = Str::of(\implode(
-            ';',
-            \array_map(
-                fn(Parameter $paramater): string => $paramater->toString(),
-                unwrap($this->parameters->values()),
-            ),
-        ));
-        $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
+        $parameters = $this->parameters->values()->toSequenceOf(
+            'string',
+            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        );
+        $parameters = join(';', $parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
 
         parent::__construct(
             $media

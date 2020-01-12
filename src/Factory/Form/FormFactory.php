@@ -25,16 +25,16 @@ final class FormFactory implements FormFactoryInterface
 
     private function buildParameter($name, $value): Parameter
     {
-        if (!is_array($value)) {
+        if (!\is_array($value)) {
             return new Parameter((string) $name, $value);
         }
 
         $map = Map::of('scalar', Parameter::class);
 
         foreach ($value as $key => $sub) {
-            $map = $map->put(
+            $map = ($map)(
                 $key,
-                $this->buildParameter($key, $sub)
+                $this->buildParameter($key, $sub),
             );
         }
 

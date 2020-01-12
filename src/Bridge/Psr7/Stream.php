@@ -9,7 +9,7 @@ use Innmind\Stream\{
     Stream as StreamInterface,
     Stream\Position,
     Stream\Position\Mode,
-    Stream\Size
+    Stream\Size,
 };
 use Innmind\Immutable\Str;
 use Psr\Http\Message\StreamInterface as PsrStream;
@@ -62,7 +62,7 @@ final class Stream implements Readable
 
     public function knowsSize(): bool
     {
-        return is_int($this->stream->getSize());
+        return \is_int($this->stream->getSize());
     }
 
     /**
@@ -70,7 +70,7 @@ final class Stream implements Readable
      */
     public function read(int $length = null): Str
     {
-        if (is_null($length)) {
+        if (\is_null($length)) {
             return Str::of($this->stream->getContents());
         }
 

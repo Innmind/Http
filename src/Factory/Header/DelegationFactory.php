@@ -5,12 +5,13 @@ namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
-    Header
+    Header,
 };
 use Innmind\Immutable\{
     Map,
     Str,
 };
+use function Innmind\Immutable\assertMap;
 
 final class DelegationFactory implements HeaderFactoryInterface
 {
@@ -18,15 +19,7 @@ final class DelegationFactory implements HeaderFactoryInterface
 
     public function __construct(Map $factories)
     {
-        if (
-            (string) $factories->keyType() !== 'string' ||
-            (string) $factories->valueType() !== HeaderFactoryInterface::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 1 must be of type Map<string, %s>',
-                HeaderFactoryInterface::class
-            ));
-        }
+        assertMap('string', HeaderFactoryInterface::class, $factories, 1);
 
         $this->factories = $factories;
     }

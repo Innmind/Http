@@ -9,7 +9,7 @@ use Innmind\Immutable\{
     Str,
     Map,
 };
-use function Innmind\Immutable\unwrap;
+use function Innmind\Immutable\join;
 
 final class LinkValue extends Value\Value
 {
@@ -30,7 +30,7 @@ final class LinkValue extends Value\Value
         }
 
         foreach ($parameters as $parameter) {
-            $this->parameters = $this->parameters->put(
+            $this->parameters = ($this->parameters)(
                 $parameter->name(),
                 $parameter,
             );
@@ -39,14 +39,12 @@ final class LinkValue extends Value\Value
         $this->url = $url;
         $this->rel = $rel;
 
-        $parameters = Str::of(\implode(
-            ';',
-            \array_map(
-                fn(Parameter $paramater): string => $paramater->toString(),
-                unwrap($this->parameters->values()),
-            ),
-        ));
-        $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
+        $parameters = $this->parameters->values()->toSequenceOf(
+            'string',
+            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        );
+        $parameters = join(';', $parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
         $link = Str::of('<%s>; rel="%s"')->sprintf($url->toString(), $rel);
 
         parent::__construct(

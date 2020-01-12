@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\{
     Message\Form\Parameter,
-    Exception\FormParameterNotFound
+    Exception\FormParameterNotFound,
 };
 use Innmind\Immutable\Map;
 
@@ -18,7 +18,7 @@ final class Form implements \Countable
         $this->parameters = Map::of('string', Parameter::class);
 
         foreach ($parameters as $parameter) {
-            $this->parameters = $this->parameters->put(
+            $this->parameters = ($this->parameters)(
                 $parameter->name(),
                 $parameter,
             );

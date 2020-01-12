@@ -9,7 +9,7 @@ use Innmind\Http\{
     Message\Method,
     ProtocolVersion,
     Headers,
-    Header
+    Header,
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Readable\Stream;
@@ -30,14 +30,14 @@ final class Psr7Translator
 
     public function __invoke(RequestInterface $request): Request
     {
-        list($major, $minor) = explode('.', $request->getProtocolVersion());
+        [$major, $minor] = \explode('.', $request->getProtocolVersion());
 
         return new Request(
             Url::of((string) $request->getUri()),
-            new Method(strtoupper($request->getMethod())),
+            new Method(\strtoupper($request->getMethod())),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($request->getHeaders()),
-            Stream::ofContent((string) $request->getBody())
+            Stream::ofContent((string) $request->getBody()),
         );
     }
 
@@ -48,7 +48,7 @@ final class Psr7Translator
         foreach ($rawHeaders as $name => $values) {
             $headers[] = ($this->headerFactory)(
                 Str::of($name),
-                Str::of(implode(', ', $values)),
+                Str::of(\implode(', ', $values)),
             );
         }
 

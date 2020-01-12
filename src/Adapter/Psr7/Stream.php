@@ -9,7 +9,7 @@ use Innmind\Stream\{
     Selectable,
     Stream\Position,
     Stream\Position\Mode,
-    Exception\PositionNotSeekable
+    Exception\PositionNotSeekable,
 };
 use Psr\Http\Message\StreamInterface;
 
@@ -98,15 +98,15 @@ final class Stream implements StreamInterface
     public function seek($offset, $whence = SEEK_SET)
     {
         switch ($whence) {
-            case SEEK_SET:
+            case \SEEK_SET:
                 $mode = Mode::fromStart();
                 break;
 
-            case SEEK_CUR:
+            case \SEEK_CUR:
                 $mode = Mode::fromCurrentPosition();
                 break;
 
-            case SEEK_END:
+            case \SEEK_END:
                 throw new LogicException('SEEK_END not supported');
         }
 

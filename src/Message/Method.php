@@ -23,7 +23,7 @@ final class Method
 
     public function __construct(string $method)
     {
-        if (!defined('self::'.$method)) {
+        if (!\defined('self::'.$method)) {
             throw new DomainException;
         }
 

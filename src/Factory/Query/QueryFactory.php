@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\Query;
 use Innmind\Http\{
     Factory\QueryFactory as QueryFactoryInterface,
     Message\Query,
-    Message\Query\Parameter
+    Message\Query\Parameter,
 };
 
 final class QueryFactory implements QueryFactoryInterface

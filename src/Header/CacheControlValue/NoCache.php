@@ -5,7 +5,7 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
     Header\CacheControlValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -29,9 +29,9 @@ final class NoCache implements CacheControlValue
 
     public function toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'no-cache%s',
-            !empty($this->field) ? '="'.$this->field.'"' : ''
+            !empty($this->field) ? '="'.$this->field.'"' : '',
         );
     }
 }

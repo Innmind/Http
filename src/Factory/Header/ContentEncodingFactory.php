@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\ContentEncoding,
     Header\ContentEncodingValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 

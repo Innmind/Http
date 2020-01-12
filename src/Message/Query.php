@@ -5,7 +5,7 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\{
     Message\Query\Parameter,
-    Exception\QueryParameterNotFound
+    Exception\QueryParameterNotFound,
 };
 use Innmind\Immutable\Map;
 
@@ -18,7 +18,7 @@ final class Query implements \Countable
         $this->parameters = Map::of('string', Parameter::class);
 
         foreach ($parameters as $parameter) {
-            $this->parameters = $this->parameters->put(
+            $this->parameters = ($this->parameters)(
                 $parameter->name(),
                 $parameter,
             );

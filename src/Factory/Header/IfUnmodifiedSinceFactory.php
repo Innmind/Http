@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\DateValue,
     Header\IfUnmodifiedSince,
     TimeContinuum\Format\Http,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\TimeContinuum\{
     Earth\PointInTime\PointInTime,

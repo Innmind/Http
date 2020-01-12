@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
@@ -34,9 +34,9 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                 $matches->get('subType')->toString(),
                 ...$this->buildParams(
                     $matches->contains('params') ?
-                        $matches->get('params') : Str::of('')
-                )
-            )
+                        $matches->get('params') : Str::of(''),
+                ),
+            ),
         );
     }
 
@@ -45,7 +45,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
         return $params
             ->split(';')
             ->filter(static function(Str $value): bool {
-                return $value->trim()->length() > 0;
+                return !$value->trim()->empty();
             })
             ->reduce(
                 [],
@@ -57,7 +57,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                     );
 
                     return $carry;
-                }
+                },
             );
     }
 }

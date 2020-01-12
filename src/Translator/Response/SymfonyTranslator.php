@@ -7,7 +7,7 @@ use Innmind\Http\{
     Message\Response,
     Headers,
     Header,
-    Header\Value
+    Header\Value,
 };
 use Symfony\Component\HttpFoundation\Response as SfResponse;
 
@@ -18,7 +18,7 @@ final class SymfonyTranslator
         return new SfResponse(
             $response->body()->toString(),
             $response->statusCode()->value(),
-            $this->translateHeaders($response->headers())
+            $this->translateHeaders($response->headers()),
         );
     }
 
