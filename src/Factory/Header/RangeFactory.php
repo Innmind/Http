@@ -14,7 +14,7 @@ use Innmind\Immutable\Str;
 
 final class RangeFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
+    private const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
 
     public function __invoke(Str $name, Str $value): Header
     {

@@ -19,7 +19,7 @@ use Innmind\Immutable\{
 
 final class AcceptCharsetFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
+    private const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
     public function __invoke(Str $name, Str $value): Header
     {

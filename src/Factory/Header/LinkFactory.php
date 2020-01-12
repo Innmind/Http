@@ -21,7 +21,7 @@ use Innmind\Immutable\{
 
 final class LinkFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
+    private const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
 
     public function __invoke(Str $name, Str $value): Header
     {

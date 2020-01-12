@@ -14,7 +14,7 @@ use Innmind\Immutable\Str;
 
 final class ContentRangeFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
+    private const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
     public function __invoke(Str $name, Str $value): Header
     {

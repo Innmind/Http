@@ -14,7 +14,7 @@ use Innmind\Immutable\Str;
 
 final class AuthorizationFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
+    private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
     public function __invoke(Str $name, Str $value): Header
     {

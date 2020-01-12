@@ -19,7 +19,7 @@ use Innmind\Immutable\{
 
 final class AcceptEncodingFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
+    private const PATTERN = '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
     public function __invoke(Str $name, Str $value): Header
     {

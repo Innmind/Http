@@ -20,7 +20,7 @@ use Innmind\Immutable\{
 
 final class AcceptFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
+    private const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
     public function __invoke(Str $name, Str $value): Header
     {

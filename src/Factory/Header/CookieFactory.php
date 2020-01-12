@@ -19,7 +19,7 @@ use Innmind\Immutable\{
 
 final class CookieFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
+    private const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
 
     public function __invoke(Str $name, Str $value): Header
     {

@@ -19,7 +19,7 @@ use Innmind\Immutable\{
 
 final class AcceptLanguageFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
+    private const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
     public function __invoke(Str $name, Str $value): Header
     {
