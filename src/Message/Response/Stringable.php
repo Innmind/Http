@@ -15,7 +15,7 @@ use Innmind\Stream\Readable;
 
 final class Stringable implements ResponseInterface
 {
-    private $response;
+    private ResponseInterface $response;
 
     public function __construct(ResponseInterface $response)
     {

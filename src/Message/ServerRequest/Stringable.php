@@ -21,7 +21,7 @@ use Innmind\Immutable\MapInterface;
 
 final class Stringable implements ServerRequestInterface
 {
-    private $request;
+    private ServerRequestInterface $request;
 
     public function __construct(ServerRequestInterface $request)
     {

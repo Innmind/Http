@@ -11,8 +11,8 @@ use Innmind\Immutable\Str;
 
 final class TryFactory implements HeaderFactoryInterface
 {
-    private $try;
-    private $fallback;
+    private HeaderFactoryInterface $try;
+    private HeaderFactoryInterface $fallback;
 
     public function __construct(
         HeaderFactoryInterface $try,

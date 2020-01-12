@@ -9,7 +9,7 @@ use Innmind\Http\{
 
 final class Parameter
 {
-    private $name;
+    private string $name;
     private $value;
 
     public function __construct(string $name, $value)

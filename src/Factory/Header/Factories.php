@@ -11,8 +11,8 @@ use Innmind\Immutable\{
 
 final class Factories
 {
-    private static $all;
-    private static $default;
+    private static ?MapInterface $all = null;
+    private static ?HeaderFactoryInterface $default = null;
 
     /**
      * @return MapInterface<string, HeaderFactoryInterface>

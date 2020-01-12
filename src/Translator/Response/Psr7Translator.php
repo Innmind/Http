@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 
 final class Psr7Translator
 {
-    private $headerFactory;
+    private HeaderFactory $headerFactory;
 
     public function __construct(HeaderFactory $headerFactory)
     {

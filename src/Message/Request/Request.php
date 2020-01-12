@@ -16,8 +16,8 @@ use Innmind\Filesystem\Stream\NullStream;
 
 class Request extends Message implements RequestInterface
 {
-    private $url;
-    private $method;
+    private UrlInterface $url;
+    private Method $method;
 
     public function __construct(
         UrlInterface $url,

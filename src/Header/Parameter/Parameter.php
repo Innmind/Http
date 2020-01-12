@@ -8,9 +8,9 @@ use Innmind\Immutable\Str;
 
 class Parameter implements ParameterInterface
 {
-    private $name;
-    private $value;
-    private $string;
+    private string $name;
+    private string $value;
+    private string $string;
 
     public function __construct(string $name, string $value)
     {

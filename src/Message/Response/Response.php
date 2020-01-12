@@ -16,8 +16,8 @@ use Innmind\Filesystem\Stream\NullStream;
 
 final class Response extends Message implements ResponseInterface
 {
-    private $statusCode;
-    private $reasonPhrase;
+    private StatusCode $statusCode;
+    private ReasonPhrase $reasonPhrase;
 
     public function __construct(
         StatusCode $statusCode,

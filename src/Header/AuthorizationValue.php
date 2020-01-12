@@ -8,8 +8,8 @@ use Innmind\Immutable\Str;
 
 final class AuthorizationValue extends Value\Value
 {
-    private $scheme;
-    private $parameter;
+    private string $scheme;
+    private string $parameter;
 
     public function __construct(string $scheme, string $parameter)
     {

@@ -34,7 +34,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 final class Psr7Translator
 {
-    private $requestTranslator;
+    private RequestTranslator $requestTranslator;
 
     public function __construct(RequestTranslator $requestTranslator)
     {

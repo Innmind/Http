@@ -13,9 +13,9 @@ use Innmind\Immutable\{
 
 final class LinkValue extends Value\Value
 {
-    private $url;
-    private $rel;
-    private $parameters;
+    private UrlInterface $url;
+    private string $rel;
+    private Map $parameters;
 
     public function __construct(
         UrlInterface $url,

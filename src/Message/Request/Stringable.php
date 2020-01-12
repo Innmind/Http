@@ -15,7 +15,7 @@ use Innmind\Stream\Readable;
 
 final class Stringable implements RequestInterface
 {
-    private $request;
+    private RequestInterface $request;
 
     public function __construct(RequestInterface $request)
     {

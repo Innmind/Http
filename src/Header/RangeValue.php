@@ -8,9 +8,9 @@ use Innmind\Immutable\Str;
 
 final class RangeValue extends Value\Value
 {
-    private $unit;
-    private $firstPosition;
-    private $lastPosition;
+    private string $unit;
+    private int $firstPosition;
+    private int $lastPosition;
 
     public function __construct(
         string $unit,

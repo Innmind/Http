@@ -19,7 +19,7 @@ final class Method
     private const LINK = 'LINK';
     private const UNLINK = 'UNLINK';
 
-    private $method;
+    private string $method;
 
     public function __construct(string $method)
     {

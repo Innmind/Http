@@ -13,8 +13,8 @@ use Innmind\Immutable\{
 
 final class StatusCode
 {
-    private static $codes;
-    private $code;
+    private static ?Map $codes = null;
+    private int $code;
 
     public function __construct(int $code)
     {

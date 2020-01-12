@@ -14,7 +14,7 @@ use function Innmind\Immutable\assertMap;
 
 final class Environment implements \Countable
 {
-    private $variables;
+    private Map $variables;
 
     public function __construct(MapInterface $variables = null)
     {

@@ -43,7 +43,7 @@ use Symfony\Component\HttpFoundation\{
 
 final class SymfonyTranslator
 {
-    private $headerFactory;
+    private HeaderFactory $headerFactory;
 
     public function __construct(HeaderFactory $headerFactory)
     {

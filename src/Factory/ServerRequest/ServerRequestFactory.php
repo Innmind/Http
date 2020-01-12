@@ -26,12 +26,12 @@ use Innmind\Immutable\{
 
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
-    private $headersFactory;
-    private $environmentFactory;
-    private $cookiesFactory;
-    private $queryFactory;
-    private $formFactory;
-    private $filesFactory;
+    private HeadersFactory $headersFactory;
+    private EnvironmentFactory $environmentFactory;
+    private CookiesFactory $cookiesFactory;
+    private QueryFactory $queryFactory;
+    private FormFactory $formFactory;
+    private FilesFactory $filesFactory;
 
     public function __construct(
         HeadersFactory $headersFactory,

@@ -7,7 +7,7 @@ use Innmind\Http\Header\Value as ValueInterface;
 
 class Value implements ValueInterface
 {
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

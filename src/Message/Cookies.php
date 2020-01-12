@@ -14,7 +14,7 @@ use function Innmind\Immutable\assertMap;
 
 final class Cookies implements \Countable
 {
-    private $cookies;
+    private Map $cookies;
 
     public function __construct(MapInterface $cookies = null)
     {

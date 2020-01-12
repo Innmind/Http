@@ -17,7 +17,7 @@ use Innmind\Immutable\{
 final class HeadersFactory implements HeadersFactoryInterface
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
-    private $headerFactory;
+    private HeaderFactoryInterface $headerFactory;
 
     public function __construct(HeaderFactoryInterface $headerFactory)
     {

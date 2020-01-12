@@ -12,9 +12,9 @@ use Innmind\Immutable\{
 
 final class ContentTypeValue extends Value\Value
 {
-    private $type;
-    private $subType;
-    private $parameters;
+    private string $type;
+    private string $subType;
+    private Map $parameters;
 
     public function __construct(
         string $type,

@@ -11,7 +11,7 @@ use Innmind\Immutable\Str;
 
 final class PrivateCache implements CacheControlValue
 {
-    private $field;
+    private string $field;
 
     public function __construct(string $field)
     {

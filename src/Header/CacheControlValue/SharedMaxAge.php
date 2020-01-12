@@ -10,7 +10,7 @@ use Innmind\Http\{
 
 final class SharedMaxAge implements CacheControlValue
 {
-    private $age;
+    private int $age;
 
     public function __construct(int $age)
     {

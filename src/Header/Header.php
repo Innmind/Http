@@ -11,8 +11,8 @@ use Innmind\Immutable\{
 
 class Header implements HeaderInterface
 {
-    private $name;
-    private $values;
+    private string $name;
+    private Set $values;
 
     public function __construct(string $name, Value ...$values)
     {

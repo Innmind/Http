@@ -16,8 +16,8 @@ use Psr\Http\Message\StreamInterface as PsrStream;
 
 final class Stream implements Readable
 {
-    private $stream;
-    private $closed = false;
+    private PsrStream $stream;
+    private bool $closed = false;
 
     public function __construct(PsrStream $stream)
     {

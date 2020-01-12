@@ -17,7 +17,7 @@ use Innmind\TimeContinuum\TimeContinuumInterface;
 
 final class ResponseSender implements Sender
 {
-    private $clock;
+    private TimeContinuumInterface $clock;
 
     public function __construct(TimeContinuumInterface $clock)
     {

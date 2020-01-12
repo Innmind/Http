@@ -12,11 +12,11 @@ use Innmind\Stream\Readable;
 
 final class File implements FileInterface
 {
-    private $name;
-    private $content;
-    private $uploadKey;
-    private $status;
-    private $mediaType;
+    private Name $name;
+    private Readable $content;
+    private string $uploadKey;
+    private Status $status;
+    private MediaType $mediaType;
 
     public function __construct(
         string $name,

@@ -5,8 +5,8 @@ namespace Innmind\Http;
 
 final class ProtocolVersion
 {
-    private $major;
-    private $minor;
+    private int $major;
+    private int $minor;
 
     public function __construct(int $major, int $minor)
     {

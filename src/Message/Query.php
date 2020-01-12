@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 
 final class Query implements \Countable
 {
-    private $parameters;
+    private Map $parameters;
 
     public function __construct(Parameter ...$parameters)
     {

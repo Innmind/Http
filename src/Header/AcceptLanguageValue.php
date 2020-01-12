@@ -11,7 +11,7 @@ use Innmind\Immutable\Str;
 
 final class AcceptLanguageValue extends Value\Value
 {
-    private $quality;
+    private ?Quality $quality;
 
     public function __construct(string $language, Quality $quality = null)
     {

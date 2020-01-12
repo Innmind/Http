@@ -14,7 +14,7 @@ use Innmind\Immutable\{
 
 final class DelegationFactory implements HeaderFactoryInterface
 {
-    private $factories;
+    private MapInterface $factories;
 
     public function __construct(MapInterface $factories)
     {

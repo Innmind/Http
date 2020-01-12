@@ -11,8 +11,8 @@ use Innmind\Immutable\{
 
 final class ReasonPhrase
 {
-    private static $defaults;
-    private $phrase;
+    private static ?Map $defaults = null;
+    private string $phrase;
 
     public function __construct(string $phrase)
     {

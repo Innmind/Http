@@ -8,8 +8,8 @@ use Innmind\Immutable\Str;
 
 final class WWWAuthenticateValue extends Value\Value
 {
-    private $scheme;
-    private $realm;
+    private string $scheme;
+    private string $realm;
 
     public function __construct(string $scheme, string $realm)
     {

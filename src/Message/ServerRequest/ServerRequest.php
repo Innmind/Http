@@ -22,11 +22,11 @@ use Innmind\Filesystem\Stream\NullStream;
 
 final class ServerRequest extends Request implements ServerRequestInterface
 {
-    private $environment;
-    private $cookies;
-    private $query;
-    private $form;
-    private $files;
+    private Environment $environment;
+    private Cookies $cookies;
+    private Query $query;
+    private Form $form;
+    private Files $files;
 
     public function __construct(
         UrlInterface $url,

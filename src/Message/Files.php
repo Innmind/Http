@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 
 final class Files implements \Countable
 {
-    private $files;
+    private Map $files;
 
     public function __construct(File ...$files)
     {

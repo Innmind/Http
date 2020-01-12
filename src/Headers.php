@@ -14,7 +14,7 @@ use Innmind\Immutable\{
 
 final class Headers implements \Countable
 {
-    private $headers;
+    private Map $headers;
 
     public function __construct(Header ...$headers)
     {

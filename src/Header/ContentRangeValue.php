@@ -8,10 +8,10 @@ use Innmind\Immutable\Str;
 
 final class ContentRangeValue extends Value\Value
 {
-    private $unit;
-    private $firstPosition;
-    private $lastPosition;
-    private $length;
+    private string $unit;
+    private int $firstPosition;
+    private int $lastPosition;
+    private ?int $length;
 
     public function __construct(
         string $unit,

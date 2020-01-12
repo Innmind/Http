@@ -11,7 +11,7 @@ use Innmind\Immutable\{
 
 final class CookieValue extends Value\Value
 {
-    private $parameters;
+    private Map $parameters;
 
     public function __construct(Parameter ...$parameters)
     {

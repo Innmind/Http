@@ -11,7 +11,7 @@ use Innmind\Immutable\Str;
 
 final class AcceptEncodingValue extends Value\Value
 {
-    private $quality;
+    private ?Quality $quality;
 
     public function __construct(string $coding, Quality $quality = null)
     {

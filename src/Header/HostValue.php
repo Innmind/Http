@@ -11,8 +11,8 @@ use Innmind\Url\Authority\{
 
 final class HostValue extends Value\Value
 {
-    private $host;
-    private $port;
+    private UrlHost $host;
+    private PortInterface $port;
 
     public function __construct(UrlHost $host, PortInterface $port)
     {
