@@ -12,7 +12,7 @@ use Innmind\Immutable\{
 };
 use function Innmind\Immutable\assertMap;
 
-final class Environment implements \Iterator, \Countable
+final class Environment implements \Countable
 {
     private $variables;
 
@@ -45,43 +45,24 @@ final class Environment implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable(string, scalar): void $function
      */
-    public function current()
+    public function foreach(callable $function): void
     {
-        return $this->variables->current();
+        $this->variables->foreach($function);
     }
 
     /**
-     * {@inheritdoc}
+     * @template R
+     *
+     * @param R $carry
+     * @param callable(R, string, scalar): R $reducer
+     *
+     * @return R
      */
-    public function key()
+    public function reduce($carry, callable $reducer)
     {
-        return $this->variables->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->variables->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->variables->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->variables->valid();
+        return $this->variables->reduce($carry, $reducer);
     }
 
     /**

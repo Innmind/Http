@@ -49,7 +49,14 @@ final class Stringable implements ResponseInterface
 
     public function toString(): string
     {
-        $headers = \iterator_to_array($this->headers());
+        $headers = $this->headers()->reduce(
+            [],
+            static function(array $headers, Header $header): array {
+                $headers[] = $header;
+
+                return $headers;
+            },
+        );
         $headers = \array_map(
             fn(Header $header): string => $header->toString(),
             $headers,

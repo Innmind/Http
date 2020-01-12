@@ -6,6 +6,7 @@ namespace Innmind\Http\Translator\Response;
 use Innmind\Http\{
     Message\Response,
     Headers,
+    Header,
     Header\Value
 };
 use Symfony\Component\HttpFoundation\Response as SfResponse;
@@ -23,19 +24,20 @@ final class SymfonyTranslator
 
     private function translateHeaders(Headers $headers): array
     {
-        $symfony = [];
+        return $headers->reduce(
+            [],
+            static function(array $headers, Header $header): array {
+                $headers[$header->name()] = $header->values()->reduce(
+                    [],
+                    static function(array $values, Value $value): array {
+                        $values[] = $value->toString();
 
-        foreach ($headers as $header) {
-            $symfony[$header->name()] = $header->values()->reduce(
-                [],
-                static function(array $values, Value $value): array {
-                    $values[] = $value->toString();
+                        return $values;
+                    }
+                );
 
-                    return $values;
-                }
-            );
-        }
-
-        return $symfony;
+                return $headers;
+            },
+        );
     }
 }

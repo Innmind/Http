@@ -12,7 +12,7 @@ use Innmind\Immutable\{
     Sequence
 };
 
-final class Headers implements \Iterator, \Countable
+final class Headers implements \Countable
 {
     private $headers;
 
@@ -72,43 +72,24 @@ final class Headers implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable(Header): void $function
      */
-    public function current()
+    public function foreach(callable $function): void
     {
-        return $this->headers->current();
+        $this->headers->values()->foreach($function);
     }
 
     /**
-     * {@inheritdoc}
+     * @template R
+     *
+     * @param R $carry
+     * @param callable(R, Header): R $reducer
+     *
+     * @return R
      */
-    public function key()
+    public function reduce($carry, callable $reducer)
     {
-        return $this->headers->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->headers->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->headers->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->headers->valid();
+        return $this->headers->values()->reduce($carry, $reducer);
     }
 
     /**

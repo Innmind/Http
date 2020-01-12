@@ -41,14 +41,14 @@ final class ResponseSender implements Sender
             header((string) new Date(new DateValue($this->clock->now())));
         }
 
-        foreach ($response->headers() as $header) {
+        $response->headers()->foreach(function($header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
                 continue;
             }
 
             header((string) $header, false);
-        }
+        });
 
         $body = $response->body();
         $body->rewind();

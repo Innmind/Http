@@ -22,14 +22,6 @@ class CookiesTest extends TestCase
         $this->assertFalse($f->contains('bar'));
         $this->assertSame(42, $f->get('foo'));
         $this->assertSame(1, $f->count());
-        $this->assertSame(42, $f->current());
-        $this->assertSame('foo', $f->key());
-        $this->assertTrue($f->valid());
-        $this->assertSame(null, $f->next());
-        $this->assertFalse($f->valid());
-        $this->assertSame(null, $f->rewind());
-        $this->assertTrue($f->valid());
-        $this->assertSame(42, $f->current());
     }
 
     /**
@@ -47,5 +39,41 @@ class CookiesTest extends TestCase
     public function testThrowWhenInvalidMap()
     {
         new Cookies(new Map('string', 'string'));
+    }
+
+    public function testForeach()
+    {
+        $cookies = new Cookies(
+            Map::of('string', 'scalar')
+                ('foo', 42)
+                ('bar', 'baz')
+        );
+
+        $called = 0;
+        $this->assertNull($cookies->foreach(function() use (&$called) {
+            ++$called;
+        }));
+        $this->assertSame(2, $called);
+    }
+
+    public function testReduce()
+    {
+        $cookies = new Cookies(
+            Map::of('string', 'scalar')
+                ('foo', 42)
+                ('bar', 'baz')
+        );
+
+        $reduced = $cookies->reduce(
+            [],
+            function($carry, $name, $value) {
+                $carry[] = $name;
+                $carry[] = $value;
+
+                return $carry;
+            },
+        );
+
+        $this->assertSame(['foo', 42, 'bar', 'baz'], $reduced);
     }
 }

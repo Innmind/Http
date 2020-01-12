@@ -13,7 +13,7 @@ use Innmind\Immutable\{
     Sequence
 };
 
-final class Query implements \Iterator, \Countable
+final class Query implements \Countable
 {
     private $parameters;
 
@@ -56,43 +56,24 @@ final class Query implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable(Parameter): void $function
      */
-    public function current()
+    public function foreach(callable $function): void
     {
-        return $this->parameters->current();
+        $this->parameters->values()->foreach($function);
     }
 
     /**
-     * {@inheritdoc}
+     * @template R
+     *
+     * @param R $carry
+     * @param callable(R, Parameter): R $reducer
+     *
+     * @return R
      */
-    public function key()
+    public function reduce($carry, callable $reducer)
     {
-        return $this->parameters->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->parameters->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->parameters->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->parameters->valid();
+        return $this->parameters->values()->reduce($carry, $reducer);
     }
 
     /**

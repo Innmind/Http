@@ -12,7 +12,7 @@ use Innmind\Immutable\{
 };
 use function Innmind\Immutable\assertMap;
 
-final class Cookies implements \Iterator, \Countable
+final class Cookies implements \Countable
 {
     private $cookies;
 
@@ -45,43 +45,24 @@ final class Cookies implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable(string, scalar): void $function
      */
-    public function current()
+    public function foreach(callable $function): void
     {
-        return $this->cookies->current();
+        $this->cookies->foreach($function);
     }
 
     /**
-     * {@inheritdoc}
+     * @template R
+     *
+     * @param R $carry
+     * @param callable(R, string, scalar): R $reducer
+     *
+     * @return R
      */
-    public function key()
+    public function reduce($carry, callable $reducer)
     {
-        return $this->cookies->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->cookies->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->cookies->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->cookies->valid();
+        return $this->cookies->reduce($carry, $reducer);
     }
 
     /**

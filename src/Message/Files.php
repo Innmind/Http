@@ -13,7 +13,7 @@ use Innmind\Immutable\{
     Sequence
 };
 
-final class Files implements \Iterator, \Countable
+final class Files implements \Countable
 {
     private $files;
 
@@ -52,43 +52,24 @@ final class Files implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable(File): void $function
      */
-    public function current()
+    public function foreach(callable $function): void
     {
-        return $this->files->current();
+        $this->files->values()->foreach($function);
     }
 
     /**
-     * {@inheritdoc}
+     * @template R
+     *
+     * @param R $carry
+     * @param callable(R, File): R $reducer
+     *
+     * @return R
      */
-    public function key()
+    public function reduce($carry, callable $reducer)
     {
-        return $this->files->key();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
-    {
-        $this->files->next();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
-    {
-        $this->files->rewind();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
-    {
-        return $this->files->valid();
+        return $this->files->values()->reduce($carry, $reducer);
     }
 
     /**

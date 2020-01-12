@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http;
 
 use Innmind\Http\{
     Headers,
-    Header,
+    Header\Header,
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Parameter
@@ -32,14 +32,6 @@ class HeadersTest extends TestCase
         $this->assertSame($ct, $hs->get('content-type'));
         $this->assertSame($ct, $hs->get('Content-Type'));
         $this->assertSame(1, $hs->count());
-        $this->assertSame($ct, $hs->current());
-        $this->assertSame('content-type', $hs->key());
-        $this->assertTrue($hs->valid());
-        $this->assertSame(null, $hs->next());
-        $this->assertFalse($hs->valid());
-        $this->assertSame(null, $hs->rewind());
-        $this->assertTrue($hs->valid());
-        $this->assertSame($ct, $hs->current());
     }
 
     public function testOf()
@@ -76,5 +68,38 @@ class HeadersTest extends TestCase
         $this->assertFalse($headers1->contains('content-type'));
         $this->assertTrue($headers2->contains('content-type'));
         $this->assertSame($header, $headers3->get('content-type'));
+    }
+
+    public function testForeach()
+    {
+        $headers = Headers::of(
+            ContentType::of('application', 'json'),
+            new Header('x-foo'),
+        );
+
+        $called = 0;
+        $this->assertNull($headers->foreach(function(Header $header) use (&$called) {
+            ++$called;
+        }));
+        $this->assertSame(2, $called);
+    }
+
+    public function testReduce()
+    {
+        $headers = Headers::of(
+            ContentType::of('application', 'json'),
+            new Header('x-foo'),
+        );
+
+        $reduced = $headers->reduce(
+            [],
+            function($carry, $header) {
+                $carry[] = $header->name();
+
+                return $carry;
+            },
+        );
+
+        $this->assertSame(['Content-Type', 'x-foo'], $reduced);
     }
 }

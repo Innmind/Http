@@ -25,14 +25,6 @@ class FormTest extends TestCase
         $this->assertTrue($f->contains('42'));
         $this->assertSame($p, $f->get('42'));
         $this->assertSame(1, $f->count());
-        $this->assertSame($p, $f->current());
-        $this->assertSame('42', $f->key());
-        $this->assertTrue($f->valid());
-        $this->assertSame(null, $f->next());
-        $this->assertFalse($f->valid());
-        $this->assertSame(null, $f->rewind());
-        $this->assertTrue($f->valid());
-        $this->assertSame($p, $f->current());
     }
 
     public function testOf()
@@ -49,5 +41,39 @@ class FormTest extends TestCase
     public function testThrowWhenAccessingUnknownParameter()
     {
         (new Form)->get('foo');
+    }
+
+    public function testForeach()
+    {
+        $form = new Form(
+            new Parameter('foo', 'bar'),
+            new Parameter('bar', 'baz'),
+        );
+
+        $called = 0;
+        $this->assertNull($form->foreach(function() use (&$called) {
+            ++$called;
+        }));
+        $this->assertSame(2, $called);
+    }
+
+    public function testReduce()
+    {
+        $form = new Form(
+            new Parameter('foo', 'bar'),
+            new Parameter('bar', 'baz'),
+        );
+
+        $reduced = $form->reduce(
+            [],
+            function($carry, $parameter) {
+                $carry[] = $parameter->name();
+                $carry[] = $parameter->value();
+
+                return $carry;
+            },
+        );
+
+        $this->assertSame(['foo', 'bar', 'bar', 'baz'], $reduced);
     }
 }

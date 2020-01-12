@@ -25,14 +25,6 @@ class FilesTest extends TestCase
         $this->assertFalse($fs->contains('bar'));
         $this->assertSame($f, $fs->get('foo'));
         $this->assertSame(1, $fs->count());
-        $this->assertSame($f, $fs->current());
-        $this->assertSame('foo', $fs->key());
-        $this->assertTrue($fs->valid());
-        $this->assertSame(null, $fs->next());
-        $this->assertFalse($fs->valid());
-        $this->assertSame(null, $fs->rewind());
-        $this->assertTrue($fs->valid());
-        $this->assertSame($f, $fs->current());
     }
 
     public function testOf()
@@ -54,5 +46,42 @@ class FilesTest extends TestCase
     public function testThrowWhenAccessingUnknownFile()
     {
         (new Files)->get('foo');
+    }
+
+    public function testForeach()
+    {
+        $file = $this->createMock(File::class);
+        $file
+            ->expects($this->once())
+            ->method('uploadKey')
+            ->willReturn('foo');
+        $files = new Files($file);
+
+        $called = 0;
+        $this->assertNull($files->foreach(function() use (&$called) {
+            ++$called;
+        }));
+        $this->assertSame(1, $called);
+    }
+
+    public function testReduce()
+    {
+        $file = $this->createMock(File::class);
+        $file
+            ->expects($this->any())
+            ->method('uploadKey')
+            ->willReturn('foo');
+        $files = new Files($file);
+
+        $reduced = $files->reduce(
+            [],
+            function($carry, $file) {
+                $carry[] = $file->uploadKey();
+
+                return $carry;
+            },
+        );
+
+        $this->assertSame(['foo'], $reduced);
     }
 }

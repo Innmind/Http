@@ -80,7 +80,14 @@ final class Stringable implements ServerRequestInterface
 
     public function toString(): string
     {
-        $headers = \iterator_to_array($this->headers());
+        $headers = $this->headers()->reduce(
+            [],
+            static function(array $headers, Header $header): array {
+                $headers[] = $header;
+
+                return $headers;
+            },
+        );
         $headers = \array_map(
             fn(Header $header): string => $header->toString(),
             $headers,
@@ -101,7 +108,14 @@ RAW;
             return '';
         }
 
-        $parameters = \iterator_to_array($this->query());
+        $parameters = $this->query()->reduce(
+            [],
+            static function(array $parameters, $parameter): array {
+                $parameters[] = $parameter;
+
+                return $parameters;
+            },
+        );
         $query = [];
 
         foreach ($parameters as $parameter) {
@@ -121,7 +135,14 @@ RAW;
             return '';
         }
 
-        $parameters = \iterator_to_array($this->form());
+        $parameters = $this->form()->reduce(
+            [],
+            static function(array $parameters, $parameter): array {
+                $parameters[] = $parameter;
+
+                return $parameters;
+            },
+        );
         $form = [];
 
         foreach ($parameters as $parameter) {
