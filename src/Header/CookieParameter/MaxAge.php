@@ -13,7 +13,7 @@ final class MaxAge extends Parameter
     public function __construct(int $number)
     {
         if ($number < 1) {
-            throw new DomainException;
+            throw new DomainException((string) $number);
         }
 
         parent::__construct('Max-Age', (string) $number);

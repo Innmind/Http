@@ -26,7 +26,7 @@ final class LinkValue extends Value\Value
         $this->parameters = Map::of('string', Parameter::class);
 
         if (empty($rel)) {
-            throw new DomainException;
+            throw new DomainException('Relation can\'t be empty');
         }
 
         foreach ($parameters as $parameter) {

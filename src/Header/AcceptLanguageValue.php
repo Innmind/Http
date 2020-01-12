@@ -22,7 +22,7 @@ final class AcceptLanguageValue extends Value\Value
             $language->toString() !== '*' &&
             !$language->matches('~^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$~')
         ) {
-            throw new DomainException;
+            throw new DomainException($language->toString());
         }
 
         $this->quality = $quality;

@@ -23,7 +23,7 @@ final class ContentTypeFactory implements HeaderFactoryInterface
             $name->toLower()->toString() !== 'content-type' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $matches = $value->capture(self::PATTERN);

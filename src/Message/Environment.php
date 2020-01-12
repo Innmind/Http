@@ -28,7 +28,7 @@ final class Environment implements \Countable
     public function get(string $name)
     {
         if (!$this->contains($name)) {
-            throw new EnvironmentVariableNotFound;
+            throw new EnvironmentVariableNotFound($name);
         }
 
         return $this->variables->get($name);

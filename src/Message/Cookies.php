@@ -28,7 +28,7 @@ final class Cookies implements \Countable
     public function get(string $name)
     {
         if (!$this->contains($name)) {
-            throw new CookieNotFound;
+            throw new CookieNotFound($name);
         }
 
         return $this->cookies->get($name);

@@ -14,7 +14,7 @@ final class ReasonPhrase
     public function __construct(string $phrase)
     {
         if ($phrase === '') {
-            throw new DomainException;
+            throw new DomainException('Reason phrase can\'t be empty');
         }
 
         $this->phrase = $phrase;

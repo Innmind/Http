@@ -16,7 +16,7 @@ final class NoCache implements CacheControlValue
     public function __construct(string $field)
     {
         if (!Str::of($field)->matches('~^\w*$~')) {
-            throw new DomainException;
+            throw new DomainException($field);
         }
 
         $this->field = $field;

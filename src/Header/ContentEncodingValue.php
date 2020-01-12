@@ -13,7 +13,7 @@ final class ContentEncodingValue extends Value\Value
         $coding = Str::of($coding);
 
         if (!$coding->matches('~^[\w\-]+$~')) {
-            throw new DomainException;
+            throw new DomainException($coding->toString());
         }
 
         parent::__construct($coding->toString());

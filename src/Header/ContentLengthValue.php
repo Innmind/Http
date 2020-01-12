@@ -10,7 +10,7 @@ final class ContentLengthValue extends Value\Value
     public function __construct(int $length)
     {
         if ($length < 0) {
-            throw new DomainException;
+            throw new DomainException((string) $length);
         }
 
         parent::__construct((string) $length);

@@ -21,13 +21,13 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'accept-language') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $values = $value->split(',');
         $values->foreach(static function(Str $accept): void {
             if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException;
+                throw new DomainException($accept->toString());
             }
         });
 

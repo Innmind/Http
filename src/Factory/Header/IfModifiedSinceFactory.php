@@ -22,7 +22,7 @@ final class IfModifiedSinceFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'if-modified-since') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new IfModifiedSince(

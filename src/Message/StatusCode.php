@@ -14,7 +14,7 @@ final class StatusCode
     public function __construct(int $code)
     {
         if (!self::codes()->values()->contains($code)) {
-            throw new DomainException;
+            throw new DomainException((string) $code);
         }
 
         $this->code = $code;

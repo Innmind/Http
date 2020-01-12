@@ -13,7 +13,7 @@ final class Parameter
     public function __construct(string $name, $value)
     {
         if ($name === '') {
-            throw new DomainException;
+            throw new DomainException('Parameter name can\'t be empty');
         }
 
         $this->name = $name;

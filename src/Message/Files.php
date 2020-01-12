@@ -36,7 +36,7 @@ final class Files implements \Countable
     public function get(string $name): File
     {
         if (!$this->contains($name)) {
-            throw new FileNotFound;
+            throw new FileNotFound($name);
         }
 
         return $this->files->get($name);

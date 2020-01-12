@@ -36,7 +36,7 @@ final class Form implements \Countable
     public function get(string $key): Parameter
     {
         if (!$this->contains($key)) {
-            throw new FormParameterNotFound;
+            throw new FormParameterNotFound($key);
         }
 
         return $this->parameters->get($key);

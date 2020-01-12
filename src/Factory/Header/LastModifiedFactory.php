@@ -22,7 +22,7 @@ final class LastModifiedFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'last-modified') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new LastModified(

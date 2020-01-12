@@ -18,7 +18,7 @@ final class HostFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'host') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $url = Url::of('http://'.$value->toString());

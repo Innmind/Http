@@ -22,7 +22,7 @@ final class AcceptEncodingValue extends Value\Value
             $coding->toString() !== '*' &&
             !$coding->matches('~^\w+$~')
         ) {
-            throw new DomainException;
+            throw new DomainException($coding->toString());
         }
 
         $this->quality = $quality;

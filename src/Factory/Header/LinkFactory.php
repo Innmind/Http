@@ -26,7 +26,7 @@ final class LinkFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'link') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $values = $value
@@ -36,7 +36,7 @@ final class LinkFactory implements HeaderFactoryInterface
             });
         $values->foreach(static function(Str $link): void {
             if (!$link->matches(self::PATTERN)) {
-                throw new DomainException;
+                throw new DomainException($link->toString());
             }
         });
 

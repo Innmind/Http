@@ -13,7 +13,7 @@ final class ContentLanguageValue extends Value\Value
         $language = Str::of($language);
 
         if (!$language->matches('~^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$~')) {
-            throw new DomainException;
+            throw new DomainException($language->toString());
         }
 
         parent::__construct($language->toString());

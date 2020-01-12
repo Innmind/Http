@@ -23,7 +23,7 @@ final class CookieFactory implements HeaderFactoryInterface
             $name->toLower()->toString() !== 'cookie' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new Cookie(

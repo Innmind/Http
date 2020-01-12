@@ -18,7 +18,7 @@ final class LocationFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'location') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new Location(

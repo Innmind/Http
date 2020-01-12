@@ -22,7 +22,7 @@ final class AuthorizationFactory implements HeaderFactoryInterface
             $name->toLower()->toString() !== 'authorization' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $matches = $value->capture(self::PATTERN);

@@ -16,7 +16,7 @@ final class WWWAuthenticateValue extends Value\Value
         $scheme = Str::of($scheme);
 
         if (!$scheme->matches('~^\w+$~')) {
-            throw new DomainException;
+            throw new DomainException($scheme->toString());
         }
 
         $this->scheme = $scheme->toString();

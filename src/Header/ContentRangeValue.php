@@ -27,7 +27,7 @@ final class ContentRangeValue extends Value\Value
             $firstPosition > $lastPosition ||
             ($length !== null && $lastPosition > $length)
         ) {
-            throw new DomainException;
+            throw new DomainException($unit);
         }
 
         $this->unit = $unit;

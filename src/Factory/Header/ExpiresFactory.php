@@ -22,7 +22,7 @@ final class ExpiresFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'expires') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new Expires(

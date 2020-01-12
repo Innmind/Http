@@ -38,7 +38,7 @@ final class Headers implements \Countable
     public function get(string $name): Header
     {
         if (!$this->contains($name)) {
-            throw new HeaderNotFound;
+            throw new HeaderNotFound($name);
         }
 
         return $this->headers->get(Str::of($name)->toLower()->toString());

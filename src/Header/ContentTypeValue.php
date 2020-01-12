@@ -25,7 +25,7 @@ final class ContentTypeValue extends Value\Value
         $this->parameters = Map::of('string', Parameter::class);
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
-            throw new DomainException;
+            throw new DomainException($media->toString());
         }
 
         foreach ($parameters as $parameter) {

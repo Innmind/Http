@@ -23,7 +23,7 @@ final class RangeValue extends Value\Value
             $lastPosition < 0 ||
             $firstPosition > $lastPosition
         ) {
-            throw new DomainException;
+            throw new DomainException($unit);
         }
 
         $this->unit = $unit;

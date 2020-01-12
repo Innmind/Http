@@ -22,7 +22,7 @@ final class AcceptCharsetValue extends Value\Value
             $charset->toString() !== '*' &&
             !$charset->matches('~^[a-zA-Z0-9\-_:\(\)]+$~')
         ) {
-            throw new DomainException;
+            throw new DomainException($charset->toString());
         }
 
         $this->quality = $quality;

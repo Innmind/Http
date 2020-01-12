@@ -21,13 +21,13 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'accept-encoding') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $values = $value->split(',');
         $values->foreach(static function(Str $accept): void {
             if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException;
+                throw new DomainException($accept->toString());
             }
         });
 

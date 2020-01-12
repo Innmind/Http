@@ -40,7 +40,7 @@ final class Query implements \Countable
     public function get(string $name): Parameter
     {
         if (!$this->contains($name)) {
-            throw new QueryParameterNotFound;
+            throw new QueryParameterNotFound($name);
         }
 
         return $this->parameters->get($name);

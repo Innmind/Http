@@ -15,7 +15,7 @@ final class MinimumFresh implements CacheControlValue
     public function __construct(int $age)
     {
         if ($age < 0) {
-            throw new DomainException;
+            throw new DomainException((string) $age);
         }
 
         $this->age = $age;

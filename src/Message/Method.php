@@ -24,7 +24,7 @@ final class Method
     public function __construct(string $method)
     {
         if (!\defined('self::'.$method)) {
-            throw new DomainException;
+            throw new DomainException($method);
         }
 
         $this->method = $method;

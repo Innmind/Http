@@ -29,7 +29,7 @@ final class AcceptValue extends Value\Value
             !$media->matches('~^[\w\-.]+/\*$~') &&
             !$media->matches('~^[\w\-.]+/[\w\-.]+$~')
         ) {
-            throw new DomainException;
+            throw new DomainException($media->toString());
         }
 
         foreach ($parameters as $parameter) {

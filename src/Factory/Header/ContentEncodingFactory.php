@@ -17,7 +17,7 @@ final class ContentEncodingFactory implements HeaderFactoryInterface
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'content-encoding') {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new ContentEncoding(
