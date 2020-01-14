@@ -11,10 +11,12 @@ use Innmind\Immutable\Map;
 
 final class Query implements \Countable
 {
+    /** @var Map<string, Parameter> */
     private Map $parameters;
 
     public function __construct(Parameter ...$parameters)
     {
+        /** @var Map<string, Parameter> */
         $this->parameters = Map::of('string', Parameter::class);
 
         foreach ($parameters as $parameter) {
@@ -31,11 +33,7 @@ final class Query implements \Countable
     }
 
     /**
-     * @param string $name
-     *
-     * @throws QueryParameterFoundException
-     *
-     * @return Parameter
+     * @throws QueryParameterNotFound
      */
     public function get(string $name): Parameter
     {

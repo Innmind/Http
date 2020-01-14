@@ -31,22 +31,23 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
             }
         });
 
-        return new AcceptEncoding(
-            ...$values->reduce(
-                [],
-                static function(array $carry, Str $accept): array {
-                    $matches = $accept->capture(self::PATTERN);
-                    $carry[] = new AcceptEncodingValue(
-                        $matches->get('coding')->toString(),
-                        new Quality(
-                            $matches->contains('quality') ?
-                                (float) $matches->get('quality')->toString() : 1,
-                        ),
-                    );
+        /** @var list<AcceptEncodingValue> */
+        $values = $values->reduce(
+            [],
+            static function(array $carry, Str $accept): array {
+                $matches = $accept->capture(self::PATTERN);
+                $carry[] = new AcceptEncodingValue(
+                    $matches->get('coding')->toString(),
+                    new Quality(
+                        $matches->contains('quality') ?
+                            (float) $matches->get('quality')->toString() : 1,
+                    ),
+                );
 
-                    return $carry;
-                },
-            ),
+                return $carry;
+            },
         );
+
+        return new AcceptEncoding(...$values);
     }
 }

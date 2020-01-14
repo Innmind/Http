@@ -42,6 +42,10 @@ final class HeadersFactory implements HeadersFactoryInterface
     {
         $headers = [];
 
+        /**
+         * @var string $key
+         * @var string $value
+         */
         foreach ($_SERVER as $key => $value) {
             $key = Str::of($key);
 

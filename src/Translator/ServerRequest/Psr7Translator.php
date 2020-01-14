@@ -24,10 +24,14 @@ use Innmind\Http\{
     File\Status\StoppedByExtension,
     File\Status\WriteFailed,
     File\Status,
+    Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Map;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\{
+    ServerRequestInterface,
+    UploadedFileInterface,
+};
 
 final class Psr7Translator
 {
@@ -60,6 +64,10 @@ final class Psr7Translator
     {
         $map = Map::of('string', 'string');
 
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($params as $key => $value) {
             if (\is_scalar($value)) {
                 $map = ($map)($key, $value);
@@ -73,6 +81,10 @@ final class Psr7Translator
     {
         $map = Map::of('string', 'string');
 
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($params as $key => $value) {
             if (\is_scalar($value)) {
                 $map = ($map)($key, $value);
@@ -86,15 +98,20 @@ final class Psr7Translator
     {
         $queries = [];
 
+        /**
+         * @var string $key
+         * @var string|array $value
+         */
         foreach ($params as $key => $value) {
-            if (\is_scalar($value)) {
-                $queries[] = new QueryParameter($key, $value);
-            }
+            $queries[] = new QueryParameter($key, $value);
         }
 
         return new Query(...$queries);
     }
 
+    /**
+     * @psalm-suppress MissingParamType Because of psr typing
+     */
     private function translateForm($params): Form
     {
         if (!\is_array($params) && !$params instanceof \Traversable) {
@@ -103,10 +120,12 @@ final class Psr7Translator
 
         $forms = [];
 
+        /**
+         * @var string $key
+         * @var string|array $value
+         */
         foreach ($params as $key => $value) {
-            if (\is_scalar($value)) {
-                $forms[] = new FormParameter($key, $value);
-            }
+            $forms[] = new FormParameter($key, $value);
         }
 
         return new Form(...$forms);
@@ -116,15 +135,19 @@ final class Psr7Translator
     {
         $map = [];
 
+        /**
+         * @var string $name
+         * @var UploadedFileInterface $file
+         */
         foreach ($files as $name => $file) {
             $mediaType = MediaType::null();
 
             if (\is_string($file->getClientMediaType())) {
-                $mediaType = MediaType::of($file->getClientMediaType());
+                $mediaType = MediaType::of($file->getClientMediaType() ?: 'application/octet-stream');
             }
 
             $map[] = new File\File(
-                $file->getClientFilename(),
+                (string) $file->getClientFilename(),
                 new Stream($file->getStream()),
                 $name,
                 $this->status($file->getError()),
@@ -155,5 +178,7 @@ final class Psr7Translator
             case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailed;
         }
+
+        throw new LogicException("Unknown file upload status $status");
     }
 }

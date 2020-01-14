@@ -8,14 +8,19 @@ use Innmind\Http\Exception\DomainException;
 final class Parameter
 {
     private string $name;
+    /** @var string|array */
     private $value;
 
+    /**
+     * @param string|array $value
+     */
     public function __construct(string $name, $value)
     {
         if ($name === '') {
             throw new DomainException('Parameter name can\'t be empty');
         }
 
+        /** @psalm-suppress DocblockTypeContradiction */
         if (!\is_string($value) && !\is_array($value)) {
             $given = \gettype($value);
 
@@ -32,7 +37,7 @@ final class Parameter
     }
 
     /**
-     * @return mixed
+     * @return string|array
      */
     public function value()
     {

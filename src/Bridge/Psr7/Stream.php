@@ -10,6 +10,7 @@ use Innmind\Stream\{
     Stream\Position,
     Stream\Position\Mode,
     Stream\Size,
+    Exception\UnknownSize,
 };
 use Innmind\Immutable\Str;
 use Psr\Http\Message\StreamInterface as PsrStream;
@@ -42,7 +43,7 @@ final class Stream implements Readable
 
     public function seek(Position $position, Mode $mode = null): void
     {
-        $this->stream->seek($position->toInt(), $mode ? $mode->toInt() : null);
+        $this->stream->seek($position->toInt(), $mode ? $mode->toInt() : \SEEK_SET);
     }
 
     public function rewind(): void
@@ -57,7 +58,13 @@ final class Stream implements Readable
 
     public function size(): Size
     {
-        return new Size($this->stream->getSize());
+        $size = $this->stream->getSize();
+
+        if (!\is_int($size)) {
+            throw new UnknownSize;
+        }
+
+        return new Size($size);
     }
 
     public function knowsSize(): bool

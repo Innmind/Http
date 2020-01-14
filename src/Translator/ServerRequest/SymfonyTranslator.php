@@ -25,6 +25,7 @@ use Innmind\Http\{
     File\Status\PartiallyUploaded as PartiallyUploadedStatus,
     File\Status\StoppedByExtension as StoppedByExtensionStatus,
     File\Status\WriteFailed as WriteFailedStatus,
+    Exception\LogicException,
 };
 use Innmind\Url\{
     Url,
@@ -42,6 +43,7 @@ use Symfony\Component\HttpFoundation\{
     ServerBag,
     ParameterBag,
     FileBag,
+    File\UploadedFile,
 };
 
 final class SymfonyTranslator
@@ -55,9 +57,13 @@ final class SymfonyTranslator
 
     public function __invoke(SfRequest $request): ServerRequest
     {
+        /** @psalm-suppress MixedArgument */
         $protocol = Str::of($request->server->get('SERVER_PROTOCOL'))->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~',
         );
+
+        /** @psalm-suppress PossiblyInvalidArgument */
+        $body = new Stream($request->getContent(true));
 
         return new ServerRequest\ServerRequest(
             Url::of($request->getUri()),
@@ -67,7 +73,7 @@ final class SymfonyTranslator
                 (int) $protocol->get('minor')->toString(),
             ),
             $this->translateHeaders($request->headers),
-            new Stream($request->getContent(true)),
+            $body,
             $this->translateEnvironment($request->server),
             $this->translateCookies($request->cookies),
             $this->translateQuery($request->query),
@@ -80,10 +86,14 @@ final class SymfonyTranslator
     {
         $headers = [];
 
+        /**
+         * @var string $name
+         * @var array<string> $value
+         */
         foreach ($headerBag as $name => $value) {
             $headers[] = ($this->headerFactory)(
                 Str::of($name),
-                Str::of(implode(', ', $value)),
+                Str::of(\implode(', ', $value)),
             );
         }
 
@@ -94,12 +104,12 @@ final class SymfonyTranslator
     {
         $map = Map::of('string', 'string');
 
+        /**
+         * @var string $key
+         * @var string $value
+         */
         foreach ($server as $key => $value) {
-            if (!\is_scalar($value)) {
-                continue;
-            }
-
-            $map = ($map)($key, $value);
+            $map = ($map)((string) $key, (string) $value);
         }
 
         return new Environment($map);
@@ -109,6 +119,10 @@ final class SymfonyTranslator
     {
         $map = Map::of('string', 'string');
 
+        /**
+         * @var string $key
+         * @var string $value
+         */
         foreach ($cookies as $key => $value) {
             $map = ($map)((string) $key, (string) $value);
         }
@@ -120,6 +134,10 @@ final class SymfonyTranslator
     {
         $queries = [];
 
+        /**
+         * @var string $key
+         * @var string|array $value
+         */
         foreach ($query as $key => $value) {
             $queries[] = new Query\Parameter($key, $value);
         }
@@ -131,6 +149,10 @@ final class SymfonyTranslator
     {
         $forms = [];
 
+        /**
+         * @var string $key
+         * @var string|array $value
+         */
         foreach ($form as $key => $value) {
             $forms[] = new Form\Parameter($key, $value);
         }
@@ -142,9 +164,13 @@ final class SymfonyTranslator
     {
         $map = [];
 
+        /**
+         * @var string $name
+         * @var UploadedFile $file
+         */
         foreach ($files as $name => $file) {
             $map[] = new File\File(
-                $file->getClientOriginalName(),
+                (string) $file->getClientOriginalName(),
                 Stream::open(Path::of($file->getPathname())),
                 $name,
                 $this->buildFileStatus($file->getError()),
@@ -175,5 +201,7 @@ final class SymfonyTranslator
             case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailedStatus;
         }
+
+        throw new LogicException("Unknown file upload status $status");
     }
 }

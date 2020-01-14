@@ -9,10 +9,12 @@ use function Innmind\Immutable\assertMap;
 
 final class Environment implements \Countable
 {
+    /** @var Map<string, string> */
     private Map $variables;
 
     public function __construct(Map $variables = null)
     {
+        /** @var Map<string, string> */
         $variables = $variables ?? Map::of('string', 'string');
 
         assertMap('string', 'string', $variables, 1);
@@ -21,7 +23,7 @@ final class Environment implements \Countable
     }
 
     /**
-     * @throws EnvironmentVariableNotFoundException
+     * @throws EnvironmentVariableNotFound
      */
     public function get(string $name): string
     {

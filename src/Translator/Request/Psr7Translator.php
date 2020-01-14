@@ -45,6 +45,10 @@ final class Psr7Translator
     {
         $headers = [];
 
+        /**
+         * @var string $name
+         * @var array<string> $values
+         */
         foreach ($rawHeaders as $name => $values) {
             $headers[] = ($this->headerFactory)(
                 Str::of($name),

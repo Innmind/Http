@@ -48,22 +48,27 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
 
     public function __invoke(): ServerRequest
     {
+        /** @psalm-suppress MixedArgument */
         $protocol = Str::of($_SERVER['SERVER_PROTOCOL'])->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~',
         );
-        $https = Str::of($_SERVER['HTTPS'] ?? 'off')->toLower()->toString();
+        $https = Str::of((string) ($_SERVER['HTTPS'] ?? 'off'))->toLower()->toString();
         $user = '';
 
         if (isset($_SERVER['PHP_AUTH_USER'])) {
+            /** @var string */
             $user = $_SERVER['PHP_AUTH_USER'];
 
             if (isset($_SERVER['PHP_AUTH_PW'])) {
+                /** @psalm-suppress MixedOperand */
                 $user .= ':'.$_SERVER['PHP_AUTH_PW'];
             }
 
             $user .= '@';
         }
 
+
+        /** @psalm-suppress MixedArgument */
         return new ServerRequest\ServerRequest(
             Url::of(\sprintf(
                 '%s://%s%s%s',

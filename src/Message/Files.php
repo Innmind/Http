@@ -11,10 +11,12 @@ use Innmind\Immutable\Map;
 
 final class Files implements \Countable
 {
+    /** @var Map<string, File> */
     private Map $files;
 
     public function __construct(File ...$files)
     {
+        /** @var Map<string, File> */
         $this->files = Map::of('string', File::class);
 
         foreach ($files as $file) {
@@ -31,7 +33,7 @@ final class Files implements \Countable
     }
 
     /**
-     * @throws FileNotFoundException
+     * @throws FileNotFound
      */
     public function get(string $name): File
     {

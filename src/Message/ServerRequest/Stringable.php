@@ -17,7 +17,6 @@ use Innmind\Http\{
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Readable;
-use Innmind\Immutable\Map;
 
 final class Stringable implements ServerRequestInterface
 {
@@ -108,9 +107,10 @@ RAW;
             return '';
         }
 
+        /** @var list<Query\Parameter> */
         $parameters = $this->query()->reduce(
             [],
-            static function(array $parameters, $parameter): array {
+            static function(array $parameters, Query\Parameter $parameter): array {
                 $parameters[] = $parameter;
 
                 return $parameters;
@@ -119,6 +119,7 @@ RAW;
         $query = [];
 
         foreach ($parameters as $parameter) {
+            /** @psalm-suppress MixedAssignment */
             $query[$parameter->name()] = $parameter->value();
         }
 
@@ -135,9 +136,10 @@ RAW;
             return '';
         }
 
+        /** @var list<Form\Parameter> */
         $parameters = $this->form()->reduce(
             [],
-            static function(array $parameters, $parameter): array {
+            static function(array $parameters, Form\Parameter $parameter): array {
                 $parameters[] = $parameter;
 
                 return $parameters;
@@ -146,27 +148,9 @@ RAW;
         $form = [];
 
         foreach ($parameters as $parameter) {
-            $form[$parameter->name()] = $this->decodeFormParameter(
-                $parameter->value()
-            );
+            $form[$parameter->name()] = $parameter->value();
         }
 
         return \rawurldecode(\http_build_query($form));
-    }
-
-    private function decodeFormParameter($value)
-    {
-        if ($value instanceof Map) {
-            return $value->reduce(
-                [],
-                function(array $values, $key, $parameter): array {
-                    $values[$key] = $this->decodeFormParameter($parameter->value());
-
-                    return $values;
-                }
-            );
-        }
-
-        return $value;
     }
 }

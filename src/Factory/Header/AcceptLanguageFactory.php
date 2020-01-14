@@ -31,22 +31,23 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
             }
         });
 
-        return new AcceptLanguage(
-            ...$values->reduce(
-                [],
-                static function(array $carry, Str $accept): array {
-                    $matches = $accept->capture(self::PATTERN);
-                    $carry[] = new AcceptLanguageValue(
-                        $matches->get('lang')->toString(),
-                        new Quality(
-                            $matches->contains('quality') ?
-                                (float) $matches->get('quality')->toString() : 1,
-                        ),
-                    );
+        /** @var list<AcceptLanguageValue> */
+        $values = $values->reduce(
+            [],
+            static function(array $carry, Str $accept): array {
+                $matches = $accept->capture(self::PATTERN);
+                $carry[] = new AcceptLanguageValue(
+                    $matches->get('lang')->toString(),
+                    new Quality(
+                        $matches->contains('quality') ?
+                            (float) $matches->get('quality')->toString() : 1,
+                    ),
+                );
 
-                    return $carry;
-                }
-            ),
+                return $carry;
+            }
         );
+
+        return new AcceptLanguage(...$values);
     }
 }

@@ -95,7 +95,7 @@ final class Stream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function seek($offset, $whence = SEEK_SET)
+    public function seek($offset, $whence = SEEK_SET): void
     {
         switch ($whence) {
             case \SEEK_SET:
@@ -108,6 +108,9 @@ final class Stream implements StreamInterface
 
             case \SEEK_END:
                 throw new LogicException('SEEK_END not supported');
+
+            default:
+                throw new LogicException("Unknown whence $whence");
         }
 
         $this->stream->seek(new Position($offset), $mode);
@@ -116,7 +119,7 @@ final class Stream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->stream->rewind();
     }

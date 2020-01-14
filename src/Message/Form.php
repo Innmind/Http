@@ -11,10 +11,12 @@ use Innmind\Immutable\Map;
 
 final class Form implements \Countable
 {
+    /** @var Map<string, Parameter> */
     private Map $parameters;
 
     public function __construct(Parameter ...$parameters)
     {
+        /** @var Map<string, Parameter> */
         $this->parameters = Map::of('string', Parameter::class);
 
         foreach ($parameters as $parameter) {
@@ -31,7 +33,7 @@ final class Form implements \Countable
     }
 
     /**
-     * @throws FormParameterNotFoundException
+     * @throws FormParameterNotFound
      */
     public function get(string $key): Parameter
     {

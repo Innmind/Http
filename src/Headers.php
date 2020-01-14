@@ -11,10 +11,12 @@ use Innmind\Immutable\{
 
 final class Headers implements \Countable
 {
+    /** @var Map<string, Header> */
     private Map $headers;
 
     public function __construct(Header ...$headers)
     {
+        /** @var Map<string, Header> */
         $this->headers = Map::of('string', Header::class);
 
         foreach ($headers as $header) {
@@ -33,7 +35,7 @@ final class Headers implements \Countable
     /**
      * @param string $name Case insensitive
      *
-     * @throws HeaderNotFoundException
+     * @throws HeaderNotFound
      */
     public function get(string $name): Header
     {

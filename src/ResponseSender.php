@@ -45,10 +45,11 @@ final class ResponseSender implements Sender
             \header((new Date(new DateValue($this->clock->now())))->toString());
         }
 
-        $response->headers()->foreach(function($header): void {
+        $response->headers()->foreach(function(Header $header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
-                continue;
+
+                return;
             }
 
             \header($header->toString(), false);
@@ -58,7 +59,7 @@ final class ResponseSender implements Sender
         $body->rewind();
 
         while (!$body->end()) {
-            echo $body->read(4096);
+            echo $body->read(4096)->toString();
             \flush();
         }
 
@@ -69,6 +70,7 @@ final class ResponseSender implements Sender
 
     private function sendCookie(SetCookie $cookie): void
     {
+        /** @psalm-suppress ArgumentTypeCoercion */
         $cookie->values()->foreach(static function(CookieValue $value): void {
             $parameters = $value->parameters()->reduce(
                 [],
@@ -84,6 +86,7 @@ final class ResponseSender implements Sender
                                 \substr($parameter->value(), 1, -1) // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence
+                            /** @psalm-suppress MixedAssignment */
                             $parameters['expire'] = ($parameters['expire'] ?? 0 !== 0) ? $parameters['expire'] : $timestamp;
                             break;
 
@@ -125,14 +128,19 @@ final class ResponseSender implements Sender
             ];
 
             if (isset($parameters['samesite'])) {
+                /** @psalm-suppress MixedAssignment */
                 $options['samesite'] = $parameters['samesite'];
             }
 
+            /**
+             * @psalm-suppress MixedArgument
+             * @psalm-suppress InvalidArgument
+             */
             \setcookie(
                 $parameters['key'] ?? '',
                 $parameters['value'] ?? '',
                 $parameters['expire'] ?? 0,
-                $options
+                $options,
             );
         });
     }

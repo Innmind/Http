@@ -33,8 +33,12 @@ final class CookieFactory implements HeaderFactoryInterface
         );
     }
 
+    /**
+     * @return list<Parameter>
+     */
     private function buildParams(Str $params): array
     {
+        /** @var list<Parameter> */
         return $params
             ->split(';')
             ->map(static function(Str $value): Str {

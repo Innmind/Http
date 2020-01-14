@@ -15,12 +15,17 @@ use function Innmind\Immutable\assertMap;
 
 final class DelegationFactory implements HeaderFactoryInterface
 {
+    /** @var Map<string, HeaderFactoryInterface> */
     private Map $factories;
 
+    /**
+     * @param Map<string, HeaderFactoryInterface> $factories
+     */
     public function __construct(Map $factories)
     {
         assertMap('string', HeaderFactoryInterface::class, $factories, 1);
 
+        /** @var Map<string, HeaderFactoryInterface> */
         $this->factories = $factories;
     }
 

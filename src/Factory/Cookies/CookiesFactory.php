@@ -15,6 +15,10 @@ final class CookiesFactory implements CookiesFactoryInterface
     {
         $map = Map::of('string', 'string');
 
+        /**
+         * @var string $name
+         * @var string $value
+         */
         foreach ($_COOKIE as $name => $value) {
             $map = ($map)($name, $value);
         }

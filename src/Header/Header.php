@@ -10,11 +10,13 @@ use function Innmind\Immutable\join;
 class Header implements HeaderInterface
 {
     private string $name;
+    /** @var Set<Value> */
     private Set $values;
 
     public function __construct(string $name, Value ...$values)
     {
         $this->name = $name;
+        /** @var Set<Value> */
         $this->values = Set::of(Value::class, ...$values);
     }
 

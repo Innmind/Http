@@ -7,6 +7,7 @@ use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
     Map,
+    Sequence,
 };
 use function Innmind\Immutable\join;
 
@@ -14,6 +15,7 @@ final class ContentTypeValue extends Value\Value
 {
     private string $type;
     private string $subType;
+    /** @var Map<string, Parameter> */
     private Map $parameters;
 
     public function __construct(
@@ -22,6 +24,7 @@ final class ContentTypeValue extends Value\Value
         Parameter ...$parameters
     ) {
         $media = Str::of('%s/%s')->sprintf($type, $subType);
+        /** @var Map<string, Parameter> */
         $this->parameters = Map::of('string', Parameter::class);
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
@@ -38,6 +41,7 @@ final class ContentTypeValue extends Value\Value
         $this->type = $type;
         $this->subType = $subType;
 
+        /** @var Sequence<string> */
         $parameters = $this->parameters->values()->toSequenceOf(
             'string',
             fn(Parameter $paramater): \Generator => yield $paramater->toString(),

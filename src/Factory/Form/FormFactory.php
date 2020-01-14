@@ -15,6 +15,10 @@ final class FormFactory implements FormFactoryInterface
     {
         $forms = [];
 
+        /**
+         * @var scalar $name
+         * @var string|array $value
+         */
         foreach ($_POST as $name => $value) {
             $forms[] = new Parameter(
                 (string) $name,

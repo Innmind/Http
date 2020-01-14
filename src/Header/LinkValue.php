@@ -8,6 +8,7 @@ use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
     Map,
+    Sequence,
 };
 use function Innmind\Immutable\join;
 
@@ -15,6 +16,7 @@ final class LinkValue extends Value\Value
 {
     private Url $url;
     private string $rel;
+    /** @var Map<string, Parameter> */
     private Map $parameters;
 
     public function __construct(
@@ -23,6 +25,7 @@ final class LinkValue extends Value\Value
         Parameter ...$parameters
     ) {
         $rel = $rel ?? 'related';
+        /** @var Map<string, Parameter> */
         $this->parameters = Map::of('string', Parameter::class);
 
         if (empty($rel)) {
@@ -39,6 +42,7 @@ final class LinkValue extends Value\Value
         $this->url = $url;
         $this->rel = $rel;
 
+        /** @var Sequence<string> */
         $parameters = $this->parameters->values()->toSequenceOf(
             'string',
             fn(Parameter $paramater): \Generator => yield $paramater->toString(),

@@ -16,6 +16,7 @@ use Innmind\Http\{
     File\Status\StoppedByExtension,
     File\Status\WriteFailed,
     File\Status,
+    Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
 use Innmind\Filesystem\Stream\LazyStream;
@@ -28,9 +29,14 @@ final class FilesFactory implements FilesFactoryInterface
     {
         $map = [];
 
+        /**
+         * @var string $name
+         * @var array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string>, tmp_name: list<string>, error: list<int>, type: list<string>} $content
+         */
         foreach ($_FILES as $name => $content) {
             if (\is_array($content['name'])) {
                 foreach ($content['name'] as $subName => $filename) {
+                    /** @psalm-suppress PossiblyInvalidArrayAccess */
                     $map[] = $this->buildFile(
                         $content['name'][$subName],
                         $content['tmp_name'][$subName],
@@ -43,6 +49,7 @@ final class FilesFactory implements FilesFactoryInterface
                 continue;
             }
 
+            /** @psalm-suppress PossiblyInvalidArgument */
             $map[] = $this->buildFile(
                 $content['name'],
                 $content['tmp_name'],
@@ -91,5 +98,7 @@ final class FilesFactory implements FilesFactoryInterface
             case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailed;
         }
+
+        throw new LogicException("Unknown file upload status $status");
     }
 }

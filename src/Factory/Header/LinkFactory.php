@@ -40,31 +40,36 @@ final class LinkFactory implements HeaderFactoryInterface
             }
         });
 
-        return new Link(
-            ...$values->reduce(
-                [],
-                function(array $carry, Str $link): array {
-                    $matches = $link->capture(self::PATTERN);
-                    $params = $this->buildParams(
-                        $matches->contains('params') ? $matches->get('params') : Str::of('')
-                    );
-                    $carry[] = new LinkValue(
-                        Url::of($matches->get('url')->toString()),
-                        $params->contains('rel') ?
-                            $params->get('rel')->value() : null,
-                        ...unwrap($params
-                            ->remove('rel')
-                            ->values()),
-                    );
+        /** @var list<LinkValue> */
+        $links = $values->reduce(
+            [],
+            function(array $carry, Str $link): array {
+                $matches = $link->capture(self::PATTERN);
+                $params = $this->buildParams(
+                    $matches->contains('params') ? $matches->get('params') : Str::of('')
+                );
+                $carry[] = new LinkValue(
+                    Url::of($matches->get('url')->toString()),
+                    $params->contains('rel') ?
+                        $params->get('rel')->value() : null,
+                    ...unwrap($params
+                        ->remove('rel')
+                        ->values()),
+                );
 
-                    return $carry;
-                },
-            ),
+                return $carry;
+            },
         );
+
+        return new Link(...$links);
     }
 
+    /**
+     * @return Map<string, Parameter>
+     */
     private function buildParams(Str $params): Map
     {
+        /** @var Map<string, Parameter> */
         return $params
             ->split(';')
             ->filter(static function(Str $value): bool {

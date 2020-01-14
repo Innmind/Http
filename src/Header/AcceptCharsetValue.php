@@ -11,7 +11,7 @@ use Innmind\Immutable\Str;
 
 final class AcceptCharsetValue extends Value\Value
 {
-    private ?Quality $quality;
+    private Quality $quality;
 
     public function __construct(string $charset, Quality $quality = null)
     {

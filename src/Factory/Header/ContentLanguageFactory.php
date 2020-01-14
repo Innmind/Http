@@ -21,19 +21,20 @@ final class ContentLanguageFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
-        return new ContentLanguage(
-            ...$value
-                ->split(',')
-                ->reduce(
-                    [],
-                    static function(array $carry, Str $language): array {
-                        $carry[] = new ContentLanguageValue(
-                            $language->trim()->toString(),
-                        );
+        /** @var list<ContentLanguageValue> */
+        $values = $value
+            ->split(',')
+            ->reduce(
+                [],
+                static function(array $carry, Str $language): array {
+                    $carry[] = new ContentLanguageValue(
+                        $language->trim()->toString(),
+                    );
 
-                        return $carry;
-                    },
-                ),
-        );
+                    return $carry;
+                },
+            );
+
+        return new ContentLanguage(...$values);
     }
 }

@@ -63,7 +63,7 @@ final class ContentRangeValue extends Value\Value
         return $this->length !== null;
     }
 
-    public function length(): int
+    public function length(): ?int
     {
         return $this->length;
     }

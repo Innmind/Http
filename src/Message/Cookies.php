@@ -9,10 +9,12 @@ use function Innmind\Immutable\assertMap;
 
 final class Cookies implements \Countable
 {
+    /** @var Map<string, string> */
     private Map $cookies;
 
     public function __construct(Map $cookies = null)
     {
+        /** @var Map<string, string> */
         $cookies = $cookies ?? Map::of('string', 'string');
 
         assertMap('string', 'string', $cookies, 1);
@@ -21,7 +23,7 @@ final class Cookies implements \Countable
     }
 
     /**
-     * @throws CookieNotFoundException
+     * @throws CookieNotFound
      */
     public function get(string $name): string
     {

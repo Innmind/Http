@@ -27,6 +27,7 @@ final class SymfonyTranslator
         return $headers->reduce(
             [],
             static function(array $headers, Header $header): array {
+                /** @psalm-suppress InvalidScalarArgument */
                 $headers[$header->name()] = $header->values()->reduce(
                     [],
                     static function(array $values, Value $value): array {

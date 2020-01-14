@@ -31,22 +31,23 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
             }
         });
 
-        return new AcceptCharset(
-            ...$values->reduce(
-                [],
-                static function(array $carry, Str $accept): array {
-                    $matches = $accept->capture(self::PATTERN);
-                    $carry[] = new AcceptCharsetValue(
-                        $matches->get('charset')->toString(),
-                        new Quality(
-                            $matches->contains('quality') ?
-                                (float) $matches->get('quality')->toString() : 1,
-                        ),
-                    );
+        /** @var list<AcceptCharsetValue> */
+        $values = $values->reduce(
+            [],
+            static function(array $carry, Str $accept): array {
+                $matches = $accept->capture(self::PATTERN);
+                $carry[] = new AcceptCharsetValue(
+                    $matches->get('charset')->toString(),
+                    new Quality(
+                        $matches->contains('quality') ?
+                            (float) $matches->get('quality')->toString() : 1,
+                    ),
+                );
 
-                    return $carry;
-                },
-            ),
+                return $carry;
+            },
         );
+
+        return new AcceptCharset(...$values);
     }
 }

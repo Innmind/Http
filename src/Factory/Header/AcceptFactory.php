@@ -31,28 +31,33 @@ final class AcceptFactory implements HeaderFactoryInterface
             }
         });
 
-        return new Accept(
-            ...$values->reduce(
-                [],
-                function(array $carry, Str $accept): array {
-                    $matches = $accept->capture(self::PATTERN);
-                    $carry[] = new AcceptValue(
-                        $matches->get('type')->toString(),
-                        $matches->get('subType')->toString(),
-                        ...$this->buildParams(
-                            $matches->contains('params') ?
-                                $matches->get('params') : Str::of(''),
-                        ),
-                    );
+        /** @var list<AcceptValue> */
+        $values = $values->reduce(
+            [],
+            function(array $carry, Str $accept): array {
+                $matches = $accept->capture(self::PATTERN);
+                $carry[] = new AcceptValue(
+                    $matches->get('type')->toString(),
+                    $matches->get('subType')->toString(),
+                    ...$this->buildParams(
+                        $matches->contains('params') ?
+                            $matches->get('params') : Str::of(''),
+                    ),
+                );
 
-                    return $carry;
-                },
-            ),
+                return $carry;
+            },
         );
+
+        return new Accept(...$values);
     }
 
+    /**
+     * @return list<Parameter>
+     */
     private function buildParams(Str $params): array
     {
+        /** @var list<Parameter> */
         return $params
             ->split(';')
             ->filter(static function(Str $value): bool {

@@ -40,8 +40,12 @@ final class ContentTypeFactory implements HeaderFactoryInterface
         );
     }
 
+    /**
+     * @return list<Parameter>
+     */
     private function buildParams(Str $params): array
     {
+        /** @var list<Parameter> */
         return $params
             ->split(';')
             ->filter(static function(Str $value): bool {

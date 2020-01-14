@@ -21,19 +21,20 @@ final class AllowFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
-        return new Allow(
-            ...$value
-                ->split(',')
-                ->reduce(
-                    [],
-                    static function(array $carry, Str $allow): array {
-                        $carry[] = new AllowValue(
-                            $allow->trim()->toUpper()->toString(),
-                        );
+        /** @var list<AllowValue> */
+        $values = $value
+            ->split(',')
+            ->reduce(
+                [],
+                static function(array $carry, Str $allow): array {
+                    $carry[] = new AllowValue(
+                        $allow->trim()->toUpper()->toString(),
+                    );
 
-                        return $carry;
-                    },
-                ),
-        );
+                    return $carry;
+                },
+            );
+
+        return new Allow(...$values);
     }
 }

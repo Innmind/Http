@@ -10,7 +10,7 @@ interface Header
     public function name(): string;
 
     /**
-     * @return Set<Value>
+     * @return Set<Header\Value>
      */
     public function values(): Set;
     public function toString(): string;
