@@ -10,9 +10,9 @@ Value objects and interfaces to abstract http messages (because [PSR7](https://g
 ## Build a `ServerRequest`
 
 ```php
-use Innmind\Http\Factory\ServerRequestFactory;
+use Innmind\Http\Factory\ServerRequest\ServerRequestFactory;
 
-$request = ServerRequestFactory::default()->make();
+$request = ServerRequestFactory::default()();
 ```
 
 ## Send a `Response`
@@ -20,16 +20,16 @@ $request = ServerRequestFactory::default()->make();
 ```php
 use Innmind\Http\{
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
-    Message\ReasonPhrase\ReasonPhrase,
-    ProtocolVersion\ProtocolVersion,
-    Headers\Headers,
+    Message\StatusCode,
+    Message\ReasonPhrase,
+    ProtocolVersion,
+    Headers,
     Header,
     Header\ContentType,
     Header\ContentTypeValue,
-    ResponseSender
+    ResponseSender,
 };
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 
 $response = new Response(
     $code = StatusCode::of('OK'),
@@ -39,11 +39,11 @@ $response = new Response(
         new ContentType(
             new ContentTypeValue(
                 'application',
-                'json'
-            )
-        )
+                'json',
+            ),
+        ),
     ),
-    new StringStream('{"some": "data"}')
+    Stream::ofContent('{"some": "data"}'),
 );
 
 (new ResponseSender)($response);
