@@ -16,6 +16,6 @@ class HttpOnlyTest extends TestCase
         $httpOnly = new HttpOnly;
 
         $this->assertInstanceOf(Parameter::class, $httpOnly);
-        $this->assertSame('HttpOnly', (string) $httpOnly);
+        $this->assertSame('HttpOnly', $httpOnly->toString());
     }
 }

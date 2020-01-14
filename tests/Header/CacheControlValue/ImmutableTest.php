@@ -16,6 +16,6 @@ class ImmutableTest extends TestCase
         $h = new Immutable;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('immutable', (string) $h);
+        $this->assertSame('immutable', $h->toString());
     }
 }

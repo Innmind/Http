@@ -9,4 +9,16 @@ final class ContentType extends Header
     {
         parent::__construct('Content-Type', $content);
     }
+
+    public static function of(
+        string $type,
+        string $subType,
+        Parameter ...$parameters
+    ): self {
+        return new self(new ContentTypeValue(
+            $type,
+            $subType,
+            ...$parameters,
+        ));
+    }
 }

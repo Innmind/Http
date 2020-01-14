@@ -9,10 +9,10 @@ final class NotUploaded implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_NO_FILE;
+        return \UPLOAD_ERR_NO_FILE;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_NO_FILE';
     }

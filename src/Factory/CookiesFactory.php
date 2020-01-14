@@ -7,5 +7,5 @@ use Innmind\Http\Message\Cookies;
 
 interface CookiesFactory
 {
-    public function make(): Cookies;
+    public function __invoke(): Cookies;
 }

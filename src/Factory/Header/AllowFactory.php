@@ -9,32 +9,32 @@ use Innmind\Http\{
     Header\Value,
     Header\Allow,
     Header\AllowValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    Set
-};
+use Innmind\Immutable\Str;
 
 final class AllowFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'allow') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'allow') {
+            throw new DomainException($name->toString());
         }
 
-        return new Allow(
-            ...$value
-                ->split(',')
-                ->reduce(
-                    new Set(Value::class),
-                    static function(Set $carry, Str $allow): Set {
-                        return $carry->add(new AllowValue(
-                            (string) $allow->trim()->toUpper()
-                        ));
-                    }
-                )
-        );
+        /** @var list<AllowValue> */
+        $values = $value
+            ->split(',')
+            ->reduce(
+                [],
+                static function(array $carry, Str $allow): array {
+                    $carry[] = new AllowValue(
+                        $allow->trim()->toUpper()->toString(),
+                    );
+
+                    return $carry;
+                },
+            );
+
+        return new Allow(...$values);
     }
 }

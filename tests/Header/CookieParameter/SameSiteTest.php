@@ -16,11 +16,11 @@ class SameSiteTest extends TestCase
         $sameSite = SameSite::strict();
 
         $this->assertInstanceOf(Parameter::class, $sameSite);
-        $this->assertSame('SameSite=Strict', (string) $sameSite);
+        $this->assertSame('SameSite=Strict', $sameSite->toString());
 
         $sameSite = SameSite::lax();
 
         $this->assertInstanceOf(Parameter::class, $sameSite);
-        $this->assertSame('SameSite=Lax', (string) $sameSite);
+        $this->assertSame('SameSite=Lax', $sameSite->toString());
     }
 }

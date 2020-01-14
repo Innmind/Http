@@ -9,7 +9,7 @@ use Innmind\Stream\{
     Selectable,
     Stream\Position,
     Stream\Position\Mode,
-    Exception\PositionNotSeekable
+    Exception\PositionNotSeekable,
 };
 use Psr\Http\Message\StreamInterface;
 
@@ -18,7 +18,7 @@ use Psr\Http\Message\StreamInterface;
  */
 final class Stream implements StreamInterface
 {
-    private $stream;
+    private Readable $stream;
 
     public function __construct(Readable $stream)
     {
@@ -27,7 +27,7 @@ final class Stream implements StreamInterface
 
     public function __toString()
     {
-        return (string) $this->stream;
+        return $this->stream->toString();
     }
 
     /**
@@ -95,19 +95,22 @@ final class Stream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function seek($offset, $whence = SEEK_SET)
+    public function seek($offset, $whence = SEEK_SET): void
     {
         switch ($whence) {
-            case SEEK_SET:
+            case \SEEK_SET:
                 $mode = Mode::fromStart();
                 break;
 
-            case SEEK_CUR:
+            case \SEEK_CUR:
                 $mode = Mode::fromCurrentPosition();
                 break;
 
-            case SEEK_END:
+            case \SEEK_END:
                 throw new LogicException('SEEK_END not supported');
+
+            default:
+                throw new LogicException("Unknown whence $whence");
         }
 
         $this->stream->seek(new Position($offset), $mode);
@@ -116,7 +119,7 @@ final class Stream implements StreamInterface
     /**
      * {@inheritdoc}
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->stream->rewind();
     }
@@ -154,7 +157,7 @@ final class Stream implements StreamInterface
      */
     public function read($length)
     {
-        return (string) $this->stream->read($length);
+        return $this->stream->read($length)->toString();
     }
 
     /**
@@ -162,7 +165,7 @@ final class Stream implements StreamInterface
      */
     public function getContents()
     {
-        return (string) $this->stream->read();
+        return $this->stream->read()->toString();
     }
 
     /**

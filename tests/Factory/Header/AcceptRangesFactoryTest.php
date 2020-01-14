@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\AcceptRangesFactory,
-    Header\AcceptRanges
+    Header\AcceptRanges,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,23 +24,23 @@ class AcceptRangesFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new AcceptRangesFactory)->make(
-            new Str('Accept-Ranges'),
-            new Str('bytes')
+        $header = (new AcceptRangesFactory)(
+            Str::of('Accept-Ranges'),
+            Str::of('bytes'),
         );
 
         $this->assertInstanceOf(AcceptRanges::class, $header);
-        $this->assertSame('Accept-Ranges: bytes', (string) $header);
+        $this->assertSame('Accept-Ranges: bytes', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AcceptRangesFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new AcceptRangesFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

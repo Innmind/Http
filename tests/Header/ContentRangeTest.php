@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\Value,
     Header\ContentRangeValue
 };
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ContentRangeTest extends TestCase
@@ -23,9 +24,17 @@ class ContentRangeTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Range', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($cr, $v->current());
-        $this->assertSame('Content-Range: bytes 0-42/*', (string) $h);
+        $this->assertSame($cr, first($v));
+        $this->assertSame('Content-Range: bytes 0-42/*', $h->toString());
+    }
+
+    public function testOf()
+    {
+        $header = ContentRange::of('bytes', 0, 42);
+
+        $this->assertInstanceOf(ContentRange::class, $header);
+        $this->assertSame('Content-Range: bytes 0-42/*', $header->toString());
     }
 }

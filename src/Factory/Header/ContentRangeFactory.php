@@ -8,35 +8,35 @@ use Innmind\Http\{
     Header,
     Header\ContentRange,
     Header\ContentRangeValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class ContentRangeFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
+    private const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         $value = $value->trim();
 
         if (
-            (string) $name->toLower() !== 'content-range' ||
+            $name->toLower()->toString() !== 'content-range' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $matches = $value->capture(self::PATTERN);
-        $length = (string) $matches->get('length');
+        $length = $matches->get('length')->toString();
 
         return new ContentRange(
             new ContentRangeValue(
-                (string) $matches->get('unit'),
-                (int) (string) $matches->get('first'),
-                (int) (string) $matches->get('last'),
-                $length === '*' ? null : (int) $length
-            )
+                $matches->get('unit')->toString(),
+                (int) $matches->get('first')->toString(),
+                (int) $matches->get('last')->toString(),
+                $length === '*' ? null : (int) $length,
+            ),
         );
     }
 }

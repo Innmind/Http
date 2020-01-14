@@ -1,13 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\ReasonPhrase;
+namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    ReasonPhrase\ReasonPhrase,
-    ReasonPhrase as ReasonPhraseInterface
+use Innmind\Http\{
+    Message\ReasonPhrase,
+    Exception\DomainException,
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class ReasonPhraseTest extends TestCase
@@ -16,15 +16,13 @@ class ReasonPhraseTest extends TestCase
     {
         $m = new ReasonPhrase('OK');
 
-        $this->assertInstanceOf(ReasonPhraseInterface::class, $m);
-        $this->assertSame('OK', (string) $m);
+        $this->assertSame('OK', $m->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidReasonPhrase()
     {
+        $this->expectException(DomainException::class);
+
         new ReasonPhrase('');
     }
 
@@ -34,7 +32,7 @@ class ReasonPhraseTest extends TestCase
             $reason = ReasonPhrase::of($statusCode);
 
             $this->assertInstanceOf(ReasonPhrase::class, $reason);
-            $this->assertSame($message, (string) $reason);
+            $this->assertSame($message, $reason->toString());
         });
     }
 
@@ -42,7 +40,7 @@ class ReasonPhraseTest extends TestCase
     {
         $defaults = ReasonPhrase::defaults();
 
-        $this->assertInstanceOf(MapInterface::class, $defaults);
+        $this->assertInstanceOf(Map::class, $defaults);
         $this->assertSame('int', (string) $defaults->keyType());
         $this->assertSame('string', (string) $defaults->valueType());
         $this->assertSame(74, $defaults->count());

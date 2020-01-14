@@ -7,7 +7,7 @@ use Innmind\Http\Header\CacheControlValue;
 
 final class PublicCache implements CacheControlValue
 {
-    public function __toString(): string
+    public function toString(): string
     {
         return 'public';
     }

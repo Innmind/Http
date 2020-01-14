@@ -3,15 +3,15 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
 
 interface Header
 {
     public function name(): string;
 
     /**
-     * @return SetInterface<Value>
+     * @return Set<Header\Value>
      */
-    public function values(): SetInterface;
-    public function __toString(): string;
+    public function values(): Set;
+    public function toString(): string;
 }

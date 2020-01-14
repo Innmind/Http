@@ -9,4 +9,12 @@ final class ContentLanguage extends Header
     {
         parent::__construct('Content-Language', ...$values);
     }
+
+    public static function of(string ...$values): self
+    {
+        return new self(...\array_map(
+            fn(string $value): ContentLanguageValue => new ContentLanguageValue($value),
+            $values,
+        ));
+    }
 }

@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentTypeFactory,
-    Header\ContentType
+    Header\ContentType,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,45 +24,45 @@ class ContentTypeFactoryTest extends TestCase
 
     public function testMakeWithoutParameters()
     {
-        $header = (new ContentTypeFactory)->make(
-            new Str('Content-Type'),
-            new Str('image/gif')
+        $header = (new ContentTypeFactory)(
+            Str::of('Content-Type'),
+            Str::of('image/gif'),
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
-        $this->assertSame('Content-Type: image/gif', (string) $header);
+        $this->assertSame('Content-Type: image/gif', $header->toString());
     }
 
     public function testMakeWithParameters()
     {
-        $header = (new ContentTypeFactory)->make(
-            new Str('Content-Type'),
-            new Str('image/gif; foo="bar"; q=0.5')
+        $header = (new ContentTypeFactory)(
+            Str::of('Content-Type'),
+            Str::of('image/gif; foo="bar"; q=0.5'),
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
-        $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', (string) $header);
+        $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentTypeFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new ContentTypeFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
-        (new ContentTypeFactory)->make(
-            new Str('Content-Type'),
-            new Str('foo')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Content-Type');
+
+        (new ContentTypeFactory)(
+            Str::of('Content-Type'),
+            Str::of('foo'),
         );
     }
 }

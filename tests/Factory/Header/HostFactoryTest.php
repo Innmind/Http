@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\HostFactory,
     Factory\HeaderFactory,
-    Header\Host
+    Header\Host,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -22,26 +23,26 @@ class HostFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
-            new Str('Host'),
-            new Str($host)
+        $h = ($f)(
+            Str::of('Host'),
+            Str::of($host),
         );
 
         $this->assertInstanceOf(Host::class, $h);
         $this->assertSame(
             'Host: '.$host,
-            (string) $h
+            $h->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new HostFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new HostFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 

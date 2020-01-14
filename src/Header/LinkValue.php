@@ -4,55 +4,61 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
-    MapInterface,
-    Map
+    Map,
+    Sequence,
 };
+use function Innmind\Immutable\join;
 
 final class LinkValue extends Value\Value
 {
-    private $url;
-    private $rel;
-    private $parameters;
+    private Url $url;
+    private string $rel;
+    /** @var Map<string, Parameter> */
+    private Map $parameters;
 
     public function __construct(
-        UrlInterface $url,
+        Url $url,
         string $rel = null,
-        MapInterface $parameters = null
+        Parameter ...$parameters
     ) {
         $rel = $rel ?? 'related';
-        $parameters = $parameters ?? new Map('string', Parameter::class);
+        /** @var Map<string, Parameter> */
+        $this->parameters = Map::of('string', Parameter::class);
 
         if (empty($rel)) {
-            throw new DomainException;
+            throw new DomainException('Relation can\'t be empty');
         }
 
-        if (
-            (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== Parameter::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 3 must be of type MapInterface<string, %s>',
-                Parameter::class
-            ));
+        foreach ($parameters as $parameter) {
+            $this->parameters = ($this->parameters)(
+                $parameter->name(),
+                $parameter,
+            );
         }
 
         $this->url = $url;
         $this->rel = $rel;
-        $this->parameters = $parameters;
 
-        $parameters = $parameters
-            ->values()
-            ->join(';');
-        $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
-        $link = (new Str('<%s>; rel="%s"'))->sprintf((string) $url, $rel);
+        /** @var Sequence<string> */
+        $parameters = $this->parameters->values()->toSequenceOf(
+            'string',
+            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        );
+        $parameters = join(';', $parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
+        $link = Str::of('<%s>; rel="%s"')->sprintf($url->toString(), $rel);
 
-        parent::__construct((string) $link->append((string) $parameters));
+        parent::__construct(
+            $link
+                ->append($parameters->toString())
+                ->toString(),
+        );
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->url;
     }
@@ -63,9 +69,9 @@ final class LinkValue extends Value\Value
     }
 
     /**
-     * @return MapInterface<string, Parameter>
+     * @return Map<string, Parameter>
      */
-    public function parameters(): MapInterface
+    public function parameters(): Map
     {
         return $this->parameters;
     }

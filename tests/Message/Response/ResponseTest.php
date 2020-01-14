@@ -20,10 +20,10 @@ class ResponseTest extends TestCase
     public function testInterface()
     {
         $r = new Response(
-            $status = $this->createMock(StatusCode::class),
-            $reason = $this->createMock(ReasonPhrase::class),
-            $protocol = $this->createMock(ProtocolVersion::class),
-            $headers = $this->createMock(Headers::class),
+            $status = new StatusCode(200),
+            $reason = new ReasonPhrase('OK'),
+            $protocol = new ProtocolVersion(2, 0),
+            $headers = Headers::of(),
             $body = $this->createMock(Readable::class)
         );
 
@@ -39,9 +39,9 @@ class ResponseTest extends TestCase
     public function testDefaultValues()
     {
         $response = new Response(
-            $this->createMock(StatusCode::class),
-            $this->createMock(ReasonPhrase::class),
-            $this->createMock(ProtocolVersion::class)
+            new StatusCode(200),
+            new ReasonPhrase('OK'),
+            new ProtocolVersion(2, 0),
         );
 
         $this->assertInstanceOf(

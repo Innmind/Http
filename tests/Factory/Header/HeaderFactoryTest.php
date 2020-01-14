@@ -25,12 +25,12 @@ class HeaderFactoryTest extends TestCase
     {
         $factory = new HeaderFactory;
 
-        $header = $factory->make(
-            new Str('X-Foo'),
-            new Str('bar')
+        $header = ($factory)(
+            Str::of('X-Foo'),
+            Str::of('bar')
         );
 
         $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('X-Foo: bar', (string) $header);
+        $this->assertSame('X-Foo: bar', $header->toString());
     }
 }

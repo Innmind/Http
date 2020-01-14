@@ -6,14 +6,14 @@ namespace Tests\Innmind\Http\Translator\Response;
 use Innmind\Http\{
     Translator\Response\SymfonyTranslator,
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
-    Message\ReasonPhrase\ReasonPhrase,
-    ProtocolVersion\ProtocolVersion,
-    Headers\Headers,
+    Message\StatusCode,
+    Message\ReasonPhrase,
+    ProtocolVersion,
+    Headers,
     Header\Header,
     Header\Value\Value
 };
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use Symfony\Component\HttpFoundation\Response as SfResponse;
 use PHPUnit\Framework\TestCase;
 
@@ -30,10 +30,10 @@ class SymfonyTranslatorTest extends TestCase
                 new Header('foo', new Value('bar'), new Value('baz')),
                 new Header('foobar', new Value('barbar'), new Value('bazbar'))
             ),
-            new StringStream('watev')
+            Stream::ofContent('watev')
         );
 
-        $response = $translator->translate($response);
+        $response = ($translator)($response);
 
         $this->assertInstanceOf(SfResponse::class, $response);
         $this->assertSame(200, $response->getStatusCode());

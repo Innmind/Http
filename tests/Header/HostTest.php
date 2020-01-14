@@ -9,10 +9,11 @@ use Innmind\Http\{
     Header\Value,
     Header\HostValue
 };
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use Innmind\Url\Authority\{
     Host as UrlHost,
-    NullPort
+    Port,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -21,15 +22,23 @@ class HostTest extends TestCase
     public function testInterface()
     {
         $h = new Host(
-            $av = new HostValue(new UrlHost('example.com'), new NullPort)
+            $av = new HostValue(UrlHost::of('example.com'), Port::none())
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Host', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($av, $v->current());
-        $this->assertSame('Host: example.com', (string) $h);
+        $this->assertSame($av, first($v));
+        $this->assertSame('Host: example.com', $h->toString());
+    }
+
+    public function testOf()
+    {
+        $header = Host::of(UrlHost::of('example.com'), Port::none());
+
+        $this->assertInstanceOf(Host::class, $header);
+        $this->assertSame('Host: example.com', $header->toString());
     }
 }

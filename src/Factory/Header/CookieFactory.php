@@ -9,56 +9,55 @@ use Innmind\Http\{
     Header\Cookie,
     Header\CookieValue,
     Header\Parameter\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    SequenceInterface,
-    Sequence
-};
+use Innmind\Immutable\Str;
 
 final class CookieFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
+    private const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'cookie' ||
+            $name->toLower()->toString() !== 'cookie' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         return new Cookie(
             new CookieValue(
-                ...$this->buildParams($value)
-            )
+                ...$this->buildParams($value),
+            ),
         );
     }
 
-    private function buildParams(Str $params): SequenceInterface
+    /**
+     * @return list<Parameter>
+     */
+    private function buildParams(Str $params): array
     {
+        /** @var list<Parameter> */
         return $params
             ->split(';')
             ->map(static function(Str $value): Str {
                 return $value->trim();
             })
             ->filter(static function(Str $value): bool {
-                return $value->length() > 0;
+                return !$value->empty();
             })
             ->reduce(
-                new Sequence,
-                static function(SequenceInterface $carry, Str $value): SequenceInterface {
+                [],
+                static function(array $carry, Str $value): array {
                     $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
-
-                    return $carry->add(
-                        new Parameter(
-                            (string) $matches->get('key'),
-                            (string) $matches->get('value')
-                        )
+                    $carry[] = new Parameter(
+                        $matches->get('key')->toString(),
+                        $matches->get('value')->toString(),
                     );
-                }
+
+                    return $carry;
+                },
             );
     }
 }

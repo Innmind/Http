@@ -6,15 +6,13 @@ namespace Innmind\Http\Translator\ServerRequest;
 use Innmind\Http\{
     Translator\Request\Psr7Translator as RequestTranslator,
     Message\ServerRequest\ServerRequest,
-    Message\Files\Files,
-    Message\Environment\Environment,
-    Message\Cookies\Cookies,
-    Message\Query\Query,
-    Message\Query\Parameter as QueryParameterInterface,
-    Message\Query\Parameter\Parameter as QueryParameter,
-    Message\Form\Form,
-    Message\Form\Parameter as FormParameterInterface,
-    Message\Form\Parameter\Parameter as FormParameter,
+    Message\Files,
+    Message\Environment,
+    Message\Cookies,
+    Message\Query,
+    Message\Query\Parameter as QueryParameter,
+    Message\Form,
+    Message\Form\Parameter as FormParameter,
     File,
     Bridge\Psr7\Stream,
     File\Status\ExceedsFormMaxFileSize,
@@ -25,27 +23,28 @@ use Innmind\Http\{
     File\Status\PartiallyUploaded,
     File\Status\StoppedByExtension,
     File\Status\WriteFailed,
-    File\Status
+    File\Status,
+    Exception\LogicException,
 };
-use Innmind\Filesystem\MediaType\{
-    MediaType,
-    NullMediaType
-};
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Map;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\{
+    ServerRequestInterface,
+    UploadedFileInterface,
+};
 
 final class Psr7Translator
 {
-    private $requestTranslator;
+    private RequestTranslator $requestTranslator;
 
     public function __construct(RequestTranslator $requestTranslator)
     {
         $this->requestTranslator = $requestTranslator;
     }
 
-    public function translate(ServerRequestInterface $serverRequest): ServerRequest
+    public function __invoke(ServerRequestInterface $serverRequest): ServerRequest
     {
-        $request = $this->requestTranslator->translate($serverRequest);
+        $request = ($this->requestTranslator)($serverRequest);
 
         return new ServerRequest(
             $request->url(),
@@ -57,17 +56,21 @@ final class Psr7Translator
             $this->translateCookies($serverRequest->getCookieParams()),
             $this->translateQuery($serverRequest->getQueryParams()),
             $this->translateForm($serverRequest->getParsedBody()),
-            $this->translateFiles($serverRequest->getUploadedFiles())
+            $this->translateFiles($serverRequest->getUploadedFiles()),
         );
     }
 
     private function translateEnvironment(array $params): Environment
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'string');
 
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
-                $map = $map->put($key, $value);
+            if (\is_scalar($value)) {
+                $map = ($map)($key, $value);
             }
         }
 
@@ -76,11 +79,15 @@ final class Psr7Translator
 
     private function translateCookies(array $params): Cookies
     {
-        $map = new Map('string', 'scalar');
+        $map = Map::of('string', 'string');
 
+        /**
+         * @var string $key
+         * @var mixed $value
+         */
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
-                $map = $map->put($key, $value);
+            if (\is_scalar($value)) {
+                $map = ($map)($key, $value);
             }
         }
 
@@ -89,84 +96,89 @@ final class Psr7Translator
 
     private function translateQuery(array $params): Query
     {
-        $map = new Map('string', QueryParameterInterface::class);
+        $queries = [];
 
+        /**
+         * @var string $key
+         * @var string|array $value
+         */
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
-                $map = $map->put(
-                    $key,
-                    new QueryParameter($key, $value)
-                );
-            }
+            $queries[] = new QueryParameter($key, $value);
         }
 
-        return new Query($map);
+        return new Query(...$queries);
     }
 
+    /**
+     * @psalm-suppress MissingParamType Because of psr typing
+     */
     private function translateForm($params): Form
     {
-        if (!is_array($params) && !$params instanceof \Traversable) {
+        if (!\is_array($params) && !$params instanceof \Traversable) {
             return new Form;
         }
 
-        $map = new Map('scalar', FormParameterInterface::class);
+        $forms = [];
 
+        /**
+         * @var string $key
+         * @var string|array $value
+         */
         foreach ($params as $key => $value) {
-            if (is_scalar($value)) {
-                $map = $map->put(
-                    $key,
-                    new FormParameter($key, $value)
-                );
-            }
+            $forms[] = new FormParameter($key, $value);
         }
 
-        return new Form($map);
+        return new Form(...$forms);
     }
 
     private function translateFiles(array $files): Files
     {
-        $map = new Map('string', File::class);
+        $map = [];
 
+        /**
+         * @var string $name
+         * @var UploadedFileInterface $file
+         */
         foreach ($files as $name => $file) {
-            $mediaType = new NullMediaType;
+            $mediaType = MediaType::null();
 
-            if (is_string($file->getClientMediaType())) {
-                $mediaType = MediaType::fromString($file->getClientMediaType());
+            if (\is_string($file->getClientMediaType())) {
+                $mediaType = MediaType::of($file->getClientMediaType() ?: 'application/octet-stream');
             }
 
-            $map = $map->put(
+            $map[] = new File\File(
+                (string) $file->getClientFilename(),
+                new Stream($file->getStream()),
                 $name,
-                new File\File(
-                    $file->getClientFilename(),
-                    new Stream($file->getStream()),
-                    $this->status($file->getError()),
-                    $mediaType
-                )
+                $this->status($file->getError()),
+                $mediaType,
             );
         }
 
-        return new Files($map);
+        return new Files(...$map);
     }
 
     private function status(int $status): Status
     {
         switch ($status) {
-            case UPLOAD_ERR_FORM_SIZE:
+            case \UPLOAD_ERR_FORM_SIZE:
                 return new ExceedsFormMaxFileSize;
-            case UPLOAD_ERR_INI_SIZE:
+            case \UPLOAD_ERR_INI_SIZE:
                 return new ExceedsIniMaxFileSize;
-            case UPLOAD_ERR_NO_TMP_DIR:
+            case \UPLOAD_ERR_NO_TMP_DIR:
                 return new NoTemporaryDirectory;
-            case UPLOAD_ERR_NO_FILE:
+            case \UPLOAD_ERR_NO_FILE:
                 return new NotUploaded;
-            case UPLOAD_ERR_OK:
+            case \UPLOAD_ERR_OK:
                 return new Ok;
-            case UPLOAD_ERR_PARTIAL:
+            case \UPLOAD_ERR_PARTIAL:
                 return new PartiallyUploaded;
-            case UPLOAD_ERR_EXTENSION:
+            case \UPLOAD_ERR_EXTENSION:
                 return new StoppedByExtension;
-            case UPLOAD_ERR_CANT_WRITE:
+            case \UPLOAD_ERR_CANT_WRITE:
                 return new WriteFailed;
         }
+
+        throw new LogicException("Unknown file upload status $status");
     }
 }

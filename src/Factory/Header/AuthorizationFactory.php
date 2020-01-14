@@ -8,30 +8,30 @@ use Innmind\Http\{
     Header,
     Header\AuthorizationValue,
     Header\Authorization,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class AuthorizationFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
+    private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'authorization' ||
+            $name->toLower()->toString() !== 'authorization' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $matches = $value->capture(self::PATTERN);
 
         return new Authorization(
             new AuthorizationValue(
-                (string) $matches->get('scheme'),
-                $matches->contains('param') ? (string) $matches->get('param') : ''
-            )
+                $matches->get('scheme')->toString(),
+                $matches->contains('param') ? $matches->get('param')->toString() : '',
+            ),
         );
     }
 }

@@ -7,38 +7,32 @@ use Innmind\Http\{
     Factory\HeadersFactory as HeadersFactoryInterface,
     Factory\HeaderFactory as HeaderFactoryInterface,
     Headers,
-    Header
+    Header,
 };
-use Innmind\Immutable\{
-    Map,
-    Str
-};
+use Innmind\Immutable\Str;
 
 final class HeadersFactory implements HeadersFactoryInterface
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
-    private $headerFactory;
+    private HeaderFactoryInterface $headerFactory;
 
     public function __construct(HeaderFactoryInterface $headerFactory)
     {
         $this->headerFactory = $headerFactory;
     }
 
-    public function make(): Headers
+    public function __invoke(): Headers
     {
-        $map = new Map('string', Header::class);
+        $headers = [];
 
         foreach ($this->headers() as $name => $value) {
-            $map = $map->put(
-                $name,
-                $this->headerFactory->make(
-                    new Str((string) $name),
-                    new Str((string) $value)
-                )
+            $headers[] = ($this->headerFactory)(
+                Str::of((string) $name),
+                Str::of((string) $value),
             );
         }
 
-        return new Headers\Headers($map);
+        return new Headers(...$headers);
     }
 
     /**
@@ -48,6 +42,10 @@ final class HeadersFactory implements HeadersFactoryInterface
     {
         $headers = [];
 
+        /**
+         * @var string $key
+         * @var string $value
+         */
         foreach ($_SERVER as $key => $value) {
             $key = Str::of($key);
 
@@ -55,9 +53,10 @@ final class HeadersFactory implements HeadersFactoryInterface
                 continue;
             }
 
-            $key = (string) $key
+            $key = $key
                 ->pregReplace('~^HTTP_~', '')
-                ->replace('_', '-');
+                ->replace('_', '-')
+                ->toString();
             $headers[$key] = $value;
         }
 

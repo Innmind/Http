@@ -8,24 +8,25 @@ use Innmind\Immutable\Str;
 
 final class WWWAuthenticateValue extends Value\Value
 {
-    private $scheme;
-    private $realm;
+    private string $scheme;
+    private string $realm;
 
     public function __construct(string $scheme, string $realm)
     {
-        $scheme = new Str($scheme);
+        $scheme = Str::of($scheme);
 
         if (!$scheme->matches('~^\w+$~')) {
-            throw new DomainException;
+            throw new DomainException($scheme->toString());
         }
 
-        $this->scheme = (string) $scheme;
+        $this->scheme = $scheme->toString();
         $this->realm = $realm;
         parent::__construct(
-            (string) $scheme
+            $scheme
                 ->append(' ')
-                ->append((string) new Parameter\Parameter('realm', $realm))
+                ->append((new Parameter\Parameter('realm', $realm))->toString())
                 ->trim()
+                ->toString(),
         );
     }
 

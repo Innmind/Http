@@ -16,6 +16,6 @@ class NoTransformTest extends TestCase
         $h = new NoTransform;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('no-transform', (string) $h);
+        $this->assertSame('no-transform', $h->toString());
     }
 }

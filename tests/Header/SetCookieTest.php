@@ -11,8 +11,9 @@ use Innmind\Http\{
     Header\Parameter\Parameter,
     Header\CookieParameter\Secure
 };
-use Innmind\TimeContinuum\PointInTime\Earth\PointInTime;
-use Innmind\Immutable\SetInterface;
+use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class SetCookieTest extends TestCase
@@ -32,9 +33,20 @@ class SetCookieTest extends TestCase
         $this->assertInstanceOf(Header::class, $cookie);
         $this->assertSame('Set-Cookie', $cookie->name());
         $values = $cookie->values();
-        $this->assertInstanceOf(SetInterface::class, $values);
+        $this->assertInstanceOf(Set::class, $values);
         $this->assertSame(Value::class, (string) $values->type());
-        $this->assertSame($value, $values->current());
-        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', (string) $cookie);
+        $this->assertSame($value, first($values));
+        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toString());
+    }
+
+    public function testOf()
+    {
+        $cookie = SetCookie::of(
+            new Parameter('foo', 'bar'),
+            new Parameter('bar', 'baz'),
+        );
+
+        $this->assertInstanceOf(SetCookie::class, $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->toString());
     }
 }

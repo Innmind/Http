@@ -18,6 +18,6 @@ class NullParameterTest extends TestCase
         $this->assertInstanceOf(Parameter::class, $p);
         $this->assertSame('', $p->name());
         $this->assertSame('', $p->value());
-        $this->assertSame('', (string) $p);
+        $this->assertSame('', $p->toString());
     }
 }

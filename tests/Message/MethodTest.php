@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Method;
+namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    Method\Method,
-    Method as MethodInterface
+use Innmind\Http\{
+    Message\Method,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -15,8 +15,7 @@ class MethodTest extends TestCase
     {
         $m = new Method('GET');
 
-        $this->assertInstanceOf(MethodInterface::class, $m);
-        $this->assertSame('GET', (string) $m);
+        $this->assertSame('GET', $m->toString());
 
         new Method('POST');
         new Method('PUT');
@@ -33,14 +32,14 @@ class MethodTest extends TestCase
      */
     public function testNamedConstructors($method)
     {
-        $this->assertSame($method, (string) Method::{strtolower($method)}());
+        $this->assertSame($method, Method::{strtolower($method)}()->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidMethod()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('get');
+
         new Method('get');
     }
 

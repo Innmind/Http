@@ -16,6 +16,6 @@ class ProxyRevalidateTest extends TestCase
         $h = new ProxyRevalidate;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('proxy-revalidate', (string) $h);
+        $this->assertSame('proxy-revalidate', $h->toString());
     }
 }

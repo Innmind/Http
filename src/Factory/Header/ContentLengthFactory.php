@@ -8,22 +8,22 @@ use Innmind\Http\{
     Header\ContentLength,
     Header\ContentLengthValue,
     Header,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class ContentLengthFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'content-length') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'content-length') {
+            throw new DomainException($name->toString());
         }
 
         return new ContentLength(
             new ContentLengthValue(
-                (int) (string) $value
-            )
+                (int) $value->toString(),
+            ),
         );
     }
 }

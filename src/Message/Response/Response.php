@@ -9,15 +9,15 @@ use Innmind\Http\{
     Message\ReasonPhrase,
     Message\StatusCode,
     ProtocolVersion,
-    Headers
+    Headers,
 };
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
 final class Response extends Message implements ResponseInterface
 {
-    private $statusCode;
-    private $reasonPhrase;
+    private StatusCode $statusCode;
+    private ReasonPhrase $reasonPhrase;
 
     public function __construct(
         StatusCode $statusCode,
@@ -31,8 +31,8 @@ final class Response extends Message implements ResponseInterface
 
         parent::__construct(
             $protocolVersion,
-            $headers ?? new Headers\Headers,
-            $body ?? new NullStream
+            $headers ?? new Headers,
+            $body ?? new NullStream,
         );
     }
 

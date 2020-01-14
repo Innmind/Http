@@ -9,4 +9,9 @@ final class AcceptRanges extends Header
     {
         parent::__construct('Accept-Ranges', $ranges);
     }
+
+    public static function of(string $range): self
+    {
+        return new self(new AcceptRangesValue($range));
+    }
 }

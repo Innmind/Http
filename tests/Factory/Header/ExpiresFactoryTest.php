@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\ExpiresFactory,
     Factory\HeaderFactory,
-    Header\Expires
+    Header\Expires,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,26 +24,26 @@ class ExpiresFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new ExpiresFactory)->make(
-            new Str('Expires'),
-            new Str('Tue, 15 Nov 1994 08:12:31 GMT')
+        $header = (new ExpiresFactory)(
+            Str::of('Expires'),
+            Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
 
         $this->assertInstanceOf(Expires::class, $header);
         $this->assertSame(
             'Expires: Tue, 15 Nov 1994 08:12:31 GMT',
-            (string) $header
+            $header->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ExpiresFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new ExpiresFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

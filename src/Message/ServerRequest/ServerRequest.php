@@ -14,22 +14,22 @@ use Innmind\Http\{
     Message\Form,
     Message\Files,
     ProtocolVersion,
-    Headers
+    Headers,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
 final class ServerRequest extends Request implements ServerRequestInterface
 {
-    private $environment;
-    private $cookies;
-    private $query;
-    private $form;
-    private $files;
+    private Environment $environment;
+    private Cookies $cookies;
+    private Query $query;
+    private Form $form;
+    private Files $files;
 
     public function __construct(
-        UrlInterface $url,
+        Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
@@ -44,15 +44,15 @@ final class ServerRequest extends Request implements ServerRequestInterface
             $url,
             $method,
             $protocolVersion,
-            $headers ?? new Headers\Headers,
-            $body ?? new NullStream
+            $headers ?? new Headers,
+            $body ?? new NullStream,
         );
 
-        $this->environment = $environment ?? new Environment\Environment;
-        $this->cookies = $cookies ?? new Cookies\Cookies;
-        $this->query = $query ?? new Query\Query;
-        $this->form = $form ?? new Form\Form;
-        $this->files = $files ?? new Files\Files;
+        $this->environment = $environment ?? new Environment;
+        $this->cookies = $cookies ?? new Cookies;
+        $this->query = $query ?? new Query;
+        $this->form = $form ?? new Form;
+        $this->files = $files ?? new Files;
     }
 
     public function environment(): Environment

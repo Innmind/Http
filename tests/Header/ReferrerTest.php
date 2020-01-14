@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\Value,
     Header\ReferrerValue
 };
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 
@@ -18,15 +19,23 @@ class ReferrerTest extends TestCase
     public function testInterface()
     {
         $h = new Referrer(
-            $av = new ReferrerValue(Url::fromString('/foo/bar'))
+            $av = new ReferrerValue(Url::of('/foo/bar'))
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Referer', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($av, $v->current());
-        $this->assertSame('Referer: /foo/bar', (string) $h);
+        $this->assertSame($av, first($v));
+        $this->assertSame('Referer: /foo/bar', $h->toString());
+    }
+
+    public function testOf()
+    {
+        $header = Referrer::of(Url::of('/foo/bar'));
+
+        $this->assertInstanceOf(Referrer::class, $header);
+        $this->assertSame('Referer: /foo/bar', $header->toString());
     }
 }

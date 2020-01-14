@@ -17,6 +17,6 @@ class StoppedByExtensionTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(8, $s->value());
-        $this->assertSame('UPLOAD_ERR_EXTENSION', (string) $s);
+        $this->assertSame('UPLOAD_ERR_EXTENSION', $s->toString());
     }
 }

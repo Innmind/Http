@@ -5,18 +5,18 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
     Header\CacheControlValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class PrivateCache implements CacheControlValue
 {
-    private $field;
+    private string $field;
 
     public function __construct(string $field)
     {
-        if (!(new Str($field))->matches('~^\w*$~')) {
-            throw new DomainException;
+        if (!Str::of($field)->matches('~^\w*$~')) {
+            throw new DomainException($field);
         }
 
         $this->field = $field;
@@ -27,11 +27,11 @@ final class PrivateCache implements CacheControlValue
         return $this->field;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'private%s',
-            !empty($this->field) ? '="'.$this->field.'"' : ''
+            !empty($this->field) ? '="'.$this->field.'"' : '',
         );
     }
 }

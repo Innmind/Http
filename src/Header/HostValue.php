@@ -5,21 +5,20 @@ namespace Innmind\Http\Header;
 
 use Innmind\Url\Authority\{
     Host as UrlHost,
-    PortInterface,
-    NullPort
+    Port,
 };
 
 final class HostValue extends Value\Value
 {
-    private $host;
-    private $port;
+    private UrlHost $host;
+    private Port $port;
 
-    public function __construct(UrlHost $host, PortInterface $port)
+    public function __construct(UrlHost $host, Port $port)
     {
         $this->host = $host;
         $this->port = $port;
 
-        parent::__construct($host.(!$port instanceof NullPort ? ':'.$port : ''));
+        parent::__construct($host->toString().$port->format());
     }
 
     public function host(): UrlHost
@@ -27,7 +26,7 @@ final class HostValue extends Value\Value
         return $this->host;
     }
 
-    public function port(): PortInterface
+    public function port(): Port
     {
         return $this->port;
     }

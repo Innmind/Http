@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\AcceptCharsetFactory,
     Factory\HeaderFactory,
-    Header\AcceptCharset
+    Header\AcceptCharset,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -19,37 +20,37 @@ class AcceptCharsetFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
-            new Str('Accept-Charset'),
-            new Str('iso-8859-5, unicode-1-1;q=0.8')
+        $h = ($f)(
+            Str::of('Accept-Charset'),
+            Str::of('iso-8859-5, unicode-1-1;q=0.8'),
         );
 
         $this->assertInstanceOf(AcceptCharset::class, $h);
         $this->assertSame(
             'Accept-Charset: iso-8859-5;q=1, unicode-1-1;q=0.8',
-            (string) $h
+            $h->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AcceptCharsetFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new AcceptCharsetFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidValue()
     {
-        (new AcceptCharsetFactory)->make(
-            new Str('Accept-Charset'),
-            new Str('@')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('@');
+
+        (new AcceptCharsetFactory)(
+            Str::of('Accept-Charset'),
+            Str::of('@'),
         );
     }
 }

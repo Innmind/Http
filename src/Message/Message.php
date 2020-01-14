@@ -6,15 +6,15 @@ namespace Innmind\Http\Message;
 use Innmind\Http\{
     Message as MessageInterface,
     ProtocolVersion,
-    Headers
+    Headers,
 };
 use Innmind\Stream\Readable;
 
 abstract class Message implements MessageInterface
 {
-    private $protocolVersion;
-    private $headers;
-    private $body;
+    private ProtocolVersion $protocolVersion;
+    private Headers $headers;
+    private Readable $body;
 
     public function __construct(
         ProtocolVersion $protocolVersion,

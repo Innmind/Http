@@ -5,31 +5,32 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\{
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class AcceptEncodingValue extends Value\Value
 {
-    private $quality;
+    private Quality $quality;
 
     public function __construct(string $coding, Quality $quality = null)
     {
-        $coding = new Str($coding);
+        $coding = Str::of($coding);
         $quality = $quality ?? new Quality(1);
 
         if (
-            (string) $coding !== '*' &&
+            $coding->toString() !== '*' &&
             !$coding->matches('~^\w+$~')
         ) {
-            throw new DomainException;
+            throw new DomainException($coding->toString());
         }
 
         $this->quality = $quality;
         parent::__construct(
-            (string) $coding
+            $coding
                 ->append(';')
-                ->append((string) $quality)
+                ->append($quality->toString())
+                ->toString(),
         );
     }
 

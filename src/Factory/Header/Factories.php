@@ -4,23 +4,22 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\Factory\HeaderFactory as HeaderFactoryInterface;
-use Innmind\Immutable\{
-    MapInterface,
-    Map
-};
+use Innmind\Immutable\Map;
 
 final class Factories
 {
-    private static $all;
-    private static $default;
+    /** @var Map<string, HeaderFactoryInterface>|null */
+    private static ?Map $all = null;
+    private static ?HeaderFactoryInterface $default = null;
 
     /**
-     * @return MapInterface<string, HeaderFactoryInterface>
+     * @return Map<string, HeaderFactoryInterface>
      */
-    public static function all(): MapInterface
+    public static function all(): Map
     {
-        if (self::$all === null) {
-            self::$all = (new Map('string', HeaderFactoryInterface::class))
+        if (\is_null(self::$all)) {
+            /** @var Map<string, HeaderFactoryInterface> */
+            self::$all = Map::of('string', HeaderFactoryInterface::class)
                 ->put('accept-charset', new AcceptCharsetFactory)
                 ->put('accept-encoding', new AcceptEncodingFactory)
                 ->put('accept', new AcceptFactory)
@@ -49,18 +48,15 @@ final class Factories
                 ->put('cookie', new CookieFactory);
         }
 
+        /** @var Map<string, HeaderFactoryInterface> */
         return self::$all;
     }
 
     public static function default(): HeaderFactoryInterface
     {
-        if (self::$default === null) {
-            self::$default = new TryFactory(
-                new DelegationFactory(self::all()),
-                new HeaderFactory
-            );
-        }
-
-        return self::$default;
+        return self::$default ?? self::$default = new TryFactory(
+            new DelegationFactory(self::all()),
+            new HeaderFactory,
+        );
     }
 }

@@ -22,10 +22,9 @@ class LinkTest extends TestCase
     {
         $h = new Link(
             $v = new LinkValue(
-                Url::fromString('/some/resource'),
+                Url::of('/some/resource'),
                 'some relation',
-                (new Map('string', Parameter::class))
-                    ->put('title', new Parameter\Parameter('title', 'Foo'))
+                new Parameter\Parameter('title', 'Foo'),
             )
         );
 
@@ -34,12 +33,12 @@ class LinkTest extends TestCase
         $this->assertTrue($h->values()->contains($v));
         $this->assertSame(
             'Link: </some/resource>; rel="some relation";title=Foo',
-            (string) $h
+            $h->toString()
         );
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Link: ', (string) new Link);
+        $this->assertSame('Link: ', (new Link)->toString());
     }
 }

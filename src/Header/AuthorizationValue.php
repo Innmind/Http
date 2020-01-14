@@ -8,25 +8,26 @@ use Innmind\Immutable\Str;
 
 final class AuthorizationValue extends Value\Value
 {
-    private $scheme;
-    private $parameter;
+    private string $scheme;
+    private string $parameter;
 
     public function __construct(string $scheme, string $parameter)
     {
-        $scheme = new Str($scheme);
+        $scheme = Str::of($scheme);
 
         if (!$scheme->matches('~^\w+$~')) {
-            throw new DomainException;
+            throw new DomainException($scheme->toString());
         }
 
-        $this->scheme = (string) $scheme;
+        $this->scheme = $scheme->toString();
         $this->parameter = $parameter;
         parent::__construct(
-            (string) $scheme
+            $scheme
                 ->prepend('"')
                 ->append('" ')
                 ->append($parameter)
                 ->trim()
+                ->toString(),
         );
     }
 

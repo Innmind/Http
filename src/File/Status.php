@@ -6,5 +6,5 @@ namespace Innmind\Http\File;
 interface Status
 {
     public function value(): int;
-    public function __toString(): string;
+    public function toString(): string;
 }

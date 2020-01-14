@@ -6,7 +6,8 @@ namespace Test\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\LocationFactory,
-    Header\Location
+    Header\Location,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,23 +24,23 @@ class LocationFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new LocationFactory)->make(
-            new Str('Location'),
-            new Str('http://example.com')
+        $header = (new LocationFactory)(
+            Str::of('Location'),
+            Str::of('http://example.com'),
         );
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location: http://example.com/', (string) $header);
+        $this->assertSame('Location: http://example.com/', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new LocationFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new LocationFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

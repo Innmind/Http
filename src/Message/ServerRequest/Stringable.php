@@ -12,22 +12,22 @@ use Innmind\Http\{
     Message\Form,
     Message\Files,
     ProtocolVersion,
-    Headers
+    Headers,
+    Header,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
-use Innmind\Immutable\MapInterface;
 
 final class Stringable implements ServerRequestInterface
 {
-    private $request;
+    private ServerRequestInterface $request;
 
     public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->request->url();
     }
@@ -77,13 +77,24 @@ final class Stringable implements ServerRequestInterface
         return $this->request->files();
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        $headers = \iterator_to_array($this->headers());
+        $headers = $this->headers()->reduce(
+            [],
+            static function(array $headers, Header $header): array {
+                $headers[] = $header;
+
+                return $headers;
+            },
+        );
+        $headers = \array_map(
+            fn(Header $header): string => $header->toString(),
+            $headers,
+        );
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-{$this->method()} {$this->url()->path()}{$this->queryString()} HTTP/{$this->protocolVersion()}
+{$this->method()->toString()} {$this->url()->path()->toString()}{$this->queryString()} HTTP/{$this->protocolVersion()->toString()}
 $headers
 
 {$this->bodyString()}
@@ -96,10 +107,19 @@ RAW;
             return '';
         }
 
-        $parameters = \iterator_to_array($this->query());
+        /** @var list<Query\Parameter> */
+        $parameters = $this->query()->reduce(
+            [],
+            static function(array $parameters, Query\Parameter $parameter): array {
+                $parameters[] = $parameter;
+
+                return $parameters;
+            },
+        );
         $query = [];
 
         foreach ($parameters as $parameter) {
+            /** @psalm-suppress MixedAssignment */
             $query[$parameter->name()] = $parameter->value();
         }
 
@@ -109,38 +129,28 @@ RAW;
     private function bodyString(): string
     {
         if ($this->body()->knowsSize() && $this->body()->size()->toInt() > 0) {
-            return (string) $this->body();
+            return $this->body()->toString();
         }
 
         if (\count($this->form()) === 0) {
             return '';
         }
 
-        $parameters = \iterator_to_array($this->form());
+        /** @var list<Form\Parameter> */
+        $parameters = $this->form()->reduce(
+            [],
+            static function(array $parameters, Form\Parameter $parameter): array {
+                $parameters[] = $parameter;
+
+                return $parameters;
+            },
+        );
         $form = [];
 
         foreach ($parameters as $parameter) {
-            $form[$parameter->name()] = $this->decodeFormParameter(
-                $parameter->value()
-            );
+            $form[$parameter->name()] = $parameter->value();
         }
 
         return \rawurldecode(\http_build_query($form));
-    }
-
-    private function decodeFormParameter($value)
-    {
-        if ($value instanceof MapInterface) {
-            return $value->reduce(
-                [],
-                function(array $values, $key, $parameter): array {
-                    $values[$key] = $this->decodeFormParameter($parameter->value());
-
-                    return $values;
-                }
-            );
-        }
-
-        return $value;
     }
 }

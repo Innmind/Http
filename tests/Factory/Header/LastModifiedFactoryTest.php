@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\LastModifiedFactory,
     Factory\HeaderFactory,
-    Header\LastModified
+    Header\LastModified,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,26 +24,26 @@ class LastModifiedFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new LastModifiedFactory)->make(
-            new Str('Last-Modified'),
-            new Str('Tue, 15 Nov 1994 08:12:31 GMT')
+        $header = (new LastModifiedFactory)(
+            Str::of('Last-Modified'),
+            Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
 
         $this->assertInstanceOf(LastModified::class, $header);
         $this->assertSame(
             'Last-Modified: Tue, 15 Nov 1994 08:12:31 GMT',
-            (string) $header
+            $header->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new LastModifiedFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new LastModifiedFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

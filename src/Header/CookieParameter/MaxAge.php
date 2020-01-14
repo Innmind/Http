@@ -5,7 +5,7 @@ namespace Innmind\Http\Header\CookieParameter;
 
 use Innmind\Http\{
     Header\Parameter\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
 
 final class MaxAge extends Parameter
@@ -13,7 +13,7 @@ final class MaxAge extends Parameter
     public function __construct(int $number)
     {
         if ($number < 1) {
-            throw new DomainException;
+            throw new DomainException((string) $number);
         }
 
         parent::__construct('Max-Age', (string) $number);

@@ -6,56 +6,56 @@ namespace Innmind\Http\Translator\Response;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
-    Message\ReasonPhrase\ReasonPhrase,
-    ProtocolVersion\ProtocolVersion,
-    Headers\Headers,
-    Header
+    Message\StatusCode,
+    Message\ReasonPhrase,
+    ProtocolVersion,
+    Headers,
+    Header,
 };
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
     Map,
-    Str
+    Str,
 };
 use Psr\Http\Message\ResponseInterface;
 
 final class Psr7Translator
 {
-    private $headerFactory;
+    private HeaderFactory $headerFactory;
 
     public function __construct(HeaderFactory $headerFactory)
     {
         $this->headerFactory = $headerFactory;
     }
 
-    public function translate(ResponseInterface $response): Response
+    public function __invoke(ResponseInterface $response): Response
     {
-        list($major, $minor) = explode('.', $response->getProtocolVersion());
+        [$major, $minor] = \explode('.', $response->getProtocolVersion());
 
         return new Response(
             new StatusCode($code = $response->getStatusCode()),
             new ReasonPhrase(ReasonPhrase::defaults()->get($code)),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($response->getHeaders()),
-            new StringStream((string) $response->getBody())
+            Stream::ofContent((string) $response->getBody()),
         );
     }
 
     private function translateHeaders(array $rawHeaders): Headers
     {
-        $headers = new Map('string', Header::class);
+        $headers = [];
 
+        /**
+         * @var string $name
+         * @var array<string> $values
+         */
         foreach ($rawHeaders as $name => $values) {
-            $header = $this->headerFactory->make(
-                new Str($name),
-                new Str(implode(', ', $values))
-            );
-            $headers = $headers->put(
-                $header->name(),
-                $header
+            $headers[] = ($this->headerFactory)(
+                Str::of($name),
+                Str::of(\implode(', ', $values)),
             );
         }
 
-        return new Headers($headers);
+        return new Headers(...$headers);
     }
 }

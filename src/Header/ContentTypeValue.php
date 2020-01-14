@@ -6,46 +6,54 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
-    MapInterface,
-    Map
+    Map,
+    Sequence,
 };
+use function Innmind\Immutable\join;
 
 final class ContentTypeValue extends Value\Value
 {
-    private $type;
-    private $subType;
-    private $parameters;
+    private string $type;
+    private string $subType;
+    /** @var Map<string, Parameter> */
+    private Map $parameters;
 
     public function __construct(
         string $type,
         string $subType,
-        MapInterface $parameters = null
+        Parameter ...$parameters
     ) {
-        $media = (new Str('%s/%s'))->sprintf($type, $subType);
-        $parameters = $parameters ?? new Map('string', Parameter::class);
+        $media = Str::of('%s/%s')->sprintf($type, $subType);
+        /** @var Map<string, Parameter> */
+        $this->parameters = Map::of('string', Parameter::class);
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
-            throw new DomainException;
+            throw new DomainException($media->toString());
         }
 
-        if (
-            (string) $parameters->keyType() !== 'string' ||
-            (string) $parameters->valueType() !== Parameter::class
-        ) {
-            throw new \TypeError(sprintf(
-                'Argument 3 must be of type MapInterface<string, %s>',
-                Parameter::class
-            ));
+        foreach ($parameters as $parameter) {
+            $this->parameters = ($this->parameters)(
+                $parameter->name(),
+                $parameter,
+            );
         }
 
         $this->type = $type;
         $this->subType = $subType;
-        $this->parameters = $parameters;
 
-        $parameters = $parameters->values()->join(';');
-        $parameters = $parameters->length() > 0 ? $parameters->prepend(';') : $parameters;
+        /** @var Sequence<string> */
+        $parameters = $this->parameters->values()->toSequenceOf(
+            'string',
+            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        );
+        $parameters = join(';', $parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
 
-        parent::__construct((string) $media->append((string) $parameters));
+        parent::__construct(
+            $media
+                ->append($parameters->toString())
+                ->toString(),
+        );
     }
 
     public function type(): string
@@ -59,9 +67,9 @@ final class ContentTypeValue extends Value\Value
     }
 
     /**
-     * @return MapInterface<string, Parameter>
+     * @return Map<string, Parameter>
      */
-    public function parameters(): MapInterface
+    public function parameters(): Map
     {
         return $this->parameters;
     }

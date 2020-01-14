@@ -24,26 +24,26 @@ class CookieFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new CookieFactory)->make(
-            new Str('Cookie'),
-            new Str('foo=bar;bar=baz; baz="foo"')
+        $header = (new CookieFactory)(
+            Str::of('Cookie'),
+            Str::of('foo=bar;bar=baz; baz="foo"'),
         );
 
         $this->assertInstanceOf(Cookie::class, $header);
-        $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', (string) $header);
-        $this->assertSame('Cookie: ', (string) (new CookieFactory)->make(
-            new Str('Cookie'),
-            new Str('')
-        ));
+        $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', $header->toString());
+        $this->assertSame('Cookie: ', (new CookieFactory)(
+            Str::of('Cookie'),
+            Str::of(''),
+        )->toString());
     }
 
     public function testThrowWhenNotExpectedHeader()
     {
         $this->expectException(DomainException::class);
 
-        (new CookieFactory)->make(
-            new Str('foo'),
-            new Str('')
+        (new CookieFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

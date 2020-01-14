@@ -8,23 +8,23 @@ use Innmind\Http\{
     Header,
     Header\Location,
     Header\LocationValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Str;
 
 final class LocationFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'location') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'location') {
+            throw new DomainException($name->toString());
         }
 
         return new Location(
             new LocationValue(
-                Url::fromString((string) $value)
-            )
+                Url::of($value->toString()),
+            ),
         );
     }
 }

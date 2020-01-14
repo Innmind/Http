@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\Header\{
-    CacheControlValue,
-    CacheControlValue\MaxAge
+use Innmind\Http\{
+    Header\CacheControlValue,
+    Header\CacheControlValue\MaxAge,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -17,14 +18,14 @@ class MaxAgeTest extends TestCase
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame(42, $h->age());
-        $this->assertSame('max-age=42', (string) $h);
+        $this->assertSame('max-age=42', $h->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenAgeIsNegative()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('-42');
+
         new MaxAge(-42);
     }
 }

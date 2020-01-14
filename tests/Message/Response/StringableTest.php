@@ -7,15 +7,15 @@ use Innmind\Http\{
     Message\Response\Stringable,
     Message\Response\Response,
     Message\Response as ResponseInterface,
-    Message\StatusCode\StatusCode,
-    ProtocolVersion\ProtocolVersion,
-    Headers\Headers,
+    Message\StatusCode,
+    ProtocolVersion,
+    Headers,
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Allow,
     Header\AllowValue
 };
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -34,7 +34,7 @@ class StringableTest extends TestCase
                     new AllowValue('GET')
                 )
             ),
-            new StringStream('{"some":"json", "value":42}')
+            Stream::ofContent('{"some":"json", "value":42}')
         );
         $stringable = new Stringable($response);
 
@@ -52,6 +52,6 @@ Allow: GET
 {"some":"json", "value":42}
 RAW;
 
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 }

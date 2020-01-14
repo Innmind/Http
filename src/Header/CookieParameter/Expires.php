@@ -5,16 +5,16 @@ namespace Innmind\Http\Header\CookieParameter;
 
 use Innmind\Http\{
     Header\Parameter\Parameter,
-    TimeContinuum\Format\Http
+    TimeContinuum\Format\Http,
 };
 use Innmind\TimeContinuum\{
-    PointInTimeInterface,
-    Timezone\Earth\UTC
+    PointInTime,
+    Earth\Timezone\UTC,
 };
 
 final class Expires extends Parameter
 {
-    public function __construct(PointInTimeInterface $date)
+    public function __construct(PointInTime $date)
     {
         parent::__construct('Expires', $date->changeTimezone(new UTC)->format(new Http));
     }

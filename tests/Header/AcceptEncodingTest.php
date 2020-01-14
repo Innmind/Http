@@ -23,11 +23,11 @@ class AcceptEncodingTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Encoding', $h->name());
         $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept-Encoding: compress;q=1', (string) $h);
+        $this->assertSame('Accept-Encoding: compress;q=1', $h->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Accept-Encoding: ', (string) new AcceptEncoding);
+        $this->assertSame('Accept-Encoding: ', (new AcceptEncoding)->toString());
     }
 }

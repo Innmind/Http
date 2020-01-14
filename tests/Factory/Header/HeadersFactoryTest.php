@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\HeadersFactory,
-    Factory\HeaderFactory,
+    Factory\Header\HeaderFactory,
     Factory\HeadersFactory as HeadersFactoryInterface,
     Headers
 };
@@ -22,14 +22,14 @@ class HeadersFactoryTest extends TestCase
         $_SERVER['CONTENT_TYPE'] = 'text/plain';
 
         $f = new HeadersFactory(
-            $this->createMock(HeaderFactory::class)
+            new HeaderFactory,
         );
 
         $this->assertInstanceOf(HeadersFactoryInterface::class, $f);
-        $this->assertInstanceOf(Headers::class, $f->make());
-        $this->assertTrue($f->make()->has('authorization'));
-        $this->assertTrue($f->make()->has('content-length'));
-        $this->assertTrue($f->make()->has('content-md5'));
-        $this->assertTrue($f->make()->has('content-type'));
+        $this->assertInstanceOf(Headers::class, ($f)());
+        $this->assertTrue(($f)()->contains('authorization'));
+        $this->assertTrue(($f)()->contains('content-length'));
+        $this->assertTrue(($f)()->contains('content-md5'));
+        $this->assertTrue(($f)()->contains('content-type'));
     }
 }

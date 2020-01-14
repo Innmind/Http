@@ -3,23 +3,78 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\Message\Form\Parameter;
+use Innmind\Http\{
+    Message\Form\Parameter,
+    Exception\FormParameterNotFound,
+};
+use Innmind\Immutable\Map;
 
-interface Form extends \Iterator, \Countable
+final class Form implements \Countable
 {
-    /**
-     * @param scalar $key
-     *
-     * @throws FormParameterNotFoundException
-     *
-     * @return Parameter
-     */
-    public function get($key): Parameter;
+    /** @var Map<string, Parameter> */
+    private Map $parameters;
+
+    public function __construct(Parameter ...$parameters)
+    {
+        /** @var Map<string, Parameter> */
+        $this->parameters = Map::of('string', Parameter::class);
+
+        foreach ($parameters as $parameter) {
+            $this->parameters = ($this->parameters)(
+                $parameter->name(),
+                $parameter,
+            );
+        }
+    }
+
+    public static function of(Parameter ...$parameters): self
+    {
+        return new self(...$parameters);
+    }
 
     /**
-     * @param scalar $key
-     *
-     * @return bool
+     * @throws FormParameterNotFound
      */
-    public function has($key): bool;
+    public function get(string $key): Parameter
+    {
+        if (!$this->contains($key)) {
+            throw new FormParameterNotFound($key);
+        }
+
+        return $this->parameters->get($key);
+    }
+
+    public function contains(string $key): bool
+    {
+        return $this->parameters->contains($key);
+    }
+
+    /**
+     * @param callable(Parameter): void $function
+     */
+    public function foreach(callable $function): void
+    {
+        $this->parameters->values()->foreach($function);
+    }
+
+    /**
+     * @template R
+     *
+     * @param R $carry
+     * @param callable(R, Parameter): R $reducer
+     *
+     * @return R
+     */
+    public function reduce($carry, callable $reducer)
+    {
+        return $this->parameters->values()->reduce($carry, $reducer);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return $this->parameters->size();
+    }
 }

@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\Parameter;
 
-use Innmind\Http\Header\{
-    Parameter\Quality,
-    Parameter
+use Innmind\Http\{
+    Header\Parameter\Quality,
+    Header\Parameter,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -18,17 +19,19 @@ class QualityTest extends TestCase
         $this->assertInstanceOf(Parameter::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('0.8', $p->value());
-        $this->assertSame('q=0.8', (string) $p);
+        $this->assertSame('q=0.8', $p->toString());
 
-        $this->assertSame('q=0', (string) new Quality(0));
+        $this->assertSame('q=0', (new Quality(0))->toString());
     }
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidQualityValue($v)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage((string) $v);
+
         new Quality($v);
     }
 

@@ -8,5 +8,6 @@ use Innmind\Filesystem\File as FilesystemFile;
 
 interface File extends FilesystemFile
 {
+    public function uploadKey(): string;
     public function status(): Status;
 }

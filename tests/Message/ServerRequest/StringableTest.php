@@ -7,17 +7,16 @@ use Innmind\Http\{
     Message\ServerRequest\Stringable,
     Message\ServerRequest\ServerRequest,
     Message\ServerRequest as ServerRequestInterface,
-    Message\Method\Method,
+    Message\Method,
     Message\Query,
     Message\Form,
-    ProtocolVersion\ProtocolVersion,
-    Headers\Headers,
+    ProtocolVersion,
+    Headers,
     Header\Host,
     Header\HostValue
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\Stream\StringStream;
-use Innmind\Immutable\Map;
+use Innmind\Stream\Readable\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -25,7 +24,7 @@ class StringableTest extends TestCase
     public function testInterface()
     {
         $request = new ServerRequest(
-            $url = Url::fromString('http://example.com/foo/bar'),
+            $url = Url::of('http://example.com/foo/bar'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(
@@ -36,7 +35,7 @@ class StringableTest extends TestCase
                     )
                 )
             ),
-            new StringStream('some body')
+            Stream::ofContent('some body')
         );
         $stringable = new Stringable($request);
 
@@ -57,13 +56,13 @@ Host: example.com
 
 some body
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 
     public function testIntegrateQuery()
     {
         $request = new ServerRequest(
-            $url = Url::fromString('http://example.com/foo/bar'),
+            $url = Url::of('http://example.com/foo/bar'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(
@@ -74,13 +73,13 @@ RAW;
                     )
                 )
             ),
-            new StringStream('some body'),
+            Stream::ofContent('some body'),
             null,
             null,
-            Query\Query::of(
-                new Query\Parameter\Parameter('foo', 'bar'),
-                new Query\Parameter\Parameter('bar', 42),
-                new Query\Parameter\Parameter('baz', ['foo'])
+            Query::of(
+                new Query\Parameter('foo', 'bar'),
+                new Query\Parameter('bar', '42'),
+                new Query\Parameter('baz', ['foo'])
             )
         );
         $stringable = new Stringable($request);
@@ -102,13 +101,13 @@ Host: example.com
 
 some body
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 
     public function testIntegrateFormWhenNoBody()
     {
         $request = new ServerRequest(
-            $url = Url::fromString('http://example.com/foo/bar'),
+            $url = Url::of('http://example.com/foo/bar'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(
@@ -123,15 +122,14 @@ RAW;
             null,
             null,
             null,
-            Form\Form::of(
-                new Form\Parameter\Parameter('foo', 'bar'),
-                new Form\Parameter\Parameter('bar', 42),
-                new Form\Parameter\Parameter(
+            Form::of(
+                new Form\Parameter('foo', 'bar'),
+                new Form\Parameter('bar', '42'),
+                new Form\Parameter(
                     'baz',
-                    Map::of('scalar', Form\Parameter::class)
-                        (0, new Form\Parameter\Parameter('0', 'foo'))
-                )
-            )
+                    ['foo'],
+                ),
+            ),
         );
         $stringable = new Stringable($request);
 
@@ -152,6 +150,6 @@ Host: example.com
 
 foo=bar&bar=42&baz[0]=foo
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 }

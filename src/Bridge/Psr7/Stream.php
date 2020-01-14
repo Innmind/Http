@@ -9,27 +9,26 @@ use Innmind\Stream\{
     Stream as StreamInterface,
     Stream\Position,
     Stream\Position\Mode,
-    Stream\Size
+    Stream\Size,
+    Exception\UnknownSize,
 };
 use Innmind\Immutable\Str;
 use Psr\Http\Message\StreamInterface as PsrStream;
 
 final class Stream implements Readable
 {
-    private $stream;
-    private $closed = false;
+    private PsrStream $stream;
+    private bool $closed = false;
 
     public function __construct(PsrStream $stream)
     {
         $this->stream = $stream;
     }
 
-    public function close(): StreamInterface
+    public function close(): void
     {
         $this->stream->close();
         $this->closed = true;
-
-        return $this;
     }
 
     public function closed(): bool
@@ -42,18 +41,14 @@ final class Stream implements Readable
         return new Position($this->stream->tell());
     }
 
-    public function seek(Position $position, Mode $mode = null): StreamInterface
+    public function seek(Position $position, Mode $mode = null): void
     {
-        $this->stream->seek($position->toInt(), $mode ? $mode->toInt() : null);
-
-        return $this;
+        $this->stream->seek($position->toInt(), $mode ? $mode->toInt() : \SEEK_SET);
     }
 
-    public function rewind(): StreamInterface
+    public function rewind(): void
     {
         $this->stream->rewind();
-
-        return $this;
     }
 
     public function end(): bool
@@ -63,12 +58,18 @@ final class Stream implements Readable
 
     public function size(): Size
     {
-        return new Size($this->stream->getSize());
+        $size = $this->stream->getSize();
+
+        if (!\is_int($size)) {
+            throw new UnknownSize;
+        }
+
+        return new Size($size);
     }
 
     public function knowsSize(): bool
     {
-        return is_int($this->stream->getSize());
+        return \is_int($this->stream->getSize());
     }
 
     /**
@@ -76,11 +77,11 @@ final class Stream implements Readable
      */
     public function read(int $length = null): Str
     {
-        if (is_null($length)) {
-            return new Str($this->stream->getContents());
+        if (\is_null($length)) {
+            return Str::of($this->stream->getContents());
         }
 
-        return new Str($this->stream->read($length));
+        return Str::of($this->stream->read($length));
     }
 
     public function readLine(): Str
@@ -88,7 +89,7 @@ final class Stream implements Readable
         throw new LogicException('not implemented');
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return (string) $this->stream;
     }

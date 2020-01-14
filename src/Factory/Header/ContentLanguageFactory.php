@@ -9,32 +9,32 @@ use Innmind\Http\{
     Header\Value,
     Header\ContentLanguage,
     Header\ContentLanguageValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    Set
-};
+use Innmind\Immutable\Str;
 
 final class ContentLanguageFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'content-language') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'content-language') {
+            throw new DomainException($name->toString());
         }
 
-        return new ContentLanguage(
-            ...$value
-                ->split(',')
-                ->reduce(
-                    new Set(Value::class),
-                    static function(Set $carry, Str $language): Set {
-                        return $carry->add(new ContentLanguageValue(
-                            (string) $language->trim()
-                        ));
-                    }
-                )
-        );
+        /** @var list<ContentLanguageValue> */
+        $values = $value
+            ->split(',')
+            ->reduce(
+                [],
+                static function(array $carry, Str $language): array {
+                    $carry[] = new ContentLanguageValue(
+                        $language->trim()->toString(),
+                    );
+
+                    return $carry;
+                },
+            );
+
+        return new ContentLanguage(...$values);
     }
 }

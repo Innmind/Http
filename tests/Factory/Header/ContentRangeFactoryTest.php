@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentRangeFactory,
-    Header\ContentRange
+    Header\ContentRange,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,45 +24,45 @@ class ContentRangeFactoryTest extends TestCase
 
     public function testMakeWithoutLength()
     {
-        $header = (new ContentRangeFactory)->make(
-            new Str('Content-Range'),
-            new Str('bytes 0-42/*')
+        $header = (new ContentRangeFactory)(
+            Str::of('Content-Range'),
+            Str::of('bytes 0-42/*'),
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
-        $this->assertSame('Content-Range: bytes 0-42/*', (string) $header);
+        $this->assertSame('Content-Range: bytes 0-42/*', $header->toString());
     }
 
     public function testMakeWithLength()
     {
-        $header = (new ContentRangeFactory)->make(
-            new Str('Content-Range'),
-            new Str('bytes 0-42/66')
+        $header = (new ContentRangeFactory)(
+            Str::of('Content-Range'),
+            Str::of('bytes 0-42/66'),
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
-        $this->assertSame('Content-Range: bytes 0-42/66', (string) $header);
+        $this->assertSame('Content-Range: bytes 0-42/66', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new ContentRangeFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new ContentRangeFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
-        (new ContentRangeFactory)->make(
-            new Str('Content-Range'),
-            new Str('foo')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Content-Range');
+
+        (new ContentRangeFactory)(
+            Str::of('Content-Range'),
+            Str::of('foo'),
         );
     }
 }

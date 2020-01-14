@@ -10,7 +10,7 @@ final class AgeValue extends Value\Value
     public function __construct(int $age)
     {
         if ($age < 0) {
-            throw new DomainException;
+            throw new DomainException((string) $age);
         }
 
         parent::__construct((string) $age);

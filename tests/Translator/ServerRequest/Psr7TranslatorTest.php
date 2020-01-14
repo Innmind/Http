@@ -103,19 +103,19 @@ class Psr7TranslatorTest extends TestCase
             ->method('getError')
             ->willReturn(UPLOAD_ERR_OK);
 
-        $request = $translator->translate($request);
+        $request = ($translator)($request);
 
         $this->assertInstanceOf(ServerRequest::class, $request);
-        $this->assertSame('/foo', (string) $request->url());
-        $this->assertSame('POST', (string) $request->method());
-        $this->assertSame('1.1', (string) $request->protocolVersion());
+        $this->assertSame('/foo', $request->url()->toString());
+        $this->assertSame('POST', $request->method()->toString());
+        $this->assertSame('1.1', $request->protocolVersion()->toString());
         $headers = $request->headers();
         $this->assertCount(1, $headers);
         $this->assertSame(
             'content-type: application/json',
-            (string) $headers->get('content-type')
+            $headers->get('content-type')->toString(),
         );
-        $this->assertSame('content', (string) $request->body());
+        $this->assertSame('content', $request->body()->toString());
         $this->assertCount(1, $request->environment());
         $this->assertSame('bar', $request->environment()->get('server'));
         $this->assertCount(1, $request->cookies());
@@ -126,8 +126,8 @@ class Psr7TranslatorTest extends TestCase
         $this->assertSame('bar', $request->form()->get('post')->value());
         $this->assertCount(1, $request->files());
         $file = $request->files()->get('foo');
-        $this->assertSame('all.csv', (string) $file->name());
-        $this->assertSame('text/csv', (string) $file->mediaType());
+        $this->assertSame('all.csv', $file->name()->toString());
+        $this->assertSame('text/csv', $file->mediaType()->toString());
         $this->assertInstanceOf(Ok::class, $file->status());
         $this->assertInstanceOf(Stream::class, $file->content());
     }

@@ -17,7 +17,7 @@ use Innmind\Http\{
     Message\Form,
     Message\Files
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
@@ -26,16 +26,16 @@ class ServerRequestTest extends TestCase
     public function testInterface()
     {
         $r = new ServerRequest(
-            $url = $this->createMock(UrlInterface::class),
-            $method = $this->createMock(Method::class),
-            $protocol = $this->createMock(ProtocolVersion::class),
-            $headers = $this->createMock(Headers::class),
+            $url = Url::of('example.com'),
+            $method = Method::get(),
+            $protocol = new ProtocolVersion(2, 0),
+            $headers = Headers::of(),
             $body = $this->createMock(Readable::class),
-            $env = $this->createMock(Environment::class),
-            $cookies = $this->createMock(Cookies::class),
-            $query = $this->createMock(Query::class),
-            $form = $this->createMock(Form::class),
-            $files = $this->createMock(Files::class)
+            $env = new Environment,
+            $cookies = new Cookies,
+            $query = Query::of(),
+            $form = Form::of(),
+            $files = Files::of()
         );
 
         $this->assertInstanceOf(Message::class, $r);
@@ -56,9 +56,9 @@ class ServerRequestTest extends TestCase
     public function testDefaultValues()
     {
         $request = new ServerRequest(
-            $this->createMock(UrlInterface::class),
-            $this->createMock(Method::class),
-            $this->createMock(ProtocolVersion::class)
+            Url::of('example.com'),
+            Method::get(),
+            new ProtocolVersion(1, 1),
         );
 
         $this->assertInstanceOf(

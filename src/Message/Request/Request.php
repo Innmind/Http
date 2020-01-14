@@ -8,19 +8,19 @@ use Innmind\Http\{
     Message\Message,
     Message\Method,
     ProtocolVersion,
-    Headers
+    Headers,
 };
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
 class Request extends Message implements RequestInterface
 {
-    private $url;
-    private $method;
+    private Url $url;
+    private Method $method;
 
     public function __construct(
-        UrlInterface $url,
+        Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
@@ -31,12 +31,12 @@ class Request extends Message implements RequestInterface
 
         parent::__construct(
             $protocolVersion,
-            $headers ?? new Headers\Headers,
-            $body ?? new NullStream
+            $headers ?? new Headers,
+            $body ?? new NullStream,
         );
     }
 
-    public function url(): UrlInterface
+    public function url(): Url
     {
         return $this->url;
     }

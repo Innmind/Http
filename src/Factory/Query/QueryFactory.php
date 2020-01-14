@@ -6,23 +6,23 @@ namespace Innmind\Http\Factory\Query;
 use Innmind\Http\{
     Factory\QueryFactory as QueryFactoryInterface,
     Message\Query,
-    Message\Query\Parameter
+    Message\Query\Parameter,
 };
-use Innmind\Immutable\Map;
 
 final class QueryFactory implements QueryFactoryInterface
 {
-    public function make(): Query
+    public function __invoke(): Query
     {
-        $map = new Map('string', Parameter::class);
+        $queries = [];
 
+        /**
+         * @var string $name
+         * @var string|array $value
+         */
         foreach ($_GET as $name => $value) {
-            $map = $map->put(
-                $name,
-                new Parameter\Parameter($name, $value)
-            );
+            $queries[] = new Parameter($name, $value);
         }
 
-        return new Query\Query($map);
+        return new Query(...$queries);
     }
 }

@@ -9,10 +9,10 @@ final class WriteFailed implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_CANT_WRITE;
+        return \UPLOAD_ERR_CANT_WRITE;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_CANT_WRITE';
     }

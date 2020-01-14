@@ -7,14 +7,14 @@ use Innmind\Http\Header\Value as ValueInterface;
 
 class Value implements ValueInterface
 {
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {
         $this->value = $value;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->value;
     }

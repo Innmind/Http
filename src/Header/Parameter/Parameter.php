@@ -8,13 +8,13 @@ use Innmind\Immutable\Str;
 
 class Parameter implements ParameterInterface
 {
-    private $name;
-    private $value;
-    private $string;
+    private string $name;
+    private string $value;
+    private string $string;
 
     public function __construct(string $name, string $value)
     {
-        $value = (new Str($value))->trim();
+        $value = Str::of($value)->trim();
 
         if ($value->matches("/[ \t]/")) {
             $value = $value
@@ -24,12 +24,12 @@ class Parameter implements ParameterInterface
         }
 
         $this->name = $name;
-        $this->value = (string) $value;
-        $this->string = sprintf(
+        $this->value = $value->toString();
+        $this->string = \sprintf(
             '%s%s%s',
             $this->name,
             strlen($this->value) > 0 ? '=' : '',
-            strlen($this->value) > 0 ? $this->value : ''
+            strlen($this->value) > 0 ? $this->value : '',
         );
     }
 
@@ -43,7 +43,7 @@ class Parameter implements ParameterInterface
         return $this->value;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->string;
     }

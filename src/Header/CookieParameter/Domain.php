@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CookieParameter;
 
 use Innmind\Http\Header\Parameter\Parameter;
-use Innmind\Url\Authority\HostInterface;
+use Innmind\Url\Authority\Host;
 
 final class Domain extends Parameter
 {
-    public function __construct(HostInterface $host)
+    public function __construct(Host $host)
     {
-        parent::__construct('Domain', (string) $host);
+        parent::__construct('Domain', $host->toString());
     }
 }

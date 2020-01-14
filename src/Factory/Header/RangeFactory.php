@@ -8,31 +8,31 @@ use Innmind\Http\{
     Header,
     Header\RangeValue,
     Header\Range,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class RangeFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
+    private const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'range' ||
+            $name->toLower()->toString() !== 'range' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $matches = $value->capture(self::PATTERN);
 
         return new Range(
             new RangeValue(
-                (string) $matches->get('unit'),
-                (int) (string) $matches->get('first'),
-                (int) (string) $matches->get('last')
-            )
+                $matches->get('unit')->toString(),
+                (int) $matches->get('first')->toString(),
+                (int) $matches->get('last')->toString(),
+            ),
         );
     }
 }

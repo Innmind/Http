@@ -16,6 +16,6 @@ class NoStoreTest extends TestCase
         $h = new NoStore;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('no-store', (string) $h);
+        $this->assertSame('no-store', $h->toString());
     }
 }

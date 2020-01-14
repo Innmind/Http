@@ -8,10 +8,10 @@ use Innmind\Immutable\Str;
 
 final class ContentRangeValue extends Value\Value
 {
-    private $unit;
-    private $firstPosition;
-    private $lastPosition;
-    private $length;
+    private string $unit;
+    private int $firstPosition;
+    private int $lastPosition;
+    private ?int $length;
 
     public function __construct(
         string $unit,
@@ -20,26 +20,26 @@ final class ContentRangeValue extends Value\Value
         int $length = null
     ) {
         if (
-            !(new Str($unit))->matches('~^\w+$~') ||
+            !Str::of($unit)->matches('~^\w+$~') ||
             $firstPosition < 0 ||
             $lastPosition < 0 ||
             ($length !== null && $length < 0) ||
             $firstPosition > $lastPosition ||
             ($length !== null && $lastPosition > $length)
         ) {
-            throw new DomainException;
+            throw new DomainException($unit);
         }
 
         $this->unit = $unit;
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
         $this->length = $length;
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             '%s %s-%s/%s',
             $unit,
             $firstPosition,
             $lastPosition,
-            $length ?? '*'
+            $length ?? '*',
         ));
     }
 
@@ -63,7 +63,7 @@ final class ContentRangeValue extends Value\Value
         return $this->length !== null;
     }
 
-    public function length(): int
+    public function length(): ?int
     {
         return $this->length;
     }

@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\IfModifiedSinceFactory,
     Factory\HeaderFactory,
-    Header\IfModifiedSince
+    Header\IfModifiedSince,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -19,26 +20,26 @@ class IfModifiedSinceFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
-            new Str('If-Modified-Since'),
-            new Str('Tue, 15 Nov 1994 08:12:31 GMT')
+        $h = ($f)(
+            Str::of('If-Modified-Since'),
+            Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
 
         $this->assertInstanceOf(IfModifiedSince::class, $h);
         $this->assertSame(
             'If-Modified-Since: Tue, 15 Nov 1994 08:12:31 GMT',
-            (string) $h
+            $h->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new IfModifiedSinceFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new IfModifiedSinceFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

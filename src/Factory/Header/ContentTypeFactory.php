@@ -9,60 +9,59 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Parameter,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    Map
-};
+use Innmind\Immutable\Str;
 
 final class ContentTypeFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
+    private const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
         if (
-            (string) $name->toLower() !== 'content-type' ||
+            $name->toLower()->toString() !== 'content-type' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException;
+            throw new DomainException($name->toString());
         }
 
         $matches = $value->capture(self::PATTERN);
 
         return new ContentType(
             new ContentTypeValue(
-                (string) $matches->get('type'),
-                (string) $matches->get('subType'),
-                $this->buildParams(
+                $matches->get('type')->toString(),
+                $matches->get('subType')->toString(),
+                ...$this->buildParams(
                     $matches->contains('params') ?
-                        $matches->get('params') : new Str('')
-                )
-            )
+                        $matches->get('params') : Str::of(''),
+                ),
+            ),
         );
     }
 
-    private function buildParams(Str $params): Map
+    /**
+     * @return list<Parameter>
+     */
+    private function buildParams(Str $params): array
     {
+        /** @var list<Parameter> */
         return $params
             ->split(';')
             ->filter(static function(Str $value): bool {
-                return $value->trim()->length() > 0;
+                return !$value->trim()->empty();
             })
             ->reduce(
-                new Map('string', Parameter::class),
-                static function(Map $carry, Str $value): Map {
+                [],
+                static function(array $carry, Str $value): array {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
-
-                    return $carry->put(
-                        (string) $matches->get('key'),
-                        new Parameter\Parameter(
-                            (string) $matches->get('key'),
-                            (string) $matches->get('value')
-                        )
+                    $carry[] = new Parameter\Parameter(
+                        $matches->get('key')->toString(),
+                        $matches->get('value')->toString(),
                     );
-                }
+
+                    return $carry;
+                },
             );
     }
 }

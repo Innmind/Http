@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\StatusCode;
+namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    StatusCode\StatusCode,
-    StatusCode as StatusCodeInterface,
-    ReasonPhrase
+use Innmind\Http\{
+    Message\StatusCode,
+    Message\ReasonPhrase,
+    Exception\DomainException,
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class StatusCodeTest extends TestCase
@@ -17,16 +17,15 @@ class StatusCodeTest extends TestCase
     {
         $c = new StatusCode(200);
 
-        $this->assertInstanceOf(StatusCodeInterface::class, $c);
         $this->assertSame(200, $c->value());
-        $this->assertSame('200', (string) $c);
+        $this->assertSame('200', $c->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidStatusCode()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('42');
+
         new StatusCode(42); //sadly
     }
 
@@ -37,8 +36,8 @@ class StatusCodeTest extends TestCase
 
             $this->assertInstanceOf(ReasonPhrase::class, $reason);
             $this->assertSame(
-                (string) ReasonPhrase\ReasonPhrase::defaults()->get($code),
-                (string) $reason
+                ReasonPhrase::defaults()->get($code),
+                $reason->toString()
             );
         });
     }
@@ -57,7 +56,7 @@ class StatusCodeTest extends TestCase
     {
         $codes = StatusCode::codes();
 
-        $this->assertInstanceOf(MapInterface::class, $codes);
+        $this->assertInstanceOf(Map::class, $codes);
         $this->assertSame('string', (string) $codes->keyType());
         $this->assertSame('int', (string) $codes->valueType());
         $this->assertSame(74, $codes->count());
@@ -70,11 +69,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isInformational(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isInformational());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isInformational(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isInformational());
         });
     }
 
@@ -85,11 +84,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isSuccessful(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isSuccessful());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isSuccessful(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isSuccessful());
         });
     }
 
@@ -100,11 +99,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isRedirection(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isRedirection());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isRedirection(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isRedirection());
         });
     }
 
@@ -115,11 +114,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isClientError(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isClientError());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isClientError(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isClientError());
         });
     }
 
@@ -130,11 +129,11 @@ class StatusCodeTest extends TestCase
         });
 
         $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue(StatusCode::isServerError(new StatusCode($code)));
+            $this->assertTrue((new StatusCode($code))->isServerError());
         });
 
         $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse(StatusCode::isServerError(new StatusCode($code)));
+            $this->assertFalse((new StatusCode($code))->isServerError());
         });
     }
 }

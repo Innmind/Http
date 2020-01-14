@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AcceptEncodingValue,
-    Value,
-    Parameter\Quality
+use Innmind\Http\{
+    Header\AcceptEncodingValue,
+    Header\Value,
+    Header\Parameter\Quality,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +19,7 @@ class AcceptEncodingValueTest extends TestCase
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame($q, $a->quality());
-        $this->assertSame('compress;q=1', (string) $a);
+        $this->assertSame('compress;q=1', $a->toString());
 
         new AcceptEncodingValue('*', new Quality(1));
         new AcceptEncodingValue('compress', new Quality(0.5));
@@ -36,10 +37,12 @@ class AcceptEncodingValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptEncodingValue($value)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($value);
+
         new AcceptEncodingValue($value, new Quality(1));
     }
 

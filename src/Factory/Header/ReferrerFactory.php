@@ -8,23 +8,23 @@ use Innmind\Http\{
     Header,
     Header\ReferrerValue,
     Header\Referrer,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Str;
 
 final class ReferrerFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'referer') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'referer') {
+            throw new DomainException($name->toString());
         }
 
         return new Referrer(
             new ReferrerValue(
-                Url::fromString((string) $value)
-            )
+                Url::of($value->toString()),
+            ),
         );
     }
 }

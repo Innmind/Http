@@ -17,6 +17,6 @@ class ExceedsFormMaxFileSizeTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(2, $s->value());
-        $this->assertSame('UPLOAD_ERR_FORM_SIZE', (string) $s);
+        $this->assertSame('UPLOAD_ERR_FORM_SIZE', $s->toString());
     }
 }

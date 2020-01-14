@@ -8,10 +8,7 @@ use Innmind\Http\{
     Factory\FormFactory as FormFactoryInterface,
     Message\Form
 };
-use Innmind\Immutable\{
-    Map,
-    MapInterface
-};
+use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class FormFactoryTest extends TestCase
@@ -30,14 +27,17 @@ class FormFactoryTest extends TestCase
             ],
             'another' => 'value',
         ];
-        $f = $f->make();
+        $f = ($f)();
 
         $this->assertInstanceOf(Form::class, $f);
         $this->assertSame(2, $f->count());
-        $this->assertInstanceOf(MapInterface::class, $f->get('tree')->value());
         $this->assertSame(
-            'value',
-            $f->get('tree')->value()->get('subtree')->value()->get('some')->value()
+            [
+                'subtree' => [
+                    'some' => 'value',
+                ],
+            ],
+            $f->get('tree')->value(),
         );
         $this->assertSame('value', $f->get('another')->value());
     }

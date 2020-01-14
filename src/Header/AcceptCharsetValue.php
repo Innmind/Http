@@ -5,31 +5,32 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\{
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class AcceptCharsetValue extends Value\Value
 {
-    private $quality;
+    private Quality $quality;
 
     public function __construct(string $charset, Quality $quality = null)
     {
-        $charset = new Str($charset);
+        $charset = Str::of($charset);
         $quality = $quality ?? new Quality(1);
 
         if (
-            (string) $charset !== '*' &&
+            $charset->toString() !== '*' &&
             !$charset->matches('~^[a-zA-Z0-9\-_:\(\)]+$~')
         ) {
-            throw new DomainException;
+            throw new DomainException($charset->toString());
         }
 
         $this->quality = $quality;
         parent::__construct(
-            (string) $charset
+            $charset
                 ->append(';')
-                ->append((string) $quality)
+                ->append($quality->toString())
+                ->toString(),
         );
     }
 

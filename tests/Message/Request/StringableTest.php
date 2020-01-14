@@ -7,14 +7,14 @@ use Innmind\Http\{
     Message\Request\Stringable,
     Message\Request\Request,
     Message\Request as RequestInterface,
-    Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
-    Headers\Headers,
+    Message\Method,
+    ProtocolVersion,
+    Headers,
     Header\ContentType,
     Header\ContentTypeValue
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\Stream\StringStream;
+use Innmind\Stream\Readable\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -22,7 +22,7 @@ class StringableTest extends TestCase
     public function testInterface()
     {
         $request = new Request(
-            $url = Url::fromString('http://example.com/foo/bar?query=string'),
+            $url = Url::of('http://example.com/foo/bar?query=string'),
             Method::post(),
             new ProtocolVersion(2, 0),
             Headers::of(
@@ -30,7 +30,7 @@ class StringableTest extends TestCase
                     new ContentTypeValue('text', 'plain')
                 )
             ),
-            new StringStream('some body')
+            Stream::ofContent('some body')
         );
         $stringable = new Stringable($request);
 
@@ -46,6 +46,6 @@ Content-Type: text/plain
 
 some body
 RAW;
-        $this->assertSame($expected, (string) $stringable);
+        $this->assertSame($expected, $stringable->toString());
     }
 }

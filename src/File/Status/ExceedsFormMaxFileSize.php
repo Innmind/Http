@@ -9,10 +9,10 @@ final class ExceedsFormMaxFileSize implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_FORM_SIZE;
+        return \UPLOAD_ERR_FORM_SIZE;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_FORM_SIZE';
     }

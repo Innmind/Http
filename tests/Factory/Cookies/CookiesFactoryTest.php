@@ -19,7 +19,7 @@ class CookiesFactoryTest extends TestCase
 
         $this->assertInstanceOf(CookiesFactoryInterface::class, $f);
 
-        $c = $f->make();
+        $c = ($f)();
 
         $this->assertInstanceOf(Cookies::class, $c);
         $this->assertSame(0, $c->count());

@@ -11,9 +11,10 @@ use Innmind\Http\{
     Header\Parameter
 };
 use Innmind\Immutable\{
-    SetInterface,
-    Map
+    Set,
+    Map,
 };
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeTest extends TestCase
@@ -24,17 +25,28 @@ class ContentTypeTest extends TestCase
             $ct = new ContentTypeValue(
                 'text',
                 'html',
-                (new Map('string', Parameter::class))
-                    ->put('charset', new Parameter\Parameter('charset', 'UTF-8'))
+                new Parameter\Parameter('charset', 'UTF-8'),
             )
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Type', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(SetInterface::class, $v);
+        $this->assertInstanceOf(Set::class, $v);
         $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($ct, $v->current());
-        $this->assertSame('Content-Type: text/html;charset=UTF-8', (string) $h);
+        $this->assertSame($ct, first($v));
+        $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toString());
+    }
+
+    public function testOf()
+    {
+        $header = ContentType::of(
+            'text',
+            'html',
+            new Parameter\Parameter('charset', 'UTF-8'),
+        );
+
+        $this->assertInstanceOf(ContentType::class, $header);
+        $this->assertSame('Content-Type: text/html;charset=UTF-8', $header->toString());
     }
 }

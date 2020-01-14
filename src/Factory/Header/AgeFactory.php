@@ -8,22 +8,22 @@ use Innmind\Http\{
     Header\Age,
     Header\AgeValue,
     Header,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class AgeFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'age') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'age') {
+            throw new DomainException($name->toString());
         }
 
         return new Age(
             new AgeValue(
-                (int) (string) $value
-            )
+                (int) $value->toString(),
+            ),
         );
     }
 }

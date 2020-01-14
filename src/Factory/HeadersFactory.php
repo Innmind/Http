@@ -7,5 +7,5 @@ use Innmind\Http\Headers;
 
 interface HeadersFactory
 {
-    public function make(): Headers;
+    public function __invoke(): Headers;
 }

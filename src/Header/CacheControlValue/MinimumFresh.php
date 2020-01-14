@@ -5,17 +5,17 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\{
     Header\CacheControlValue,
-    Exception\DomainException
+    Exception\DomainException,
 };
 
 final class MinimumFresh implements CacheControlValue
 {
-    private $age;
+    private int $age;
 
     public function __construct(int $age)
     {
         if ($age < 0) {
-            throw new DomainException;
+            throw new DomainException((string) $age);
         }
 
         $this->age = $age;
@@ -26,11 +26,11 @@ final class MinimumFresh implements CacheControlValue
         return $this->age;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return sprintf(
+        return \sprintf(
             'min-fresh=%s',
-            $this->age
+            $this->age,
         );
     }
 }

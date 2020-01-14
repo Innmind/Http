@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AcceptRangesValue,
-    Value,
-    Parameter\Quality
+use Innmind\Http\{
+    Header\AcceptRangesValue,
+    Header\Value,
+    Header\Parameter\Quality,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +18,7 @@ class AcceptRangesValueTest extends TestCase
         $a = new AcceptRangesValue('bytes');
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('bytes', (string) $a);
+        $this->assertSame('bytes', $a->toString());
 
         new AcceptRangesValue('none');
         new AcceptRangesValue('whatever');
@@ -25,10 +26,12 @@ class AcceptRangesValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptRangeValue($value)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($value);
+
         new AcceptRangesValue($value);
     }
 

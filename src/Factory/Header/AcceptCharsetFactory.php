@@ -10,45 +10,44 @@ use Innmind\Http\{
     Header\AcceptCharsetValue,
     Header\AcceptCharset,
     Header\Parameter\Quality,
-    Exception\DomainException
+    Exception\DomainException,
 };
-use Innmind\Immutable\{
-    Str,
-    Set
-};
+use Innmind\Immutable\Str;
 
 final class AcceptCharsetFactory implements HeaderFactoryInterface
 {
-    const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
+    private const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'accept-charset') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'accept-charset') {
+            throw new DomainException($name->toString());
         }
 
-        return new AcceptCharset(
-            ...$value
-                ->split(',')
-                ->foreach(static function(Str $accept): void {
-                    if (!$accept->matches(self::PATTERN)) {
-                        throw new DomainException;
-                    }
-                })
-                ->reduce(
-                    new Set(Value::class),
-                    static function(Set $carry, Str $accept): Set {
-                        $matches = $accept->capture(self::PATTERN);
+        $values = $value->split(',');
+        $values->foreach(static function(Str $accept): void {
+            if (!$accept->matches(self::PATTERN)) {
+                throw new DomainException($accept->toString());
+            }
+        });
 
-                        return $carry->add(new AcceptCharsetValue(
-                            (string) $matches->get('charset'),
-                            new Quality(
-                                $matches->contains('quality') ?
-                                    (float) (string) $matches->get('quality') : 1
-                            )
-                        ));
-                    }
-                )
+        /** @var list<AcceptCharsetValue> */
+        $values = $values->reduce(
+            [],
+            static function(array $carry, Str $accept): array {
+                $matches = $accept->capture(self::PATTERN);
+                $carry[] = new AcceptCharsetValue(
+                    $matches->get('charset')->toString(),
+                    new Quality(
+                        $matches->contains('quality') ?
+                            (float) $matches->get('quality')->toString() : 1,
+                    ),
+                );
+
+                return $carry;
+            },
         );
+
+        return new AcceptCharset(...$values);
     }
 }

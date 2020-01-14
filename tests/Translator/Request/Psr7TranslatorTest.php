@@ -50,18 +50,18 @@ class Psr7TranslatorTest extends TestCase
             ->method('__toString')
             ->willReturn('content');
 
-        $request = $translator->translate($request);
+        $request = ($translator)($request);
 
         $this->assertInstanceOf(Request::class, $request);
-        $this->assertSame('/foo', (string) $request->url());
-        $this->assertSame('POST', (string) $request->method());
-        $this->assertSame('1.1', (string) $request->protocolVersion());
+        $this->assertSame('/foo', $request->url()->toString());
+        $this->assertSame('POST', $request->method()->toString());
+        $this->assertSame('1.1', $request->protocolVersion()->toString());
         $headers = $request->headers();
         $this->assertCount(1, $headers);
         $this->assertSame(
             'content-type: application/json',
-            (string) $headers->get('content-type')
+            $headers->get('content-type')->toString(),
         );
-        $this->assertSame('content', (string) $request->body());
+        $this->assertSame('content', $request->body()->toString());
     }
 }

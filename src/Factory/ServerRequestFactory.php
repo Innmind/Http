@@ -7,5 +7,5 @@ use Innmind\Http\Message\ServerRequest;
 
 interface ServerRequestFactory
 {
-    public function make(): ServerRequest;
+    public function __invoke(): ServerRequest;
 }

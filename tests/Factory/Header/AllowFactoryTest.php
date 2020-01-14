@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\AllowFactory,
-    Header\Allow
+    Header\Allow,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,23 +24,23 @@ class AllowFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new AllowFactory)->make(
-            new Str('Allow'),
-            new Str('get, post')
+        $header = (new AllowFactory)(
+            Str::of('Allow'),
+            Str::of('get, post'),
         );
 
         $this->assertInstanceOf(Allow::class, $header);
-        $this->assertSame('Allow: GET, POST', (string) $header);
+        $this->assertSame('Allow: GET, POST', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AllowFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new AllowFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

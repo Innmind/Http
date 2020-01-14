@@ -17,10 +17,10 @@ class MaxAgeTest extends TestCase
         $maxAge = new MaxAge(1);
 
         $this->assertInstanceOf(Parameter::class, $maxAge);
-        $this->assertSame('Max-Age=1', (string) $maxAge);
+        $this->assertSame('Max-Age=1', $maxAge->toString());
 
         $this->assertInstanceOf(Parameter::class, MaxAge::expire());
-        $this->assertSame('Max-Age=-1', (string) MaxAge::expire());
+        $this->assertSame('Max-Age=-1', MaxAge::expire()->toString());
     }
 
     public function testThrowWhenInvalidAge()

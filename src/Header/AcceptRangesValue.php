@@ -10,8 +10,8 @@ final class AcceptRangesValue extends Value\Value
 {
     public function __construct(string $range)
     {
-        if (!(new Str($range))->matches('~^\w+$~')) {
-            throw new DomainException;
+        if (!Str::of($range)->matches('~^\w+$~')) {
+            throw new DomainException($range);
         }
 
         parent::__construct($range);

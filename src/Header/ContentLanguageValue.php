@@ -10,12 +10,12 @@ final class ContentLanguageValue extends Value\Value
 {
     public function __construct(string $language)
     {
-        $language = new Str($language);
+        $language = Str::of($language);
 
         if (!$language->matches('~^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$~')) {
-            throw new DomainException;
+            throw new DomainException($language->toString());
         }
 
-        parent::__construct((string) $language);
+        parent::__construct($language->toString());
     }
 }

@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\DateFactory,
     Factory\HeaderFactory,
-    Header\Date
+    Header\Date,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -19,26 +20,26 @@ class DateFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
-            new Str('Date'),
-            new Str('Tue, 15 Nov 1994 08:12:31 GMT')
+        $h = ($f)(
+            Str::of('Date'),
+            Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
 
         $this->assertInstanceOf(Date::class, $h);
         $this->assertSame(
             'Date: Tue, 15 Nov 1994 08:12:31 GMT',
-            (string) $h
+            $h->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new DateFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new DateFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }

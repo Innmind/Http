@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header,
     Header\Value
 };
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class WWWAuthenticateTest extends TestCase
@@ -21,10 +22,10 @@ class WWWAuthenticateTest extends TestCase
         );
 
         $this->assertInstanceOf(Header::class, $header);
-        $this->assertInstanceOf(SetInterface::class, $header->values());
+        $this->assertInstanceOf(Set::class, $header->values());
         $this->assertSame(Value::class, (string) $header->values()->type());
         $this->assertCount(1, $header->values());
-        $this->assertSame($value, $header->values()->current());
-        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', (string) $header);
+        $this->assertSame($value, first($header->values()));
+        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->toString());
     }
 }

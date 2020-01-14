@@ -16,6 +16,6 @@ class MustRevalidateTest extends TestCase
         $h = new MustRevalidate;
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('must-revalidate', (string) $h);
+        $this->assertSame('must-revalidate', $h->toString());
     }
 }

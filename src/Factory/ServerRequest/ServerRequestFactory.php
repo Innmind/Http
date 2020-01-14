@@ -6,8 +6,8 @@ namespace Innmind\Http\Factory\ServerRequest;
 use Innmind\Http\{
     Factory\ServerRequestFactory as ServerRequestFactoryInterface,
     Message\ServerRequest,
-    Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    Message\Method,
+    ProtocolVersion,
     Factory\HeadersFactory,
     Factory\Header\Factories,
     Factory\EnvironmentFactory,
@@ -15,23 +15,20 @@ use Innmind\Http\{
     Factory\QueryFactory,
     Factory\FormFactory,
     Factory\FilesFactory,
-    Factory
+    Factory,
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\Stream\LazyStream;
-use Innmind\Immutable\{
-    Str,
-    Map
-};
+use Innmind\Stream\Readable\Stream;
+use Innmind\Immutable\Str;
 
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
-    private $headersFactory;
-    private $environmentFactory;
-    private $cookiesFactory;
-    private $queryFactory;
-    private $formFactory;
-    private $filesFactory;
+    private HeadersFactory $headersFactory;
+    private EnvironmentFactory $environmentFactory;
+    private CookiesFactory $cookiesFactory;
+    private QueryFactory $queryFactory;
+    private FormFactory $formFactory;
+    private FilesFactory $filesFactory;
 
     public function __construct(
         HeadersFactory $headersFactory,
@@ -49,44 +46,49 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         $this->filesFactory = $filesFactory;
     }
 
-    public function make(): ServerRequest
+    public function __invoke(): ServerRequest
     {
-        $protocol = (new Str($_SERVER['SERVER_PROTOCOL']))->capture(
-            '~HTTP/(?<major>\d)\.(?<minor>\d)~'
+        /** @psalm-suppress MixedArgument */
+        $protocol = Str::of($_SERVER['SERVER_PROTOCOL'])->capture(
+            '~HTTP/(?<major>\d)\.(?<minor>\d)~',
         );
-        $https = (string) Str::of($_SERVER['HTTPS'] ?? 'off')->toLower();
+        $https = Str::of((string) ($_SERVER['HTTPS'] ?? 'off'))->toLower()->toString();
         $user = '';
 
         if (isset($_SERVER['PHP_AUTH_USER'])) {
+            /** @var string */
             $user = $_SERVER['PHP_AUTH_USER'];
 
             if (isset($_SERVER['PHP_AUTH_PW'])) {
+                /** @psalm-suppress MixedOperand */
                 $user .= ':'.$_SERVER['PHP_AUTH_PW'];
             }
 
             $user .= '@';
         }
 
+
+        /** @psalm-suppress MixedArgument */
         return new ServerRequest\ServerRequest(
-            Url::fromString(sprintf(
+            Url::of(\sprintf(
                 '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',
                 $user,
                 $_SERVER['HTTP_HOST'],
-                $_SERVER['REQUEST_URI']
+                $_SERVER['REQUEST_URI'],
             )),
             new Method($_SERVER['REQUEST_METHOD']),
             new ProtocolVersion(
-                (int) (string) $protocol['major'],
-                (int) (string) $protocol['minor']
+                (int) $protocol->get('major')->toString(),
+                (int) $protocol->get('minor')->toString(),
             ),
-            $this->headersFactory->make(),
-            new LazyStream('php://input'),
-            $this->environmentFactory->make(),
-            $this->cookiesFactory->make(),
-            $this->queryFactory->make(),
-            $this->formFactory->make(),
-            $this->filesFactory->make()
+            ($this->headersFactory)(),
+            new Stream(\fopen('php://input', 'r')),
+            ($this->environmentFactory)(),
+            ($this->cookiesFactory)(),
+            ($this->queryFactory)(),
+            ($this->formFactory)(),
+            ($this->filesFactory)(),
         );
     }
 
@@ -99,13 +101,13 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     {
         return new self(
             new Factory\Header\HeadersFactory(
-                Factories::default()
+                Factories::default(),
             ),
             new Factory\Environment\EnvironmentFactory,
             new Factory\Cookies\CookiesFactory,
             new Factory\Query\QueryFactory,
             new Factory\Form\FormFactory,
-            new Factory\Files\FilesFactory
+            new Factory\Files\FilesFactory,
         );
     }
 }

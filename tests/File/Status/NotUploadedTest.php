@@ -17,6 +17,6 @@ class NotUploadedTest extends TestCase
 
         $this->assertInstanceOf(Status::class, $s);
         $this->assertSame(4, $s->value());
-        $this->assertSame('UPLOAD_ERR_NO_FILE', (string) $s);
+        $this->assertSame('UPLOAD_ERR_NO_FILE', $s->toString());
     }
 }

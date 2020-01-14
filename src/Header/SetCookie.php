@@ -9,4 +9,9 @@ final class SetCookie extends Header
     {
         parent::__construct('Set-Cookie', ...$values);
     }
+
+    public static function of(Parameter ...$values): self
+    {
+        return new self(new CookieValue(...$values));
+    }
 }

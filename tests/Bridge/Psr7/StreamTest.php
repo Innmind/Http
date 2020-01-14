@@ -54,18 +54,18 @@ class StreamTest extends TestCase
 
         $this->assertInstanceOf(Readable::class, $stream);
         $this->assertFalse($stream->closed());
-        $this->assertSame($stream, $stream->close());
+        $this->assertNull($stream->close());
         $this->assertTrue($stream->closed());
         $this->assertSame(42, $stream->position()->toInt());
-        $this->assertSame($stream, $stream->seek(new Position(24), Mode::fromStart()));
-        $this->assertSame($stream, $stream->rewind());
+        $this->assertNull($stream->seek(new Position(24), Mode::fromStart()));
+        $this->assertNull($stream->rewind());
         $this->assertFalse($stream->end());
         $this->assertTrue($stream->end());
         $this->assertFalse($stream->knowsSize());
         $this->assertTrue($stream->knowsSize());
         $this->assertSame(66, $stream->size()->toInt());
-        $this->assertSame('full', (string) $stream->read());
-        $this->assertSame('partial', (string) $stream->read(43));
-        $this->assertSame('cast', (string) $stream);
+        $this->assertSame('full', $stream->read()->toString());
+        $this->assertSame('partial', $stream->read(43)->toString());
+        $this->assertSame('cast', $stream->toString());
     }
 }

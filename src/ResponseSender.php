@@ -11,60 +11,66 @@ use Innmind\Http\{
     Header\CookieValue,
     Header\Parameter,
     TimeContinuum\Format\Http,
-    Exception\LogicException
+    Exception\LogicException,
 };
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
 
 final class ResponseSender implements Sender
 {
-    private $clock;
+    private Clock $clock;
 
-    public function __construct(TimeContinuumInterface $clock)
+    public function __construct(Clock $clock)
     {
         $this->clock = $clock;
     }
 
     public function __invoke(Response $response): void
     {
-        if (headers_sent()) {
+        if (\headers_sent()) {
             throw new LogicException('Headers already sent');
         }
 
-        header(sprintf(
-            'HTTP/%s %s %s',
-            $response->protocolVersion(),
-            $response->statusCode(),
-            $response->reasonPhrase()
-        ), true, $response->statusCode()->value());
+        \header(
+            \sprintf(
+                'HTTP/%s %s %s',
+                $response->protocolVersion()->toString(),
+                $response->statusCode()->toString(),
+                $response->reasonPhrase()->toString(),
+            ),
+            true,
+            $response->statusCode()->value(),
+        );
 
-        if (!$response->headers()->has('date')) {
-            header((string) new Date(new DateValue($this->clock->now())));
+        if (!$response->headers()->contains('date')) {
+            \header((new Date(new DateValue($this->clock->now())))->toString());
         }
 
-        foreach ($response->headers() as $header) {
+        $response->headers()->foreach(function(Header $header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
-                continue;
+
+                return;
             }
 
-            header((string) $header, false);
-        }
+            \header($header->toString(), false);
+        });
 
         $body = $response->body();
         $body->rewind();
 
         while (!$body->end()) {
-            echo $body->read(4096);
-            flush();
+            echo $body->read(4096)->toString();
+            \flush();
         }
 
-        if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
+        if (\function_exists('fastcgi_finish_request')) {
+            \fastcgi_finish_request();
         }
     }
 
     private function sendCookie(SetCookie $cookie): void
     {
+        /** @psalm-suppress ArgumentTypeCoercion */
         $cookie->values()->foreach(static function(CookieValue $value): void {
             $parameters = $value->parameters()->reduce(
                 [],
@@ -76,10 +82,11 @@ final class ResponseSender implements Sender
 
                         case 'Expires':
                             $timestamp = \DateTimeImmutable::createFromFormat(
-                                (string) new Http,
-                                substr($parameter->value(), 1, -1) // remove double quotes
+                                (new Http)->toString(),
+                                \substr($parameter->value(), 1, -1) // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence
+                            /** @psalm-suppress MixedAssignment */
                             $parameters['expire'] = ($parameters['expire'] ?? 0 !== 0) ? $parameters['expire'] : $timestamp;
                             break;
 
@@ -113,36 +120,28 @@ final class ResponseSender implements Sender
                 }
             );
 
-            if (\PHP_VERSION_ID >= 70300) {
-                $options = [
-                    'path' => $parameters['path'] ?? '',
-                    'domain' => $parameters['domain'] ?? '',
-                    'secure' => $parameters['secure'] ?? false,
-                    'httponly' => $parameters['httponly'] ?? false,
-                ];
+            $options = [
+                'path' => $parameters['path'] ?? '',
+                'domain' => $parameters['domain'] ?? '',
+                'secure' => $parameters['secure'] ?? false,
+                'httponly' => $parameters['httponly'] ?? false,
+            ];
 
-                if (isset($parameters['samesite'])) {
-                    $options['samesite'] = $parameters['samesite'];
-                }
-
-                setcookie(
-                    $parameters['key'] ?? '',
-                    $parameters['value'] ?? '',
-                    $parameters['expire'] ?? 0,
-                    $options
-                );
-            } else {
-                // same site not supported
-                setcookie(
-                    $parameters['key'] ?? '',
-                    $parameters['value'] ?? '',
-                    $parameters['expire'] ?? 0,
-                    $parameters['path'] ?? '',
-                    $parameters['domain'] ?? '',
-                    $parameters['secure'] ?? false,
-                    $parameters['httponly'] ?? false
-                );
+            if (isset($parameters['samesite'])) {
+                /** @psalm-suppress MixedAssignment */
+                $options['samesite'] = $parameters['samesite'];
             }
+
+            /**
+             * @psalm-suppress MixedArgument
+             * @psalm-suppress InvalidArgument
+             */
+            \setcookie(
+                $parameters['key'] ?? '',
+                $parameters['value'] ?? '',
+                $parameters['expire'] ?? 0,
+                $options,
+            );
         });
     }
 }

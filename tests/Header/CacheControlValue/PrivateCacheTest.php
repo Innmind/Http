@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\Header\{
-    CacheControlValue,
-    CacheControlValue\PrivateCache
+use Innmind\Http\{
+    Header\CacheControlValue,
+    Header\CacheControlValue\PrivateCache,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -17,15 +18,15 @@ class PrivateCacheTest extends TestCase
 
         $this->assertInstanceOf(CacheControlValue::class, $h);
         $this->assertSame('field', $h->field());
-        $this->assertSame('private="field"', (string) $h);
-        $this->assertSame('private', (string) new PrivateCache(''));
+        $this->assertSame('private="field"', $h->toString());
+        $this->assertSame('private', (new PrivateCache(''))->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenAgeIsNegative()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo-bar');
+
         new PrivateCache('foo-bar');
     }
 }

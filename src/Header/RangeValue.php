@@ -8,9 +8,9 @@ use Innmind\Immutable\Str;
 
 final class RangeValue extends Value\Value
 {
-    private $unit;
-    private $firstPosition;
-    private $lastPosition;
+    private string $unit;
+    private int $firstPosition;
+    private int $lastPosition;
 
     public function __construct(
         string $unit,
@@ -18,22 +18,22 @@ final class RangeValue extends Value\Value
         int $lastPosition
     ) {
         if (
-            !(new Str($unit))->matches('~^\w+$~') ||
+            !Str::of($unit)->matches('~^\w+$~') ||
             $firstPosition < 0 ||
             $lastPosition < 0 ||
             $firstPosition > $lastPosition
         ) {
-            throw new DomainException;
+            throw new DomainException($unit);
         }
 
         $this->unit = $unit;
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             '%s=%s-%s',
             $unit,
             $firstPosition,
-            $lastPosition
+            $lastPosition,
         ));
     }
 

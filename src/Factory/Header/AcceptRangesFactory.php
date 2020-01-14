@@ -8,22 +8,22 @@ use Innmind\Http\{
     Header\AcceptRanges,
     Header\AcceptRangesValue,
     Header,
-    Exception\DomainException
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 
 final class AcceptRangesFactory implements HeaderFactoryInterface
 {
-    public function make(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header
     {
-        if ((string) $name->toLower() !== 'accept-ranges') {
-            throw new DomainException;
+        if ($name->toLower()->toString() !== 'accept-ranges') {
+            throw new DomainException($name->toString());
         }
 
         return new AcceptRanges(
             new AcceptRangesValue(
-                (string) $value
-            )
+                $value->toString(),
+            ),
         );
     }
 }

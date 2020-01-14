@@ -14,9 +14,9 @@ class LocationValueTest extends TestCase
 {
     public function testInterface()
     {
-        $a = new LocationValue(Url::fromString('/foo/bar'));
+        $a = new LocationValue(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Value::class, $a);
-        $this->assertSame('/foo/bar', (string) $a);
+        $this->assertSame('/foo/bar', $a->toString());
     }
 }

@@ -8,10 +8,8 @@ use Innmind\Http\{
     File as FileInterface,
     File\Status\Ok
 };
-use Innmind\Filesystem\{
-    Name,
-    MediaType\NullMediaType
-};
+use Innmind\Filesystem\Name;
+use Innmind\MediaType\MediaType;
 use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
@@ -22,14 +20,16 @@ class FileTest extends TestCase
         $f = new File(
             'foo',
             $s = $this->createMock(Readable::class),
+            'foo[bar]',
             $ok = new Ok,
-            $m = new NullMediaType
+            $m = MediaType::null(),
         );
 
         $this->assertInstanceOf(FileInterface::class, $f);
         $this->assertInstanceOf(Name::class, $f->name());
-        $this->assertSame('foo', (string) $f->name());
+        $this->assertSame('foo', $f->name()->toString());
         $this->assertSame($s, $f->content());
         $this->assertSame($ok, $f->status());
+        $this->assertSame('foo[bar]', $f->uploadKey());
     }
 }

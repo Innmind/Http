@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\AuthorizationFactory,
     Factory\HeaderFactory,
-    Header\Authorization
+    Header\Authorization,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -19,37 +20,37 @@ class AuthorizationFactoryTest extends TestCase
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
-        $h = $f->make(
-            new Str('Authorization'),
-            new Str('Basic realm="WallyWorld"')
+        $h = ($f)(
+            Str::of('Authorization'),
+            Str::of('Basic realm="WallyWorld"'),
         );
 
         $this->assertInstanceOf(Authorization::class, $h);
         $this->assertSame(
             'Authorization: "Basic" realm="WallyWorld"',
-            (string) $h
+            $h->toString(),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AuthorizationFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new AuthorizationFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
-        (new AuthorizationFactory)->make(
-            new Str('Authorization'),
-            new Str('@')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Authorization');
+
+        (new AuthorizationFactory)(
+            Str::of('Authorization'),
+            Str::of('@'),
         );
     }
 }

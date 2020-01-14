@@ -9,10 +9,10 @@ final class StoppedByExtension implements Status
 {
     public function value(): int
     {
-        return UPLOAD_ERR_EXTENSION;
+        return \UPLOAD_ERR_EXTENSION;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return 'UPLOAD_ERR_EXTENSION';
     }

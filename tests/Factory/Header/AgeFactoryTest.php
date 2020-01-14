@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\AgeFactory,
-    Header\Age
+    Header\Age,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,23 +24,23 @@ class AgeFactoryTest extends TestCase
 
     public function testMake()
     {
-        $header = (new AgeFactory)->make(
-            new Str('Age'),
-            new Str('42')
+        $header = (new AgeFactory)(
+            Str::of('Age'),
+            Str::of('42'),
         );
 
         $this->assertInstanceOf(Age::class, $header);
-        $this->assertSame('Age: 42', (string) $header);
+        $this->assertSame('Age: 42', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
-        (new AgeFactory)->make(
-            new Str('foo'),
-            new Str('')
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
+        (new AgeFactory)(
+            Str::of('foo'),
+            Str::of(''),
         );
     }
 }
