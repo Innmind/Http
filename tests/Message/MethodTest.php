@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    Method,
+use Innmind\Http\{
+    Message\Method,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -34,11 +35,11 @@ class MethodTest extends TestCase
         $this->assertSame($method, Method::{strtolower($method)}()->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidMethod()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('get');
+
         new Method('get');
     }
 

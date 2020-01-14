@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    StatusCode,
-    ReasonPhrase
+use Innmind\Http\{
+    Message\StatusCode,
+    Message\ReasonPhrase,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -20,11 +21,11 @@ class StatusCodeTest extends TestCase
         $this->assertSame('200', $c->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidStatusCode()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('42');
+
         new StatusCode(42); //sadly
     }
 

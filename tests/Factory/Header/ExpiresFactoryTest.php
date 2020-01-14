@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\ExpiresFactory,
     Factory\HeaderFactory,
-    Header\Expires
+    Header\Expires,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -35,11 +36,11 @@ class ExpiresFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new ExpiresFactory)(
             Str::of('foo'),
             Str::of(''),

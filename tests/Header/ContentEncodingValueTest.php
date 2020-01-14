@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    ContentEncodingValue,
-    Value
+use Innmind\Http\{
+    Header\ContentEncodingValue,
+    Header\Value,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -24,10 +25,12 @@ class ContentEncodingValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidContentEncodingValue($value)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($value);
+
         new ContentEncodingValue($value);
     }
 

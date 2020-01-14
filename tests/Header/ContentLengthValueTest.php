@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    ContentLengthValue,
-    Value
+use Innmind\Http\{
+    Header\ContentLengthValue,
+    Header\Value,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -21,11 +22,11 @@ class ContentLengthValueTest extends TestCase
         new ContentLengthValue(0);
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidContentLengthValue()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('-1');
+
         new ContentLengthValue(-1);
     }
 }

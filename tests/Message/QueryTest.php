@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    Query,
-    Query\Parameter
+use Innmind\Http\{
+    Message\Query,
+    Message\Query\Parameter,
+    Exception\QueryParameterNotFound,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -35,11 +36,11 @@ class QueryTest extends TestCase
         $this->assertTrue($query->contains('foo'));
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\QueryParameterNotFound
-     */
     public function testThrowWhenAccessingUnknownParameter()
     {
+        $this->expectException(QueryParameterNotFound::class);
+        $this->expectExceptionMessage('foo');
+
         (new Query)->get('foo');
     }
 

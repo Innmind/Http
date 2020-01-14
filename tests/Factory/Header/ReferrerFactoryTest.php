@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\ReferrerFactory,
     Factory\HeaderFactory,
-    Header\Referrer
+    Header\Referrer,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -31,11 +32,11 @@ class ReferrerFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new ReferrerFactory)(
             Str::of('foo'),
             Str::of(''),

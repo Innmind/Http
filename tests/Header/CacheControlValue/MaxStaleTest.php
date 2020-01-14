@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\Header\{
-    CacheControlValue,
-    CacheControlValue\MaxStale
+use Innmind\Http\{
+    Header\CacheControlValue,
+    Header\CacheControlValue\MaxStale,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -21,11 +22,11 @@ class MaxStaleTest extends TestCase
         $this->assertSame('max-stale', (new MaxStale(0))->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenAgeIsNegative()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('-42');
+
         new MaxStale(-42);
     }
 }

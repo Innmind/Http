@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AuthorizationValue,
-    Value,
-    Authorization\Credentials
+use Innmind\Http\{
+    Header\AuthorizationValue,
+    Header\Value,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -28,10 +28,12 @@ class AuthorizationValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAuthorizationValue($value)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($value);
+
         new AuthorizationValue($value, '');
     }
 

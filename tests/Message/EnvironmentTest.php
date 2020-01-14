@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    Environment,
+use Innmind\Http\{
+    Message\Environment,
+    Exception\EnvironmentVariableNotFound,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -24,20 +25,19 @@ class EnvironmentTest extends TestCase
         $this->assertSame(1, $f->count());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\EnvironmentVariableNotFound
-     */
     public function testThrowWhenAccessingUnknownVariable()
     {
+        $this->expectException(EnvironmentVariableNotFound::class);
+        $this->expectExceptionMessage('foo');
+
         (new Environment)->get('foo');
     }
 
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type Map<string, string>
-     */
     public function testThrowWhenInvalidMap()
     {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Argument 1 must be of type Map<string, string>');
+
         new Environment(Map::of('string', 'scalar'));
     }
 

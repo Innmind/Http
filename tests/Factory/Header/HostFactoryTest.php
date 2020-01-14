@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\HostFactory,
     Factory\HeaderFactory,
-    Header\Host
+    Header\Host,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -34,11 +35,11 @@ class HostFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new HostFactory)(
             Str::of('foo'),
             Str::of(''),

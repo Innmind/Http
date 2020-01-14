@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    ReasonPhrase,
+use Innmind\Http\{
+    Message\ReasonPhrase,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -18,11 +19,10 @@ class ReasonPhraseTest extends TestCase
         $this->assertSame('OK', $m->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidReasonPhrase()
     {
+        $this->expectException(DomainException::class);
+
         new ReasonPhrase('');
     }
 

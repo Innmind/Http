@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\DateFactory,
     Factory\HeaderFactory,
-    Header\Date
+    Header\Date,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -31,11 +32,11 @@ class DateFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new DateFactory)(
             Str::of('foo'),
             Str::of(''),

@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    LinkValue,
-    Value,
-    Parameter
+use Innmind\Http\{
+    Header\LinkValue,
+    Header\Value,
+    Header\Parameter,
+    Exception\DomainException,
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\Map;
@@ -40,11 +41,10 @@ class LinkValueTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidLinkValue()
     {
+        $this->expectException(DomainException::class);
+
         new LinkValue(
             Url::of('/foo'),
             ''

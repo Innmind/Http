@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    Form,
-    Form\Parameter
+use Innmind\Http\{
+    Message\Form,
+    Message\Form\Parameter,
+    Exception\FormParameterNotFound,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -35,11 +36,11 @@ class FormTest extends TestCase
         $this->assertTrue($form->contains('42'));
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\FormParameterNotFound
-     */
     public function testThrowWhenAccessingUnknownParameter()
     {
+        $this->expectException(FormParameterNotFound::class);
+        $this->expectExceptionMessage('foo');
+
         (new Form)->get('foo');
     }
 

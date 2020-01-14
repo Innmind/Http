@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AgeValue,
-    Value
+use Innmind\Http\{
+    Header\AgeValue,
+    Header\Value,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -21,11 +22,11 @@ class AgeValueTest extends TestCase
         new AgeValue(0);
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenInvalidAgeValue()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('-1');
+
         new AgeValue(-1);
     }
 }

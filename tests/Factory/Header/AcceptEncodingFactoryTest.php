@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\AcceptEncodingFactory,
     Factory\HeaderFactory,
-    Header\AcceptEncoding
+    Header\AcceptEncoding,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -31,22 +32,22 @@ class AcceptEncodingFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new AcceptEncodingFactory)(
             Str::of('foo'),
             Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('@');
+
         (new AcceptEncodingFactory)(
             Str::of('Accept-Encoding'),
             Str::of('@'),

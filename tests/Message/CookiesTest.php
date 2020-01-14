@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\Message\{
-    Cookies,
+use Innmind\Http\{
+    Message\Cookies,
+    Exception\CookieNotFound,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -24,20 +25,19 @@ class CookiesTest extends TestCase
         $this->assertSame(1, $f->count());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\CookieNotFound
-     */
     public function testThrowWhenAccessingUnknownCookie()
     {
+        $this->expectException(CookieNotFound::class);
+        $this->expectExceptionMessage('foo');
+
         (new Cookies)->get('foo');
     }
 
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type Map<string, string>
-     */
     public function testThrowWhenInvalidMap()
     {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Argument 1 must be of type Map<string, string>');
+
         new Cookies(Map::of('string', 'scalar'));
     }
 

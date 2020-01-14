@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\AcceptFactory,
     Factory\HeaderFactory,
-    Header\Accept
+    Header\Accept,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -28,22 +29,22 @@ class AcceptFactoryTest extends TestCase
         $this->assertSame('Accept: audio/*;q=0.2;level=1, audio/basic', $h->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new AcceptFactory)(
             Str::of('foo'),
             Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('@');
+
         (new AcceptFactory)(
             Str::of('Accept'),
             Str::of('@'),

@@ -3,11 +3,12 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AcceptValue,
-    Value,
-    Parameter\Quality,
-    Parameter
+use Innmind\Http\{
+    Header\AcceptValue,
+    Header\Value,
+    Header\Parameter\Quality,
+    Header\Parameter,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -50,10 +51,12 @@ class AcceptValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptValue($type, $sub)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage("$type/$sub");
+
         new AcceptValue($type, $sub);
     }
 

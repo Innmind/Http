@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\IfModifiedSinceFactory,
     Factory\HeaderFactory,
-    Header\IfModifiedSince
+    Header\IfModifiedSince,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -31,11 +32,11 @@ class IfModifiedSinceFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new IfModifiedSinceFactory)(
             Str::of('foo'),
             Str::of(''),

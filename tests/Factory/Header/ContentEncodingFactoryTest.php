@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentEncodingFactory,
-    Header\ContentEncoding
+    Header\ContentEncoding,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -32,11 +33,11 @@ class ContentEncodingFactoryTest extends TestCase
         $this->assertSame('Content-Encoding: x-gzip', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new ContentEncodingFactory)(
             Str::of('foo'),
             Str::of(''),

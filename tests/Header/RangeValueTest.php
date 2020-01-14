@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    RangeValue,
-    Value
+use Innmind\Http\{
+    Header\RangeValue,
+    Header\Value,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -24,10 +25,12 @@ class RangeValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidRangeValue($unit, $first, $last)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($unit);
+
         new RangeValue($unit, $first, $last);
     }
 

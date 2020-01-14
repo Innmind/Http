@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentRangeFactory,
-    Header\ContentRange
+    Header\ContentRange,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -43,22 +44,22 @@ class ContentRangeFactoryTest extends TestCase
         $this->assertSame('Content-Range: bytes 0-42/66', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new ContentRangeFactory)(
             Str::of('foo'),
             Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Content-Range');
+
         (new ContentRangeFactory)(
             Str::of('Content-Range'),
             Str::of('foo'),

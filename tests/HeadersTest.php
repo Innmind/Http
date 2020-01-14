@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Header,
     Header\ContentType,
     Header\ContentTypeValue,
-    Header\Parameter
+    Header\Parameter,
+    Exception\HeaderNotFound,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -49,11 +50,11 @@ class HeadersTest extends TestCase
         $this->assertTrue($headers->contains('content-type'));
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\HeaderNotFound
-     */
     public function testThrowWhenAccessingUnknownHeader()
     {
+        $this->expectException(HeaderNotFound::class);
+        $this->expectExceptionMessage('foo');
+
         (new Headers)->get('foo');
     }
 

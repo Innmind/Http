@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    ContentRangeValue,
-    Value
+use Innmind\Http\{
+    Header\ContentRangeValue,
+    Header\Value,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -30,10 +31,12 @@ class ContentRangeValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidContentRangeValue($unit, $first, $last, $length)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($unit);
+
         new ContentRangeValue($unit, $first, $last, $length);
     }
 

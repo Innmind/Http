@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentLanguageFactory,
-    Header\ContentLanguage
+    Header\ContentLanguage,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -32,11 +33,11 @@ class ContentLanguageFactoryTest extends TestCase
         $this->assertSame('Content-Language: fr-FR, fr-CA', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new ContentLanguageFactory)(
             Str::of('foo'),
             Str::of(''),

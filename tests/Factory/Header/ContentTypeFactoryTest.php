@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentTypeFactory,
-    Header\ContentType
+    Header\ContentType,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -43,22 +44,22 @@ class ContentTypeFactoryTest extends TestCase
         $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new ContentTypeFactory)(
             Str::of('foo'),
             Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Content-Type');
+
         (new ContentTypeFactory)(
             Str::of('Content-Type'),
             Str::of('foo'),

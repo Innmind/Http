@@ -26,12 +26,11 @@ class DelegationFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException TypeError
-     * @expectedExceptionMessage Argument 1 must be of type Map<string, Innmind\Http\Factory\HeaderFactory>
-     */
     public function testThrowWhenInvalidMap()
     {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage('Argument 1 must be of type Map<string, Innmind\Http\Factory\HeaderFactory>');
+
         new DelegationFactory(Map::of('string', 'callable'));
     }
 

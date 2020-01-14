@@ -3,9 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\Header\{
-    CacheControlValue,
-    CacheControlValue\MinimumFresh
+use Innmind\Http\{
+    Header\CacheControlValue,
+    Header\CacheControlValue\MinimumFresh,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -20,11 +21,11 @@ class MinimumFreshTest extends TestCase
         $this->assertSame('min-fresh=42', $h->toString());
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenAgeIsNegative()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('-42');
+
         new MinimumFresh(-42);
     }
 }

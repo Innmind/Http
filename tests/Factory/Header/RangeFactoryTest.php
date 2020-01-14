@@ -6,7 +6,8 @@ namespace Tests\Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\Header\RangeFactory,
     Factory\HeaderFactory,
-    Header\Range
+    Header\Range,
+    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -31,22 +32,22 @@ class RangeFactoryTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotExpectedHeader()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('foo');
+
         (new RangeFactory)(
             Str::of('foo'),
             Str::of(''),
         );
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\DomainException
-     */
     public function testThrowWhenNotValid()
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Range');
+
         (new RangeFactory)(
             Str::of('Range'),
             Str::of('foo'),

@@ -5,7 +5,8 @@ namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\{
     Message\Files,
-    File
+    File,
+    Exception\FileNotFound,
 };
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
@@ -40,11 +41,11 @@ class FilesTest extends TestCase
         $this->assertTrue($files->contains('foo'));
     }
 
-    /**
-     * @expectedException Innmind\Http\Exception\FileNotFound
-     */
     public function testThrowWhenAccessingUnknownFile()
     {
+        $this->expectException(FileNotFound::class);
+        $this->expectExceptionMessage('foo');
+
         (new Files)->get('foo');
     }
 

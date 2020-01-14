@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\Header\{
-    AcceptCharsetValue,
-    Value,
-    Parameter\Quality
+use Innmind\Http\{
+    Header\AcceptCharsetValue,
+    Header\Value,
+    Header\Parameter\Quality,
+    Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -37,10 +38,12 @@ class AcceptCharsetValueTest extends TestCase
 
     /**
      * @dataProvider invalids
-     * @expectedException Innmind\Http\Exception\DomainException
      */
     public function testThrowWhenInvalidAcceptCharsetValue($value)
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage($value);
+
         new AcceptCharsetValue($value, new Quality(1));
     }
 
