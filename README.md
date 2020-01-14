@@ -1,10 +1,9 @@
 # Http
 
-| `master` | `develop` |
-|----------|-----------|
-| [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/Http/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Innmind/Http/?branch=master) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/Http/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/Http/?branch=develop) |
-| [![Code Coverage](https://scrutinizer-ci.com/g/Innmind/Http/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Innmind/Http/?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/Innmind/Http/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/Http/?branch=develop) |
-| [![Build Status](https://scrutinizer-ci.com/g/Innmind/Http/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Innmind/Http/build-status/master) | [![Build Status](https://scrutinizer-ci.com/g/Innmind/Http/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/Http/build-status/develop) |
+| `develop` |
+|-----------|
+| [![codecov](https://codecov.io/gh/Innmind/Http/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/Http) |
+| [![Build Status](https://github.com/Innmind/Http/workflows/CI/badge.svg)](https://github.com/Innmind/Http/actions?query=workflow%3ACI) |
 
 Value objects and interfaces to abstract http messages (because [PSR7](https://github.com/php-fig/http-message) didn't go far enough).
 
