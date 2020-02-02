@@ -42,6 +42,11 @@ final class Psr7Translator
         $this->requestTranslator = $requestTranslator;
     }
 
+    public static function default(): self
+    {
+        return new self(RequestTranslator::default());
+    }
+
     public function __invoke(ServerRequestInterface $serverRequest): ServerRequest
     {
         $request = ($this->requestTranslator)($serverRequest);
