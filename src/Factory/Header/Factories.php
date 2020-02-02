@@ -19,7 +19,9 @@ final class Factories
     {
         if (\is_null(self::$all)) {
             /** @var Map<string, HeaderFactoryInterface> */
-            self::$all = Map::of('string', HeaderFactoryInterface::class)
+            $all = Map::of('string', HeaderFactoryInterface::class);
+
+            self::$all = $all
                 ->put('accept-charset', new AcceptCharsetFactory)
                 ->put('accept-encoding', new AcceptEncodingFactory)
                 ->put('accept', new AcceptFactory)

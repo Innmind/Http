@@ -62,6 +62,7 @@ final class Psr7Translator
 
     private function translateEnvironment(array $params): Environment
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**
@@ -69,7 +70,7 @@ final class Psr7Translator
          * @var mixed $value
          */
         foreach ($params as $key => $value) {
-            if (\is_scalar($value)) {
+            if (\is_string($value)) {
                 $map = ($map)($key, $value);
             }
         }
@@ -79,6 +80,7 @@ final class Psr7Translator
 
     private function translateCookies(array $params): Cookies
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**
@@ -86,7 +88,7 @@ final class Psr7Translator
          * @var mixed $value
          */
         foreach ($params as $key => $value) {
-            if (\is_scalar($value)) {
+            if (\is_string($value)) {
                 $map = ($map)($key, $value);
             }
         }

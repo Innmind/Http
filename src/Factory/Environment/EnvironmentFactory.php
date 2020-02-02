@@ -13,8 +13,13 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
 {
     public function __invoke(): Environment
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
+        /**
+         * @var string $name
+         * @var string $value
+         */
         foreach (\getenv() as $name => $value) {
             $map = ($map)($name, $value);
         }

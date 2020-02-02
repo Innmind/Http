@@ -38,7 +38,9 @@ final class ReasonPhrase
     {
         if (\is_null(self::$defaults)) {
             /** @var Map<int, string> */
-            self::$defaults = Map::of('int', 'string')
+            $defaults = Map::of('int', 'string');
+
+            self::$defaults = $defaults
                 ->put(100, 'Continue')
                 ->put(101, 'Switching Protocols')
                 ->put(102, 'Processing') // RFC2518
