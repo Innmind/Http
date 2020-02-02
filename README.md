@@ -4,6 +4,7 @@
 |-----------|
 | [![codecov](https://codecov.io/gh/Innmind/Http/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/Http) |
 | [![Build Status](https://github.com/Innmind/Http/workflows/CI/badge.svg)](https://github.com/Innmind/Http/actions?query=workflow%3ACI) |
+| [![Type Coverage](https://shepherd.dev/github/Innmind/Http/coverage.svg)](https://shepherd.dev/github/Innmind/Http) |
 
 Value objects and interfaces to abstract http messages (because [PSR7](https://github.com/php-fig/http-message) didn't go far enough).
 

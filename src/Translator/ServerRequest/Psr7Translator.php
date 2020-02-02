@@ -42,6 +42,11 @@ final class Psr7Translator
         $this->requestTranslator = $requestTranslator;
     }
 
+    public static function default(): self
+    {
+        return new self(RequestTranslator::default());
+    }
+
     public function __invoke(ServerRequestInterface $serverRequest): ServerRequest
     {
         $request = ($this->requestTranslator)($serverRequest);
@@ -62,6 +67,7 @@ final class Psr7Translator
 
     private function translateEnvironment(array $params): Environment
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**
@@ -69,7 +75,7 @@ final class Psr7Translator
          * @var mixed $value
          */
         foreach ($params as $key => $value) {
-            if (\is_scalar($value)) {
+            if (\is_string($value)) {
                 $map = ($map)($key, $value);
             }
         }
@@ -79,6 +85,7 @@ final class Psr7Translator
 
     private function translateCookies(array $params): Cookies
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**
@@ -86,7 +93,7 @@ final class Psr7Translator
          * @var mixed $value
          */
         foreach ($params as $key => $value) {
-            if (\is_scalar($value)) {
+            if (\is_string($value)) {
                 $map = ($map)($key, $value);
             }
         }

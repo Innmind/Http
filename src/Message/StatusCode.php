@@ -73,7 +73,9 @@ final class StatusCode
     {
         if (\is_null(self::$codes)) {
             /** @var Map<string, int> */
-            self::$codes = Map::of('string', 'int')
+            $codes = Map::of('string', 'int');
+
+            self::$codes = $codes
                 ->put('CONTINUE', 100)
                 ->put('SWITCHING_PROTOCOLS', 101)
                 ->put('PROCESSING', 102) // RFC2518

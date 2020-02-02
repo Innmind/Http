@@ -131,4 +131,12 @@ class Psr7TranslatorTest extends TestCase
         $this->assertInstanceOf(Ok::class, $file->status());
         $this->assertInstanceOf(Stream::class, $file->content());
     }
+
+    public function testDefault()
+    {
+        $this->assertEquals(
+            new Psr7Translator(RequestTranslator::default()),
+            Psr7Translator::default(),
+        );
+    }
 }

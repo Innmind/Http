@@ -102,6 +102,7 @@ final class SymfonyTranslator
 
     private function translateEnvironment(ServerBag $server): Environment
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**
@@ -117,6 +118,7 @@ final class SymfonyTranslator
 
     private function translateCookies(ParameterBag $cookies): Cookies
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**

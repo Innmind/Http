@@ -6,6 +6,7 @@ namespace Tests\Innmind\Http\Translator\Request;
 use Innmind\Http\{
     Translator\Request\Psr7Translator,
     Factory\Header\HeaderFactory,
+    Factory\Header\Factories,
     Message\Request
 };
 use Innmind\Immutable\Map;
@@ -63,5 +64,13 @@ class Psr7TranslatorTest extends TestCase
             $headers->get('content-type')->toString(),
         );
         $this->assertSame('content', $request->body()->toString());
+    }
+
+    public function testDefault()
+    {
+        $this->assertEquals(
+            new Psr7Translator(Factories::default()),
+            Psr7Translator::default(),
+        );
     }
 }

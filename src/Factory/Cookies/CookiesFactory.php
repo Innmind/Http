@@ -13,6 +13,7 @@ final class CookiesFactory implements CookiesFactoryInterface
 {
     public function __invoke(): Cookies
     {
+        /** @var Map<string, string> */
         $map = Map::of('string', 'string');
 
         /**

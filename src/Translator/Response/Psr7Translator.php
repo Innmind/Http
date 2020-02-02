@@ -5,6 +5,7 @@ namespace Innmind\Http\Translator\Response;
 
 use Innmind\Http\{
     Factory\HeaderFactory,
+    Factory\Header\Factories,
     Message\Response\Response,
     Message\StatusCode,
     Message\ReasonPhrase,
@@ -26,6 +27,11 @@ final class Psr7Translator
     public function __construct(HeaderFactory $headerFactory)
     {
         $this->headerFactory = $headerFactory;
+    }
+
+    public static function default(): self
+    {
+        return new self(Factories::default());
     }
 
     public function __invoke(ResponseInterface $response): Response

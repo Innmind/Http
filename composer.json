@@ -20,7 +20,8 @@
         "innmind/immutable": "~3.0",
         "innmind/filesystem": "~4.0",
         "innmind/time-continuum": "~2.0",
-        "innmind/stream": "~2.0"
+        "innmind/stream": "~2.0",
+        "guzzlehttp/psr7": "^1.6"
     },
     "autoload": {
         "psr-4": {
