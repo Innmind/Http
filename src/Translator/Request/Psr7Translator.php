@@ -11,9 +11,9 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header,
+    Bridge\Psr7\Stream,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
     Map,
     Str,
@@ -43,7 +43,7 @@ final class Psr7Translator
             new Method(\strtoupper($request->getMethod())),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($request->getHeaders()),
-            Stream::ofContent((string) $request->getBody()),
+            new Stream($request->getBody()),
         );
     }
 
