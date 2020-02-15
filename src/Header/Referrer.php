@@ -5,6 +5,9 @@ namespace Innmind\Http\Header;
 
 use Innmind\Url\Url;
 
+/**
+ * @extends Header<ReferrerValue>
+ */
 final class Referrer extends Header
 {
     public function __construct(ReferrerValue $referrer)

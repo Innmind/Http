@@ -8,6 +8,9 @@ use Innmind\Url\Authority\{
     Port,
 };
 
+/**
+ * @extends Header<HostValue>
+ */
 final class Host extends Header
 {
     public function __construct(HostValue $host)

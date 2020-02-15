@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+/**
+ * @extends Header<CookieValue>
+ */
 final class Cookie extends Header
 {
     public function __construct(CookieValue $value)
