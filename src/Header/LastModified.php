@@ -5,6 +5,9 @@ namespace Innmind\Http\Header;
 
 use Innmind\TimeContinuum\PointInTime;
 
+/**
+ * @extends Header<DateValue>
+ */
 final class LastModified extends Header
 {
     public function __construct(DateValue $date)

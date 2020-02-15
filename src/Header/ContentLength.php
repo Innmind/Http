@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+/**
+ * @extends Header<ContentLengthValue>
+ */
 final class ContentLength extends Header
 {
     public function __construct(ContentLengthValue $length)

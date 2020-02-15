@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+/**
+ * @extends Header<RangeValue>
+ */
 final class Range extends Header
 {
     public function __construct(RangeValue $range)

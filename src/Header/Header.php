@@ -7,6 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 use function Innmind\Immutable\join;
 
+/**
+ * @template V of Value
+ * @implements HeaderInterface<V>
+ */
 class Header implements HeaderInterface
 {
     private string $name;
@@ -25,9 +29,6 @@ class Header implements HeaderInterface
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function values(): Set
     {
         return $this->values;

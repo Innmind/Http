@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+/**
+ * @extends Header<ContentTypeValue>
+ */
 final class ContentType extends Header
 {
     public function __construct(ContentTypeValue $content)

@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+/**
+ * @extends Header<AgeValue>
+ */
 final class Age extends Header
 {
     public function __construct(AgeValue $age)
