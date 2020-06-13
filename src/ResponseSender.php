@@ -81,6 +81,7 @@ final class ResponseSender implements Sender
                             break;
 
                         case 'Expires':
+                            /** @psalm-suppress PossiblyFalseReference Expires object uses a valid date */
                             $timestamp = \DateTimeImmutable::createFromFormat(
                                 (new Http)->toString(),
                                 \substr($parameter->value(), 1, -1) // remove double quotes

@@ -42,4 +42,15 @@ class DateFactoryTest extends TestCase
             Str::of(''),
         );
     }
+
+    public function testThrowWhenNotOFExpectedFormat()
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Date');
+
+        (new DateFactory)(
+            Str::of('Date'),
+            Str::of('2020-01-01'),
+        );
+    }
 }
