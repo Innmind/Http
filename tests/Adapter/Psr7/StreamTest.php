@@ -17,14 +17,14 @@ use Innmind\Stream\{
 use Innmind\Immutable\Str;
 use Psr\Http\Message\StreamInterface;
 use PHPUnit\Framework\TestCase;
-use Eris\{
-    Generator,
-    TestTrait
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
 };
 
 class StreamTest extends TestCase
 {
-    use TestTrait;
+    use BlackBox;
 
     public function testInterface()
     {
@@ -37,7 +37,7 @@ class StreamTest extends TestCase
     public function testStringCast()
     {
         $this
-            ->forAll(Generator\string())
+            ->forAll(Set\Unicode::strings())
             ->then(function($content) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -84,7 +84,7 @@ class StreamTest extends TestCase
     public function testReturnTheSizeWhenKnown()
     {
         $this
-            ->forAll(Generator\pos())
+            ->forAll(Set\Integers::above(0))
             ->then(function($size) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -118,7 +118,7 @@ class StreamTest extends TestCase
     public function testTell()
     {
         $this
-            ->forAll(Generator\pos())
+            ->forAll(Set\Integers::above(0))
             ->then(function($position) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -135,7 +135,7 @@ class StreamTest extends TestCase
     public function testEof()
     {
         $this
-            ->forAll(Generator\elements(true, false))
+            ->forAll(Set\Elements::of(true, false))
             ->then(function($eof) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -152,7 +152,7 @@ class StreamTest extends TestCase
     public function testSeekOwnPositionToKnowIfStreamIsSeekable()
     {
         $this
-            ->forAll(Generator\pos())
+            ->forAll(Set\Integers::above(0))
             ->then(function($position) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -170,7 +170,7 @@ class StreamTest extends TestCase
                 $this->assertFalse($stream->isSeekable());
             });
         $this
-            ->forAll(Generator\pos())
+            ->forAll(Set\Integers::above(0))
             ->then(function($position) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -193,8 +193,8 @@ class StreamTest extends TestCase
     {
         $this
             ->forAll(
-                Generator\elements(null, SEEK_CUR, SEEK_SET),
-                Generator\pos()
+                Set\Elements::of(null, SEEK_CUR, SEEK_SET),
+                Set\Integers::above(0)
             )
             ->then(function($whence, $offset) {
                 switch ($whence) {
@@ -231,7 +231,7 @@ class StreamTest extends TestCase
     public function testThrowWhenSeekingFromEndOfStream()
     {
         $this
-            ->forAll(Generator\pos())
+            ->forAll(Set\Integers::above(0))
             ->then(function($offset) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -274,7 +274,7 @@ class StreamTest extends TestCase
     public function testReadableOnlyWhenNotClosed()
     {
         $this
-            ->forAll(Generator\elements(true, false))
+            ->forAll(Set\Elements::of(true, false))
             ->then(function($closed) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -291,7 +291,7 @@ class StreamTest extends TestCase
     public function testRead()
     {
         $this
-            ->forAll(Generator\string(), Generator\pos())
+            ->forAll(Set\Unicode::strings(), Set\Integers::above(0))
             ->then(function($content, $length) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -309,7 +309,7 @@ class StreamTest extends TestCase
     public function testGetContents()
     {
         $this
-            ->forAll(Generator\string())
+            ->forAll(Set\Unicode::strings())
             ->then(function($content) {
                 $stream = new Stream(
                     $inner = $this->createMock(Readable::class)
@@ -327,7 +327,7 @@ class StreamTest extends TestCase
     public function testNeverReturnAMetadata()
     {
         $this
-            ->forAll(Generator\string())
+            ->forAll(Set\Unicode::strings())
             ->then(function($key) {
                 $stream = new Stream(
                     $this->createMock(Readable::class)

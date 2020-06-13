@@ -37,7 +37,7 @@
         "psr/http-message": "^1.0",
         "phpunit/phpunit": "~8.0",
         "symfony/http-foundation": "~4.4|~5.0",
-        "giorgiosironi/eris": "^0.11.0",
-        "vimeo/psalm": "~3.7.0"
+        "vimeo/psalm": "~3.7.0",
+        "innmind/black-box": "^4.9"
     }
 }
