@@ -46,4 +46,15 @@ class ExpiresFactoryTest extends TestCase
             Str::of(''),
         );
     }
+
+    public function testThrowWhenNotOfExpectedFormat()
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Expires');
+
+        (new ExpiresFactory)(
+            Str::of('Expires'),
+            Str::of('2020-01-01'),
+        );
+    }
 }

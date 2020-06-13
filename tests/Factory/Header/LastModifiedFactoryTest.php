@@ -46,4 +46,15 @@ class LastModifiedFactoryTest extends TestCase
             Str::of(''),
         );
     }
+
+    public function testThrowWhenNotOfExpectedFormat()
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Last-Modified');
+
+        (new LastModifiedFactory)(
+            Str::of('Last-Modified'),
+            Str::of('2020-01-01'),
+        );
+    }
 }

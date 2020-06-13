@@ -5,6 +5,9 @@ namespace Innmind\Http\TimeContinuum\Format;
 
 use Innmind\TimeContinuum\Format;
 
+/**
+ * @psalm-immutable
+ */
 final class Http implements Format
 {
     public function toString(): string

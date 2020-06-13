@@ -9,10 +9,17 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 use Innmind\Immutable\Map;
+use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
+};
 
 class StatusCodeTest extends TestCase
 {
+    use BlackBox;
+
     public function testInterface()
     {
         $c = new StatusCode(200);
@@ -135,5 +142,30 @@ class StatusCodeTest extends TestCase
         $codes->get(false)->foreach(function($name, $code): void {
             $this->assertFalse((new StatusCode($code))->isServerError());
         });
+    }
+
+    public function testEquality()
+    {
+        $this
+            ->forAll(Set\Elements::of(...unwrap(StatusCode::codes()->keys())))
+            ->then(function($code) {
+                $status = StatusCode::of($code);
+
+                $this->assertTrue($status->equals($status));
+                $this->assertTrue($status->equals(StatusCode::of($code)));
+            });
+    }
+
+    public function testInequality()
+    {
+        $this
+            ->forAll(
+                Set\Elements::of(...unwrap(StatusCode::codes()->keys())),
+                Set\Elements::of(...unwrap(StatusCode::codes()->keys())),
+            )
+            ->filter(fn($a, $b) => $a !== $b)
+            ->then(function($a, $b) {
+                $this->assertFalse(StatusCode::of($a)->equals(StatusCode::of($b)));
+            });
     }
 }

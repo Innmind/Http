@@ -25,13 +25,19 @@ final class ExpiresFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
+        $date = \DateTimeImmutable::createFromFormat(
+            (new Http)->toString(),
+            $value->toString(),
+        );
+
+        if (!$date instanceof \DateTimeImmutable) {
+            throw new DomainException($name->toString());
+        }
+
         return new Expires(
             new DateValue(
                 new PointInTime(
-                    \DateTimeImmutable::createFromFormat(
-                        (new Http)->toString(),
-                        $value->toString(),
-                    )->format((new ISO8601)->toString()),
+                    $date->format((new ISO8601)->toString()),
                 ),
             ),
         );

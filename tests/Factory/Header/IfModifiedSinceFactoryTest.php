@@ -42,4 +42,15 @@ class IfModifiedSinceFactoryTest extends TestCase
             Str::of(''),
         );
     }
+
+    public function testThrowWhenNotOfExpectedFormat()
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('If-Modified-Since');
+
+        (new IfModifiedSinceFactory)(
+            Str::of('If-Modified-Since'),
+            Str::of('2020-01-01'),
+        );
+    }
 }

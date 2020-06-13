@@ -26,6 +26,11 @@ final class StatusCode
         return ReasonPhrase::of($this->code);
     }
 
+    public function equals(self $code): bool
+    {
+        return $this->code === $code->value();
+    }
+
     public function value(): int
     {
         return $this->code;
