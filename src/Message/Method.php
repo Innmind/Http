@@ -97,6 +97,11 @@ final class Method
         return self::$unlink ??= new self(self::UNLINK);
     }
 
+    public function equals(self $other): bool
+    {
+        return $this->toString() === $other->toString();
+    }
+
     public function toString(): string
     {
         return $this->method;

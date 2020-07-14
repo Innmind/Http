@@ -64,6 +64,28 @@ class MethodTest extends TestCase
             });
     }
 
+    public function testEquals()
+    {
+        $this
+            ->forAll($this->methods())
+            ->then(function($method) {
+                $this->assertTrue(
+                    (new Method($method))->equals(new Method($method)),
+                );
+            });
+        $this
+            ->forAll(
+                $this->methods(),
+                $this->methods(),
+            )
+            ->filter(fn($a, $b) => $a !== $b)
+            ->then(function($a, $b) {
+                $this->assertFalse(
+                    (new Method($a))->equals(new Method($b)),
+                );
+            });
+    }
+
     public function methods(): Set
     {
         return Set\Elements::of(
