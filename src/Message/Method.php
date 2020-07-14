@@ -5,6 +5,9 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\Exception\DomainException;
 
+/**
+ * @psalm-immutable
+ */
 final class Method
 {
     private const GET = 'GET';
