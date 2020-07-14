@@ -43,6 +43,16 @@ class MethodTest extends TestCase
         new Method('get');
     }
 
+    /**
+     * @dataProvider methods
+     */
+    public function testOnlyOneInstancePerMethod($method)
+    {
+        $method = \strtolower($method);
+
+        $this->assertSame(Method::$method(), Method::$method());
+    }
+
     public function methods(): array
     {
         return [
