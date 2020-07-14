@@ -8,9 +8,15 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
+};
 
 class MethodTest extends TestCase
 {
+    use BlackBox;
+
     public function testInterface()
     {
         $m = new Method('GET');
@@ -27,12 +33,16 @@ class MethodTest extends TestCase
         new Method('CONNECT');
     }
 
-    /**
-     * @dataProvider methods
-     */
-    public function testNamedConstructors($method)
+    public function testNamedConstructors()
     {
-        $this->assertSame($method, Method::{strtolower($method)}()->toString());
+        $this
+            ->forAll($this->methods())
+            ->then(function($method) {
+                $this->assertSame(
+                    $method,
+                    Method::{strtolower($method)}()->toString(),
+                );
+            });
     }
 
     public function testThrowWhenInvalidMethod()
@@ -43,30 +53,31 @@ class MethodTest extends TestCase
         new Method('get');
     }
 
-    /**
-     * @dataProvider methods
-     */
-    public function testOnlyOneInstancePerMethod($method)
+    public function testOnlyOneInstancePerMethod()
     {
-        $method = \strtolower($method);
+        $this
+            ->forAll($this->methods())
+            ->then(function($method) {
+                $method = \strtolower($method);
 
-        $this->assertSame(Method::$method(), Method::$method());
+                $this->assertSame(Method::$method(), Method::$method());
+            });
     }
 
-    public function methods(): array
+    public function methods(): Set
     {
-        return [
-            ['GET'],
-            ['POST'],
-            ['PUT'],
-            ['PATCH'],
-            ['DELETE'],
-            ['OPTIONS'],
-            ['TRACE'],
-            ['CONNECT'],
-            ['HEAD'],
-            ['LINK'],
-            ['UNLINK'],
-        ];
+        return Set\Elements::of(
+            'GET',
+            'POST',
+            'PUT',
+            'PATCH',
+            'DELETE',
+            'OPTIONS',
+            'TRACE',
+            'CONNECT',
+            'HEAD',
+            'LINK',
+            'UNLINK',
+        );
     }
 }
