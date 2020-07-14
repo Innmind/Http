@@ -8,9 +8,15 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
+};
 
 class MethodTest extends TestCase
 {
+    use BlackBox;
+
     public function testInterface()
     {
         $m = new Method('GET');
@@ -27,12 +33,16 @@ class MethodTest extends TestCase
         new Method('CONNECT');
     }
 
-    /**
-     * @dataProvider methods
-     */
-    public function testNamedConstructors($method)
+    public function testNamedConstructors()
     {
-        $this->assertSame($method, Method::{strtolower($method)}()->toString());
+        $this
+            ->forAll($this->methods())
+            ->then(function($method) {
+                $this->assertSame(
+                    $method,
+                    Method::{strtolower($method)}()->toString(),
+                );
+            });
     }
 
     public function testThrowWhenInvalidMethod()
@@ -43,20 +53,53 @@ class MethodTest extends TestCase
         new Method('get');
     }
 
-    public function methods(): array
+    public function testOnlyOneInstancePerMethod()
     {
-        return [
-            ['GET'],
-            ['POST'],
-            ['PUT'],
-            ['PATCH'],
-            ['DELETE'],
-            ['OPTIONS'],
-            ['TRACE'],
-            ['CONNECT'],
-            ['HEAD'],
-            ['LINK'],
-            ['UNLINK'],
-        ];
+        $this
+            ->forAll($this->methods())
+            ->then(function($method) {
+                $method = \strtolower($method);
+
+                $this->assertSame(Method::$method(), Method::$method());
+            });
+    }
+
+    public function testEquals()
+    {
+        $this
+            ->forAll($this->methods())
+            ->then(function($method) {
+                $this->assertTrue(
+                    (new Method($method))->equals(new Method($method)),
+                );
+            });
+        $this
+            ->forAll(
+                $this->methods(),
+                $this->methods(),
+            )
+            ->filter(fn($a, $b) => $a !== $b)
+            ->then(function($a, $b) {
+                $this->assertFalse(
+                    (new Method($a))->equals(new Method($b)),
+                );
+            });
+    }
+
+    public function methods(): Set
+    {
+        return Set\Elements::of(
+            'GET',
+            'POST',
+            'PUT',
+            'PATCH',
+            'DELETE',
+            'OPTIONS',
+            'TRACE',
+            'CONNECT',
+            'HEAD',
+            'LINK',
+            'UNLINK',
+        );
     }
 }

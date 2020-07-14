@@ -5,6 +5,9 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\Exception\DomainException;
 
+/**
+ * @psalm-immutable
+ */
 final class Method
 {
     private const GET = 'GET';
@@ -19,6 +22,18 @@ final class Method
     private const LINK = 'LINK';
     private const UNLINK = 'UNLINK';
 
+    private static ?self $get = null;
+    private static ?self $post = null;
+    private static ?self $put = null;
+    private static ?self $patch = null;
+    private static ?self $delete = null;
+    private static ?self $options = null;
+    private static ?self $trace = null;
+    private static ?self $connect = null;
+    private static ?self $head = null;
+    private static ?self $link = null;
+    private static ?self $unlink = null;
+
     private string $method;
 
     public function __construct(string $method)
@@ -32,57 +47,62 @@ final class Method
 
     public static function get(): self
     {
-        return new self(self::GET);
+        return self::$get ??= new self(self::GET);
     }
 
     public static function post(): self
     {
-        return new self(self::POST);
+        return self::$post ??= new self(self::POST);
     }
 
     public static function put(): self
     {
-        return new self(self::PUT);
+        return self::$put ??= new self(self::PUT);
     }
 
     public static function patch(): self
     {
-        return new self(self::PATCH);
+        return self::$patch ??= new self(self::PATCH);
     }
 
     public static function delete(): self
     {
-        return new self(self::DELETE);
+        return self::$delete ??= new self(self::DELETE);
     }
 
     public static function options(): self
     {
-        return new self(self::OPTIONS);
+        return self::$options ??= new self(self::OPTIONS);
     }
 
     public static function trace(): self
     {
-        return new self(self::TRACE);
+        return self::$trace ??= new self(self::TRACE);
     }
 
     public static function connect(): self
     {
-        return new self(self::CONNECT);
+        return self::$connect ??= new self(self::CONNECT);
     }
 
     public static function head(): self
     {
-        return new self(self::HEAD);
+        return self::$head ??= new self(self::HEAD);
     }
 
     public static function link(): self
     {
-        return new self(self::LINK);
+        return self::$link ??= new self(self::LINK);
     }
 
     public static function unlink(): self
     {
-        return new self(self::UNLINK);
+        return self::$unlink ??= new self(self::UNLINK);
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->toString() === $other->toString();
     }
 
     public function toString(): string
