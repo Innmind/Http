@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Map,
     Sequence,
@@ -30,7 +29,7 @@ final class CookieValue extends Value\Value
         /** @var Sequence<string> */
         $parameters = $this->parameters->values()->toSequenceOf(
             'string',
-            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
         );
 
         parent::__construct(join('; ', $parameters)->toString());

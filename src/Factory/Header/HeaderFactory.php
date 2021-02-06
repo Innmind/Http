@@ -17,7 +17,7 @@ final class HeaderFactory implements HeaderFactoryInterface
         /** @var list<Value\Value> */
         $values = $value
             ->split(',')
-            ->map(function(Str $value): Str {
+            ->map(static function(Str $value): Str {
                 return $value->trim();
             })
             ->reduce(

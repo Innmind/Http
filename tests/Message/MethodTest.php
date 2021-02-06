@@ -40,7 +40,7 @@ class MethodTest extends TestCase
             ->then(function($method) {
                 $this->assertSame(
                     $method,
-                    Method::{strtolower($method)}()->toString(),
+                    Method::{\strtolower($method)}()->toString(),
                 );
             });
     }

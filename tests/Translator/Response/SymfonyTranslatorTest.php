@@ -43,7 +43,7 @@ class SymfonyTranslatorTest extends TestCase
                 'foo' => ['bar', 'baz'],
                 'foobar' => ['barbar', 'bazbar'],
                 'cache-control' => ['no-cache, private'],
-                'date' => [date('D, d M Y H:i:s').' GMT'],
+                'date' => [\date('D, d M Y H:i:s').' GMT'],
             ],
             $response->headers->all()
         );

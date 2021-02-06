@@ -29,11 +29,6 @@ final class Psr7Translator
         $this->headerFactory = $headerFactory;
     }
 
-    public static function default(): self
-    {
-        return new self(Factories::default());
-    }
-
     public function __invoke(ResponseInterface $response): Response
     {
         [$major, $minor] = \explode('.', $response->getProtocolVersion());
@@ -45,6 +40,11 @@ final class Psr7Translator
             $this->translateHeaders($response->getHeaders()),
             Stream::ofContent((string) $response->getBody()),
         );
+    }
+
+    public static function default(): self
+    {
+        return new self(Factories::default());
     }
 
     private function translateHeaders(array $rawHeaders): Headers

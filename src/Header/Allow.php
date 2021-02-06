@@ -16,7 +16,7 @@ final class Allow extends Header
     public static function of(string ...$values): self
     {
         return new self(...\array_map(
-            fn(string $value): AllowValue => new AllowValue($value),
+            static fn(string $value): AllowValue => new AllowValue($value),
             $values,
         ));
     }

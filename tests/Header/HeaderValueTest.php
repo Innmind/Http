@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\Header\Value;
 use PHPUnit\Framework\TestCase;
 
-class ValueTest extends TestCase
+class HeaderValueTest extends TestCase
 {
     public function testInterface()
     {

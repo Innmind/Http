@@ -11,7 +11,6 @@ use Innmind\Http\{
     Bridge\Psr7\Stream,
     File\Status\Ok
 };
-use Innmind\Immutable\Map;
 use Psr\Http\Message\{
     ServerRequestInterface,
     StreamInterface,
@@ -85,7 +84,7 @@ class Psr7TranslatorTest extends TestCase
             ->expects($this->once())
             ->method('getUploadedFiles')
             ->willReturn([
-                'foo' => $file = $this->createMock(UploadedFileInterface::class)
+                'foo' => $file = $this->createMock(UploadedFileInterface::class),
             ]);
         $file
             ->method('getClientMediaType')
@@ -101,7 +100,7 @@ class Psr7TranslatorTest extends TestCase
         $file
             ->expects($this->once())
             ->method('getError')
-            ->willReturn(UPLOAD_ERR_OK);
+            ->willReturn(\UPLOAD_ERR_OK);
 
         $request = ($translator)($request);
 

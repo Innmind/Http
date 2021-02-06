@@ -9,7 +9,6 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException,
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeValueTest extends TestCase

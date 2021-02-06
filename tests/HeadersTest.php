@@ -11,7 +11,6 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\HeaderNotFound,
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class HeadersTest extends TestCase
@@ -79,7 +78,7 @@ class HeadersTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($headers->foreach(function(Header $header) use (&$called) {
+        $this->assertNull($headers->foreach(static function(Header $header) use (&$called) {
             ++$called;
         }));
         $this->assertSame(2, $called);
@@ -94,7 +93,7 @@ class HeadersTest extends TestCase
 
         $reduced = $headers->reduce(
             [],
-            function($carry, $header) {
+            static function($carry, $header) {
                 $carry[] = $header->name();
 
                 return $carry;

@@ -88,7 +88,7 @@ final class Stringable implements ServerRequestInterface
             },
         );
         $headers = \array_map(
-            fn(Header $header): string => $header->toString(),
+            static fn(Header $header): string => $header->toString(),
             $headers,
         );
         $headers = \implode("\n", $headers);

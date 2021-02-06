@@ -50,7 +50,7 @@ class CookiesTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($cookies->foreach(function() use (&$called) {
+        $this->assertNull($cookies->foreach(static function() use (&$called) {
             ++$called;
         }));
         $this->assertSame(2, $called);
@@ -66,7 +66,7 @@ class CookiesTest extends TestCase
 
         $reduced = $cookies->reduce(
             [],
-            function($carry, $name, $value) {
+            static function($carry, $name, $value) {
                 $carry[] = $name;
                 $carry[] = $value;
 

@@ -8,7 +8,6 @@ use Innmind\Http\{
     Factory\EnvironmentFactory as EnvironmentFactoryInterface,
     Message\Environment
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class EnvironmentFactoryTest extends TestCase

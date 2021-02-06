@@ -8,7 +8,6 @@ use Innmind\Http\{
     Message\Form\Parameter,
     Exception\FormParameterNotFound,
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class FormTest extends TestCase
@@ -52,7 +51,7 @@ class FormTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($form->foreach(function() use (&$called) {
+        $this->assertNull($form->foreach(static function() use (&$called) {
             ++$called;
         }));
         $this->assertSame(2, $called);
@@ -67,7 +66,7 @@ class FormTest extends TestCase
 
         $reduced = $form->reduce(
             [],
-            function($carry, $parameter) {
+            static function($carry, $parameter) {
                 $carry[] = $parameter->name();
                 $carry[] = $parameter->value();
 

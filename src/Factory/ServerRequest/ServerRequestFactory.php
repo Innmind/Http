@@ -67,7 +67,6 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             $user .= '@';
         }
 
-
         /** @psalm-suppress MixedArgument */
         return new ServerRequest\ServerRequest(
             Url::of(\sprintf(
@@ -94,8 +93,6 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
 
     /**
      * Return a fully configured factory
-     *
-     * @return self
      */
     public static function default(): self
     {

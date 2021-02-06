@@ -38,7 +38,7 @@ class Header implements HeaderInterface
     {
         $values = $this->values->mapTo(
             'string',
-            fn(Value $value): string => $value->toString(),
+            static fn(Value $value): string => $value->toString(),
         );
         $values = join(', ', $values);
 

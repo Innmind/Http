@@ -8,7 +8,6 @@ use Innmind\Http\{
     Factory\CookiesFactory as CookiesFactoryInterface,
     Message\Cookies
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class CookiesFactoryTest extends TestCase

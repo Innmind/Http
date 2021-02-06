@@ -11,7 +11,6 @@ use Innmind\Http\{
     Header\Parameter\Parameter,
     Header\CookieParameter\Secure
 };
-use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use Innmind\Immutable\Set;
 use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;

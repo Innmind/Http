@@ -70,9 +70,6 @@ final class Form implements \Countable
         return $this->parameters->values()->reduce($carry, $reducer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count()
     {
         return $this->parameters->size();

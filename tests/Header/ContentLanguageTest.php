@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header,
     Header\ContentLanguageValue
 };
-use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class ContentLanguageTest extends TestCase

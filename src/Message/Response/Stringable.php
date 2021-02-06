@@ -58,7 +58,7 @@ final class Stringable implements ResponseInterface
             },
         );
         $headers = \array_map(
-            fn(Header $header): string => $header->toString(),
+            static fn(Header $header): string => $header->toString(),
             $headers,
         );
         $headers = \implode("\n", $headers);

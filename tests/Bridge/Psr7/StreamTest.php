@@ -26,7 +26,7 @@ class StreamTest extends TestCase
         $psr
             ->expects($this->once())
             ->method('seek')
-            ->with(24, SEEK_SET);
+            ->with(24, \SEEK_SET);
         $psr
             ->expects($this->once())
             ->method('rewind');

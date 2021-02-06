@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header,
     Header\Value
 };
-use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class HeaderTest extends TestCase

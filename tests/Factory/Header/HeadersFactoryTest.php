@@ -9,7 +9,6 @@ use Innmind\Http\{
     Factory\HeadersFactory as HeadersFactoryInterface,
     Headers
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class HeadersFactoryTest extends TestCase

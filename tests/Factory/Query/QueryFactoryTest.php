@@ -8,7 +8,6 @@ use Innmind\Http\{
     Factory\QueryFactory as QueryFactoryInterface,
     Message\Query
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class QueryFactoryTest extends TestCase
