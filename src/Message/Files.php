@@ -70,9 +70,6 @@ final class Files implements \Countable
         return $this->files->values()->reduce($carry, $reducer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count()
     {
         return $this->files->size();

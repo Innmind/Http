@@ -9,7 +9,6 @@ use Innmind\Http\{
     Header\AcceptLanguageValue,
     Header\Parameter\Quality
 };
-use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class AcceptLanguageTest extends TestCase

@@ -23,7 +23,7 @@ final class ToPsr7
                 static function(array $headers, Header $header): array {
                     $headers[$header->name()] = unwrap($header->values()->mapTo(
                         'string',
-                        fn(Header\Value $value): string => $value->toString(),
+                        static fn(Header\Value $value): string => $value->toString(),
                     ));
 
                     return $headers;

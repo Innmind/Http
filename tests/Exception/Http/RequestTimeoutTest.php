@@ -9,7 +9,7 @@ use Innmind\Http\Exception\Http\{
 };
 use PHPUnit\Framework\TestCase;
 
-class RequestTimeoutExceptionTest extends TestCase
+class RequestTimeoutTest extends TestCase
 {
     public function testInterface()
     {

@@ -44,7 +44,7 @@ final class ContentTypeValue extends Value\Value
         /** @var Sequence<string> */
         $parameters = $this->parameters->values()->toSequenceOf(
             'string',
-            fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
         );
         $parameters = join(';', $parameters);
         $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;

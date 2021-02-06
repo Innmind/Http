@@ -28,11 +28,11 @@ class FilesFactoryTest extends TestCase
                 'name' => 'foo.txt',
                 'type' => 'text/plain',
                 'tmp_name' => '/tmp/foo.txt',
-                'error' => UPLOAD_ERR_OK,
+                'error' => \UPLOAD_ERR_OK,
                 'size' => 3,
             ],
         ];
-        file_put_contents('/tmp/foo.txt', 'foo');
+        \file_put_contents('/tmp/foo.txt', 'foo');
         $f = ($f)();
 
         $this->assertInstanceOf(Files::class, $f);
@@ -41,7 +41,7 @@ class FilesFactoryTest extends TestCase
         $this->assertSame('foo', $f->get('file1')->content()->toString());
         $this->assertSame('text/plain', $f->get('file1')->mediaType()->toString());
         $this->assertInstanceOf(Ok::class, $f->get('file1')->status());
-        @unlink('/tmp/foo.txt');
+        @\unlink('/tmp/foo.txt');
     }
 
     public function testMakeNested()
@@ -60,20 +60,20 @@ class FilesFactoryTest extends TestCase
                     'file1' => '/tmp/bar.txt',
                 ],
                 'error' => [
-                    'file1' => UPLOAD_ERR_OK,
+                    'file1' => \UPLOAD_ERR_OK,
                 ],
                 'size' => [
                     'file1' => 3,
                 ],
             ],
         ];
-        file_put_contents('/tmp/bar.txt', 'bar');
+        \file_put_contents('/tmp/bar.txt', 'bar');
         $f = ($f)();
 
         $this->assertInstanceOf(Files::class, $f);
         $this->assertSame(1, $f->count());
         $this->assertSame('bar.txt', $f->get('download.file1')->name()->toString());
         $this->assertSame('bar', $f->get('download.file1')->content()->toString());
-        @unlink('/tmp/bar.txt');
+        @\unlink('/tmp/bar.txt');
     }
 }

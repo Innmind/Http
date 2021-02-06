@@ -21,7 +21,6 @@ use Innmind\Http\{
 use Innmind\MediaType\MediaType;
 use Innmind\Filesystem\Stream\LazyStream;
 use Innmind\Url\Path;
-use Innmind\Immutable\Map;
 
 final class FilesFactory implements FilesFactoryInterface
 {

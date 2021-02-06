@@ -75,7 +75,7 @@ class StreamTest extends TestCase
     public function testDetachReturnTheUnderlyingResource()
     {
         $stream = new Stream(new Readable\Stream(
-            $resource = fopen('php://temp', 'r+')
+            $resource = \fopen('php://temp', 'r+')
         ));
 
         $this->assertSame($resource, $stream->detach());
@@ -193,7 +193,7 @@ class StreamTest extends TestCase
     {
         $this
             ->forAll(
-                Set\Elements::of(null, SEEK_CUR, SEEK_SET),
+                Set\Elements::of(null, \SEEK_CUR, \SEEK_SET),
                 Set\Integers::above(0)
             )
             ->then(function($whence, $offset) {
@@ -202,11 +202,11 @@ class StreamTest extends TestCase
                         $mode = Mode::fromStart();
                         break;
 
-                    case SEEK_SET:
+                    case \SEEK_SET:
                         $mode = Mode::fromStart();
                         break;
 
-                    case SEEK_CUR:
+                    case \SEEK_CUR:
                         $mode = Mode::fromCurrentPosition();
                         break;
                 }
@@ -243,7 +243,7 @@ class StreamTest extends TestCase
                 $this->expectException(LogicException::class);
                 $this->expectExceptionMessage('SEEK_END not supported');
 
-                $stream->seek($offset, SEEK_END);
+                $stream->seek($offset, \SEEK_END);
             });
     }
 

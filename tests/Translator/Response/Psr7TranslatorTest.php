@@ -9,7 +9,6 @@ use Innmind\Http\{
     Factory\Header\Factories,
     Message\Response
 };
-use Innmind\Immutable\Map;
 use Psr\Http\Message\{
     ResponseInterface,
     StreamInterface

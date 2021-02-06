@@ -91,9 +91,6 @@ final class Headers implements \Countable
         return $this->headers->values()->reduce($carry, $reducer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count()
     {
         return $this->headers->size();

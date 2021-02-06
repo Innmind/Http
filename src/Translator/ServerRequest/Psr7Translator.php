@@ -42,11 +42,6 @@ final class Psr7Translator
         $this->requestTranslator = $requestTranslator;
     }
 
-    public static function default(): self
-    {
-        return new self(RequestTranslator::default());
-    }
-
     public function __invoke(ServerRequestInterface $serverRequest): ServerRequest
     {
         $request = ($this->requestTranslator)($serverRequest);
@@ -63,6 +58,11 @@ final class Psr7Translator
             $this->translateForm($serverRequest->getParsedBody()),
             $this->translateFiles($serverRequest->getUploadedFiles()),
         );
+    }
+
+    public static function default(): self
+    {
+        return new self(RequestTranslator::default());
     }
 
     private function translateEnvironment(array $params): Environment

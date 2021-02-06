@@ -9,15 +9,14 @@ use Innmind\Http\{
     File\Status\Ok,
     Factory\Header\HeaderFactory
 };
-use Innmind\Immutable\Map;
 use Symfony\Component\HttpFoundation\Request;
 use PHPUnit\Framework\TestCase;
 
-class RequestTranslatorTest extends TestCase
+class SymfonyTranslatorTest extends TestCase
 {
     public function testTranslate()
     {
-        file_put_contents('/tmp/uploaded-file', 'some data');
+        \file_put_contents('/tmp/uploaded-file', 'some data');
         $translator = new SymfonyTranslator(
             new HeaderFactory
         );
@@ -88,7 +87,7 @@ class RequestTranslatorTest extends TestCase
             $request->headers()->get('php-auth-pw')->toString(),
         );
         $this->assertSame(
-            'authorization: Basic '.base64_encode('foo:bar'),
+            'authorization: Basic '.\base64_encode('foo:bar'),
             $request->headers()->get('authorization')->toString(),
         );
         $this->assertSame('some content', $request->body()->toString());
@@ -106,6 +105,6 @@ class RequestTranslatorTest extends TestCase
         $this->assertSame('some data', $file->content()->toString());
         $this->assertInstanceOf(Ok::class, $file->status());
         $this->assertSame('text/plain', $file->mediaType()->toString());
-        @unlink('/tmp/uploaded-file');
+        @\unlink('/tmp/uploaded-file');
     }
 }

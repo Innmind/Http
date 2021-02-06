@@ -26,17 +26,17 @@ abstract class Message implements MessageInterface
         $this->body = $body;
     }
 
-    public function protocolVersion(): ProtocolVersion
+    final public function protocolVersion(): ProtocolVersion
     {
         return $this->protocolVersion;
     }
 
-    public function headers(): Headers
+    final public function headers(): Headers
     {
         return $this->headers;
     }
 
-    public function body(): Readable
+    final public function body(): Readable
     {
         return $this->body;
     }

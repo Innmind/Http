@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\CookieValue,
     Header\Parameter\Parameter
 };
-use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use Innmind\Immutable\Set;
 use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;

@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header,
     Header\AllowValue
 };
-use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class AllowTest extends TestCase

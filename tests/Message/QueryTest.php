@@ -8,7 +8,6 @@ use Innmind\Http\{
     Message\Query\Parameter,
     Exception\QueryParameterNotFound,
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
@@ -52,7 +51,7 @@ class QueryTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($query->foreach(function() use (&$called) {
+        $this->assertNull($query->foreach(static function() use (&$called) {
             ++$called;
         }));
         $this->assertSame(2, $called);
@@ -67,7 +66,7 @@ class QueryTest extends TestCase
 
         $reduced = $query->reduce(
             [],
-            function($carry, $parameter) {
+            static function($carry, $parameter) {
                 $carry[] = $parameter->name();
                 $carry[] = $parameter->value();
 

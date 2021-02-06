@@ -50,7 +50,7 @@ class EnvironmentTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($variables->foreach(function() use (&$called) {
+        $this->assertNull($variables->foreach(static function() use (&$called) {
             ++$called;
         }));
         $this->assertSame(2, $called);
@@ -66,7 +66,7 @@ class EnvironmentTest extends TestCase
 
         $reduced = $variables->reduce(
             [],
-            function($carry, $name, $value) {
+            static function($carry, $name, $value) {
                 $carry[] = $name;
                 $carry[] = $value;
 

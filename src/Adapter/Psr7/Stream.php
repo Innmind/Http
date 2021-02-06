@@ -30,57 +30,35 @@ final class Stream implements StreamInterface
         return $this->stream->toString();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function close()
     {
         $this->stream->close();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function detach()
     {
         if ($this->stream instanceof Selectable) {
             return $this->stream->resource();
         }
-
-        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSize()
     {
         if ($this->stream->knowsSize()) {
             return $this->stream->size()->toInt();
         }
-
-        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function tell()
     {
         return $this->stream->position()->toInt();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function eof()
     {
         return $this->stream->end();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSeekable()
     {
         try {
@@ -92,10 +70,7 @@ final class Stream implements StreamInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function seek($offset, $whence = SEEK_SET): void
+    public function seek($offset, $whence = \SEEK_SET): void
     {
         switch ($whence) {
             case \SEEK_SET:
@@ -116,17 +91,11 @@ final class Stream implements StreamInterface
         $this->stream->seek(new Position($offset), $mode);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rewind(): void
     {
         $this->stream->rewind();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isWritable()
     {
         return false;
@@ -136,43 +105,30 @@ final class Stream implements StreamInterface
      * Write data to the stream.
      *
      * @param string $string The string that is to be written.
-     * @return int Returns the number of bytes written to the stream.
      * @throws \RuntimeException on failure.
+     * @return int Returns the number of bytes written to the stream.
      */
     public function write($string)
     {
         throw new LogicException('Immutable stream');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isReadable()
     {
         return !$this->stream->closed();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function read($length)
     {
         return $this->stream->read($length)->toString();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContents()
     {
         return $this->stream->read()->toString();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMetadata($key = null)
     {
-        return null;
     }
 }

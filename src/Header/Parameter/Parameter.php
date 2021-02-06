@@ -28,8 +28,8 @@ class Parameter implements ParameterInterface
         $this->string = \sprintf(
             '%s%s%s',
             $this->name,
-            strlen($this->value) > 0 ? '=' : '',
-            strlen($this->value) > 0 ? $this->value : '',
+            \strlen($this->value) > 0 ? '=' : '',
+            \strlen($this->value) > 0 ? $this->value : '',
         );
     }
 

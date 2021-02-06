@@ -72,9 +72,6 @@ final class Stream implements Readable
         return \is_int($this->stream->getSize());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function read(int $length = null): Str
     {
         if (\is_null($length)) {

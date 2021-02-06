@@ -60,9 +60,6 @@ final class Environment implements \Countable
         return $this->variables->reduce($carry, $reducer);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count()
     {
         return $this->variables->size();

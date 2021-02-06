@@ -8,7 +8,6 @@ use Innmind\Http\{
     Factory\FormFactory as FormFactoryInterface,
     Message\Form
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class FormFactoryTest extends TestCase

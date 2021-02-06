@@ -15,7 +15,7 @@
         "issues": "http://github.com/Innmind/Http/issues"
     },
     "require": {
-        "php": "~7.4",
+        "php": "~7.4|~8.0",
         "innmind/url": "~3.0",
         "innmind/immutable": "~3.0",
         "innmind/filesystem": "~4.0",
@@ -35,10 +35,11 @@
     },
     "require-dev": {
         "psr/http-message": "^1.0",
-        "phpunit/phpunit": "~8.0",
+        "phpunit/phpunit": "~9.0",
         "symfony/http-foundation": "~4.4|~5.0",
-        "vimeo/psalm": "~3.7",
+        "vimeo/psalm": "~4.1",
         "innmind/black-box": "^4.9",
-        "symfony/mime": "^5.1"
+        "symfony/mime": "^5.1",
+        "innmind/coding-standard": "^1.1"
     }
 }

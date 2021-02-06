@@ -16,7 +16,7 @@ final class ContentLanguage extends Header
     public static function of(string ...$values): self
     {
         return new self(...\array_map(
-            fn(string $value): ContentLanguageValue => new ContentLanguageValue($value),
+            static fn(string $value): ContentLanguageValue => new ContentLanguageValue($value),
             $values,
         ));
     }

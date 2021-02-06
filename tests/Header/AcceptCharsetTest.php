@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\AcceptCharsetValue,
     Header\Parameter\Quality
 };
-use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class AcceptCharsetTest extends TestCase

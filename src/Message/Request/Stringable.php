@@ -57,7 +57,7 @@ final class Stringable implements RequestInterface
                 return $headers;
             },
         );
-        $headers = \array_map(fn(Header $header): string => $header->toString(), $headers);
+        $headers = \array_map(static fn(Header $header): string => $header->toString(), $headers);
         $headers = \implode("\n", $headers);
 
         return <<<RAW
