@@ -26,6 +26,7 @@ final class HeadersFactory implements HeadersFactoryInterface
         $headers = [];
 
         foreach ($this->headers() as $name => $value) {
+            /** @psalm-suppress RedundantCastGivenDocblockType */
             $headers[] = ($this->headerFactory)(
                 Str::of((string) $name),
                 Str::of((string) $value),

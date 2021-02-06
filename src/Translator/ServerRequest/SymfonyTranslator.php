@@ -110,6 +110,7 @@ final class SymfonyTranslator
          * @var string $value
          */
         foreach ($server as $key => $value) {
+            /** @psalm-suppress RedundantCastGivenDocblockType */
             $map = ($map)((string) $key, (string) $value);
         }
 
@@ -126,6 +127,7 @@ final class SymfonyTranslator
          * @var string $value
          */
         foreach ($cookies as $key => $value) {
+            /** @psalm-suppress RedundantCastGivenDocblockType */
             $map = ($map)((string) $key, (string) $value);
         }
 
@@ -171,6 +173,7 @@ final class SymfonyTranslator
          * @var UploadedFile $file
          */
         foreach ($files as $name => $file) {
+            /** @psalm-suppress RedundantCastGivenDocblockType */
             $map[] = new File\File(
                 (string) $file->getClientOriginalName(),
                 Stream::open(Path::of($file->getPathname())),
