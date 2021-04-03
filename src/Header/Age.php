@@ -3,10 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+use Innmind\Http\Header as HeaderInterface;
+
 /**
  * @extends Header<AgeValue>
+ * @implements HeaderInterface<AgeValue>
  */
-final class Age extends Header
+final class Age extends Header implements HeaderInterface
 {
     public function __construct(AgeValue $age)
     {

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+use Innmind\Http\Header as HeaderInterface;
 use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
@@ -10,8 +11,9 @@ use Innmind\Url\Authority\{
 
 /**
  * @extends Header<HostValue>
+ * @implements HeaderInterface<HostValue>
  */
-final class Host extends Header
+final class Host extends Header implements HeaderInterface
 {
     public function __construct(HostValue $host)
     {
