@@ -3,12 +3,14 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+use Innmind\Http\Header as HeaderInterface;
 use Innmind\Url\Url;
 
 /**
  * @extends Header<LocationValue>
+ * @implements HeaderInterface<LocationValue>
  */
-final class Location extends Header
+final class Location extends Header implements HeaderInterface
 {
     public function __construct(LocationValue $location)
     {

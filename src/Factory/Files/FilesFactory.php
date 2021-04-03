@@ -37,7 +37,7 @@ final class FilesFactory implements FilesFactoryInterface
                 foreach ($content['name'] as $subName => $filename) {
                     /** @psalm-suppress PossiblyInvalidArrayAccess */
                     $map[] = $this->buildFile(
-                        $content['name'][$subName],
+                        $filename,
                         $content['tmp_name'][$subName],
                         $content['error'][$subName],
                         $content['type'][$subName],
@@ -48,7 +48,10 @@ final class FilesFactory implements FilesFactoryInterface
                 continue;
             }
 
-            /** @psalm-suppress PossiblyInvalidArgument */
+            /**
+             * @psalm-suppress PossiblyInvalidArgument
+             * @psalm-suppress PossiblyInvalidCast
+             */
             $map[] = $this->buildFile(
                 $content['name'],
                 $content['tmp_name'],

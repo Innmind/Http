@@ -3,10 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+use Innmind\Http\Header as HeaderInterface;
+
 /**
  * @extends Header<ContentLanguageValue>
+ * @implements HeaderInterface<ContentLanguageValue>
  */
-final class ContentLanguage extends Header
+final class ContentLanguage extends Header implements HeaderInterface
 {
     public function __construct(ContentLanguageValue ...$values)
     {

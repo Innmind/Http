@@ -3,10 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+use Innmind\Http\Header as HeaderInterface;
+
 /**
  * @extends Header<CookieValue>
+ * @implements HeaderInterface<CookieValue>
  */
-final class Cookie extends Header
+final class Cookie extends Header implements HeaderInterface
 {
     public function __construct(CookieValue $value)
     {

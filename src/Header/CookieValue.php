@@ -26,7 +26,6 @@ final class CookieValue extends Value\Value
             );
         }
 
-        /** @var Sequence<string> */
         $parameters = $this->parameters->values()->toSequenceOf(
             'string',
             static fn(Parameter $paramater): \Generator => yield $paramater->toString(),

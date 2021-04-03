@@ -3,10 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
+use Innmind\Http\Header as HeaderInterface;
+
 /**
  * @extends Header<RangeValue>
+ * @implements HeaderInterface<RangeValue>
  */
-final class Range extends Header
+final class Range extends Header implements HeaderInterface
 {
     public function __construct(RangeValue $range)
     {
