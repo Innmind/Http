@@ -48,7 +48,10 @@ final class FilesFactory implements FilesFactoryInterface
                 continue;
             }
 
-            /** @psalm-suppress PossiblyInvalidArgument */
+            /**
+             * @psalm-suppress PossiblyInvalidArgument
+             * @psalm-suppress PossiblyInvalidCast
+             */
             $map[] = $this->buildFile(
                 $content['name'],
                 $content['tmp_name'],

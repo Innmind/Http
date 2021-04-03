@@ -136,6 +136,7 @@ final class ResponseSender implements Sender
             /**
              * @psalm-suppress MixedArgument
              * @psalm-suppress InvalidArgument
+             * @psalm-suppress InvalidCast
              */
             \setcookie(
                 $parameters['key'] ?? '',
