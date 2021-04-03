@@ -25,7 +25,6 @@ final class DelegationFactory implements HeaderFactoryInterface
     {
         assertMap('string', HeaderFactoryInterface::class, $factories, 1);
 
-        /** @var Map<string, HeaderFactoryInterface> */
         $this->factories = $factories;
     }
 

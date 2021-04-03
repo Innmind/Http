@@ -41,7 +41,6 @@ final class ContentTypeValue extends Value\Value
         $this->type = $type;
         $this->subType = $subType;
 
-        /** @var Sequence<string> */
         $parameters = $this->parameters->values()->toSequenceOf(
             'string',
             static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
