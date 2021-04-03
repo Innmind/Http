@@ -72,9 +72,9 @@ final class ResponseSender implements Sender
     {
         /** @psalm-suppress ArgumentTypeCoercion */
         $cookie->values()->foreach(static function(CookieValue $value): void {
-            $parameters = $value->parameters()->reduce(
+            $parameters = $value->parameters()->values()->reduce(
                 [],
-                static function(array $parameters, string $name, Parameter $parameter): array {
+                static function(array $parameters, Parameter $parameter): array {
                     switch ($parameter->name()) {
                         case 'Domain':
                             $parameters['domain'] = $parameter->value();
