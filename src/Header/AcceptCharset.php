@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<AcceptCharsetValue>
  * @implements HeaderInterface<AcceptCharsetValue>
+ * @psalm-immutable
  */
 final class AcceptCharset extends Header implements HeaderInterface
 {

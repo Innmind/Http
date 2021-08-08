@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
+/**
+ * @psalm-immutable
+ */
 final class ProtocolVersion
 {
     private int $major;

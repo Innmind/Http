@@ -10,6 +10,7 @@ use function Innmind\Immutable\join;
 /**
  * @template V of Value
  * @implements HeaderInterface<V>
+ * @psalm-immutable
  */
 class Header implements HeaderInterface
 {

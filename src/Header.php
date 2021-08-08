@@ -7,6 +7,7 @@ use Innmind\Immutable\Set;
 
 /**
  * @template V of Header\Value
+ * @psalm-immutable
  */
 interface Header
 {

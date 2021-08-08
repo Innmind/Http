@@ -8,6 +8,9 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class MaxAge implements CacheControlValue
 {
     private int $age;

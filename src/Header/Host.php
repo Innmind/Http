@@ -12,6 +12,7 @@ use Innmind\Url\Authority\{
 /**
  * @extends Header<HostValue>
  * @implements HeaderInterface<HostValue>
+ * @psalm-immutable
  */
 final class Host extends Header implements HeaderInterface
 {

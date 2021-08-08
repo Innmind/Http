@@ -6,6 +6,9 @@ namespace Innmind\Http\Header\CookieParameter;
 use Innmind\Http\Header\Parameter\Parameter;
 use Innmind\Url\Path as UrlPath;
 
+/**
+ * @psalm-immutable
+ */
 final class Path extends Parameter
 {
     public function __construct(UrlPath $path)

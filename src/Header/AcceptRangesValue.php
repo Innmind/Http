@@ -6,6 +6,9 @@ namespace Innmind\Http\Header;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Str;
 
+/**
+ * @psalm-immutable
+ */
 final class AcceptRangesValue extends Value\Value
 {
     public function __construct(string $range)

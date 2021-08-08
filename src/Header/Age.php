@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<AgeValue>
  * @implements HeaderInterface<AgeValue>
+ * @psalm-immutable
  */
 final class Age extends Header implements HeaderInterface
 {

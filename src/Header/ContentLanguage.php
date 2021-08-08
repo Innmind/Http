@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<ContentLanguageValue>
  * @implements HeaderInterface<ContentLanguageValue>
+ * @psalm-immutable
  */
 final class ContentLanguage extends Header implements HeaderInterface
 {

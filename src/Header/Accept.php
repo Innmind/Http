@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<AcceptValue>
  * @implements HeaderInterface<AcceptValue>
+ * @psalm-immutable
  */
 final class Accept extends Header implements HeaderInterface
 {

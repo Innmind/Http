@@ -9,6 +9,9 @@ use Innmind\Immutable\{
 };
 use function Innmind\Immutable\join;
 
+/**
+ * @psalm-immutable
+ */
 final class CookieValue extends Value\Value
 {
     /** @var Map<string, Parameter> */

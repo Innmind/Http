@@ -9,6 +9,9 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Map;
 
+/**
+ * @psalm-immutable
+ */
 final class Files implements \Countable
 {
     /** @var Map<string, File> */

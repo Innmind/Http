@@ -8,6 +8,9 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class SameSite extends Parameter
 {
     public function __construct(string $value)

@@ -7,6 +7,9 @@ use Innmind\Http\Exception\EnvironmentVariableNotFound;
 use Innmind\Immutable\Map;
 use function Innmind\Immutable\assertMap;
 
+/**
+ * @psalm-immutable
+ */
 final class Environment implements \Countable
 {
     /** @var Map<string, string> */

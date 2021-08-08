@@ -9,6 +9,9 @@ use Innmind\Immutable\{
     Map,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class Headers implements \Countable
 {
     /** @var Map<string, Header<Header\Value>> */

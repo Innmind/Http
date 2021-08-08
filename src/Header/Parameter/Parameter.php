@@ -6,6 +6,9 @@ namespace Innmind\Http\Header\Parameter;
 use Innmind\Http\Header\Parameter as ParameterInterface;
 use Innmind\Immutable\Str;
 
+/**
+ * @psalm-immutable
+ */
 class Parameter implements ParameterInterface
 {
     private string $name;

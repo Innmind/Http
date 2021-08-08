@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<CookieValue>
  * @implements HeaderInterface<CookieValue>
+ * @psalm-immutable
  */
 final class SetCookie extends Header implements HeaderInterface
 {

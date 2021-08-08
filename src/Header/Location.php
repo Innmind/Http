@@ -9,6 +9,7 @@ use Innmind\Url\Url;
 /**
  * @extends Header<LocationValue>
  * @implements HeaderInterface<LocationValue>
+ * @psalm-immutable
  */
 final class Location extends Header implements HeaderInterface
 {

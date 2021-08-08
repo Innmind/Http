@@ -5,6 +5,9 @@ namespace Innmind\Http\File\Status;
 
 use Innmind\Http\File\Status;
 
+/**
+ * @psalm-immutable
+ */
 final class ExceedsIniMaxFileSize implements Status
 {
     public function value(): int

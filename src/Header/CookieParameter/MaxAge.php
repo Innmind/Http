@@ -8,6 +8,9 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class MaxAge extends Parameter
 {
     public function __construct(int $number)

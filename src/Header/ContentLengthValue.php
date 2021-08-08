@@ -5,6 +5,9 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
 
+/**
+ * @psalm-immutable
+ */
 final class ContentLengthValue extends Value\Value
 {
     public function __construct(int $length)

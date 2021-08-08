@@ -9,6 +9,7 @@ use Innmind\Url\Url;
 /**
  * @extends Header<ReferrerValue>
  * @implements HeaderInterface<ReferrerValue>
+ * @psalm-immutable
  */
 final class Referrer extends Header implements HeaderInterface
 {

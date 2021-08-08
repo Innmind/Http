@@ -12,6 +12,9 @@ use Innmind\TimeContinuum\{
     Earth\Timezone\UTC,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class Expires extends Parameter
 {
     public function __construct(PointInTime $date)

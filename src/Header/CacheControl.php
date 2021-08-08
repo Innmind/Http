@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<CacheControlValue>
  * @implements HeaderInterface<CacheControlValue>
+ * @psalm-immutable
  */
 final class CacheControl extends Header implements HeaderInterface
 {

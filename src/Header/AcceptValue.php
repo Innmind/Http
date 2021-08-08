@@ -11,6 +11,9 @@ use Innmind\Immutable\{
 };
 use function Innmind\Immutable\join;
 
+/**
+ * @psalm-immutable
+ */
 final class AcceptValue extends Value\Value
 {
     private string $type;

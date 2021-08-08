@@ -12,6 +12,9 @@ use Innmind\Immutable\{
 };
 use function Innmind\Immutable\join;
 
+/**
+ * @psalm-immutable
+ */
 final class LinkValue extends Value\Value
 {
     private Url $url;

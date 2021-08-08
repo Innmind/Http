@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<AuthorizationValue>
  * @implements HeaderInterface<AuthorizationValue>
+ * @psalm-immutable
  */
 final class Authorization extends Header implements HeaderInterface
 {

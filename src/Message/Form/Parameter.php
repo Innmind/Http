@@ -5,6 +5,9 @@ namespace Innmind\Http\Message\Form;
 
 use Innmind\Http\Exception\DomainException;
 
+/**
+ * @psalm-immutable
+ */
 final class Parameter
 {
     private string $name;

@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<LinkValue>
  * @implements HeaderInterface<LinkValue>
+ * @psalm-immutable
  */
 final class Link extends Header implements HeaderInterface
 {

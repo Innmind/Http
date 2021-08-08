@@ -5,6 +5,9 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\Header\CacheControlValue;
 
+/**
+ * @psalm-immutable
+ */
 final class OnlyIfCached implements CacheControlValue
 {
     public function toString(): string

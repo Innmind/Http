@@ -7,6 +7,9 @@ use Innmind\Http\Exception\CookieNotFound;
 use Innmind\Immutable\Map;
 use function Innmind\Immutable\assertMap;
 
+/**
+ * @psalm-immutable
+ */
 final class Cookies implements \Countable
 {
     /** @var Map<string, string> */

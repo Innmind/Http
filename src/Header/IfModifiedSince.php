@@ -9,6 +9,7 @@ use Innmind\TimeContinuum\PointInTime;
 /**
  * @extends Header<DateValue>
  * @implements HeaderInterface<DateValue>
+ * @psalm-immutable
  */
 final class IfModifiedSince extends Header implements HeaderInterface
 {

@@ -6,6 +6,9 @@ namespace Innmind\Http\Message;
 use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\Map;
 
+/**
+ * @psalm-immutable
+ */
 final class ReasonPhrase
 {
     /** @var Map<int, string>|null */

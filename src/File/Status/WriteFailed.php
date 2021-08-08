@@ -5,6 +5,9 @@ namespace Innmind\Http\File\Status;
 
 use Innmind\Http\File\Status;
 
+/**
+ * @psalm-immutable
+ */
 final class WriteFailed implements Status
 {
     public function value(): int

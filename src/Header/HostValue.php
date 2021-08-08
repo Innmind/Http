@@ -8,6 +8,9 @@ use Innmind\Url\Authority\{
     Port,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class HostValue extends Value\Value
 {
     private UrlHost $host;

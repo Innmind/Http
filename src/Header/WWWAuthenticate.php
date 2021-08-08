@@ -8,6 +8,7 @@ use Innmind\Http\Header as HeaderInterface;
 /**
  * @extends Header<WWWAuthenticateValue>
  * @implements HeaderInterface<WWWAuthenticateValue>
+ * @psalm-immutable
  */
 final class WWWAuthenticate extends Header implements HeaderInterface
 {

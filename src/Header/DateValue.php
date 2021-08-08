@@ -9,6 +9,9 @@ use Innmind\TimeContinuum\{
     Earth\Timezone\UTC,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class DateValue extends Value\Value
 {
     public function __construct(PointInTime $date)

@@ -5,6 +5,9 @@ namespace Innmind\Http\Header\Parameter;
 
 use Innmind\Http\Exception\DomainException;
 
+/**
+ * @psalm-immutable
+ */
 final class Quality extends Parameter
 {
     public function __construct(float $value)

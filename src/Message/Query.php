@@ -9,6 +9,9 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Map;
 
+/**
+ * @psalm-immutable
+ */
 final class Query implements \Countable
 {
     /** @var Map<string, Parameter> */

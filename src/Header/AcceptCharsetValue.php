@@ -9,6 +9,9 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
+/**
+ * @psalm-immutable
+ */
 final class AcceptCharsetValue extends Value\Value
 {
     private Quality $quality;
