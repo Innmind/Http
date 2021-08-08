@@ -25,7 +25,7 @@ final class Headers implements \Countable
 
         foreach ($headers as $header) {
             $this->headers = ($this->headers)(
-                Str::of($header->name())->toLower()->toString(),
+                $this->normalize($header->name()),
                 $header,
             );
         }
@@ -43,7 +43,7 @@ final class Headers implements \Countable
      */
     public function get(string $name): Maybe
     {
-        return $this->headers->get(Str::of($name)->toLower()->toString());
+        return $this->headers->get($this->normalize($name));
     }
 
     public function add(Header ...$headers): self
@@ -52,7 +52,7 @@ final class Headers implements \Countable
 
         foreach ($headers as $header) {
             $self->headers = ($self->headers)(
-                Str::of($header->name())->toLower()->toString(),
+                $this->normalize($header->name()),
                 $header,
             );
         }
@@ -67,7 +67,10 @@ final class Headers implements \Countable
      */
     public function contains(string $name): bool
     {
-        return $this->headers->contains(Str::of($name)->toLower()->toString());
+        return $this->get($name)->match(
+            static fn() => true,
+            static fn() => false,
+        );
     }
 
     /**
@@ -94,5 +97,10 @@ final class Headers implements \Countable
     public function count()
     {
         return $this->headers->size();
+    }
+
+    private function normalize(string $name): string
+    {
+        return Str::of($name)->toLower()->toString();
     }
 }
