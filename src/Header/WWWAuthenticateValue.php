@@ -9,7 +9,7 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class WWWAuthenticateValue extends Value\Value
+final class WWWAuthenticateValue implements Value
 {
     private string $scheme;
     private string $realm;
@@ -24,13 +24,6 @@ final class WWWAuthenticateValue extends Value\Value
 
         $this->scheme = $scheme->toString();
         $this->realm = $realm;
-        parent::__construct(
-            $scheme
-                ->append(' ')
-                ->append((new Parameter\Parameter('realm', $realm))->toString())
-                ->trim()
-                ->toString(),
-        );
     }
 
     public function scheme(): string
@@ -41,5 +34,14 @@ final class WWWAuthenticateValue extends Value\Value
     public function realm(): string
     {
         return $this->realm;
+    }
+
+    public function toString(): string
+    {
+        return Str::of($this->scheme)
+            ->append(' ')
+            ->append((new Parameter\Parameter('realm', $this->realm))->toString())
+            ->trim()
+            ->toString();
     }
 }

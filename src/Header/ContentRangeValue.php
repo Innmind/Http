@@ -9,7 +9,7 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class ContentRangeValue extends Value\Value
+final class ContentRangeValue implements Value
 {
     private string $unit;
     private int $firstPosition;
@@ -37,13 +37,6 @@ final class ContentRangeValue extends Value\Value
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
         $this->length = $length;
-        parent::__construct(\sprintf(
-            '%s %s-%s/%s',
-            $unit,
-            $firstPosition,
-            $lastPosition,
-            $length ?? '*',
-        ));
     }
 
     public function unit(): string
@@ -69,5 +62,16 @@ final class ContentRangeValue extends Value\Value
     public function length(): ?int
     {
         return $this->length;
+    }
+
+    public function toString(): string
+    {
+        return \sprintf(
+            '%s %s-%s/%s',
+            $this->unit,
+            $this->firstPosition,
+            $this->lastPosition,
+            $this->length ?? '*',
+        );
     }
 }

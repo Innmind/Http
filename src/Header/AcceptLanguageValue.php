@@ -12,8 +12,9 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class AcceptLanguageValue extends Value\Value
+final class AcceptLanguageValue implements Value
 {
+    private Str $language;
     private Quality $quality;
 
     public function __construct(string $language, Quality $quality = null)
@@ -28,17 +29,21 @@ final class AcceptLanguageValue extends Value\Value
             throw new DomainException($language->toString());
         }
 
+        $this->language = $language;
         $this->quality = $quality;
-        parent::__construct(
-            $language
-                ->append(';')
-                ->append($quality->toString())
-                ->toString(),
-        );
     }
 
     public function quality(): Quality
     {
         return $this->quality;
+    }
+
+    public function toString(): string
+    {
+        return $this
+            ->language
+            ->append(';')
+            ->append($this->quality->toString())
+            ->toString();
     }
 }

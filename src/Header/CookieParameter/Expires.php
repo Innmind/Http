@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\CookieParameter;
 
 use Innmind\Http\{
-    Header\Parameter\Parameter,
+    Header\Parameter,
     TimeContinuum\Format\Http,
 };
 use Innmind\TimeContinuum\{
@@ -15,10 +15,30 @@ use Innmind\TimeContinuum\{
 /**
  * @psalm-immutable
  */
-final class Expires extends Parameter
+final class Expires implements Parameter
 {
+    private Parameter $parameter;
+
     public function __construct(PointInTime $date)
     {
-        parent::__construct('Expires', $date->changeTimezone(new UTC)->format(new Http));
+        $this->parameter = new Parameter\Parameter(
+            'Expires',
+            $date->changeTimezone(new UTC)->format(new Http),
+        );
+    }
+
+    public function name(): string
+    {
+        return $this->parameter->name();
+    }
+
+    public function value(): string
+    {
+        return $this->parameter->value();
+    }
+
+    public function toString(): string
+    {
+        return $this->parameter->toString();
     }
 }

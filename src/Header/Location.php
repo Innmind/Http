@@ -5,21 +5,39 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
 use Innmind\Url\Url;
+use Innmind\Immutable\Set;
 
 /**
- * @extends Header<LocationValue>
  * @implements HeaderInterface<LocationValue>
  * @psalm-immutable
  */
-final class Location extends Header implements HeaderInterface
+final class Location implements HeaderInterface
 {
+    /** @var Header<LocationValue> */
+    private Header $header;
+
     public function __construct(LocationValue $location)
     {
-        parent::__construct('Location', $location);
+        $this->header = new Header('Location', $location);
     }
 
     public static function of(Url $location): self
     {
         return new self(new LocationValue($location));
+    }
+
+    public function name(): string
+    {
+        return $this->header->name();
+    }
+
+    public function values(): Set
+    {
+        return $this->header->values();
+    }
+
+    public function toString(): string
+    {
+        return $this->header->toString();
     }
 }

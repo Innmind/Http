@@ -13,7 +13,7 @@ use function Innmind\Immutable\join;
 /**
  * @psalm-immutable
  */
-final class AcceptValue extends Value\Value
+final class AcceptValue implements Value
 {
     private string $type;
     private string $subType;
@@ -46,18 +46,6 @@ final class AcceptValue extends Value\Value
 
         $this->type = $type;
         $this->subType = $subType;
-
-        $parameters = $this->parameters->values()->map(
-            static fn($paramater) => $paramater->toString(),
-        );
-        $parameters = join(';', $parameters);
-        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
-
-        parent::__construct(
-            $media
-                ->append($parameters->toString())
-                ->toString(),
-        );
     }
 
     public function type(): string
@@ -76,5 +64,20 @@ final class AcceptValue extends Value\Value
     public function parameters(): Map
     {
         return $this->parameters;
+    }
+
+    public function toString(): string
+    {
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+        $parameters = join(';', $parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
+
+        return Str::of($this->type)
+            ->append('/')
+            ->append($this->subType)
+            ->append($parameters->toString())
+            ->toString();
     }
 }

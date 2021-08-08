@@ -9,29 +9,19 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class AuthorizationValue extends Value\Value
+final class AuthorizationValue implements Value
 {
     private string $scheme;
     private string $parameter;
 
     public function __construct(string $scheme, string $parameter)
     {
-        $scheme = Str::of($scheme);
-
-        if (!$scheme->matches('~^\w+$~')) {
-            throw new DomainException($scheme->toString());
+        if (!Str::of($scheme)->matches('~^\w+$~')) {
+            throw new DomainException($scheme);
         }
 
-        $this->scheme = $scheme->toString();
+        $this->scheme = $scheme;
         $this->parameter = $parameter;
-        parent::__construct(
-            $scheme
-                ->prepend('"')
-                ->append('" ')
-                ->append($parameter)
-                ->trim()
-                ->toString(),
-        );
     }
 
     public function scheme(): string
@@ -42,5 +32,15 @@ final class AuthorizationValue extends Value\Value
     public function parameter(): string
     {
         return $this->parameter;
+    }
+
+    public function toString(): string
+    {
+        return Str::of($this->scheme)
+            ->prepend('"')
+            ->append('" ')
+            ->append($this->parameter)
+            ->trim()
+            ->toString();
     }
 }

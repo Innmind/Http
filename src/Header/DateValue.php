@@ -12,10 +12,17 @@ use Innmind\TimeContinuum\{
 /**
  * @psalm-immutable
  */
-final class DateValue extends Value\Value
+final class DateValue implements Value
 {
+    private PointInTime $date;
+
     public function __construct(PointInTime $date)
     {
-        parent::__construct($date->changeTimezone(new UTC)->format(new Http));
+        $this->date = $date;
+    }
+
+    public function toString(): string
+    {
+        return $this->date->changeTimezone(new UTC)->format(new Http);
     }
 }

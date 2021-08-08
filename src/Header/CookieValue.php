@@ -9,7 +9,7 @@ use function Innmind\Immutable\join;
 /**
  * @psalm-immutable
  */
-final class CookieValue extends Value\Value
+final class CookieValue implements Value
 {
     /** @var Map<string, Parameter> */
     private Map $parameters;
@@ -25,12 +25,6 @@ final class CookieValue extends Value\Value
                 $paramater
             );
         }
-
-        $parameters = $this->parameters->values()->map(
-            static fn($paramater) => $paramater->toString(),
-        );
-
-        parent::__construct(join('; ', $parameters)->toString());
     }
 
     /**
@@ -39,5 +33,14 @@ final class CookieValue extends Value\Value
     public function parameters(): Map
     {
         return $this->parameters;
+    }
+
+    public function toString(): string
+    {
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+
+        return join('; ', $parameters)->toString();
     }
 }

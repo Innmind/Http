@@ -8,12 +8,19 @@ use Innmind\Http\Message\Method;
 /**
  * @psalm-immutable
  */
-final class AllowValue extends Value\Value
+final class AllowValue implements Value
 {
+    private string $value;
+
     public function __construct(string $value)
     {
         new Method($value);
 
-        parent::__construct($value);
+        $this->value = $value;
+    }
+
+    public function toString(): string
+    {
+        return $this->value;
     }
 }

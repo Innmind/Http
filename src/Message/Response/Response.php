@@ -5,7 +5,6 @@ namespace Innmind\Http\Message\Response;
 
 use Innmind\Http\{
     Message\Response as ResponseInterface,
-    Message\Message,
     Message\ReasonPhrase,
     Message\StatusCode,
     ProtocolVersion,
@@ -14,8 +13,11 @@ use Innmind\Http\{
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
-final class Response extends Message implements ResponseInterface
+final class Response implements ResponseInterface
 {
+    private ProtocolVersion $protocolVersion;
+    private Headers $headers;
+    private Readable $body;
     private StatusCode $statusCode;
     private ReasonPhrase $reasonPhrase;
 
@@ -26,14 +28,26 @@ final class Response extends Message implements ResponseInterface
         Headers $headers = null,
         Readable $body = null
     ) {
+        $this->protocolVersion = $protocolVersion;
+        $this->headers = $headers ?? new Headers;
+        $this->body = $body ?? new NullStream;
         $this->statusCode = $statusCode;
         $this->reasonPhrase = $reasonPhrase;
+    }
 
-        parent::__construct(
-            $protocolVersion,
-            $headers ?? new Headers,
-            $body ?? new NullStream,
-        );
+    public function protocolVersion(): ProtocolVersion
+    {
+        return $this->protocolVersion;
+    }
+
+    public function headers(): Headers
+    {
+        return $this->headers;
+    }
+
+    public function body(): Readable
+    {
+        return $this->body;
     }
 
     public function statusCode(): StatusCode

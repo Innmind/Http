@@ -15,7 +15,7 @@ use function Innmind\Immutable\join;
 /**
  * @psalm-immutable
  */
-final class LinkValue extends Value\Value
+final class LinkValue implements Value
 {
     private Url $url;
     private string $rel;
@@ -44,19 +44,6 @@ final class LinkValue extends Value\Value
 
         $this->url = $url;
         $this->rel = $rel;
-
-        $parameters = $this->parameters->values()->map(
-            static fn($paramater) => $paramater->toString(),
-        );
-        $parameters = join(';', $parameters);
-        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
-        $link = Str::of('<%s>; rel="%s"')->sprintf($url->toString(), $rel);
-
-        parent::__construct(
-            $link
-                ->append($parameters->toString())
-                ->toString(),
-        );
     }
 
     public function url(): Url
@@ -75,5 +62,19 @@ final class LinkValue extends Value\Value
     public function parameters(): Map
     {
         return $this->parameters;
+    }
+
+    public function toString(): string
+    {
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+        $parameters = join(';', $parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
+        $link = Str::of('<%s>; rel="%s"')->sprintf($this->url->toString(), $this->rel);
+
+        return $link
+            ->append($parameters->toString())
+            ->toString();
     }
 }

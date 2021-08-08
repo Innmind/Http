@@ -9,7 +9,7 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-class Parameter implements ParameterInterface
+final class Parameter implements ParameterInterface
 {
     private string $name;
     private string $value;

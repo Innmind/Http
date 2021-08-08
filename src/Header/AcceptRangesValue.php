@@ -9,14 +9,21 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class AcceptRangesValue extends Value\Value
+final class AcceptRangesValue implements Value
 {
+    private string $range;
+
     public function __construct(string $range)
     {
         if (!Str::of($range)->matches('~^\w+$~')) {
             throw new DomainException($range);
         }
 
-        parent::__construct($range);
+        $this->range = $range;
+    }
+
+    public function toString(): string
+    {
+        return $this->range;
     }
 }

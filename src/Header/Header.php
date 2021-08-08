@@ -8,23 +8,23 @@ use Innmind\Immutable\Set;
 use function Innmind\Immutable\join;
 
 /**
- * @template V of Value
- * @implements HeaderInterface<V>
+ * @template A of Value
+ * @implements HeaderInterface<A>
  * @psalm-immutable
  */
-class Header implements HeaderInterface
+final class Header implements HeaderInterface
 {
     private string $name;
-    /** @var Set<V> */
+    /** @var Set<A> */
     private Set $values;
 
     /**
      * @no-named-arguments
+     * @param A $values
      */
     public function __construct(string $name, Value ...$values)
     {
         $this->name = $name;
-        /** @var Set<V> */
         $this->values = Set::of(...$values);
     }
 

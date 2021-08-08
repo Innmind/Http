@@ -8,10 +8,17 @@ use Innmind\Url\Url;
 /**
  * @psalm-immutable
  */
-final class ReferrerValue extends Value\Value
+final class ReferrerValue implements Value
 {
+    private Url $url;
+
     public function __construct(Url $url)
     {
-        parent::__construct($url->toString());
+        $this->url = $url;
+    }
+
+    public function toString(): string
+    {
+        return $this->url->toString();
     }
 }

@@ -5,8 +5,6 @@ namespace Innmind\Http\Message\ServerRequest;
 
 use Innmind\Http\{
     Message\ServerRequest as ServerRequestInterface,
-    Message\Request\Request,
-    Message\Message,
     Message\Method,
     Message\Environment,
     Message\Cookies,
@@ -20,8 +18,13 @@ use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use Innmind\Filesystem\Stream\NullStream;
 
-final class ServerRequest extends Request implements ServerRequestInterface
+final class ServerRequest implements ServerRequestInterface
 {
+    private Url $url;
+    private Method $method;
+    private ProtocolVersion $protocolVersion;
+    private Headers $headers;
+    private Readable $body;
     private Environment $environment;
     private Cookies $cookies;
     private Query $query;
@@ -40,19 +43,41 @@ final class ServerRequest extends Request implements ServerRequestInterface
         Form $form = null,
         Files $files = null
     ) {
-        parent::__construct(
-            $url,
-            $method,
-            $protocolVersion,
-            $headers ?? new Headers,
-            $body ?? new NullStream,
-        );
-
+        $this->url = $url;
+        $this->method = $method;
+        $this->protocolVersion = $protocolVersion;
+        $this->headers = $headers ?? new Headers;
+        $this->body = $body ?? new NullStream;
         $this->environment = $environment ?? new Environment;
         $this->cookies = $cookies ?? new Cookies;
         $this->query = $query ?? new Query;
         $this->form = $form ?? new Form;
         $this->files = $files ?? new Files;
+    }
+
+    public function protocolVersion(): ProtocolVersion
+    {
+        return $this->protocolVersion;
+    }
+
+    public function headers(): Headers
+    {
+        return $this->headers;
+    }
+
+    public function body(): Readable
+    {
+        return $this->body;
+    }
+
+    public function url(): Url
+    {
+        return $this->url;
+    }
+
+    public function method(): Method
+    {
+        return $this->method;
     }
 
     public function environment(): Environment

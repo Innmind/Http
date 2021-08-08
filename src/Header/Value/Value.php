@@ -8,7 +8,7 @@ use Innmind\Http\Header\Value as ValueInterface;
 /**
  * @psalm-immutable
  */
-class Value implements ValueInterface
+final class Value implements ValueInterface
 {
     private string $value;
 

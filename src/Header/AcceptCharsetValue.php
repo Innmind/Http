@@ -12,8 +12,9 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class AcceptCharsetValue extends Value\Value
+final class AcceptCharsetValue implements Value
 {
+    private Str $charset;
     private Quality $quality;
 
     public function __construct(string $charset, Quality $quality = null)
@@ -28,17 +29,21 @@ final class AcceptCharsetValue extends Value\Value
             throw new DomainException($charset->toString());
         }
 
+        $this->charset = $charset;
         $this->quality = $quality;
-        parent::__construct(
-            $charset
-                ->append(';')
-                ->append($quality->toString())
-                ->toString(),
-        );
     }
 
     public function quality(): Quality
     {
         return $this->quality;
+    }
+
+    public function toString(): string
+    {
+        return $this
+            ->charset
+            ->append(';')
+            ->append($this->quality->toString())
+            ->toString();
     }
 }

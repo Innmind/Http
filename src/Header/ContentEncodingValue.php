@@ -9,16 +9,21 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class ContentEncodingValue extends Value\Value
+final class ContentEncodingValue implements Value
 {
+    private string $coding;
+
     public function __construct(string $coding)
     {
-        $coding = Str::of($coding);
-
-        if (!$coding->matches('~^[\w\-]+$~')) {
-            throw new DomainException($coding->toString());
+        if (!Str::of($coding)->matches('~^[\w\-]+$~')) {
+            throw new DomainException($coding);
         }
 
-        parent::__construct($coding->toString());
+        $this->coding = $coding;
+    }
+
+    public function toString(): string
+    {
+        return $this->coding;
     }
 }

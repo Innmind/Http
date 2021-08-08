@@ -4,17 +4,20 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
+use Innmind\Immutable\Set;
 
 /**
- * @extends Header<ContentTypeValue>
  * @implements HeaderInterface<ContentTypeValue>
  * @psalm-immutable
  */
-final class ContentType extends Header implements HeaderInterface
+final class ContentType implements HeaderInterface
 {
+    /** @var Header<ContentTypeValue> */
+    private Header $header;
+
     public function __construct(ContentTypeValue $content)
     {
-        parent::__construct('Content-Type', $content);
+        $this->header = new Header('Content-Type', $content);
     }
 
     public static function of(
@@ -27,5 +30,20 @@ final class ContentType extends Header implements HeaderInterface
             $subType,
             ...$parameters,
         ));
+    }
+
+    public function name(): string
+    {
+        return $this->header->name();
+    }
+
+    public function values(): Set
+    {
+        return $this->header->values();
+    }
+
+    public function toString(): string
+    {
+        return $this->header->toString();
     }
 }

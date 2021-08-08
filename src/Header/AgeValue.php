@@ -8,14 +8,21 @@ use Innmind\Http\Exception\DomainException;
 /**
  * @psalm-immutable
  */
-final class AgeValue extends Value\Value
+final class AgeValue implements Value
 {
+    private int $age;
+
     public function __construct(int $age)
     {
         if ($age < 0) {
             throw new DomainException((string) $age);
         }
 
-        parent::__construct((string) $age);
+        $this->age = $age;
+    }
+
+    public function toString(): string
+    {
+        return (string) $this->age;
     }
 }

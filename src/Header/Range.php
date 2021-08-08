@@ -4,17 +4,20 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
+use Innmind\Immutable\Set;
 
 /**
- * @extends Header<RangeValue>
  * @implements HeaderInterface<RangeValue>
  * @psalm-immutable
  */
-final class Range extends Header implements HeaderInterface
+final class Range implements HeaderInterface
 {
+    /** @var Header<RangeValue> */
+    private Header $header;
+
     public function __construct(RangeValue $range)
     {
-        parent::__construct('Range', $range);
+        $this->header = new Header('Range', $range);
     }
 
     public static function of(
@@ -27,5 +30,20 @@ final class Range extends Header implements HeaderInterface
             $firstPosition,
             $lastPosition,
         ));
+    }
+
+    public function name(): string
+    {
+        return $this->header->name();
+    }
+
+    public function values(): Set
+    {
+        return $this->header->values();
+    }
+
+    public function toString(): string
+    {
+        return $this->header->toString();
     }
 }
