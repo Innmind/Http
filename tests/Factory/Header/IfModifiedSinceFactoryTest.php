@@ -9,6 +9,7 @@ use Innmind\Http\{
     Header\IfModifiedSince,
     Exception\DomainException,
 };
+use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +17,7 @@ class IfModifiedSinceFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new IfModifiedSinceFactory;
+        $f = new IfModifiedSinceFactory(new Clock);
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
@@ -37,7 +38,7 @@ class IfModifiedSinceFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('foo');
 
-        (new IfModifiedSinceFactory)(
+        (new IfModifiedSinceFactory(new Clock))(
             Str::of('foo'),
             Str::of(''),
         );
@@ -48,7 +49,7 @@ class IfModifiedSinceFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('If-Modified-Since');
 
-        (new IfModifiedSinceFactory)(
+        (new IfModifiedSinceFactory(new Clock))(
             Str::of('If-Modified-Since'),
             Str::of('2020-01-01'),
         );

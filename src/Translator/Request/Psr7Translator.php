@@ -13,6 +13,7 @@ use Innmind\Http\{
     Header,
     Bridge\Psr7\Stream,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Url\Url;
 use Innmind\Immutable\{
     Map,
@@ -42,9 +43,9 @@ final class Psr7Translator
         );
     }
 
-    public static function default(): self
+    public static function default(Clock $clock): self
     {
-        return new self(Factories::default());
+        return new self(Factories::default($clock));
     }
 
     private function translateHeaders(array $rawHeaders): Headers

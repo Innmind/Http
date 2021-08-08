@@ -9,6 +9,7 @@ use Innmind\Http\{
     Factory\Header\Factories,
     Message\Response
 };
+use Innmind\TimeContinuum\Earth\Clock;
 use Psr\Http\Message\{
     ResponseInterface,
     StreamInterface
@@ -67,8 +68,8 @@ class Psr7TranslatorTest extends TestCase
     public function testDefault()
     {
         $this->assertEquals(
-            new Psr7Translator(Factories::default()),
-            Psr7Translator::default(),
+            new Psr7Translator(Factories::default(new Clock)),
+            Psr7Translator::default(new Clock),
         );
     }
 }

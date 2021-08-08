@@ -9,6 +9,7 @@ use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Exception\DomainException,
 };
+use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +17,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new IfUnmodifiedSinceFactory;
+        $f = new IfUnmodifiedSinceFactory(new Clock);
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
@@ -37,7 +38,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('foo');
 
-        (new IfUnmodifiedSinceFactory)(
+        (new IfUnmodifiedSinceFactory(new Clock))(
             Str::of('foo'),
             Str::of(''),
         );
@@ -48,7 +49,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('If-Unmodified-Since');
 
-        (new IfUnmodifiedSinceFactory)(
+        (new IfUnmodifiedSinceFactory(new Clock))(
             Str::of('If-Unmodified-Since'),
             Str::of('2020-01-01'),
         );

@@ -11,33 +11,29 @@ use Innmind\Http\{
     TimeContinuum\Format\Http,
     Exception\DomainException,
 };
-use Innmind\TimeContinuum\{
-    Earth\PointInTime\PointInTime,
-    Earth\Format\ISO8601,
-};
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 
 final class IfModifiedSinceFactory implements HeaderFactoryInterface
 {
+    private Clock $clock;
+
+    public function __construct(Clock $clock)
+    {
+        $this->clock = $clock;
+    }
+
     public function __invoke(Str $name, Str $value): Header
     {
         if ($name->toLower()->toString() !== 'if-modified-since') {
             throw new DomainException($name->toString());
         }
 
-        $date = \DateTimeImmutable::createFromFormat(
-            (new Http)->toString(),
-            $value->toString(),
-        );
-
-        if (!$date instanceof \DateTimeImmutable) {
-            throw new DomainException($name->toString());
-        }
-
         return new IfModifiedSince(
             new DateValue(
-                new PointInTime(
-                    $date->format((new ISO8601)->toString()),
+                $this->clock->at($value->toString(), new Http)->match(
+                    static fn($point) => $point,
+                    static fn() => throw new DomainException($name->toString()),
                 ),
             ),
         );

@@ -20,6 +20,7 @@ use Innmind\Http\{
     Message\Cookies,
     Headers,
 };
+use Innmind\TimeContinuum\Earth\Clock;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestFactoryTest extends TestCase
@@ -172,7 +173,7 @@ class ServerRequestFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             ServerRequestFactoryInterface::class,
-            ServerRequestFactory::default()
+            ServerRequestFactory::default(new Clock)
         );
     }
 }

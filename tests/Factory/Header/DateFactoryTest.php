@@ -9,6 +9,7 @@ use Innmind\Http\{
     Header\Date,
     Exception\DomainException,
 };
+use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
@@ -16,7 +17,7 @@ class DateFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new DateFactory;
+        $f = new DateFactory(new Clock);
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
@@ -37,7 +38,7 @@ class DateFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('foo');
 
-        (new DateFactory)(
+        (new DateFactory(new Clock))(
             Str::of('foo'),
             Str::of(''),
         );
@@ -48,7 +49,7 @@ class DateFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Date');
 
-        (new DateFactory)(
+        (new DateFactory(new Clock))(
             Str::of('Date'),
             Str::of('2020-01-01'),
         );

@@ -17,6 +17,7 @@ use Innmind\Http\{
     Factory\FilesFactory,
     Factory,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Url\Url;
 use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
@@ -102,11 +103,11 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Return a fully configured factory
      */
-    public static function default(): self
+    public static function default(Clock $clock): self
     {
         return new self(
             new Factory\Header\HeadersFactory(
-                Factories::default(),
+                Factories::default($clock),
             ),
             new Factory\Environment\EnvironmentFactory,
             new Factory\Cookies\CookiesFactory,

@@ -9,6 +9,7 @@ use Innmind\Http\{
     Header\Expires,
     Exception\DomainException,
 };
+use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
@@ -18,13 +19,13 @@ class ExpiresFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ExpiresFactory
+            new ExpiresFactory(new Clock)
         );
     }
 
     public function testMake()
     {
-        $header = (new ExpiresFactory)(
+        $header = (new ExpiresFactory(new Clock))(
             Str::of('Expires'),
             Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         );
@@ -41,7 +42,7 @@ class ExpiresFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('foo');
 
-        (new ExpiresFactory)(
+        (new ExpiresFactory(new Clock))(
             Str::of('foo'),
             Str::of(''),
         );
@@ -52,7 +53,7 @@ class ExpiresFactoryTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Expires');
 
-        (new ExpiresFactory)(
+        (new ExpiresFactory(new Clock))(
             Str::of('Expires'),
             Str::of('2020-01-01'),
         );

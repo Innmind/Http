@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\Factory\HeaderFactory as HeaderFactoryInterface;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Map;
 
 final class Factories
@@ -11,7 +12,7 @@ final class Factories
     /**
      * @return Map<string, HeaderFactoryInterface>
      */
-    public static function all(): Map
+    public static function all(Clock $clock): Map
     {
         /** @var Map<string, HeaderFactoryInterface> */
         return Map::of(
@@ -30,12 +31,12 @@ final class Factories
             ['content-location', new ContentLocationFactory],
             ['content-range', new ContentRangeFactory],
             ['content-type', new ContentTypeFactory],
-            ['date', new DateFactory],
-            ['expires', new ExpiresFactory],
+            ['date', new DateFactory($clock)],
+            ['expires', new ExpiresFactory($clock)],
             ['host', new HostFactory],
-            ['if-modified-since', new IfModifiedSinceFactory],
-            ['if-unmodified-since', new IfUnmodifiedSinceFactory],
-            ['last-modified', new LastModifiedFactory],
+            ['if-modified-since', new IfModifiedSinceFactory($clock)],
+            ['if-unmodified-since', new IfUnmodifiedSinceFactory($clock)],
+            ['last-modified', new LastModifiedFactory($clock)],
             ['link', new LinkFactory],
             ['location', new LocationFactory],
             ['range', new RangeFactory],
@@ -44,10 +45,10 @@ final class Factories
         );
     }
 
-    public static function default(): HeaderFactoryInterface
+    public static function default(Clock $clock): HeaderFactoryInterface
     {
         return new TryFactory(
-            new DelegationFactory(self::all()),
+            new DelegationFactory(self::all($clock)),
             new HeaderFactory,
         );
     }
