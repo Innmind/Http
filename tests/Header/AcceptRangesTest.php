@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\AcceptRangesValue
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class AcceptRangesTest extends TestCase
@@ -25,8 +24,10 @@ class AcceptRangesTest extends TestCase
         $this->assertSame('Accept-Ranges', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($ar, first($v));
+        $this->assertSame($ar, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Accept-Ranges: bytes', $h->toString());
     }
 
@@ -38,7 +39,6 @@ class AcceptRangesTest extends TestCase
         $this->assertSame('Accept-Ranges', $header->name());
         $values = $header->values();
         $this->assertInstanceOf(Set::class, $values);
-        $this->assertSame(Value::class, (string) $values->type());
         $this->assertSame('Accept-Ranges: bytes', $header->toString());
     }
 }

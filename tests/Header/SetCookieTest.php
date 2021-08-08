@@ -12,7 +12,6 @@ use Innmind\Http\{
     Header\CookieParameter\Secure
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class SetCookieTest extends TestCase
@@ -33,8 +32,10 @@ class SetCookieTest extends TestCase
         $this->assertSame('Set-Cookie', $cookie->name());
         $values = $cookie->values();
         $this->assertInstanceOf(Set::class, $values);
-        $this->assertSame(Value::class, (string) $values->type());
-        $this->assertSame($value, first($values));
+        $this->assertSame($value, $values->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toString());
     }
 

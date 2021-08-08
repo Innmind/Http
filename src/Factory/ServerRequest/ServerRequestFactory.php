@@ -19,7 +19,10 @@ use Innmind\Http\{
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Readable\Stream;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
@@ -77,10 +80,15 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 $_SERVER['REQUEST_URI'],
             )),
             new Method($_SERVER['REQUEST_METHOD']),
-            new ProtocolVersion(
-                (int) $protocol->get('major')->toString(),
-                (int) $protocol->get('minor')->toString(),
-            ),
+            Maybe::all($protocol->get('major'), $protocol->get('minor'))
+                ->map(static fn(Str $major, Str $minor) => new ProtocolVersion(
+                    (int) $major->toString(),
+                    (int) $minor->toString(),
+                ))
+                ->match(
+                    static fn($protocol) => $protocol,
+                    static fn() => new ProtocolVersion(1, 1),
+                ),
             ($this->headersFactory)(),
             new Stream(\fopen('php://input', 'r')),
             ($this->environmentFactory)(),

@@ -11,7 +11,6 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class IfModifiedSinceTest extends TestCase
@@ -26,8 +25,10 @@ class IfModifiedSinceTest extends TestCase
         $this->assertSame('If-Modified-Since', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($d, first($v));
+        $this->assertSame($d, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 

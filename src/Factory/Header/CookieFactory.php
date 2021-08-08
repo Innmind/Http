@@ -11,7 +11,10 @@ use Innmind\Http\{
     Header\Parameter\Parameter,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 final class CookieFactory implements HeaderFactoryInterface
 {
@@ -51,10 +54,15 @@ final class CookieFactory implements HeaderFactoryInterface
                 [],
                 static function(array $carry, Str $value): array {
                     $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
-                    $carry[] = new Parameter(
-                        $matches->get('key')->toString(),
-                        $matches->get('value')->toString(),
-                    );
+                    $carry[] = Maybe::all($matches->get('key'), $matches->get('value'))
+                        ->map(static fn(Str $key, Str $value) => new Parameter(
+                            $key->toString(),
+                            $value->toString(),
+                        ))
+                        ->match(
+                            static fn($parameter) => $parameter,
+                            static fn() => throw new DomainException,
+                        );
 
                     return $carry;
                 },

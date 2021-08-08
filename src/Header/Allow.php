@@ -12,11 +12,17 @@ use Innmind\Http\Header as HeaderInterface;
  */
 final class Allow extends Header implements HeaderInterface
 {
+    /**
+     * @no-named-arguments
+     */
     public function __construct(AllowValue ...$values)
     {
         parent::__construct('Allow', ...$values);
     }
 
+    /**
+     * @no-named-arguments
+     */
     public static function of(string ...$values): self
     {
         return new self(...\array_map(

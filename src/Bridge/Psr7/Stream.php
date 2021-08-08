@@ -10,9 +10,11 @@ use Innmind\Stream\{
     Stream\Position,
     Stream\Position\Mode,
     Stream\Size,
-    Exception\UnknownSize,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 use Psr\Http\Message\StreamInterface as PsrStream;
 
 final class Stream implements Readable
@@ -56,15 +58,10 @@ final class Stream implements Readable
         return $this->stream->eof();
     }
 
-    public function size(): Size
+    public function size(): Maybe
     {
-        $size = $this->stream->getSize();
-
-        if (!\is_int($size)) {
-            throw new UnknownSize;
-        }
-
-        return new Size($size);
+        return Maybe::of($this->stream->getSize())
+            ->map(static fn($size) => new Size($size));
     }
 
     public function knowsSize(): bool

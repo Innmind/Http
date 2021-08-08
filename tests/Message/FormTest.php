@@ -8,6 +8,7 @@ use Innmind\Http\{
     Message\Form\Parameter,
     Exception\FormParameterNotFound,
 };
+use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
 
 class FormTest extends TestCase
@@ -51,9 +52,12 @@ class FormTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($form->foreach(static function() use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $form->foreach(static function() use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(2, $called);
     }
 

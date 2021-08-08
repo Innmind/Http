@@ -25,7 +25,7 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
         }
 
         $values = $value->split(',');
-        $values->foreach(static function(Str $accept): void {
+        $_ = $values->foreach(static function(Str $accept): void {
             if (!$accept->matches(self::PATTERN)) {
                 throw new DomainException($accept->toString());
             }
@@ -36,13 +36,20 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
             [],
             static function(array $carry, Str $accept): array {
                 $matches = $accept->capture(self::PATTERN);
-                $carry[] = new AcceptCharsetValue(
-                    $matches->get('charset')->toString(),
-                    new Quality(
-                        $matches->contains('quality') ?
-                            (float) $matches->get('quality')->toString() : 1,
-                    ),
+                $quality = $matches->get('quality')->match(
+                    static fn($quality) => (float) $quality->toString(),
+                    static fn() => 1,
                 );
+                $carry[] = $matches
+                    ->get('charset')
+                    ->map(static fn($charset) => new AcceptCharsetValue(
+                        $charset->toString(),
+                        new Quality($quality),
+                    ))
+                    ->match(
+                        static fn($value) => $value,
+                        static fn() => throw new DomainException,
+                    );
 
                 return $carry;
             },

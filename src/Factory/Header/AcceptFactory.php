@@ -12,7 +12,10 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 final class AcceptFactory implements HeaderFactoryInterface
 {
@@ -25,7 +28,7 @@ final class AcceptFactory implements HeaderFactoryInterface
         }
 
         $values = $value->split(',');
-        $values->foreach(static function(Str $accept): void {
+        $_ = $values->foreach(static function(Str $accept): void {
             if (!$accept->matches(self::PATTERN)) {
                 throw new DomainException($accept->toString());
             }
@@ -36,14 +39,21 @@ final class AcceptFactory implements HeaderFactoryInterface
             [],
             function(array $carry, Str $accept): array {
                 $matches = $accept->capture(self::PATTERN);
-                $carry[] = new AcceptValue(
-                    $matches->get('type')->toString(),
-                    $matches->get('subType')->toString(),
-                    ...$this->buildParams(
-                        $matches->contains('params') ?
-                            $matches->get('params') : Str::of(''),
-                    ),
-                );
+                $carry[] = Maybe::all($matches->get('type'), $matches->get('subType'))
+                    ->map(fn(Str $type, Str $subType) => new AcceptValue(
+                        $type->toString(),
+                        $subType->toString(),
+                        ...$this->buildParams(
+                            $matches->get('params')->match(
+                                static fn($params) => $params,
+                                static fn() => Str::of(''),
+                            ),
+                        ),
+                    ))
+                    ->match(
+                        static fn($value) => $value,
+                        static fn() => throw new DomainException,
+                    );
 
                 return $carry;
             },
@@ -67,10 +77,15 @@ final class AcceptFactory implements HeaderFactoryInterface
                 [],
                 static function(array $carry, Str $value): array {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
-                    $carry[] = new Parameter\Parameter(
-                        $matches->get('key')->toString(),
-                        $matches->get('value')->toString(),
-                    );
+                    $carry[] = Maybe::all($matches->get('key'), $matches->get('value'))
+                        ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                            $key->toString(),
+                            $value->toString(),
+                        ))
+                        ->match(
+                            static fn($param) => $param,
+                            static fn() => throw new DomainException,
+                        );
 
                     return $carry;
                 }

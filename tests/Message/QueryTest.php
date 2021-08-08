@@ -8,6 +8,7 @@ use Innmind\Http\{
     Message\Query\Parameter,
     Exception\QueryParameterNotFound,
 };
+use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
@@ -51,9 +52,12 @@ class QueryTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($query->foreach(static function() use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $query->foreach(static function() use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(2, $called);
     }
 

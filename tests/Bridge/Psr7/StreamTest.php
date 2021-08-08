@@ -63,7 +63,10 @@ class StreamTest extends TestCase
         $this->assertTrue($stream->end());
         $this->assertFalse($stream->knowsSize());
         $this->assertTrue($stream->knowsSize());
-        $this->assertSame(66, $stream->size()->toInt());
+        $this->assertSame(66, $stream->size()->match(
+            static fn($size) => $size->toInt(),
+            static fn() => null,
+        ));
         $this->assertSame('full', $stream->read()->toString());
         $this->assertSame('partial', $stream->read(43)->toString());
         $this->assertSame('cast', $stream->toString());

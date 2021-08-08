@@ -7,17 +7,17 @@ use Innmind\Http\{
     Message\Cookies,
     Exception\CookieNotFound,
 };
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+};
 use PHPUnit\Framework\TestCase;
 
 class CookiesTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Cookies(
-            Map::of('string', 'string')
-                ('foo', '42')
-        );
+        $f = new Cookies(Map::of(['foo', '42']));
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
@@ -33,33 +33,28 @@ class CookiesTest extends TestCase
         (new Cookies)->get('foo');
     }
 
-    public function testThrowWhenInvalidMap()
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 must be of type Map<string, string>');
-
-        new Cookies(Map::of('string', 'scalar'));
-    }
-
     public function testForeach()
     {
         $cookies = new Cookies(
-            Map::of('string', 'string')
+            Map::of()
                 ('foo', '42')
                 ('bar', 'baz')
         );
 
         $called = 0;
-        $this->assertNull($cookies->foreach(static function() use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $cookies->foreach(static function() use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(2, $called);
     }
 
     public function testReduce()
     {
         $cookies = new Cookies(
-            Map::of('string', 'string')
+            Map::of()
                 ('foo', '42')
                 ('bar', 'baz')
         );

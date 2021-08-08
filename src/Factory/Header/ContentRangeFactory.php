@@ -10,7 +10,10 @@ use Innmind\Http\{
     Header\ContentRangeValue,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 final class ContentRangeFactory implements HeaderFactoryInterface
 {
@@ -28,15 +31,27 @@ final class ContentRangeFactory implements HeaderFactoryInterface
         }
 
         $matches = $value->capture(self::PATTERN);
-        $length = $matches->get('length')->toString();
+        $length = $matches
+            ->get('length')
+            ->map(static fn($length) => $length->toString())
+            ->filter(static fn($length) => $length !== '*')
+            ->map(static fn($length) => (int) $length)
+            ->match(
+                static fn($length) => $length,
+                static fn() => null,
+            );
 
-        return new ContentRange(
-            new ContentRangeValue(
-                $matches->get('unit')->toString(),
-                (int) $matches->get('first')->toString(),
-                (int) $matches->get('last')->toString(),
-                $length === '*' ? null : (int) $length,
-            ),
-        );
+        return Maybe::all($matches->get('unit'), $matches->get('first'), $matches->get('last'))
+            ->map(static fn(Str $unit, Str $first, Str $last) => new ContentRangeValue(
+                $unit->toString(),
+                (int) $first->toString(),
+                (int) $last->toString(),
+                $length,
+            ))
+            ->map(static fn($value) => new ContentRange($value))
+            ->match(
+                static fn($range) => $range,
+                static fn() => throw new DomainException,
+            );
     }
 }

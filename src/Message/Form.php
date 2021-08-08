@@ -7,7 +7,10 @@ use Innmind\Http\{
     Message\Form\Parameter,
     Exception\FormParameterNotFound,
 };
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+};
 
 /**
  * @psalm-immutable
@@ -20,7 +23,7 @@ final class Form implements \Countable
     public function __construct(Parameter ...$parameters)
     {
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         foreach ($parameters as $parameter) {
             $this->parameters = ($this->parameters)(
@@ -40,11 +43,10 @@ final class Form implements \Countable
      */
     public function get(string $key): Parameter
     {
-        if (!$this->contains($key)) {
-            throw new FormParameterNotFound($key);
-        }
-
-        return $this->parameters->get($key);
+        return $this->parameters->get($key)->match(
+            static fn($parameter) => $parameter,
+            static fn() => throw new FormParameterNotFound($key),
+        );
     }
 
     public function contains(string $key): bool
@@ -55,9 +57,9 @@ final class Form implements \Countable
     /**
      * @param callable(Parameter): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->parameters->values()->foreach($function);
+        return $this->parameters->values()->foreach($function);
     }
 
     /**

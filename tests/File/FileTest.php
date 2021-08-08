@@ -8,9 +8,11 @@ use Innmind\Http\{
     File as FileInterface,
     File\Status\Ok
 };
-use Innmind\Filesystem\Name;
+use Innmind\Filesystem\{
+    Name,
+    File\Content,
+};
 use Innmind\MediaType\MediaType;
-use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
 class FileTest extends TestCase
@@ -19,7 +21,7 @@ class FileTest extends TestCase
     {
         $f = new File(
             'foo',
-            $s = $this->createMock(Readable::class),
+            $s = $this->createMock(Content::class),
             'foo[bar]',
             $ok = new Ok,
             $m = MediaType::null(),

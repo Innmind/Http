@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\LocationValue
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 
@@ -26,8 +25,10 @@ class ContentLocationTest extends TestCase
         $this->assertSame('Content-Location', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($av, first($v));
+        $this->assertSame($av, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Content-Location: /foo/bar', $h->toString());
     }
 

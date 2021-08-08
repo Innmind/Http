@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header,
     Adapter\Psr7\Stream,
 };
-use function Innmind\Immutable\unwrap;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response as PsrReponse;
 
@@ -21,10 +20,10 @@ final class ToPsr7
             $response->headers()->reduce(
                 [],
                 static function(array $headers, Header $header): array {
-                    $headers[$header->name()] = unwrap($header->values()->mapTo(
-                        'string',
-                        static fn(Header\Value $value): string => $value->toString(),
-                    ));
+                    $headers[$header->name()] = $header
+                        ->values()
+                        ->map(static fn(Header\Value $value): string => $value->toString())
+                        ->toList();
 
                     return $headers;
                 },

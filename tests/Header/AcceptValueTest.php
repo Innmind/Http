@@ -25,7 +25,10 @@ class AcceptValueTest extends TestCase
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
-        $this->assertSame($q, $a->parameters()->get('q'));
+        $this->assertSame($q, $a->parameters()->get('q')->match(
+            static fn($q) => $q,
+            static fn() => null,
+        ));
         $this->assertSame('text/x-c;q=0.8', $a->toString());
 
         new AcceptValue(

@@ -19,7 +19,7 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
-use Innmind\Filesystem\Stream\LazyStream;
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Path;
 
 final class FilesFactory implements FilesFactoryInterface
@@ -73,10 +73,13 @@ final class FilesFactory implements FilesFactoryInterface
     ): File {
         return new File\File(
             $name,
-            new LazyStream(Path::of($path)),
+            Content\AtPath::of(Path::of($path)),
             $uploadKey,
             $this->status($status),
-            MediaType::of($media),
+            MediaType::of($media)->match(
+                static fn($media) => $media,
+                static fn() => MediaType::null(),
+            ),
         );
     }
 

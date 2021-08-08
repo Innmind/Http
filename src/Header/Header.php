@@ -18,11 +18,14 @@ class Header implements HeaderInterface
     /** @var Set<V> */
     private Set $values;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(string $name, Value ...$values)
     {
         $this->name = $name;
         /** @var Set<V> */
-        $this->values = Set::of(Value::class, ...$values);
+        $this->values = Set::of(...$values);
     }
 
     public function name(): string
@@ -37,10 +40,7 @@ class Header implements HeaderInterface
 
     public function toString(): string
     {
-        $values = $this->values->mapTo(
-            'string',
-            static fn(Value $value): string => $value->toString(),
-        );
+        $values = $this->values->map(static fn($value) => $value->toString());
         $values = join(', ', $values);
 
         return $values->prepend("{$this->name}: ")->toString();

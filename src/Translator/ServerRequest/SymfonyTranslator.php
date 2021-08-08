@@ -27,6 +27,7 @@ use Innmind\Http\{
     File\Status\WriteFailed as WriteFailedStatus,
     Exception\LogicException,
 };
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\{
     Url,
     Path,
@@ -36,6 +37,7 @@ use Innmind\MediaType\MediaType;
 use Innmind\Immutable\{
     Str,
     Map,
+    Maybe,
 };
 use Symfony\Component\HttpFoundation\{
     Request as SfRequest,
@@ -68,10 +70,15 @@ final class SymfonyTranslator
         return new ServerRequest\ServerRequest(
             Url::of($request->getUri()),
             new Method($request->getMethod()),
-            new ProtocolVersion(
-                (int) $protocol->get('major')->toString(),
-                (int) $protocol->get('minor')->toString(),
-            ),
+            Maybe::all($protocol->get('major'), $protocol->get('minor'))
+                ->map(static fn(Str $major, Str $minor) => new ProtocolVersion(
+                    (int) $major->toString(),
+                    (int) $minor->toString(),
+                ))
+                ->match(
+                    static fn($protocol) => $protocol,
+                    static fn() => new ProtocolVersion(1, 1),
+                ),
             $this->translateHeaders($request->headers),
             $body,
             $this->translateEnvironment($request->server),
@@ -103,7 +110,7 @@ final class SymfonyTranslator
     private function translateEnvironment(ServerBag $server): Environment
     {
         /** @var Map<string, string> */
-        $map = Map::of('string', 'string');
+        $map = Map::of();
 
         /**
          * @var string $key
@@ -120,7 +127,7 @@ final class SymfonyTranslator
     private function translateCookies(ParameterBag $cookies): Cookies
     {
         /** @var Map<string, string> */
-        $map = Map::of('string', 'string');
+        $map = Map::of();
 
         /**
          * @var string $key
@@ -176,10 +183,15 @@ final class SymfonyTranslator
             /** @psalm-suppress RedundantCastGivenDocblockType */
             $map[] = new File\File(
                 (string) $file->getClientOriginalName(),
-                Stream::open(Path::of($file->getPathname())),
+                Content\AtPath::of(Path::of($file->getPathname())),
                 $name,
                 $this->buildFileStatus($file->getError()),
-                MediaType::of((string) ($file->getMimeType() ?: 'application/octet-stream')),
+                Maybe::of($file->getMimeType())
+                    ->flatMap(static fn($mimeType) => MediaType::of($mimeType))
+                    ->match(
+                        static fn($mediaType) => $mediaType,
+                        static fn() => MediaType::null(),
+                    ),
             );
         }
 

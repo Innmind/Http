@@ -12,6 +12,9 @@ use Innmind\Http\Header as HeaderInterface;
  */
 final class WWWAuthenticate extends Header implements HeaderInterface
 {
+    /**
+     * @no-named-arguments
+     */
     public function __construct(WWWAuthenticateValue ...$values)
     {
         parent::__construct('WWW-Authenticate', ...$values);

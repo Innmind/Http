@@ -7,7 +7,10 @@ use Innmind\Http\{
     Message\Query\Parameter,
     Exception\QueryParameterNotFound,
 };
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+};
 
 /**
  * @psalm-immutable
@@ -20,7 +23,7 @@ final class Query implements \Countable
     public function __construct(Parameter ...$parameters)
     {
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         foreach ($parameters as $parameter) {
             $this->parameters = ($this->parameters)(
@@ -40,11 +43,10 @@ final class Query implements \Countable
      */
     public function get(string $name): Parameter
     {
-        if (!$this->contains($name)) {
-            throw new QueryParameterNotFound($name);
-        }
-
-        return $this->parameters->get($name);
+        return $this->parameters->get($name)->match(
+            static fn($parameter) => $parameter,
+            static fn() => throw new QueryParameterNotFound($name),
+        );
     }
 
     public function contains(string $name): bool
@@ -55,9 +57,9 @@ final class Query implements \Countable
     /**
      * @param callable(Parameter): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->parameters->values()->foreach($function);
+        return $this->parameters->values()->foreach($function);
     }
 
     /**

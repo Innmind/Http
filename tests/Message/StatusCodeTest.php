@@ -9,7 +9,6 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 use Innmind\Immutable\Map;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
@@ -43,7 +42,7 @@ class StatusCodeTest extends TestCase
 
             $this->assertInstanceOf(ReasonPhrase::class, $reason);
             $this->assertSame(
-                ReasonPhrase::defaults()->get($code),
+                ReasonPhrase::of($code)->toString(),
                 $reason->toString()
             );
         });
@@ -64,8 +63,6 @@ class StatusCodeTest extends TestCase
         $codes = StatusCode::codes();
 
         $this->assertInstanceOf(Map::class, $codes);
-        $this->assertSame('string', (string) $codes->keyType());
-        $this->assertSame('int', (string) $codes->valueType());
         $this->assertSame(74, $codes->count());
     }
 
@@ -75,13 +72,25 @@ class StatusCodeTest extends TestCase
             return ((int) ($code / 100)) === 1;
         });
 
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isInformational());
-        });
+        $codes
+            ->get(true)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertTrue((new StatusCode($code))->isInformational());
+            });
 
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isInformational());
-        });
+        $codes
+            ->get(false)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertFalse((new StatusCode($code))->isInformational());
+            });
     }
 
     public function testIsSuccessful()
@@ -90,13 +99,25 @@ class StatusCodeTest extends TestCase
             return ((int) ($code / 100)) === 2;
         });
 
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isSuccessful());
-        });
+        $codes
+            ->get(true)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertTrue((new StatusCode($code))->isSuccessful());
+            });
 
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isSuccessful());
-        });
+        $codes
+            ->get(false)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertFalse((new StatusCode($code))->isSuccessful());
+            });
     }
 
     public function testIsRedirection()
@@ -105,13 +126,25 @@ class StatusCodeTest extends TestCase
             return ((int) ($code / 100)) === 3;
         });
 
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isRedirection());
-        });
+        $codes
+            ->get(true)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertTrue((new StatusCode($code))->isRedirection());
+            });
 
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isRedirection());
-        });
+        $codes
+            ->get(false)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertFalse((new StatusCode($code))->isRedirection());
+            });
     }
 
     public function testIsClientError()
@@ -120,13 +153,25 @@ class StatusCodeTest extends TestCase
             return ((int) ($code / 100)) === 4;
         });
 
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isClientError());
-        });
+        $codes
+            ->get(true)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertTrue((new StatusCode($code))->isClientError());
+            });
 
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isClientError());
-        });
+        $codes
+            ->get(false)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertFalse((new StatusCode($code))->isClientError());
+            });
     }
 
     public function testIsServerError()
@@ -135,19 +180,31 @@ class StatusCodeTest extends TestCase
             return ((int) ($code / 100)) === 5;
         });
 
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isServerError());
-        });
+        $codes
+            ->get(true)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertTrue((new StatusCode($code))->isServerError());
+            });
 
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isServerError());
-        });
+        $codes
+            ->get(false)
+            ->match(
+                static fn($map) => $map,
+                static fn() => Map::of(),
+            )
+            ->foreach(function($name, $code): void {
+                $this->assertFalse((new StatusCode($code))->isServerError());
+            });
     }
 
     public function testEquality()
     {
         $this
-            ->forAll(Set\Elements::of(...unwrap(StatusCode::codes()->keys())))
+            ->forAll(Set\Elements::of(...StatusCode::codes()->keys()->toList()))
             ->then(function($code) {
                 $status = StatusCode::of($code);
 
@@ -160,8 +217,8 @@ class StatusCodeTest extends TestCase
     {
         $this
             ->forAll(
-                Set\Elements::of(...unwrap(StatusCode::codes()->keys())),
-                Set\Elements::of(...unwrap(StatusCode::codes()->keys())),
+                Set\Elements::of(...StatusCode::codes()->keys()->toList()),
+                Set\Elements::of(...StatusCode::codes()->keys()->toList()),
             )
             ->filter(fn($a, $b) => $a !== $b)
             ->then(function($a, $b) {

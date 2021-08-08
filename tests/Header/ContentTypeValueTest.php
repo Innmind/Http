@@ -24,7 +24,10 @@ class ContentTypeValueTest extends TestCase
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
-        $this->assertSame($p, $a->parameters()->get('charset'));
+        $this->assertSame($p, $a->parameters()->get('charset')->match(
+            static fn($charset) => $charset,
+            static fn() => null,
+        ));
         $this->assertSame('text/x-c;charset=UTF-8', $a->toString());
 
         new ContentTypeValue(

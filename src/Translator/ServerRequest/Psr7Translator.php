@@ -27,7 +27,10 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    Maybe,
+};
 use Psr\Http\Message\{
     ServerRequestInterface,
     UploadedFileInterface,
@@ -68,7 +71,7 @@ final class Psr7Translator
     private function translateEnvironment(array $params): Environment
     {
         /** @var Map<string, string> */
-        $map = Map::of('string', 'string');
+        $map = Map::of();
 
         /**
          * @var string $key
@@ -86,7 +89,7 @@ final class Psr7Translator
     private function translateCookies(array $params): Cookies
     {
         /** @var Map<string, string> */
-        $map = Map::of('string', 'string');
+        $map = Map::of();
 
         /**
          * @var string $key
@@ -147,11 +150,12 @@ final class Psr7Translator
          * @var UploadedFileInterface $file
          */
         foreach ($files as $name => $file) {
-            $mediaType = MediaType::null();
-
-            if (\is_string($file->getClientMediaType())) {
-                $mediaType = MediaType::of($file->getClientMediaType() ?: 'application/octet-stream');
-            }
+            $mediaType = Maybe::of($file->getClientMediaType())
+                ->flatMap(static fn($mediaType) => MediaType::of($mediaType))
+                ->match(
+                    static fn($mediaType) => $mediaType,
+                    static fn() => MediaType::null(),
+                );
 
             $map[] = new File\File(
                 (string) $file->getClientFilename(),

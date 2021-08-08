@@ -35,7 +35,7 @@ final class Psr7Translator
 
         return new Response(
             new StatusCode($code = $response->getStatusCode()),
-            new ReasonPhrase(ReasonPhrase::defaults()->get($code)),
+            ReasonPhrase::of($code),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($response->getHeaders()),
             Stream::ofContent((string) $response->getBody()),

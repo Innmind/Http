@@ -10,7 +10,10 @@ use Innmind\Http\{
     Header\Range,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 final class RangeFactory implements HeaderFactoryInterface
 {
@@ -27,12 +30,20 @@ final class RangeFactory implements HeaderFactoryInterface
 
         $matches = $value->capture(self::PATTERN);
 
-        return new Range(
-            new RangeValue(
-                $matches->get('unit')->toString(),
-                (int) $matches->get('first')->toString(),
-                (int) $matches->get('last')->toString(),
-            ),
-        );
+        return Maybe::all(
+            $matches->get('unit'),
+            $matches->get('first'),
+            $matches->get('last'),
+        )
+            ->map(static fn(Str $unit, Str $first, Str $last) => new RangeValue(
+                $unit->toString(),
+                (int) $first->toString(),
+                (int) $last->toString(),
+            ))
+            ->map(static fn($range) => new Range($range))
+            ->match(
+                static fn($range) => $range,
+                static fn() => throw new DomainException($name->toString()),
+            );
     }
 }

@@ -45,7 +45,7 @@ final class ResponseSender implements Sender
             \header((new Date(new DateValue($this->clock->now())))->toString());
         }
 
-        $response->headers()->foreach(function(Header $header): void {
+        $_ = $response->headers()->foreach(function(Header $header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
 
@@ -71,7 +71,7 @@ final class ResponseSender implements Sender
     private function sendCookie(SetCookie $cookie): void
     {
         /** @psalm-suppress ArgumentTypeCoercion */
-        $cookie->values()->foreach(static function(CookieValue $value): void {
+        $_ = $cookie->values()->foreach(static function(CookieValue $value): void {
             $parameters = $value->parameters()->values()->reduce(
                 [],
                 static function(array $parameters, Parameter $parameter): array {

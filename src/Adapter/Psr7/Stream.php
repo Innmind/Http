@@ -44,9 +44,10 @@ final class Stream implements StreamInterface
 
     public function getSize()
     {
-        if ($this->stream->knowsSize()) {
-            return $this->stream->size()->toInt();
-        }
+        return $this->stream->size()->match(
+            static fn($size) => $size->toInt(),
+            static fn() => null,
+        );
     }
 
     public function tell()

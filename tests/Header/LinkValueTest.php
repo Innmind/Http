@@ -25,7 +25,10 @@ class LinkValueTest extends TestCase
         $this->assertInstanceOf(Value::class, $l);
         $this->assertSame($url, $l->url());
         $this->assertSame('relationship', $l->relationship());
-        $this->assertSame($p, $l->parameters()->get('title'));
+        $this->assertSame($p, $l->parameters()->get('title')->match(
+            static fn($title) => $title,
+            static fn() => null,
+        ));
         $this->assertSame(
             '</some/resource>; rel="relationship";title=Foo',
             $l->toString(),

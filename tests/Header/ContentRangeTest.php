@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\ContentRangeValue
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ContentRangeTest extends TestCase
@@ -25,8 +24,10 @@ class ContentRangeTest extends TestCase
         $this->assertSame('Content-Range', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($cr, first($v));
+        $this->assertSame($cr, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Content-Range: bytes 0-42/*', $h->toString());
     }
 

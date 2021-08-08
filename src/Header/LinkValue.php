@@ -29,7 +29,7 @@ final class LinkValue extends Value\Value
     ) {
         $rel = $rel ?? 'related';
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         if (empty($rel)) {
             throw new DomainException('Relation can\'t be empty');
@@ -45,9 +45,8 @@ final class LinkValue extends Value\Value
         $this->url = $url;
         $this->rel = $rel;
 
-        $parameters = $this->parameters->values()->toSequenceOf(
-            'string',
-            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
         );
         $parameters = join(';', $parameters);
         $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;

@@ -12,6 +12,9 @@ use Innmind\Http\Header as HeaderInterface;
  */
 final class AcceptLanguage extends Header implements HeaderInterface
 {
+    /**
+     * @no-named-arguments
+     */
     public function __construct(AcceptLanguageValue ...$values)
     {
         parent::__construct('Accept-Language', ...$values);

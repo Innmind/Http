@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\HostValue
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
@@ -29,8 +28,10 @@ class HostTest extends TestCase
         $this->assertSame('Host', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($av, first($v));
+        $this->assertSame($av, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Host: example.com', $h->toString());
     }
 

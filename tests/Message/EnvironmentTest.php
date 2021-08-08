@@ -7,17 +7,17 @@ use Innmind\Http\{
     Message\Environment,
     Exception\EnvironmentVariableNotFound,
 };
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+};
 use PHPUnit\Framework\TestCase;
 
 class EnvironmentTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Environment(
-            Map::of('string', 'string')
-                ('foo', '42')
-        );
+        $f = new Environment(Map::of(['foo', '42']));
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
@@ -33,33 +33,28 @@ class EnvironmentTest extends TestCase
         (new Environment)->get('foo');
     }
 
-    public function testThrowWhenInvalidMap()
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 must be of type Map<string, string>');
-
-        new Environment(Map::of('string', 'scalar'));
-    }
-
     public function testForeach()
     {
         $variables = new Environment(
-            Map::of('string', 'string')
+            Map::of()
                 ('foo', '42')
                 ('bar', 'baz')
         );
 
         $called = 0;
-        $this->assertNull($variables->foreach(static function() use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $variables->foreach(static function() use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(2, $called);
     }
 
     public function testReduce()
     {
         $variables = new Environment(
-            Map::of('string', 'string')
+            Map::of()
                 ('foo', '42')
                 ('bar', 'baz')
         );

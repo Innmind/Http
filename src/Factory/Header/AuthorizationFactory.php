@@ -26,12 +26,22 @@ final class AuthorizationFactory implements HeaderFactoryInterface
         }
 
         $matches = $value->capture(self::PATTERN);
+        $param = $matches
+            ->get('param')
+            ->map(static fn($param) => $param->toString())
+            ->match(
+                static fn($param) => $param,
+                static fn() => '',
+            );
 
-        return new Authorization(
-            new AuthorizationValue(
-                $matches->get('scheme')->toString(),
-                $matches->contains('param') ? $matches->get('param')->toString() : '',
-            ),
-        );
+        return $matches
+            ->get('scheme')
+            ->map(static fn($scheme) => $scheme->toString())
+            ->map(static fn($scheme) => new AuthorizationValue($scheme, $param))
+            ->map(static fn($value) => new Authorization($value))
+            ->match(
+                static fn($authorization) => $authorization,
+                static fn() => throw new DomainException,
+            );
     }
 }

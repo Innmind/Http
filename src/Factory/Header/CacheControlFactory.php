@@ -59,8 +59,10 @@ final class CacheControlFactory implements HeaderFactoryInterface
                             );
 
                             $carry[] = new CacheControlValue\NoCache(
-                                $matches->contains('field') ?
-                                    $matches->get('field')->toString() : '',
+                                $matches->get('field')->match(
+                                    static fn($field) => $field->toString(),
+                                    static fn() => '',
+                                ),
                             );
                             break;
 
@@ -86,8 +88,10 @@ final class CacheControlFactory implements HeaderFactoryInterface
                             );
 
                             $carry[] = new CacheControlValue\PrivateCache(
-                                $matches->contains('field') ?
-                                    $matches->get('field')->toString() : '',
+                                $matches->get('field')->match(
+                                    static fn($field) => $field->toString(),
+                                    static fn() => '',
+                                ),
                             );
                             break;
 

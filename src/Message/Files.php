@@ -7,7 +7,10 @@ use Innmind\Http\{
     File,
     Exception\FileNotFound,
 };
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+};
 
 /**
  * @psalm-immutable
@@ -20,7 +23,7 @@ final class Files implements \Countable
     public function __construct(File ...$files)
     {
         /** @var Map<string, File> */
-        $this->files = Map::of('string', File::class);
+        $this->files = Map::of();
 
         foreach ($files as $file) {
             $this->files = ($this->files)(
@@ -40,11 +43,10 @@ final class Files implements \Countable
      */
     public function get(string $name): File
     {
-        if (!$this->contains($name)) {
-            throw new FileNotFound($name);
-        }
-
-        return $this->files->get($name);
+        return $this->files->get($name)->match(
+            static fn($file) => $file,
+            static fn() => throw new FileNotFound($name),
+        );
     }
 
     public function contains(string $name): bool
@@ -55,9 +57,9 @@ final class Files implements \Countable
     /**
      * @param callable(File): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->files->values()->foreach($function);
+        return $this->files->values()->foreach($function);
     }
 
     /**

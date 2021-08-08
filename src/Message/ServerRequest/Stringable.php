@@ -128,8 +128,17 @@ RAW;
 
     private function bodyString(): string
     {
-        if ($this->body()->knowsSize() && $this->body()->size()->toInt() > 0) {
-            return $this->body()->toString();
+        $body = $this
+            ->body()
+            ->size()
+            ->filter(static fn($size) => $size->toInt() > 0)
+            ->match(
+                fn() => $this->body()->toString(),
+                static fn() => null,
+            );
+
+        if (\is_string($body)) {
+            return $body;
         }
 
         if (\count($this->form()) === 0) {

@@ -11,6 +11,7 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\HeaderNotFound,
 };
+use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
 
 class HeadersTest extends TestCase
@@ -78,9 +79,12 @@ class HeadersTest extends TestCase
         );
 
         $called = 0;
-        $this->assertNull($headers->foreach(static function(Header $header) use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $headers->foreach(static function(Header $header) use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(2, $called);
     }
 

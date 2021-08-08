@@ -4,8 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Message;
 
 use Innmind\Http\Exception\CookieNotFound;
-use Innmind\Immutable\Map;
-use function Innmind\Immutable\assertMap;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+};
 
 /**
  * @psalm-immutable
@@ -18,9 +20,7 @@ final class Cookies implements \Countable
     public function __construct(Map $cookies = null)
     {
         /** @var Map<string, string> */
-        $cookies = $cookies ?? Map::of('string', 'string');
-
-        assertMap('string', 'string', $cookies, 1);
+        $cookies = $cookies ?? Map::of();
 
         $this->cookies = $cookies;
     }
@@ -30,11 +30,10 @@ final class Cookies implements \Countable
      */
     public function get(string $name): string
     {
-        if (!$this->contains($name)) {
-            throw new CookieNotFound($name);
-        }
-
-        return $this->cookies->get($name);
+        return $this->cookies->get($name)->match(
+            static fn($cookie) => $cookie,
+            static fn() => throw new CookieNotFound($name),
+        );
     }
 
     public function contains(string $name): bool
@@ -45,9 +44,9 @@ final class Cookies implements \Countable
     /**
      * @param callable(string, string): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->cookies->foreach($function);
+        return $this->cookies->foreach($function);
     }
 
     /**

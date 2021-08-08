@@ -11,7 +11,10 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 final class ContentTypeFactory implements HeaderFactoryInterface
 {
@@ -28,16 +31,21 @@ final class ContentTypeFactory implements HeaderFactoryInterface
 
         $matches = $value->capture(self::PATTERN);
 
-        return new ContentType(
-            new ContentTypeValue(
-                $matches->get('type')->toString(),
-                $matches->get('subType')->toString(),
-                ...$this->buildParams(
-                    $matches->contains('params') ?
-                        $matches->get('params') : Str::of(''),
-                ),
-            ),
-        );
+        return Maybe::all(
+            $matches->get('type'),
+            $matches->get('subType'),
+            $matches->get('params')->otherwise(static fn() => Maybe::just(Str::of(''))),
+        )
+            ->map(fn(Str $type, Str $subType, Str $params) => new ContentTypeValue(
+                $type->toString(),
+                $subType->toString(),
+                ...$this->buildParams($params),
+            ))
+            ->map(static fn($value) => new ContentType($value))
+            ->match(
+                static fn($contentType) => $contentType,
+                static fn() => throw new DomainException,
+            );
     }
 
     /**
@@ -55,10 +63,15 @@ final class ContentTypeFactory implements HeaderFactoryInterface
                 [],
                 static function(array $carry, Str $value): array {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
-                    $carry[] = new Parameter\Parameter(
-                        $matches->get('key')->toString(),
-                        $matches->get('value')->toString(),
-                    );
+                    $carry[] = Maybe::all($matches->get('key'), $matches->get('value'))
+                        ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                            $key->toString(),
+                            $value->toString(),
+                        ))
+                        ->match(
+                            static fn($parameter) => $parameter,
+                            static fn() => throw new DomainException,
+                        );
 
                     return $carry;
                 },

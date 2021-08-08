@@ -5,20 +5,23 @@ namespace Innmind\Http\File;
 
 use Innmind\Http\File as FileInterface;
 use Innmind\Filesystem\Name;
+use Innmind\Filesystem\File\Content;
 use Innmind\MediaType\MediaType;
-use Innmind\Stream\Readable;
 
+/**
+ * @psalm-immutable
+ */
 final class File implements FileInterface
 {
     private Name $name;
-    private Readable $content;
+    private Content $content;
     private string $uploadKey;
     private Status $status;
     private MediaType $mediaType;
 
     public function __construct(
         string $name,
-        Readable $content,
+        Content $content,
         string $uploadKey,
         Status $status,
         MediaType $mediaType
@@ -35,7 +38,7 @@ final class File implements FileInterface
         return $this->name;
     }
 
-    public function content(): Readable
+    public function content(): Content
     {
         return $this->content;
     }

@@ -6,12 +6,12 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
+    Exception\DomainException,
 };
 use Innmind\Immutable\{
     Map,
     Str,
 };
-use function Innmind\Immutable\assertMap;
 
 final class DelegationFactory implements HeaderFactoryInterface
 {
@@ -23,8 +23,6 @@ final class DelegationFactory implements HeaderFactoryInterface
      */
     public function __construct(Map $factories)
     {
-        assertMap('string', HeaderFactoryInterface::class, $factories, 1);
-
         $this->factories = $factories;
     }
 
@@ -33,6 +31,9 @@ final class DelegationFactory implements HeaderFactoryInterface
         return $this
             ->factories
             ->get($name->toLower()->toString())
-            ($name, $value);
+            ->match(
+                static fn($factory) => $factory($name, $value),
+                static fn() => throw new DomainException($name->toString()),
+            );
     }
 }

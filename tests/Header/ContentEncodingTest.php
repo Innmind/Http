@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\ContentEncodingValue
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ContentEncodingTest extends TestCase
@@ -25,8 +24,10 @@ class ContentEncodingTest extends TestCase
         $this->assertSame('Content-Encoding', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($ce, first($v));
+        $this->assertSame($ce, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Content-Encoding: compress', $h->toString());
     }
 

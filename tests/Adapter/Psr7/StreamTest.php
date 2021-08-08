@@ -14,7 +14,10 @@ use Innmind\Stream\{
     Stream\Position\Mode,
     Exception\PositionNotSeekable
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 use Psr\Http\Message\StreamInterface;
 use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
@@ -91,12 +94,8 @@ class StreamTest extends TestCase
                 );
                 $inner
                     ->expects($this->once())
-                    ->method('knowsSize')
-                    ->willReturn(true);
-                $inner
-                    ->expects($this->once())
                     ->method('size')
-                    ->willReturn(new Size($size));
+                    ->willReturn(Maybe::just(new Size($size)));
 
                 $this->assertSame($size, $stream->getSize());
             });
@@ -109,8 +108,8 @@ class StreamTest extends TestCase
         );
         $inner
             ->expects($this->once())
-            ->method('knowsSize')
-            ->willReturn(false);
+            ->method('size')
+            ->willReturn(Maybe::nothing());
 
         $this->assertNull($stream->getSize());
     }

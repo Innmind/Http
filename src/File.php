@@ -6,6 +6,9 @@ namespace Innmind\Http;
 use Innmind\Http\File\Status;
 use Innmind\Filesystem\File as FilesystemFile;
 
+/**
+ * @psalm-immutable
+ */
 interface File extends FilesystemFile
 {
     public function uploadKey(): string;

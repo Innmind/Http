@@ -8,6 +8,7 @@ use Innmind\Http\{
     File,
     Exception\FileNotFound,
 };
+use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
 
 class FilesTest extends TestCase
@@ -58,9 +59,12 @@ class FilesTest extends TestCase
         $files = new Files($file);
 
         $called = 0;
-        $this->assertNull($files->foreach(static function() use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $files->foreach(static function() use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(1, $called);
     }
 

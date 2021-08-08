@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Immutable\{
-    Map,
-    Sequence,
-};
+use Innmind\Immutable\Map;
 use function Innmind\Immutable\join;
 
 /**
@@ -20,7 +17,7 @@ final class CookieValue extends Value\Value
     public function __construct(Parameter ...$parameters)
     {
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         foreach ($parameters as $paramater) {
             $this->parameters = ($this->parameters)(
@@ -29,9 +26,8 @@ final class CookieValue extends Value\Value
             );
         }
 
-        $parameters = $this->parameters->values()->toSequenceOf(
-            'string',
-            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
         );
 
         parent::__construct(join('; ', $parameters)->toString());

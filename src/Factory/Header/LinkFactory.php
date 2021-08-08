@@ -16,8 +16,8 @@ use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
     Map,
+    Maybe,
 };
-use function Innmind\Immutable\unwrap;
 
 final class LinkFactory implements HeaderFactoryInterface
 {
@@ -34,7 +34,7 @@ final class LinkFactory implements HeaderFactoryInterface
             ->map(static function(Str $link): Str {
                 return $link->trim();
             });
-        $values->foreach(static function(Str $link): void {
+        $_ = $values->foreach(static function(Str $link): void {
             if (!$link->matches(self::PATTERN)) {
                 throw new DomainException($link->toString());
             }
@@ -46,15 +46,24 @@ final class LinkFactory implements HeaderFactoryInterface
             function(array $carry, Str $link): array {
                 $matches = $link->capture(self::PATTERN);
                 $params = $this->buildParams(
-                    $matches->contains('params') ? $matches->get('params') : Str::of('')
+                    $matches->get('params')->match(
+                        static fn($params) => $params,
+                        static fn() => Str::of(''),
+                    ),
                 );
                 $carry[] = new LinkValue(
-                    Url::of($matches->get('url')->toString()),
-                    $params->contains('rel') ?
-                        $params->get('rel')->value() : null,
-                    ...unwrap($params
+                    $matches->get('url')->match(
+                        static fn($url) => Url::of($url->toString()),
+                        static fn() => throw new DomainException,
+                    ),
+                    $params->get('rel')->match(
+                        static fn($rel) => $rel->value(),
+                        static fn() => null,
+                    ),
+                    ...$params
                         ->remove('rel')
-                        ->values()),
+                        ->values()
+                        ->toList(),
                 );
 
                 return $carry;
@@ -76,17 +85,22 @@ final class LinkFactory implements HeaderFactoryInterface
                 return !$value->trim()->empty();
             })
             ->reduce(
-                Map::of('string', Parameter::class),
+                Map::of(),
                 static function(Map $carry, Str $value): Map {
                     $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
-                    return ($carry)(
-                        $matches->get('key')->toString(),
-                        new Parameter\Parameter(
-                            $matches->get('key')->toString(),
-                            $matches->get('value')->toString(),
-                        ),
-                    );
+                    return Maybe::all($matches->get('key'), $matches->get('value'))
+                        ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                            $key->toString(),
+                            $value->toString(),
+                        ))
+                        ->match(
+                            static fn($parameter) => ($carry)(
+                                $parameter->name(),
+                                $parameter,
+                            ),
+                            static fn() => throw new DomainException,
+                        );
                 },
             );
     }

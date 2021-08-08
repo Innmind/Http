@@ -7,7 +7,6 @@ use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
     Map,
-    Sequence,
 };
 use function Innmind\Immutable\join;
 
@@ -28,7 +27,7 @@ final class AcceptValue extends Value\Value
     ) {
         $media = Str::of('%s/%s')->sprintf($type, $subType);
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         if (
             !$media->matches('~^\*/\*$~') &&
@@ -48,9 +47,8 @@ final class AcceptValue extends Value\Value
         $this->type = $type;
         $this->subType = $subType;
 
-        $parameters = $this->parameters->values()->toSequenceOf(
-            'string',
-            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
         );
         $parameters = join(';', $parameters);
         $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;

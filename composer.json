@@ -16,13 +16,15 @@
     },
     "require": {
         "php": "~8.0",
-        "innmind/url": "~3.0",
-        "innmind/immutable": "~3.0",
-        "innmind/filesystem": "~4.0",
-        "innmind/time-continuum": "~2.0",
-        "innmind/stream": "~2.0",
+        "innmind/url": "dev-next",
+        "innmind/immutable": "dev-next",
+        "innmind/filesystem": "dev-next",
+        "innmind/time-continuum": "dev-next",
+        "innmind/stream": "dev-next",
         "guzzlehttp/psr7": "^1.6"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Innmind\\Http\\": "src/"

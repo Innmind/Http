@@ -7,6 +7,7 @@ use Innmind\Http\Exception\HeaderNotFound;
 use Innmind\Immutable\{
     Str,
     Map,
+    SideEffect,
 };
 
 /**
@@ -20,7 +21,7 @@ final class Headers implements \Countable
     public function __construct(Header ...$headers)
     {
         /** @var Map<string, Header<Header\Value>> */
-        $this->headers = Map::of('string', Header::class);
+        $this->headers = Map::of();
 
         foreach ($headers as $header) {
             $this->headers = ($this->headers)(
@@ -42,11 +43,13 @@ final class Headers implements \Countable
      */
     public function get(string $name): Header
     {
-        if (!$this->contains($name)) {
-            throw new HeaderNotFound($name);
-        }
-
-        return $this->headers->get(Str::of($name)->toLower()->toString());
+        return $this
+            ->headers
+            ->get(Str::of($name)->toLower()->toString())
+            ->match(
+                static fn($header) => $header,
+                static fn() => throw new HeaderNotFound($name),
+            );
     }
 
     public function add(Header ...$headers): self
@@ -76,9 +79,9 @@ final class Headers implements \Countable
     /**
      * @param callable(Header): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->headers->values()->foreach($function);
+        return $this->headers->values()->foreach($function);
     }
 
     /**

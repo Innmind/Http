@@ -18,8 +18,6 @@ class FactoriesTest extends TestCase
         $all = Factories::all();
 
         $this->assertInstanceOf(Map::class, $all);
-        $this->assertSame('string', (string) $all->keyType());
-        $this->assertSame(HeaderFactory::class, (string) $all->valueType());
         $this->assertCount(26, $all);
         $this->assertSame($all, Factories::all());
     }
