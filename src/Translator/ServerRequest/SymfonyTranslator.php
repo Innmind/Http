@@ -69,7 +69,7 @@ final class SymfonyTranslator
 
         return new ServerRequest\ServerRequest(
             Url::of($request->getUri()),
-            new Method($request->getMethod()),
+            Method::of($request->getMethod()),
             Maybe::all($protocol->get('major'), $protocol->get('minor'))
                 ->map(static fn(Str $major, Str $minor) => new ProtocolVersion(
                     (int) $major->toString(),

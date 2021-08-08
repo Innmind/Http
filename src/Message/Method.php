@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\Exception\DomainException;
-
 /**
  * @psalm-immutable
  */
@@ -24,13 +22,29 @@ final class Method
 
     private string $method;
 
-    public function __construct(string $method)
+    private function __construct(string $method)
     {
-        if (!\defined('self::'.$method)) {
-            throw new DomainException($method);
-        }
-
         $this->method = $method;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(string $method): self
+    {
+        return match ($method) {
+            self::GET => self::get(),
+            self::POST => self::post(),
+            self::PUT => self::put(),
+            self::PATCH => self::patch(),
+            self::DELETE => self::delete(),
+            self::OPTIONS => self::options(),
+            self::TRACE => self::trace(),
+            self::CONNECT => self::connect(),
+            self::HEAD => self::head(),
+            self::LINK => self::link(),
+            self::UNLINK => self::unlink(),
+        };
     }
 
     /**

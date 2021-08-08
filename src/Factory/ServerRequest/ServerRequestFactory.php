@@ -79,7 +79,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 $_SERVER['HTTP_HOST'],
                 $_SERVER['REQUEST_URI'],
             )),
-            new Method($_SERVER['REQUEST_METHOD']),
+            Method::of($_SERVER['REQUEST_METHOD']),
             Maybe::all($protocol->get('major'), $protocol->get('minor'))
                 ->map(static fn(Str $major, Str $minor) => new ProtocolVersion(
                     (int) $major->toString(),

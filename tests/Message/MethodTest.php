@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Method,
-    Exception\DomainException,
-};
+use Innmind\Http\Message\Method;
 use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
@@ -19,18 +16,18 @@ class MethodTest extends TestCase
 
     public function testInterface()
     {
-        $m = new Method('GET');
+        $m = Method::of('GET');
 
         $this->assertSame('GET', $m->toString());
 
-        new Method('POST');
-        new Method('PUT');
-        new Method('PATCH');
-        new Method('DELETE');
-        new Method('OPTIONS');
-        new Method('HEAD');
-        new Method('TRACE');
-        new Method('CONNECT');
+        Method::of('POST');
+        Method::of('PUT');
+        Method::of('PATCH');
+        Method::of('DELETE');
+        Method::of('OPTIONS');
+        Method::of('HEAD');
+        Method::of('TRACE');
+        Method::of('CONNECT');
     }
 
     public function testNamedConstructors()
@@ -47,10 +44,9 @@ class MethodTest extends TestCase
 
     public function testThrowWhenInvalidMethod()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('get');
+        $this->expectException(\UnhandledMatchError::class);
 
-        new Method('get');
+        Method::of('get');
     }
 
     public function testOnlyOneInstancePerMethod()
@@ -70,7 +66,7 @@ class MethodTest extends TestCase
             ->forAll($this->methods())
             ->then(function($method) {
                 $this->assertTrue(
-                    (new Method($method))->equals(new Method($method)),
+                    Method::of($method)->equals(Method::of($method)),
                 );
             });
         $this
@@ -81,7 +77,7 @@ class MethodTest extends TestCase
             ->filter(fn($a, $b) => $a !== $b)
             ->then(function($a, $b) {
                 $this->assertFalse(
-                    (new Method($a))->equals(new Method($b)),
+                    Method::of($a)->equals(Method::of($b)),
                 );
             });
     }

@@ -14,9 +14,7 @@ final class AllowValue implements Value
 
     public function __construct(string $value)
     {
-        new Method($value);
-
-        $this->value = $value;
+        $this->value = Method::of($value)->toString();
     }
 
     public function toString(): string

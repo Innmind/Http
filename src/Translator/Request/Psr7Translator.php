@@ -35,7 +35,7 @@ final class Psr7Translator
 
         return new Request(
             Url::of((string) $request->getUri()),
-            new Method(\strtoupper($request->getMethod())),
+            Method::of(\strtoupper($request->getMethod())),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($request->getHeaders()),
             new Stream($request->getBody()),

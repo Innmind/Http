@@ -3,11 +3,10 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header\AllowValue,
-    Header\Value,
-    Header\Parameter\Quality,
-    Exception\DomainException,
+use Innmind\Http\Header\{
+    AllowValue,
+    Value,
+    Parameter\Quality,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -35,8 +34,7 @@ class AllowValueTest extends TestCase
      */
     public function testThrowWhenInvalidAllowValue($value)
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage($value);
+        $this->expectException(\UnhandledMatchError::class);
 
         new AllowValue($value);
     }
