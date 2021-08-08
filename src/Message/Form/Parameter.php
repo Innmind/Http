@@ -23,13 +23,6 @@ final class Parameter
             throw new DomainException('Parameter name can\'t be empty');
         }
 
-        /** @psalm-suppress DocblockTypeContradiction */
-        if (!\is_string($value) && !\is_array($value)) {
-            $given = \gettype($value);
-
-            throw new \TypeError("Argument 2 must be of type string|array, $given given");
-        }
-
         $this->name = $name;
         $this->value = $value;
     }

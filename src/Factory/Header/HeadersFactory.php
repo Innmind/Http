@@ -26,10 +26,9 @@ final class HeadersFactory implements HeadersFactoryInterface
         $headers = [];
 
         foreach ($this->headers() as $name => $value) {
-            /** @psalm-suppress RedundantCastGivenDocblockType */
             $headers[] = ($this->headerFactory)(
-                Str::of((string) $name),
-                Str::of((string) $value),
+                Str::of($name),
+                Str::of($value),
             );
         }
 
@@ -58,7 +57,8 @@ final class HeadersFactory implements HeadersFactoryInterface
                 ->pregReplace('~^HTTP_~', '')
                 ->replace('_', '-')
                 ->toString();
-            $headers[$key] = $value;
+            /** @psalm-suppress RedundantCastGivenDocblockType */
+            $headers[$key] = (string) $value;
         }
 
         return $headers;

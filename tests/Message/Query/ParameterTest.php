@@ -25,12 +25,4 @@ class ParameterTest extends TestCase
 
         new Parameter('', '42');
     }
-
-    public function testThrowWhenValueNeitherStringNorArray()
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 2 must be of type string|array, integer given');
-
-        new Parameter('foo', 42);
-    }
 }
