@@ -3,13 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Form\Parameter,
-    Exception\FormParameterNotFound,
-};
+use Innmind\Http\Message\Form\Parameter;
 use Innmind\Immutable\{
     Map,
     SideEffect,
+    Maybe,
 };
 
 /**
@@ -39,14 +37,11 @@ final class Form implements \Countable
     }
 
     /**
-     * @throws FormParameterNotFound
+     * @return Maybe<Parameter>
      */
-    public function get(string $key): Parameter
+    public function get(string $key): Maybe
     {
-        return $this->parameters->get($key)->match(
-            static fn($parameter) => $parameter,
-            static fn() => throw new FormParameterNotFound($key),
-        );
+        return $this->parameters->get($key);
     }
 
     public function contains(string $key): bool

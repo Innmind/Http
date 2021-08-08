@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Cookies,
-    Exception\CookieNotFound,
-};
+use Innmind\Http\Message\Cookies;
 use Innmind\Immutable\{
     Map,
     SideEffect,
@@ -21,16 +18,19 @@ class CookiesTest extends TestCase
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
-        $this->assertSame('42', $f->get('foo'));
+        $this->assertSame('42', $f->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
         $this->assertSame(1, $f->count());
     }
 
-    public function testThrowWhenAccessingUnknownCookie()
+    public function testReturnNothingWhenAccessingUnknownCookie()
     {
-        $this->expectException(CookieNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Cookies)->get('foo');
+        $this->assertNull((new Cookies)->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()

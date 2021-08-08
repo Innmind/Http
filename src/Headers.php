@@ -3,11 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-use Innmind\Http\Exception\HeaderNotFound;
 use Innmind\Immutable\{
     Str,
     Map,
     SideEffect,
+    Maybe,
 };
 
 /**
@@ -39,17 +39,11 @@ final class Headers implements \Countable
     /**
      * @param string $name Case insensitive
      *
-     * @throws HeaderNotFound
+     * @return Maybe<Header<Header\Value>>
      */
-    public function get(string $name): Header
+    public function get(string $name): Maybe
     {
-        return $this
-            ->headers
-            ->get(Str::of($name)->toLower()->toString())
-            ->match(
-                static fn($header) => $header,
-                static fn() => throw new HeaderNotFound($name),
-            );
+        return $this->headers->get(Str::of($name)->toLower()->toString());
     }
 
     public function add(Header ...$headers): self

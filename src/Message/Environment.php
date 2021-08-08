@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\Exception\EnvironmentVariableNotFound;
 use Innmind\Immutable\{
     Map,
     SideEffect,
+    Maybe,
 };
 
 /**
@@ -26,14 +26,11 @@ final class Environment implements \Countable
     }
 
     /**
-     * @throws EnvironmentVariableNotFound
+     * @return Maybe<string>
      */
-    public function get(string $name): string
+    public function get(string $name): Maybe
     {
-        return $this->variables->get($name)->match(
-            static fn($env) => $env,
-            static fn() => throw new EnvironmentVariableNotFound($name),
-        );
+        return $this->variables->get($name);
     }
 
     public function contains(string $name): bool

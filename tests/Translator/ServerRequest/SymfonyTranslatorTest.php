@@ -68,39 +68,72 @@ class SymfonyTranslatorTest extends TestCase
         $this->assertSame(6, $request->headers()->count());
         $this->assertSame(
             'content-type: text/html',
-            $request->headers()->get('Content-Type')->toString(),
+            $request->headers()->get('Content-Type')->match(
+                static fn($header) => $header->toString(),
+                static fn() => null,
+            ),
         );
         $this->assertSame(
             'content-length: 0',
-            $request->headers()->get('Content-Length')->toString(),
+            $request->headers()->get('Content-Length')->match(
+                static fn($header) => $header->toString(),
+                static fn() => null,
+            ),
         );
         $this->assertSame(
             'etag: asdf',
-            $request->headers()->get('etag')->toString(),
+            $request->headers()->get('etag')->match(
+                static fn($header) => $header->toString(),
+                static fn() => null,
+            ),
         );
         $this->assertSame(
             'php-auth-user: foo',
-            $request->headers()->get('php-auth-user')->toString(),
+            $request->headers()->get('php-auth-user')->match(
+                static fn($header) => $header->toString(),
+                static fn() => null,
+            ),
         );
         $this->assertSame(
             'php-auth-pw: bar',
-            $request->headers()->get('php-auth-pw')->toString(),
+            $request->headers()->get('php-auth-pw')->match(
+                static fn($header) => $header->toString(),
+                static fn() => null,
+            ),
         );
         $this->assertSame(
             'authorization: Basic '.\base64_encode('foo:bar'),
-            $request->headers()->get('authorization')->toString(),
+            $request->headers()->get('authorization')->match(
+                static fn($header) => $header->toString(),
+                static fn() => null,
+            ),
         );
         $this->assertSame('some content', $request->body()->toString());
         $this->assertSame(13, $request->environment()->count());
-        $this->assertSame('dev', $request->environment()->get('SYMFONY_ENV'));
+        $this->assertSame('dev', $request->environment()->get('SYMFONY_ENV')->match(
+            static fn($value) => $value,
+            static fn() => null,
+        ));
         $this->assertSame(1, $request->cookies()->count());
-        $this->assertSame('42', $request->cookies()->get('sess'));
+        $this->assertSame('42', $request->cookies()->get('sess')->match(
+            static fn($value) => $value,
+            static fn() => null,
+        ));
         $this->assertSame(1, $request->query()->count());
-        $this->assertSame('foo', $request->query()->get('search')->value());
+        $this->assertSame('foo', $request->query()->get('search')->match(
+            static fn($parameter) => $parameter->value(),
+            static fn() => null,
+        ));
         $this->assertSame(1, $request->form()->count());
-        $this->assertSame('some token', $request->form()->get('csrf')->value());
+        $this->assertSame('some token', $request->form()->get('csrf')->match(
+            static fn($parameter) => $parameter->value(),
+            static fn() => null,
+        ));
         $this->assertSame(1, $request->files()->count());
-        $file = $request->files()->get('file');
+        $file = $request->files()->get('file')->match(
+            static fn($file) => $file,
+            static fn() => null,
+        );
         $this->assertSame('uploaded-file', $file->name()->toString());
         $this->assertSame('some data', $file->content()->toString());
         $this->assertInstanceOf(Ok::class, $file->status());

@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Message;
 use Innmind\Http\{
     Message\Files,
     File,
-    Exception\FileNotFound,
 };
 use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +23,10 @@ class FilesTest extends TestCase
 
         $this->assertTrue($fs->contains('foo'));
         $this->assertFalse($fs->contains('bar'));
-        $this->assertSame($f, $fs->get('foo'));
+        $this->assertSame($f, $fs->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
         $this->assertSame(1, $fs->count());
     }
 
@@ -41,12 +43,12 @@ class FilesTest extends TestCase
         $this->assertTrue($files->contains('foo'));
     }
 
-    public function testThrowWhenAccessingUnknownFile()
+    public function testReturnNothingWhenAccessingUnknownFile()
     {
-        $this->expectException(FileNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Files)->get('foo');
+        $this->assertNull((new Files)->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()

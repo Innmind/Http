@@ -3,13 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Query\Parameter,
-    Exception\QueryParameterNotFound,
-};
+use Innmind\Http\Message\Query\Parameter;
 use Innmind\Immutable\{
     Map,
     SideEffect,
+    Maybe,
 };
 
 /**
@@ -39,14 +37,11 @@ final class Query implements \Countable
     }
 
     /**
-     * @throws QueryParameterNotFound
+     * @return Maybe<Parameter>
      */
-    public function get(string $name): Parameter
+    public function get(string $name): Maybe
     {
-        return $this->parameters->get($name)->match(
-            static fn($parameter) => $parameter,
-            static fn() => throw new QueryParameterNotFound($name),
-        );
+        return $this->parameters->get($name);
     }
 
     public function contains(string $name): bool

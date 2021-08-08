@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Message;
 use Innmind\Http\{
     Message\Query,
     Message\Query\Parameter,
-    Exception\QueryParameterNotFound,
 };
 use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +23,10 @@ class QueryTest extends TestCase
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
-        $this->assertSame($p, $f->get('foo'));
+        $this->assertSame($p, $f->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
         $this->assertSame(1, $f->count());
     }
 
@@ -36,12 +38,12 @@ class QueryTest extends TestCase
         $this->assertTrue($query->contains('foo'));
     }
 
-    public function testThrowWhenAccessingUnknownParameter()
+    public function testReturnNothingWhenAccessingUnknownParameter()
     {
-        $this->expectException(QueryParameterNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Query)->get('foo');
+        $this->assertNull((new Query)->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()

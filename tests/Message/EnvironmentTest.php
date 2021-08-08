@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Environment,
-    Exception\EnvironmentVariableNotFound,
-};
+use Innmind\Http\Message\Environment;
 use Innmind\Immutable\{
     Map,
     SideEffect,
@@ -21,16 +18,19 @@ class EnvironmentTest extends TestCase
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
-        $this->assertSame('42', $f->get('foo'));
+        $this->assertSame('42', $f->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
         $this->assertSame(1, $f->count());
     }
 
-    public function testThrowWhenAccessingUnknownVariable()
+    public function testReturnNothingWhenAccessingUnknownVariable()
     {
-        $this->expectException(EnvironmentVariableNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Environment)->get('foo');
+        $this->assertNull((new Environment)->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()

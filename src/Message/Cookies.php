@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\Exception\CookieNotFound;
 use Innmind\Immutable\{
     Map,
     SideEffect,
+    Maybe,
 };
 
 /**
@@ -26,14 +26,11 @@ final class Cookies implements \Countable
     }
 
     /**
-     * @throws CookieNotFound
+     * @return Maybe<string>
      */
-    public function get(string $name): string
+    public function get(string $name): Maybe
     {
-        return $this->cookies->get($name)->match(
-            static fn($cookie) => $cookie,
-            static fn() => throw new CookieNotFound($name),
-        );
+        return $this->cookies->get($name);
     }
 
     public function contains(string $name): bool

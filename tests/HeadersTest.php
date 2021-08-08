@@ -9,7 +9,6 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Parameter,
-    Exception\HeaderNotFound,
 };
 use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
@@ -30,8 +29,14 @@ class HeadersTest extends TestCase
         $this->assertTrue($hs->contains('content-type'));
         $this->assertTrue($hs->contains('Content-Type'));
         $this->assertFalse($hs->contains('content_type'));
-        $this->assertSame($ct, $hs->get('content-type'));
-        $this->assertSame($ct, $hs->get('Content-Type'));
+        $this->assertSame($ct, $hs->get('content-type')->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
+        $this->assertSame($ct, $hs->get('Content-Type')->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
         $this->assertSame(1, $hs->count());
     }
 
@@ -50,12 +55,12 @@ class HeadersTest extends TestCase
         $this->assertTrue($headers->contains('content-type'));
     }
 
-    public function testThrowWhenAccessingUnknownHeader()
+    public function testReturnNothingWhenAccessingUnknownHeader()
     {
-        $this->expectException(HeaderNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Headers)->get('foo');
+        $this->assertNull((new Headers)->get('foo')->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
     public function testAdd()
@@ -68,7 +73,10 @@ class HeadersTest extends TestCase
         $this->assertInstanceOf(Headers::class, $headers2);
         $this->assertFalse($headers1->contains('content-type'));
         $this->assertTrue($headers2->contains('content-type'));
-        $this->assertSame($header, $headers3->get('content-type'));
+        $this->assertSame($header, $headers3->get('content-type')->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()

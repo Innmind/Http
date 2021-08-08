@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Message;
 use Innmind\Http\{
     Message\Form,
     Message\Form\Parameter,
-    Exception\FormParameterNotFound,
 };
 use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +23,10 @@ class FormTest extends TestCase
 
         $this->assertFalse($f->contains('24'));
         $this->assertTrue($f->contains('42'));
-        $this->assertSame($p, $f->get('42'));
+        $this->assertSame($p, $f->get('42')->match(
+            static fn($parameter) => $parameter,
+            static fn() => null,
+        ));
         $this->assertSame(1, $f->count());
     }
 
@@ -36,12 +38,12 @@ class FormTest extends TestCase
         $this->assertTrue($form->contains('42'));
     }
 
-    public function testThrowWhenAccessingUnknownParameter()
+    public function testReturnNothingWhenAccessingUnknownParameter()
     {
-        $this->expectException(FormParameterNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Form)->get('foo');
+        $this->assertNull((new Form)->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()

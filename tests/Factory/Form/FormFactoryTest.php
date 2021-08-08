@@ -36,8 +36,14 @@ class FormFactoryTest extends TestCase
                     'some' => 'value',
                 ],
             ],
-            $f->get('tree')->value(),
+            $f->get('tree')->match(
+                static fn($tree) => $tree->value(),
+                static fn() => null,
+            ),
         );
-        $this->assertSame('value', $f->get('another')->value());
+        $this->assertSame('value', $f->get('another')->match(
+            static fn($another) => $another->value(),
+            static fn() => null,
+        ));
     }
 }

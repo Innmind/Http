@@ -37,10 +37,22 @@ class FilesFactoryTest extends TestCase
 
         $this->assertInstanceOf(Files::class, $f);
         $this->assertSame(1, $f->count());
-        $this->assertSame('foo.txt', $f->get('file1')->name()->toString());
-        $this->assertSame('foo', $f->get('file1')->content()->toString());
-        $this->assertSame('text/plain', $f->get('file1')->mediaType()->toString());
-        $this->assertInstanceOf(Ok::class, $f->get('file1')->status());
+        $this->assertSame('foo.txt', $f->get('file1')->match(
+            static fn($file) => $file->name()->toString(),
+            static fn() => null,
+        ));
+        $this->assertSame('foo', $f->get('file1')->match(
+            static fn($file) => $file->content()->toString(),
+            static fn() => null,
+        ));
+        $this->assertSame('text/plain', $f->get('file1')->match(
+            static fn($file) => $file->mediaType()->toString(),
+            static fn() => null,
+        ));
+        $this->assertInstanceOf(Ok::class, $f->get('file1')->match(
+            static fn($file) => $file->status(),
+            static fn() => null,
+        ));
         @\unlink('/tmp/foo.txt');
     }
 
@@ -72,8 +84,14 @@ class FilesFactoryTest extends TestCase
 
         $this->assertInstanceOf(Files::class, $f);
         $this->assertSame(1, $f->count());
-        $this->assertSame('bar.txt', $f->get('download.file1')->name()->toString());
-        $this->assertSame('bar', $f->get('download.file1')->content()->toString());
+        $this->assertSame('bar.txt', $f->get('download.file1')->match(
+            static fn($file) => $file->name()->toString(),
+            static fn() => null,
+        ));
+        $this->assertSame('bar', $f->get('download.file1')->match(
+            static fn($file) => $file->content()->toString(),
+            static fn() => null,
+        ));
         @\unlink('/tmp/bar.txt');
     }
 }

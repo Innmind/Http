@@ -3,13 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    File,
-    Exception\FileNotFound,
-};
+use Innmind\Http\File;
 use Innmind\Immutable\{
     Map,
     SideEffect,
+    Maybe,
 };
 
 /**
@@ -39,14 +37,11 @@ final class Files implements \Countable
     }
 
     /**
-     * @throws FileNotFound
+     * @return Maybe<File>
      */
-    public function get(string $name): File
+    public function get(string $name): Maybe
     {
-        return $this->files->get($name)->match(
-            static fn($file) => $file,
-            static fn() => throw new FileNotFound($name),
-        );
+        return $this->files->get($name);
     }
 
     public function contains(string $name): bool
