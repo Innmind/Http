@@ -24,6 +24,9 @@ final class MaxAge implements Parameter
         $this->parameter = new Parameter\Parameter('Max-Age', (string) $number);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function expire(): Parameter
     {
         return new Parameter\Parameter('Max-Age', '-1');

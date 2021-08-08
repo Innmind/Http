@@ -21,6 +21,9 @@ final class Date implements HeaderInterface
         $this->header = new Header('Date', $date);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(PointInTime $point): self
     {
         return new self(new DateValue($point));

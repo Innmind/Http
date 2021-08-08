@@ -21,6 +21,9 @@ final class Location implements HeaderInterface
         $this->header = new Header('Location', $location);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(Url $location): self
     {
         return new self(new LocationValue($location));

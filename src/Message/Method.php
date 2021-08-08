@@ -22,18 +22,6 @@ final class Method
     private const LINK = 'LINK';
     private const UNLINK = 'UNLINK';
 
-    private static ?self $get = null;
-    private static ?self $post = null;
-    private static ?self $put = null;
-    private static ?self $patch = null;
-    private static ?self $delete = null;
-    private static ?self $options = null;
-    private static ?self $trace = null;
-    private static ?self $connect = null;
-    private static ?self $head = null;
-    private static ?self $link = null;
-    private static ?self $unlink = null;
-
     private string $method;
 
     public function __construct(string $method)
@@ -45,59 +33,92 @@ final class Method
         $this->method = $method;
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function get(): self
     {
-        return self::$get ??= new self(self::GET);
+        return new self(self::GET);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function post(): self
     {
-        return self::$post ??= new self(self::POST);
+        return new self(self::POST);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function put(): self
     {
-        return self::$put ??= new self(self::PUT);
+        return new self(self::PUT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function patch(): self
     {
-        return self::$patch ??= new self(self::PATCH);
+        return new self(self::PATCH);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function delete(): self
     {
-        return self::$delete ??= new self(self::DELETE);
+        return new self(self::DELETE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function options(): self
     {
-        return self::$options ??= new self(self::OPTIONS);
+        return new self(self::OPTIONS);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function trace(): self
     {
-        return self::$trace ??= new self(self::TRACE);
+        return new self(self::TRACE);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function connect(): self
     {
-        return self::$connect ??= new self(self::CONNECT);
+        return new self(self::CONNECT);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function head(): self
     {
-        return self::$head ??= new self(self::HEAD);
+        return new self(self::HEAD);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function link(): self
     {
-        return self::$link ??= new self(self::LINK);
+        return new self(self::LINK);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function unlink(): self
     {
-        return self::$unlink ??= new self(self::UNLINK);
+        return new self(self::UNLINK);
     }
 
     public function equals(self $other): bool

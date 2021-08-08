@@ -18,6 +18,9 @@ final class Headers implements \Countable
     /** @var Map<string, Header<Header\Value>> */
     private Map $headers;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(Header ...$headers)
     {
         /** @var Map<string, Header<Header\Value>> */
@@ -31,6 +34,10 @@ final class Headers implements \Countable
         }
     }
 
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
     public static function of(Header ...$headers): self
     {
         return new self(...$headers);

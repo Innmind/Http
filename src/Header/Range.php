@@ -20,6 +20,9 @@ final class Range implements HeaderInterface
         $this->header = new Header('Range', $range);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(
         string $unit,
         int $firstPosition,

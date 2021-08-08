@@ -18,6 +18,9 @@ final class Form implements \Countable
     /** @var Map<string, Parameter> */
     private Map $parameters;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(Parameter ...$parameters)
     {
         /** @var Map<string, Parameter> */
@@ -31,6 +34,10 @@ final class Form implements \Countable
         }
     }
 
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
     public static function of(Parameter ...$parameters): self
     {
         return new self(...$parameters);

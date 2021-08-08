@@ -21,6 +21,9 @@ final class ContentLocation implements HeaderInterface
         $this->header = new Header('Content-Location', $location);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(Url $location): self
     {
         return new self(new LocationValue($location));

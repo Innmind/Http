@@ -21,6 +21,9 @@ final class IfUnmodifiedSince implements HeaderInterface
         $this->header = new Header('If-Unmodified-Since', $date);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(PointInTime $point): self
     {
         return new self(new DateValue($point));

@@ -24,11 +24,17 @@ final class SameSite implements Parameter
         $this->parameter = new Parameter\Parameter('SameSite', $value);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function strict(): self
     {
         return new self('Strict');
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function lax(): self
     {
         return new self('Lax');

@@ -14,6 +14,9 @@ final class CookieValue implements Value
     /** @var Map<string, Parameter> */
     private Map $parameters;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(Parameter ...$parameters)
     {
         /** @var Map<string, Parameter> */

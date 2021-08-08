@@ -25,6 +25,7 @@ final class SetCookie implements HeaderInterface
 
     /**
      * @no-named-arguments
+     * @psalm-pure
      */
     public static function of(Parameter ...$values): self
     {

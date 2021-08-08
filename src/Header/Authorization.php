@@ -20,6 +20,9 @@ final class Authorization implements HeaderInterface
         $this->header = new Header('Authorization', $authorization);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(string $scheme, string $parameter): self
     {
         return new self(new AuthorizationValue($scheme, $parameter));

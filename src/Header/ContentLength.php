@@ -20,6 +20,9 @@ final class ContentLength implements HeaderInterface
         $this->header = new Header('Content-Length', $length);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(int $length): self
     {
         return new self(new ContentLengthValue($length));

@@ -24,6 +24,9 @@ final class Host implements HeaderInterface
         $this->header = new Header('Host', $host);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(UrlHost $host, Port $port): self
     {
         return new self(new HostValue($host, $port));

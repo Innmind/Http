@@ -20,6 +20,9 @@ final class ContentRange implements HeaderInterface
         $this->header = new Header('Content-Range', $range);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(
         string $unit,
         int $firstPosition,

@@ -21,6 +21,9 @@ final class IfModifiedSince implements HeaderInterface
         $this->header = new Header('If-Modified-Since', $date);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(PointInTime $point): self
     {
         return new self(new DateValue($point));

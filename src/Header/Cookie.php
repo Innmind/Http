@@ -20,6 +20,10 @@ final class Cookie implements HeaderInterface
         $this->header = new Header('Cookie', $value);
     }
 
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
     public static function of(Parameter ...$parameters): self
     {
         return new self(new CookieValue(...$parameters));

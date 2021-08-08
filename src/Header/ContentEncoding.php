@@ -20,6 +20,9 @@ final class ContentEncoding implements HeaderInterface
         $this->header = new Header('Content-Encoding', $encoding);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(string $coding): self
     {
         return new self(new ContentEncodingValue($coding));

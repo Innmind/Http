@@ -21,6 +21,9 @@ final class Referrer implements HeaderInterface
         $this->header = new Header('Referer', $referrer);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(Url $referrer): self
     {
         return new self(new ReferrerValue($referrer));

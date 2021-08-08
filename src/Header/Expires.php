@@ -21,6 +21,9 @@ final class Expires implements HeaderInterface
         $this->header = new Header('Expires', $date);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(PointInTime $point): self
     {
         return new self(new DateValue($point));

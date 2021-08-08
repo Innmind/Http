@@ -60,7 +60,7 @@ class MethodTest extends TestCase
             ->then(function($method) {
                 $method = \strtolower($method);
 
-                $this->assertSame(Method::$method(), Method::$method());
+                $this->assertEquals(Method::$method(), Method::$method());
             });
     }
 

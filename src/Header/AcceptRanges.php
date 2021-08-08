@@ -20,6 +20,9 @@ final class AcceptRanges implements HeaderInterface
         $this->header = new Header('Accept-Ranges', $ranges);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(string $range): self
     {
         return new self(new AcceptRangesValue($range));

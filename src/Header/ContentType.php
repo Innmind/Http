@@ -20,6 +20,9 @@ final class ContentType implements HeaderInterface
         $this->header = new Header('Content-Type', $content);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(
         string $type,
         string $subType,

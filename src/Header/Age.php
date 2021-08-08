@@ -20,6 +20,9 @@ final class Age implements HeaderInterface
         $this->header = new Header('Age', $age);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(int $age): self
     {
         return new self(new AgeValue($age));

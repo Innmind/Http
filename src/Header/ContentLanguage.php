@@ -25,6 +25,7 @@ final class ContentLanguage implements HeaderInterface
 
     /**
      * @no-named-arguments
+     * @psalm-pure
      */
     public static function of(string ...$values): self
     {

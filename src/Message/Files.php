@@ -18,6 +18,9 @@ final class Files implements \Countable
     /** @var Map<string, File> */
     private Map $files;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(File ...$files)
     {
         /** @var Map<string, File> */
@@ -31,6 +34,10 @@ final class Files implements \Countable
         }
     }
 
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
     public static function of(File ...$files): self
     {
         return new self(...$files);
