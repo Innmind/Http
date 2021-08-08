@@ -19,7 +19,7 @@ class FactoriesTest extends TestCase
 
         $this->assertInstanceOf(Map::class, $all);
         $this->assertCount(26, $all);
-        $this->assertSame($all, Factories::all());
+        $this->assertEquals($all, Factories::all());
     }
 
     public function testDefault()
@@ -27,6 +27,6 @@ class FactoriesTest extends TestCase
         $factory = Factories::default();
 
         $this->assertInstanceOf(TryFactory::class, $factory);
-        $this->assertSame($factory, Factories::default());
+        $this->assertEquals($factory, Factories::default());
     }
 }
