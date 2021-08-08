@@ -24,23 +24,16 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
-        $values = $value->split(',');
-        $_ = $values->foreach(static function(Str $accept): void {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException($accept->toString());
-            }
-        });
-
-        /** @var list<AcceptLanguageValue> */
-        $values = $values->reduce(
-            [],
-            static function(array $carry, Str $accept): array {
+        $values = $value
+            ->split(',')
+            ->map(static function(Str $accept): AcceptLanguageValue {
                 $matches = $accept->capture(self::PATTERN);
                 $quality = $matches->get('quality')->match(
                     static fn($quality) => (float) $quality->toString(),
                     static fn() => 1,
                 );
-                $carry[] = $matches
+
+                return $matches
                     ->get('lang')
                     ->map(static fn($lang) => new AcceptLanguageValue(
                         $lang->toString(),
@@ -48,12 +41,10 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
                     ))
                     ->match(
                         static fn($lang) => $lang,
-                        static fn() => throw new DomainException,
+                        static fn() => throw new DomainException($accept->toString()),
                     );
-
-                return $carry;
-            }
-        );
+            })
+            ->toList();
 
         return new AcceptLanguage(...$values);
     }

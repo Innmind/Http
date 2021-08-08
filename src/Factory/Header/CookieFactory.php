@@ -41,7 +41,6 @@ final class CookieFactory implements HeaderFactoryInterface
      */
     private function buildParams(Str $params): array
     {
-        /** @var list<Parameter> */
         return $params
             ->split(';')
             ->map(static function(Str $value): Str {
@@ -50,22 +49,19 @@ final class CookieFactory implements HeaderFactoryInterface
             ->filter(static function(Str $value): bool {
                 return !$value->empty();
             })
-            ->reduce(
-                [],
-                static function(array $carry, Str $value): array {
-                    $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
-                    $carry[] = Maybe::all($matches->get('key'), $matches->get('value'))
-                        ->map(static fn(Str $key, Str $value) => new Parameter(
-                            $key->toString(),
-                            $value->toString(),
-                        ))
-                        ->match(
-                            static fn($parameter) => $parameter,
-                            static fn() => throw new DomainException,
-                        );
+            ->map(static function(Str $value): Parameter {
+                $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
 
-                    return $carry;
-                },
-            );
+                return Maybe::all($matches->get('key'), $matches->get('value'))
+                    ->map(static fn(Str $key, Str $value) => new Parameter(
+                        $key->toString(),
+                        $value->toString(),
+                    ))
+                    ->match(
+                        static fn($parameter) => $parameter,
+                        static fn() => throw new DomainException,
+                    );
+            })
+            ->toList();
     }
 }

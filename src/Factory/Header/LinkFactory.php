@@ -29,21 +29,12 @@ final class LinkFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
-        $values = $value
+        $links = $value
             ->split(',')
             ->map(static function(Str $link): Str {
                 return $link->trim();
-            });
-        $_ = $values->foreach(static function(Str $link): void {
-            if (!$link->matches(self::PATTERN)) {
-                throw new DomainException($link->toString());
-            }
-        });
-
-        /** @var list<LinkValue> */
-        $links = $values->reduce(
-            [],
-            function(array $carry, Str $link): array {
+            })
+            ->map(function(Str $link): LinkValue {
                 $matches = $link->capture(self::PATTERN);
                 $params = $this->buildParams(
                     $matches->get('params')->match(
@@ -51,10 +42,11 @@ final class LinkFactory implements HeaderFactoryInterface
                         static fn() => Str::of(''),
                     ),
                 );
-                $carry[] = new LinkValue(
+
+                return new LinkValue(
                     $matches->get('url')->match(
                         static fn($url) => Url::of($url->toString()),
-                        static fn() => throw new DomainException,
+                        static fn() => throw new DomainException($link->toString()),
                     ),
                     $params->get('rel')->match(
                         static fn($rel) => $rel->value(),
@@ -65,10 +57,8 @@ final class LinkFactory implements HeaderFactoryInterface
                         ->values()
                         ->toList(),
                 );
-
-                return $carry;
-            },
-        );
+            })
+            ->toList();
 
         return new Link(...$links);
     }

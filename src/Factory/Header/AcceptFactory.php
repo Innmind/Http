@@ -27,19 +27,12 @@ final class AcceptFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
-        $values = $value->split(',');
-        $_ = $values->foreach(static function(Str $accept): void {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException($accept->toString());
-            }
-        });
-
-        /** @var list<AcceptValue> */
-        $values = $values->reduce(
-            [],
-            function(array $carry, Str $accept): array {
+        $values = $value
+            ->split(',')
+            ->map(function(Str $accept): AcceptValue {
                 $matches = $accept->capture(self::PATTERN);
-                $carry[] = Maybe::all($matches->get('type'), $matches->get('subType'))
+
+                return Maybe::all($matches->get('type'), $matches->get('subType'))
                     ->map(fn(Str $type, Str $subType) => new AcceptValue(
                         $type->toString(),
                         $subType->toString(),
@@ -52,12 +45,10 @@ final class AcceptFactory implements HeaderFactoryInterface
                     ))
                     ->match(
                         static fn($value) => $value,
-                        static fn() => throw new DomainException,
+                        static fn() => throw new DomainException($accept->toString()),
                     );
-
-                return $carry;
-            },
-        );
+            })
+            ->toList();
 
         return new Accept(...$values);
     }

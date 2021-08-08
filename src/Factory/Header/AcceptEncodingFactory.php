@@ -24,23 +24,16 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
             throw new DomainException($name->toString());
         }
 
-        $values = $value->split(',');
-        $_ = $values->foreach(static function(Str $accept): void {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException($accept->toString());
-            }
-        });
-
-        /** @var list<AcceptEncodingValue> */
-        $values = $values->reduce(
-            [],
-            static function(array $carry, Str $accept): array {
+        $values = $value
+            ->split(',')
+            ->map(static function(Str $accept): AcceptEncodingValue {
                 $matches = $accept->capture(self::PATTERN);
                 $quality = $matches->get('quality')->match(
                     static fn($quality) => (float) $quality->toString(),
                     static fn() => 1,
                 );
-                $carry[] = $matches
+
+                return $matches
                     ->get('coding')
                     ->map(static fn($coding) => new AcceptEncodingValue(
                         $coding->toString(),
@@ -48,12 +41,10 @@ final class AcceptEncodingFactory implements HeaderFactoryInterface
                     ))
                     ->match(
                         static fn($value) => $value,
-                        static fn() => throw new DomainException,
+                        static fn() => throw new DomainException($accept->toString()),
                     );
-
-                return $carry;
-            },
-        );
+            })
+            ->toList();
 
         return new AcceptEncoding(...$values);
     }
