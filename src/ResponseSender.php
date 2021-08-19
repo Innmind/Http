@@ -41,11 +41,15 @@ final class ResponseSender implements Sender
             $response->statusCode()->value(),
         );
 
-        if (!$response->headers()->contains('date')) {
-            \header((new Date(new DateValue($this->clock->now())))->toString());
-        }
+        $headers = $response->headers();
+        $headers = $headers
+            ->get('date')
+            ->match(
+                static fn() => $headers,
+                fn() => $headers->add(Date::of($this->clock->now())),
+            );
 
-        $_ = $response->headers()->foreach(function(Header $header): void {
+        $_ = $headers->foreach(function(Header $header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
 
