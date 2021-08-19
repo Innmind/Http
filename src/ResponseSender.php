@@ -46,7 +46,7 @@ final class ResponseSender implements Sender
             ->get('date')
             ->match(
                 static fn() => $headers,
-                fn() => $headers->add(Date::of($this->clock->now())),
+                fn() => ($headers)(Date::of($this->clock->now())),
             );
 
         $_ = $headers->foreach(function(Header $header): void {

@@ -34,6 +34,17 @@ final class Headers implements \Countable
         }
     }
 
+    public function __invoke(Header $header): self
+    {
+        $self = clone $this;
+        $self->headers = ($self->headers)(
+            $this->normalize($header->name()),
+            $header,
+        );
+
+        return $self;
+    }
+
     /**
      * @no-named-arguments
      * @psalm-pure
@@ -51,17 +62,6 @@ final class Headers implements \Countable
     public function get(string $name): Maybe
     {
         return $this->headers->get($this->normalize($name));
-    }
-
-    public function add(Header $header): self
-    {
-        $self = clone $this;
-        $self->headers = ($self->headers)(
-            $this->normalize($header->name()),
-            $header,
-        );
-
-        return $self;
     }
 
     /**

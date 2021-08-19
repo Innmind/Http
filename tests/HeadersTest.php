@@ -67,8 +67,8 @@ class HeadersTest extends TestCase
     public function testAdd()
     {
         $headers1 = new Headers;
-        $headers2 = $headers1->add(ContentType::of('application', 'json'));
-        $headers3 = $headers2->add($header = ContentType::of('application', 'json'));
+        $headers2 = ($headers1)(ContentType::of('application', 'json'));
+        $headers3 = ($headers2)($header = ContentType::of('application', 'json'));
 
         $this->assertNotSame($headers1, $headers2);
         $this->assertInstanceOf(Headers::class, $headers2);
