@@ -65,6 +65,19 @@ final class Headers implements \Countable
     }
 
     /**
+     * @template T of Header
+     *
+     * @param class-string<T> $type
+     *
+     * @return Maybe<T>
+     */
+    public function find(string $type): Maybe
+    {
+        /** @var Maybe<T> */
+        return $this->headers->values()->find(static fn($header) => $header instanceof $type);
+    }
+
+    /**
      * Check if the header is present
      *
      * @param string $name Case insensitive

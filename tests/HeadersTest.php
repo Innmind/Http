@@ -7,9 +7,11 @@ use Innmind\Http\{
     Headers,
     Header as HeaderInterface,
     Header\Header,
+    Header\Allow,
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Parameter,
+    Header\Value\Value,
 };
 use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
@@ -114,5 +116,31 @@ class HeadersTest extends TestCase
         );
 
         $this->assertSame(['Content-Type', 'x-foo'], $reduced);
+    }
+
+    public function testFind()
+    {
+        $headers = Headers::of(
+            ContentType::of('application', 'json'),
+            new Header('Allow'),
+        );
+
+        $this->assertTrue($headers->find(ContentType::class)->match(
+            static fn() => true,
+            static fn() => false,
+        ));
+        $this->assertFalse($headers->find(Allow::class)->match(
+            static fn() => true,
+            static fn() => false,
+        ));
+
+        $headers = Headers::of(
+            new Header('Content-Type', new Value('application/json')),
+        );
+
+        $this->assertFalse($headers->find(ContentType::class)->match(
+            static fn() => true,
+            static fn() => false,
+        ));
     }
 }
