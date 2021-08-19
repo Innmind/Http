@@ -53,16 +53,13 @@ final class Headers implements \Countable
         return $this->headers->get($this->normalize($name));
     }
 
-    public function add(Header ...$headers): self
+    public function add(Header $header): self
     {
         $self = clone $this;
-
-        foreach ($headers as $header) {
-            $self->headers = ($self->headers)(
-                $this->normalize($header->name()),
-                $header,
-            );
-        }
+        $self->headers = ($self->headers)(
+            $this->normalize($header->name()),
+            $header,
+        );
 
         return $self;
     }
