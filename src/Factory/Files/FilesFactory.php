@@ -30,22 +30,11 @@ final class FilesFactory implements FilesFactoryInterface
 
         /**
          * @var string $name
-         * @var array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string>, tmp_name: list<string>, error: list<int>, type: list<string>} $content
+         * @var array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string|array>, tmp_name: list<string|array>, error: list<int|array>, type: list<string|array>} $content
          */
         foreach ($_FILES as $name => $content) {
-            if (\is_array($content['name'])) {
-                foreach ($content['name'] as $subName => $filename) {
-                    /** @psalm-suppress PossiblyInvalidArrayAccess */
-                    $map[] = $this->buildFile(
-                        $filename,
-                        $content['tmp_name'][$subName],
-                        $content['error'][$subName],
-                        $content['type'][$subName],
-                        $name.'.'.$subName,
-                    );
-                }
-
-                continue;
+            if (!\is_string($content['name'])) {
+                throw new LogicException('Nested uploads are not supported');
             }
 
             /**

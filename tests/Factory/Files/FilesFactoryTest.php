@@ -54,42 +54,4 @@ class FilesFactoryTest extends TestCase
         ));
         @\unlink('/tmp/foo.txt');
     }
-
-    public function testMakeNested()
-    {
-        $f = new FilesFactory;
-
-        $_FILES = [
-            'download' => [
-                'name' => [
-                    'file1' => 'bar.txt',
-                ],
-                'type' => [
-                    'file1' => 'text/plain',
-                ],
-                'tmp_name' => [
-                    'file1' => '/tmp/bar.txt',
-                ],
-                'error' => [
-                    'file1' => \UPLOAD_ERR_OK,
-                ],
-                'size' => [
-                    'file1' => 3,
-                ],
-            ],
-        ];
-        \file_put_contents('/tmp/bar.txt', 'bar');
-        $f = ($f)();
-
-        $this->assertInstanceOf(Files::class, $f);
-        $this->assertSame('bar.txt', $f->get('download.file1')->match(
-            static fn($file) => $file->name()->toString(),
-            static fn() => null,
-        ));
-        $this->assertSame('bar', $f->get('download.file1')->match(
-            static fn($file) => $file->content()->toString(),
-            static fn() => null,
-        ));
-        @\unlink('/tmp/bar.txt');
-    }
 }
