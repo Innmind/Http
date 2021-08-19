@@ -7,6 +7,10 @@ use Innmind\Http\{
     Message\Files,
     File,
 };
+use Innmind\Immutable\{
+    Map,
+    Either,
+};
 use PHPUnit\Framework\TestCase;
 
 class FilesTest extends TestCase
@@ -14,23 +18,19 @@ class FilesTest extends TestCase
     public function testInterface()
     {
         $f = $this->createMock(File::class);
-        $f
-            ->expects($this->once())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $fs = new Files($f);
+        $fs = new Files(Map::of(['foo', Either::right($f)]));
 
         $this->assertSame($f, $fs->get('foo')->match(
-            static fn($foo) => $foo,
             static fn() => null,
+            static fn($foo) => $foo,
         ));
     }
 
     public function testReturnNothingWhenAccessingUnknownFile()
     {
         $this->assertNull((new Files)->get('foo')->match(
-            static fn($foo) => $foo,
             static fn() => null,
+            static fn($foo) => $foo,
         ));
     }
 }

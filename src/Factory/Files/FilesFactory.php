@@ -21,6 +21,10 @@ use Innmind\Http\{
 use Innmind\MediaType\MediaType;
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Path;
+use Innmind\Immutable\{
+    Map,
+    Either,
+};
 
 final class FilesFactory implements FilesFactoryInterface
 {
@@ -50,7 +54,21 @@ final class FilesFactory implements FilesFactoryInterface
             );
         }
 
-        return new Files(...$map);
+        /** @var Map<string, File> */
+        $files = Map::of();
+
+        foreach ($map as $file) {
+            $files = ($files)($file->uploadKey(), $file);
+        }
+
+        /** @var Map<string, Either<Status, File>> */
+        $files = $files->map(
+            static fn($_, $file) => $file->status() instanceof Ok
+                ? Either::right($file)
+                : Either::left($file->status()),
+        );
+
+        return new Files($files);
     }
 
     private function buildFile(

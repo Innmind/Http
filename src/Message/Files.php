@@ -6,7 +6,7 @@ namespace Innmind\Http\Message;
 use Innmind\Http\File;
 use Innmind\Immutable\{
     Map,
-    Maybe,
+    Either,
 };
 
 /**
@@ -14,30 +14,26 @@ use Innmind\Immutable\{
  */
 final class Files
 {
-    /** @var Map<string, File> */
+    /** @var Map<string, Either<File\Status, File>> */
     private Map $files;
 
     /**
-     * @no-named-arguments
+     * @param Map<string, Either<File\Status, File>> $files
      */
-    public function __construct(File ...$files)
+    public function __construct(Map $files = null)
     {
-        /** @var Map<string, File> */
-        $this->files = Map::of();
-
-        foreach ($files as $file) {
-            $this->files = ($this->files)(
-                $file->uploadKey(),
-                $file,
-            );
-        }
+        $this->files = $files ?? Map::of();
     }
 
     /**
-     * @return Maybe<File>
+     * @return Either<File\Status, File>
      */
-    public function get(string $name): Maybe
+    public function get(string $name): Either
     {
-        return $this->files->get($name);
+        /** @var Either<File\Status, File> */
+        return $this->files->get($name)->match(
+            static fn($either) => $either,
+            static fn() => Either::left(new File\Status\NotUploaded),
+        );
     }
 }
