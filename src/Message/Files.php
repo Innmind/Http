@@ -6,14 +6,13 @@ namespace Innmind\Http\Message;
 use Innmind\Http\File;
 use Innmind\Immutable\{
     Map,
-    SideEffect,
     Maybe,
 };
 
 /**
  * @psalm-immutable
  */
-final class Files implements \Countable
+final class Files
 {
     /** @var Map<string, File> */
     private Map $files;
@@ -49,36 +48,5 @@ final class Files implements \Countable
     public function get(string $name): Maybe
     {
         return $this->files->get($name);
-    }
-
-    public function contains(string $name): bool
-    {
-        return $this->files->contains($name);
-    }
-
-    /**
-     * @param callable(File): void $function
-     */
-    public function foreach(callable $function): SideEffect
-    {
-        return $this->files->values()->foreach($function);
-    }
-
-    /**
-     * @template R
-     *
-     * @param R $carry
-     * @param callable(R, File): R $reducer
-     *
-     * @return R
-     */
-    public function reduce($carry, callable $reducer)
-    {
-        return $this->files->values()->reduce($carry, $reducer);
-    }
-
-    public function count()
-    {
-        return $this->files->size();
     }
 }

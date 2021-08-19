@@ -36,7 +36,6 @@ class FilesFactoryTest extends TestCase
         $f = ($f)();
 
         $this->assertInstanceOf(Files::class, $f);
-        $this->assertSame(1, $f->count());
         $this->assertSame('foo.txt', $f->get('file1')->match(
             static fn($file) => $file->name()->toString(),
             static fn() => null,
@@ -83,7 +82,6 @@ class FilesFactoryTest extends TestCase
         $f = ($f)();
 
         $this->assertInstanceOf(Files::class, $f);
-        $this->assertSame(1, $f->count());
         $this->assertSame('bar.txt', $f->get('download.file1')->match(
             static fn($file) => $file->name()->toString(),
             static fn() => null,

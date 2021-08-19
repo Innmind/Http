@@ -7,7 +7,6 @@ use Innmind\Http\{
     Message\Files,
     File,
 };
-use Innmind\Immutable\SideEffect;
 use PHPUnit\Framework\TestCase;
 
 class FilesTest extends TestCase
@@ -21,13 +20,10 @@ class FilesTest extends TestCase
             ->willReturn('foo');
         $fs = new Files($f);
 
-        $this->assertTrue($fs->contains('foo'));
-        $this->assertFalse($fs->contains('bar'));
         $this->assertSame($f, $fs->get('foo')->match(
             static fn($foo) => $foo,
             static fn() => null,
         ));
-        $this->assertSame(1, $fs->count());
     }
 
     public function testOf()
@@ -40,7 +36,10 @@ class FilesTest extends TestCase
         $files = Files::of($file);
 
         $this->assertInstanceOf(Files::class, $files);
-        $this->assertTrue($files->contains('foo'));
+        $this->assertTrue($files->get('foo')->match(
+            static fn() => true,
+            static fn() => false,
+        ));
     }
 
     public function testReturnNothingWhenAccessingUnknownFile()
@@ -49,45 +48,5 @@ class FilesTest extends TestCase
             static fn($foo) => $foo,
             static fn() => null,
         ));
-    }
-
-    public function testForeach()
-    {
-        $file = $this->createMock(File::class);
-        $file
-            ->expects($this->once())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $files = new Files($file);
-
-        $called = 0;
-        $this->assertInstanceOf(
-            SideEffect::class,
-            $files->foreach(static function() use (&$called) {
-                ++$called;
-            }),
-        );
-        $this->assertSame(1, $called);
-    }
-
-    public function testReduce()
-    {
-        $file = $this->createMock(File::class);
-        $file
-            ->expects($this->any())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $files = new Files($file);
-
-        $reduced = $files->reduce(
-            [],
-            static function($carry, $file) {
-                $carry[] = $file->uploadKey();
-
-                return $carry;
-            },
-        );
-
-        $this->assertSame(['foo'], $reduced);
     }
 }
