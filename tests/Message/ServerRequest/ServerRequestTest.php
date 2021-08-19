@@ -35,7 +35,7 @@ class ServerRequestTest extends TestCase
             $cookies = new Cookies,
             $query = Query::of(),
             $form = Form::of(),
-            $files = Files::of()
+            $files = new Files,
         );
 
         $this->assertInstanceOf(Message::class, $r);

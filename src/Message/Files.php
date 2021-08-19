@@ -34,15 +34,6 @@ final class Files
     }
 
     /**
-     * @no-named-arguments
-     * @psalm-pure
-     */
-    public static function of(File ...$files): self
-    {
-        return new self(...$files);
-    }
-
-    /**
      * @return Maybe<File>
      */
     public function get(string $name): Maybe
