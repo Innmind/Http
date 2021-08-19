@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<AcceptCharsetValue>
  * @psalm-immutable
  */
 final class AcceptCharset implements HeaderInterface
 {
-    /** @var Header<AcceptCharsetValue> */
     private Header $header;
 
     /**

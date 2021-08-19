@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<ContentEncodingValue>
  * @psalm-immutable
  */
 final class ContentEncoding implements HeaderInterface
 {
-    /** @var Header<ContentEncodingValue> */
     private Header $header;
 
     public function __construct(ContentEncodingValue $encoding)

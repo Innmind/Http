@@ -7,13 +7,13 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<CookieValue>
  * @psalm-immutable
  */
 final class SetCookie implements HeaderInterface
 {
-    /** @var Header<CookieValue> */
     private Header $header;
+    /** @var Set<CookieValue> */
+    private Set $cookies;
 
     /**
      * @no-named-arguments
@@ -21,6 +21,7 @@ final class SetCookie implements HeaderInterface
     public function __construct(CookieValue ...$values)
     {
         $this->header = new Header('Set-Cookie', ...$values);
+        $this->cookies = Set::of(...$values);
     }
 
     /**
@@ -40,6 +41,14 @@ final class SetCookie implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    /**
+     * @return Set<CookieValue>
+     */
+    public function cookies(): Set
+    {
+        return $this->cookies;
     }
 
     public function toString(): string

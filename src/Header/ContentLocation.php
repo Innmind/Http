@@ -8,12 +8,10 @@ use Innmind\Url\Url;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<LocationValue>
  * @psalm-immutable
  */
 final class ContentLocation implements HeaderInterface
 {
-    /** @var Header<LocationValue> */
     private Header $header;
 
     public function __construct(LocationValue $location)

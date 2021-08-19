@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<LinkValue>
  * @psalm-immutable
  */
 final class Link implements HeaderInterface
 {
-    /** @var Header<LinkValue> */
     private Header $header;
 
     /**

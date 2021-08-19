@@ -15,7 +15,7 @@ use Innmind\Immutable\{
  */
 final class Headers implements \Countable
 {
-    /** @var Map<string, Header<Header\Value>> */
+    /** @var Map<string, Header> */
     private Map $headers;
 
     /**
@@ -23,7 +23,7 @@ final class Headers implements \Countable
      */
     public function __construct(Header ...$headers)
     {
-        /** @var Map<string, Header<Header\Value>> */
+        /** @var Map<string, Header> */
         $this->headers = Map::of();
 
         foreach ($headers as $header) {
@@ -46,7 +46,7 @@ final class Headers implements \Countable
     /**
      * @param string $name Case insensitive
      *
-     * @return Maybe<Header<Header\Value>>
+     * @return Maybe<Header>
      */
     public function get(string $name): Maybe
     {

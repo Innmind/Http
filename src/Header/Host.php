@@ -11,12 +11,10 @@ use Innmind\Url\Authority\{
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<HostValue>
  * @psalm-immutable
  */
 final class Host implements HeaderInterface
 {
-    /** @var Header<HostValue> */
     private Header $header;
 
     public function __construct(HostValue $host)

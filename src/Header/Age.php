@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<AgeValue>
  * @psalm-immutable
  */
 final class Age implements HeaderInterface
 {
-    /** @var Header<AgeValue> */
     private Header $header;
 
     public function __construct(AgeValue $age)

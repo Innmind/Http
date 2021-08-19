@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<CookieValue>
  * @psalm-immutable
  */
 final class Cookie implements HeaderInterface
 {
-    /** @var Header<CookieValue> */
     private Header $header;
 
     public function __construct(CookieValue $value)

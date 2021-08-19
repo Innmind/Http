@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<WWWAuthenticateValue>
  * @psalm-immutable
  */
 final class WWWAuthenticate implements HeaderInterface
 {
-    /** @var Header<WWWAuthenticateValue> */
     private Header $header;
 
     /**

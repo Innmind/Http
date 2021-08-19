@@ -70,7 +70,7 @@ final class ResponseSender implements Sender
 
     private function sendCookie(SetCookie $cookie): void
     {
-        $_ = $cookie->values()->foreach(static function(CookieValue $value): void {
+        $_ = $cookie->cookies()->foreach(static function(CookieValue $value): void {
             $parameters = $value->parameters()->values()->reduce(
                 [],
                 static function(array $parameters, Parameter $parameter): array {

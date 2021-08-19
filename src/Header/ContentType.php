@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<ContentTypeValue>
  * @psalm-immutable
  */
 final class ContentType implements HeaderInterface
 {
-    /** @var Header<ContentTypeValue> */
     private Header $header;
 
     public function __construct(ContentTypeValue $content)

@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<CacheControlValue>
  * @psalm-immutable
  */
 final class CacheControl implements HeaderInterface
 {
-    /** @var Header<CacheControlValue> */
     private Header $header;
 
     public function __construct(CacheControlValue $first, CacheControlValue ...$values)

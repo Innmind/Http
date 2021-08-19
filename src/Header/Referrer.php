@@ -8,12 +8,10 @@ use Innmind\Url\Url;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<ReferrerValue>
  * @psalm-immutable
  */
 final class Referrer implements HeaderInterface
 {
-    /** @var Header<ReferrerValue> */
     private Header $header;
 
     public function __construct(ReferrerValue $referrer)

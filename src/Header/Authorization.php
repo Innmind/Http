@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<AuthorizationValue>
  * @psalm-immutable
  */
 final class Authorization implements HeaderInterface
 {
-    /** @var Header<AuthorizationValue> */
     private Header $header;
 
     public function __construct(AuthorizationValue $authorization)

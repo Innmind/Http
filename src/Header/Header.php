@@ -8,19 +8,16 @@ use Innmind\Immutable\Set;
 use function Innmind\Immutable\join;
 
 /**
- * @template A of Value
- * @implements HeaderInterface<A>
  * @psalm-immutable
  */
 final class Header implements HeaderInterface
 {
     private string $name;
-    /** @var Set<A> */
+    /** @var Set<Value> */
     private Set $values;
 
     /**
      * @no-named-arguments
-     * @param A $values
      */
     public function __construct(string $name, Value ...$values)
     {

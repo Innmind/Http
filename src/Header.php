@@ -6,7 +6,6 @@ namespace Innmind\Http;
 use Innmind\Immutable\Set;
 
 /**
- * @template V of Header\Value
  * @psalm-immutable
  */
 interface Header
@@ -14,7 +13,7 @@ interface Header
     public function name(): string;
 
     /**
-     * @return Set<V>
+     * @return Set<Header\Value>
      */
     public function values(): Set;
     public function toString(): string;

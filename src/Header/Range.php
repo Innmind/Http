@@ -7,12 +7,10 @@ use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<RangeValue>
  * @psalm-immutable
  */
 final class Range implements HeaderInterface
 {
-    /** @var Header<RangeValue> */
     private Header $header;
 
     public function __construct(RangeValue $range)

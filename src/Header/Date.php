@@ -8,12 +8,10 @@ use Innmind\TimeContinuum\PointInTime;
 use Innmind\Immutable\Set;
 
 /**
- * @implements HeaderInterface<DateValue>
  * @psalm-immutable
  */
 final class Date implements HeaderInterface
 {
-    /** @var Header<DateValue> */
     private Header $header;
 
     public function __construct(DateValue $date)
