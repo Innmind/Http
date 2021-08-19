@@ -3,7 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\File;
+use Innmind\Http\File\Status;
+use Innmind\Filesystem\File;
 use Innmind\Immutable\{
     Map,
     Either,
@@ -14,11 +15,11 @@ use Innmind\Immutable\{
  */
 final class Files
 {
-    /** @var Map<string, Either<File\Status, File>> */
+    /** @var Map<string, Either<Status, File>> */
     private Map $files;
 
     /**
-     * @param Map<string, Either<File\Status, File>> $files
+     * @param Map<string, Either<Status, File>> $files
      */
     public function __construct(Map $files = null)
     {
@@ -26,14 +27,14 @@ final class Files
     }
 
     /**
-     * @return Either<File\Status, File>
+     * @return Either<Status, File>
      */
     public function get(string $name): Either
     {
-        /** @var Either<File\Status, File> */
+        /** @var Either<Status, File> */
         return $this->files->get($name)->match(
             static fn($either) => $either,
-            static fn() => Either::left(new File\Status\NotUploaded),
+            static fn() => Either::left(new Status\NotUploaded),
         );
     }
 }

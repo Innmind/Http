@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\Files\FilesFactory,
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\Status\Ok
+    File\Status\NotUploaded,
 };
 use Innmind\Immutable\{
     Map,
@@ -31,6 +31,13 @@ class FilesFactoryTest extends TestCase
                 'error' => \UPLOAD_ERR_OK,
                 'size' => 3,
             ],
+            'file2' => [
+                'name' => 'bar.txt',
+                'type' => 'text/plain',
+                'tmp_name' => '/tmp/bar.txt',
+                'error' => \UPLOAD_ERR_NO_FILE,
+                'size' => 0,
+            ],
         ];
         \file_put_contents('/tmp/foo.txt', 'foo');
         $f = ($f)();
@@ -48,9 +55,9 @@ class FilesFactoryTest extends TestCase
             static fn() => null,
             static fn($file) => $file->mediaType()->toString(),
         ));
-        $this->assertInstanceOf(Ok::class, $f->get('file1')->match(
+        $this->assertInstanceOf(NotUploaded::class, $f->get('file2')->match(
+            static fn($status) => $status,
             static fn() => null,
-            static fn($file) => $file->status(),
         ));
         @\unlink('/tmp/foo.txt');
     }

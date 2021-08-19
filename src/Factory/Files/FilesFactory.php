@@ -6,7 +6,6 @@ namespace Innmind\Http\Factory\Files;
 use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File,
     File\Status\ExceedsFormMaxFileSize,
     File\Status\ExceedsIniMaxFileSize,
     File\Status\NoTemporaryDirectory,
@@ -19,7 +18,10 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
-use Innmind\Filesystem\File\Content;
+use Innmind\Filesystem\{
+    File,
+    File\Content,
+};
 use Innmind\Url\Path;
 use Innmind\Immutable\{
     Map,
@@ -30,7 +32,8 @@ final class FilesFactory implements FilesFactoryInterface
 {
     public function __invoke(): Files
     {
-        $map = [];
+        /** @var Map<string, Either<Status, File>> */
+        $files = Map::of();
 
         /**
          * @var string $name
@@ -45,49 +48,42 @@ final class FilesFactory implements FilesFactoryInterface
              * @psalm-suppress PossiblyInvalidArgument
              * @psalm-suppress PossiblyInvalidCast
              */
-            $map[] = $this->buildFile(
+            $files = ($files)($name, $this->buildFile(
                 $content['name'],
                 $content['tmp_name'],
                 $content['error'],
                 $content['type'],
-                $name,
-            );
+            ));
         }
-
-        /** @var Map<string, File> */
-        $files = Map::of();
-
-        foreach ($map as $file) {
-            $files = ($files)($file->uploadKey(), $file);
-        }
-
-        /** @var Map<string, Either<Status, File>> */
-        $files = $files->map(
-            static fn($_, $file) => $file->status() instanceof Ok
-                ? Either::right($file)
-                : Either::left($file->status()),
-        );
 
         return new Files($files);
     }
 
+    /**
+     * @return Either<Status, File>
+     */
     private function buildFile(
         string $name,
         string $path,
         int $status,
         string $media,
-        string $uploadKey
-    ): File {
-        return new File\File(
+    ): Either {
+        $status = $this->status($status);
+
+        if (!($status instanceof Ok)) {
+            /** @var Either<Status, File> */
+            return Either::left($status);
+        }
+
+        /** @var Either<Status, File> */
+        return Either::right(File\File::named(
             $name,
             Content\AtPath::of(Path::of($path)),
-            $uploadKey,
-            $this->status($status),
             MediaType::of($media)->match(
                 static fn($media) => $media,
                 static fn() => MediaType::null(),
             ),
-        );
+        ));
     }
 
     private function status(int $status): Status

@@ -3,10 +3,8 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Files,
-    File,
-};
+use Innmind\Http\Message\Files;
+use Innmind\Filesystem\File;
 use Innmind\Immutable\{
     Map,
     Either,
