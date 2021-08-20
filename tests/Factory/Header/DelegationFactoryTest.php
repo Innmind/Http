@@ -10,7 +10,8 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     Map,
-    Str
+    Str,
+    Maybe,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +35,7 @@ class DelegationFactoryTest extends TestCase
             ->method('__invoke')
             ->with($name, $value)
             ->willReturn(
-                $expected = $this->createMock(Header::class)
+                $expected = Maybe::just($this->createMock(Header::class)),
             );
         $neverToBeCalled = $this->createMock(HeaderFactory::class);
         $neverToBeCalled

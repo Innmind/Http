@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\AcceptRangesFactory,
     Header\AcceptRanges,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -27,20 +26,23 @@ class AcceptRangesFactoryTest extends TestCase
         $header = (new AcceptRangesFactory)(
             Str::of('Accept-Ranges'),
             Str::of('bytes'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(AcceptRanges::class, $header);
         $this->assertSame('Accept-Ranges: bytes', $header->toString());
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new AcceptRangesFactory)(
+        $this->assertNull((new AcceptRangesFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

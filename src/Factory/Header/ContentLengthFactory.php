@@ -4,26 +4,25 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\ContentLength,
-    Header\ContentLengthValue,
     Header,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class ContentLengthFactory implements HeaderFactoryInterface
+final class ContentLengthFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'content-length') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        return new ContentLength(
-            new ContentLengthValue(
-                (int) $value->toString(),
-            ),
-        );
+        /** @var Maybe<Header> */
+        return Maybe::just(ContentLength::of((int) $value->toString()));
     }
 }

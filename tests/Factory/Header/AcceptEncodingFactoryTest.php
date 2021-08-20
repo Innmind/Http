@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\AcceptEncodingFactory,
     Factory\HeaderFactory,
     Header\AcceptEncoding,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class AcceptEncodingFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Accept-Encoding'),
             Str::of('gzip, identity; q=0.5, *;q=0'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(AcceptEncoding::class, $h);
@@ -32,25 +34,25 @@ class AcceptEncodingFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new AcceptEncodingFactory)(
+        $this->assertNull((new AcceptEncodingFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('@');
-
-        (new AcceptEncodingFactory)(
+        $this->assertNull((new AcceptEncodingFactory)(
             Str::of('Accept-Encoding'),
             Str::of('@'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

@@ -14,11 +14,11 @@ use Innmind\Immutable\Str;
 final class HeadersFactory implements HeadersFactoryInterface
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
-    private HeaderFactoryInterface $headerFactory;
+    private TryFactory $headerFactory;
 
     public function __construct(HeaderFactoryInterface $headerFactory)
     {
-        $this->headerFactory = $headerFactory;
+        $this->headerFactory = new TryFactory($headerFactory);
     }
 
     public function __invoke(): Headers

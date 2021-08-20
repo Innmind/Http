@@ -5,7 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\Factory\{
     Header\Factories,
-    Header\TryFactory,
+    Header\DelegationFactory,
     HeaderFactory
 };
 use Innmind\TimeContinuum\Earth\Clock;
@@ -27,7 +27,7 @@ class FactoriesTest extends TestCase
     {
         $factory = Factories::default(new Clock);
 
-        $this->assertInstanceOf(TryFactory::class, $factory);
+        $this->assertInstanceOf(DelegationFactory::class, $factory);
         $this->assertEquals($factory, Factories::default(new Clock));
     }
 }

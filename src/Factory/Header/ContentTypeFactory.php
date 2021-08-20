@@ -4,52 +4,51 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\ContentType,
-    Header\ContentTypeValue,
     Header\Parameter,
-    Exception\DomainException,
 };
 use Innmind\Immutable\{
     Str,
     Maybe,
 };
 
-final class ContentTypeFactory implements HeaderFactoryInterface
+final class ContentTypeFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if (
             $name->toLower()->toString() !== 'content-type' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         $matches = $value->capture(self::PATTERN);
+        $params = $this->buildParams($matches->get('params')->match(
+            static fn($params) => $params,
+            static fn() => Str::of(''),
+        ));
 
+        /** @var Maybe<Header> */
         return Maybe::all(
             $matches->get('type'),
             $matches->get('subType'),
-            $matches->get('params')->otherwise(static fn() => Maybe::just(Str::of(''))),
+            ...$params,
         )
-            ->map(fn(Str $type, Str $subType, Str $params) => new ContentTypeValue(
+            ->map(static fn(Str $type, Str $subType, Parameter ...$params) => ContentType::of(
                 $type->toString(),
                 $subType->toString(),
-                ...$this->buildParams($params),
-            ))
-            ->map(static fn($value) => new ContentType($value))
-            ->match(
-                static fn($contentType) => $contentType,
-                static fn() => throw new DomainException,
-            );
+                ...$params,
+            ));
     }
 
     /**
-     * @return list<Parameter>
+     * @return list<Maybe<Parameter\Parameter>>
      */
     private function buildParams(Str $params): array
     {
@@ -58,18 +57,14 @@ final class ContentTypeFactory implements HeaderFactoryInterface
             ->filter(static function(Str $value): bool {
                 return !$value->trim()->empty();
             })
-            ->map(static function(Str $value): Parameter {
+            ->map(static function(Str $value) {
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
                     ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
                         $key->toString(),
                         $value->toString(),
-                    ))
-                    ->match(
-                        static fn($parameter) => $parameter,
-                        static fn() => throw new DomainException,
-                    );
+                    ));
             })
             ->toList();
     }

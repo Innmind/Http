@@ -4,21 +4,23 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\CacheControlValue,
     Header\CacheControl,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class CacheControlFactory implements HeaderFactoryInterface
+final class CacheControlFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'cache-control') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         /** @var list<CacheControlValue> */
@@ -69,6 +71,7 @@ final class CacheControlFactory implements HeaderFactoryInterface
             ->filter(static fn($value) => $value instanceof CacheControlValue)
             ->toList();
 
-        return new CacheControl(...$values);
+        /** @var Maybe<Header> */
+        return Maybe::just(new CacheControl(...$values));
     }
 }

@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentEncodingFactory,
     Header\ContentEncoding,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -27,20 +26,23 @@ class ContentEncodingFactoryTest extends TestCase
         $header = (new ContentEncodingFactory)(
             Str::of('Content-Encoding'),
             Str::of('x-gzip'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentEncoding::class, $header);
         $this->assertSame('Content-Encoding: x-gzip', $header->toString());
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new ContentEncodingFactory)(
+        $this->assertNull((new ContentEncodingFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

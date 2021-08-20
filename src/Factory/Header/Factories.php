@@ -47,9 +47,6 @@ final class Factories
 
     public static function default(Clock $clock): HeaderFactoryInterface
     {
-        return new TryFactory(
-            new DelegationFactory(self::all($clock)),
-            new HeaderFactory,
-        );
+        return new DelegationFactory(self::all($clock));
     }
 }

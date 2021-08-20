@@ -4,13 +4,15 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
     Header,
     Header\Value,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class HeaderFactory implements HeaderFactoryInterface
+final class HeaderFactory
 {
     public function __invoke(Str $name, Str $value): Header
     {

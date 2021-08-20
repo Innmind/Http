@@ -5,11 +5,15 @@ namespace Tests\Innmind\Http\Translator\Response;
 
 use Innmind\Http\{
     Translator\Response\Psr7Translator,
-    Factory\Header\HeaderFactory,
     Factory\Header\Factories,
+    Factory\HeaderFactory,
     Message\Response
 };
 use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\Immutable\{
+    Maybe,
+    Str,
+};
 use Psr\Http\Message\{
     ResponseInterface,
     StreamInterface
@@ -21,7 +25,12 @@ class Psr7TranslatorTest extends TestCase
     public function testInterface()
     {
         $translator = new Psr7Translator(
-            new HeaderFactory
+            new class implements HeaderFactory {
+                public function __invoke(Str $name, Str $value): Maybe
+                {
+                    return Maybe::nothing();
+                }
+            },
         );
         $response = $this->createMock(ResponseInterface::class);
         $response

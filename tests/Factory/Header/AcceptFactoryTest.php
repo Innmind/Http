@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\AcceptFactory,
     Factory\HeaderFactory,
     Header\Accept,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,31 +22,34 @@ class AcceptFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Accept'),
             Str::of('audio/*; q=0.2; level="1", audio/basic'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Accept::class, $h);
         $this->assertSame('Accept: audio/*;q=0.2;level=1, audio/basic', $h->toString());
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new AcceptFactory)(
+        $this->assertNull((new AcceptFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('@');
-
-        (new AcceptFactory)(
+        $this->assertNull((new AcceptFactory)(
             Str::of('Accept'),
             Str::of('@'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

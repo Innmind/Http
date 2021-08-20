@@ -4,30 +4,33 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
+    Factory\Header\HeaderFactory as DefaultFactory,
     Header,
 };
 use Innmind\Immutable\Str;
 
-final class TryFactory implements HeaderFactoryInterface
+final class TryFactory
 {
-    private HeaderFactoryInterface $try;
-    private HeaderFactoryInterface $fallback;
+    private HeaderFactory $try;
+    /** @var callable(Str, Str): Header */
+    private $fallback;
 
-    public function __construct(
-        HeaderFactoryInterface $try,
-        HeaderFactoryInterface $fallback
-    ) {
+    /**
+     * @param ?callable(Str, Str): Header $fallback
+     */
+    public function __construct(HeaderFactory $try, callable $fallback = null)
+    {
+        $default = new DefaultFactory;
         $this->try = $try;
-        $this->fallback = $fallback;
+        $this->fallback = $fallback ?? static fn(Str $name, Str $value): Header => $default($name, $value);
     }
 
     public function __invoke(Str $name, Str $value): Header
     {
-        try {
-            return ($this->try)($name, $value);
-        } catch (\Throwable $e) {
-            return ($this->fallback)($name, $value);
-        }
+        return ($this->try)($name, $value)->match(
+            static fn($header) => $header,
+            fn() => ($this->fallback)($name, $value),
+        );
     }
 }

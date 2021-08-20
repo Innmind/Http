@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\CacheControlFactory,
     Factory\HeaderFactory,
     Header\CacheControl,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class CacheControlFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Cache-Control'),
             Str::of('no-cache="field", no-store, max-age=42, max-stale=42, min-fresh=42, no-transform, only-if-cached, public, private="field", must-revalidate, proxy-revalidate, s-maxage=42, immutable'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(CacheControl::class, $h);
@@ -32,14 +34,14 @@ class CacheControlFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new CacheControlFactory)(
+        $this->assertNull((new CacheControlFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

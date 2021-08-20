@@ -4,29 +4,32 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\Value,
     Header\AcceptCharsetValue,
     Header\AcceptCharset,
     Header\Parameter\Quality,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AcceptCharsetFactory implements HeaderFactoryInterface
+final class AcceptCharsetFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept-charset') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         $values = $value
             ->split(',')
-            ->map(static function(Str $accept): AcceptCharsetValue {
+            ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
                 $quality = $matches->get('quality')->match(
                     static fn($quality) => (float) $quality->toString(),
@@ -38,14 +41,20 @@ final class AcceptCharsetFactory implements HeaderFactoryInterface
                     ->map(static fn($charset) => new AcceptCharsetValue(
                         $charset->toString(),
                         new Quality($quality),
-                    ))
-                    ->match(
-                        static fn($value) => $value,
-                        static fn() => throw new DomainException($accept->toString()),
-                    );
-            })
-            ->toList();
+                    ));
+            });
 
-        return new AcceptCharset(...$values);
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new AcceptCharset);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(AcceptCharsetValue ...$values) => new AcceptCharset(...$values),
+        );
     }
 }

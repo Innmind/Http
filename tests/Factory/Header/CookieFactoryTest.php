@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\CookieFactory,
     Header\Cookie,
-    Exception\DomainException
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -27,23 +26,30 @@ class CookieFactoryTest extends TestCase
         $header = (new CookieFactory)(
             Str::of('Cookie'),
             Str::of('foo=bar;bar=baz; baz="foo"'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Cookie::class, $header);
         $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', $header->toString());
-        $this->assertSame('Cookie: ', (new CookieFactory)(
-            Str::of('Cookie'),
-            Str::of(''),
-        )->toString());
+        $this->assertSame(
+            'Cookie: ',
+            (new CookieFactory)(Str::of('Cookie'), Str::of(''))->match(
+                static fn($cookie) => $cookie->toString(),
+                static fn() => null,
+            ),
+        );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-
-        (new CookieFactory)(
+        $this->assertNull((new CookieFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

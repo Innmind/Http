@@ -31,7 +31,7 @@ final class LinkValue implements Value
         /** @var Map<string, Parameter> */
         $this->parameters = Map::of();
 
-        if (empty($rel)) {
+        if (Str::of($rel)->empty()) {
             throw new DomainException('Relation can\'t be empty');
         }
 

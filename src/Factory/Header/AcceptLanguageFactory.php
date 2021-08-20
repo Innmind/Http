@@ -4,29 +4,32 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\Value,
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
     Header\Parameter\Quality,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AcceptLanguageFactory implements HeaderFactoryInterface
+final class AcceptLanguageFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept-language') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         $values = $value
             ->split(',')
-            ->map(static function(Str $accept): AcceptLanguageValue {
+            ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
                 $quality = $matches->get('quality')->match(
                     static fn($quality) => (float) $quality->toString(),
@@ -38,14 +41,20 @@ final class AcceptLanguageFactory implements HeaderFactoryInterface
                     ->map(static fn($lang) => new AcceptLanguageValue(
                         $lang->toString(),
                         new Quality($quality),
-                    ))
-                    ->match(
-                        static fn($lang) => $lang,
-                        static fn() => throw new DomainException($accept->toString()),
-                    );
-            })
-            ->toList();
+                    ));
+            });
 
-        return new AcceptLanguage(...$values);
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new AcceptLanguage);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(AcceptLanguageValue ...$values) => new AcceptLanguage(...$values)
+        );
     }
 }

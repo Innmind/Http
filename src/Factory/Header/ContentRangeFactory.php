@@ -4,22 +4,20 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\ContentRange,
-    Header\ContentRangeValue,
-    Exception\DomainException,
 };
 use Innmind\Immutable\{
     Str,
     Maybe,
 };
 
-final class ContentRangeFactory implements HeaderFactoryInterface
+final class ContentRangeFactory implements HeaderFactory
 {
     private const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         $value = $value->trim();
 
@@ -27,7 +25,8 @@ final class ContentRangeFactory implements HeaderFactoryInterface
             $name->toLower()->toString() !== 'content-range' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         $matches = $value->capture(self::PATTERN);
@@ -41,17 +40,13 @@ final class ContentRangeFactory implements HeaderFactoryInterface
                 static fn() => null,
             );
 
+        /** @var Maybe<Header> */
         return Maybe::all($matches->get('unit'), $matches->get('first'), $matches->get('last'))
-            ->map(static fn(Str $unit, Str $first, Str $last) => new ContentRangeValue(
+            ->map(static fn(Str $unit, Str $first, Str $last) => ContentRange::of(
                 $unit->toString(),
                 (int) $first->toString(),
                 (int) $last->toString(),
                 $length,
-            ))
-            ->map(static fn($value) => new ContentRange($value))
-            ->match(
-                static fn($range) => $range,
-                static fn() => throw new DomainException,
-            );
+            ));
     }
 }

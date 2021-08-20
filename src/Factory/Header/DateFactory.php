@@ -4,17 +4,18 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\DateValue,
     Header\Date,
     TimeContinuum\Format\Http,
-    Exception\DomainException,
 };
 use Innmind\TimeContinuum\Clock;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class DateFactory implements HeaderFactoryInterface
+final class DateFactory implements HeaderFactory
 {
     private Clock $clock;
 
@@ -23,19 +24,17 @@ final class DateFactory implements HeaderFactoryInterface
         $this->clock = $clock;
     }
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'date') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        return new Date(
-            new DateValue(
-                $this->clock->at($value->toString(), new Http)->match(
-                    static fn($point) => $point,
-                    static fn() => throw new DomainException($name->toString()),
-                ),
-            ),
-        );
+        /** @var Maybe<Header> */
+        return $this
+            ->clock
+            ->at($value->toString(), new Http)
+            ->map(static fn($point) => Date::of($point));
     }
 }

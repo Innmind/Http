@@ -4,30 +4,30 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\ContentLanguage,
-    Header\ContentLanguageValue,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class ContentLanguageFactory implements HeaderFactoryInterface
+final class ContentLanguageFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'content-language') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         $values = $value
             ->split(',')
-            ->map(static fn($language) => new ContentLanguageValue(
-                $language->trim()->toString(),
-            ))
+            ->map(static fn($language) => $language->trim()->toString())
             ->toList();
 
-        return new ContentLanguage(...$values);
+        /** @var Maybe<Header> */
+        return Maybe::just(ContentLanguage::of(...$values));
     }
 }

@@ -5,6 +5,7 @@ namespace Innmind\Http\Translator\Request;
 
 use Innmind\Http\{
     Factory\HeaderFactory,
+    Factory\Header\TryFactory,
     Factory\Header\Factories,
     Message\Request\Request,
     Message\Method,
@@ -23,11 +24,11 @@ use Psr\Http\Message\RequestInterface;
 
 final class Psr7Translator
 {
-    private HeaderFactory $headerFactory;
+    private TryFactory $headerFactory;
 
     public function __construct(HeaderFactory $headerFactory)
     {
-        $this->headerFactory = $headerFactory;
+        $this->headerFactory = new TryFactory($headerFactory);
     }
 
     public function __invoke(RequestInterface $request): Request

@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\ReferrerFactory,
     Factory\HeaderFactory,
     Header\Referrer,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class ReferrerFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Referer'),
             Str::of('http://www.w3.org/hypertext/DataSources/Overview.html'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Referrer::class, $h);
@@ -32,14 +34,11 @@ class ReferrerFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new ReferrerFactory)(
-            Str::of('foo'),
-            Str::of(''),
-        );
+        $this->assertNull((new ReferrerFactory)(Str::of('foo'), Str::of(''))->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }
