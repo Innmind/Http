@@ -92,25 +92,15 @@ final class FilesFactory implements FilesFactoryInterface
      */
     private function status(int $status)
     {
-        switch ($status) {
-            case \UPLOAD_ERR_FORM_SIZE:
-                return new ExceedsFormMaxFileSize;
-            case \UPLOAD_ERR_INI_SIZE:
-                return new ExceedsIniMaxFileSize;
-            case \UPLOAD_ERR_NO_TMP_DIR:
-                return new NoTemporaryDirectory;
-            case \UPLOAD_ERR_NO_FILE:
-                return new NotUploaded;
-            case \UPLOAD_ERR_OK:
-                return;
-            case \UPLOAD_ERR_PARTIAL:
-                return new PartiallyUploaded;
-            case \UPLOAD_ERR_EXTENSION:
-                return new StoppedByExtension;
-            case \UPLOAD_ERR_CANT_WRITE:
-                return new WriteFailed;
-        }
-
-        throw new LogicException("Unknown file upload status $status");
+        return match ($status) {
+            \UPLOAD_ERR_FORM_SIZE => new ExceedsFormMaxFileSize,
+            \UPLOAD_ERR_INI_SIZE => new ExceedsIniMaxFileSize,
+            \UPLOAD_ERR_NO_TMP_DIR => new NoTemporaryDirectory,
+            \UPLOAD_ERR_NO_FILE => new NotUploaded,
+            \UPLOAD_ERR_OK => null,
+            \UPLOAD_ERR_PARTIAL => new PartiallyUploaded,
+            \UPLOAD_ERR_EXTENSION => new StoppedByExtension,
+            \UPLOAD_ERR_CANT_WRITE => new WriteFailed,
+        };
     }
 }
