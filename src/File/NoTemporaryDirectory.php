@@ -6,8 +6,6 @@ namespace Innmind\Http\File;
 /**
  * @psalm-immutable
  */
-interface Status
+final class NoTemporaryDirectory
 {
-    public function value(): int;
-    public function toString(): string;
 }

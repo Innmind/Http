@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\Files\FilesFactory,
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\Status\NotUploaded,
+    File\NotUploaded,
 };
 use Innmind\Immutable\{
     Map,

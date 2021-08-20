@@ -6,15 +6,13 @@ namespace Innmind\Http\Factory\Files;
 use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\Status\ExceedsFormMaxFileSize,
-    File\Status\ExceedsIniMaxFileSize,
-    File\Status\NoTemporaryDirectory,
-    File\Status\NotUploaded,
-    File\Status\Ok,
-    File\Status\PartiallyUploaded,
-    File\Status\StoppedByExtension,
-    File\Status\WriteFailed,
-    File\Status,
+    File\ExceedsFormMaxFileSize,
+    File\ExceedsIniMaxFileSize,
+    File\NoTemporaryDirectory,
+    File\NotUploaded,
+    File\PartiallyUploaded,
+    File\StoppedByExtension,
+    File\WriteFailed,
     Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
@@ -28,6 +26,9 @@ use Innmind\Immutable\{
     Either,
 };
 
+/**
+ * @psalm-import-type Status from Files
+ */
 final class FilesFactory implements FilesFactoryInterface
 {
     public function __invoke(): Files
@@ -70,7 +71,7 @@ final class FilesFactory implements FilesFactoryInterface
     ): Either {
         $status = $this->status($status);
 
-        if (!($status instanceof Ok)) {
+        if (!\is_null($status)) {
             /** @var Either<Status, File> */
             return Either::left($status);
         }
@@ -86,7 +87,10 @@ final class FilesFactory implements FilesFactoryInterface
         ));
     }
 
-    private function status(int $status): Status
+    /**
+     * @return ?Status
+     */
+    private function status(int $status)
     {
         switch ($status) {
             case \UPLOAD_ERR_FORM_SIZE:
@@ -98,7 +102,7 @@ final class FilesFactory implements FilesFactoryInterface
             case \UPLOAD_ERR_NO_FILE:
                 return new NotUploaded;
             case \UPLOAD_ERR_OK:
-                return new Ok;
+                return;
             case \UPLOAD_ERR_PARTIAL:
                 return new PartiallyUploaded;
             case \UPLOAD_ERR_EXTENSION:
