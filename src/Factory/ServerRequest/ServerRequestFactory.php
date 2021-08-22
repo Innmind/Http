@@ -109,7 +109,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             Factory\Header\HeadersFactory::default(
                 Factories::default($clock),
             ),
-            new Factory\Environment\EnvironmentFactory,
+            Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),
             new Factory\Query\QueryFactory,
             new Factory\Form\FormFactory,

@@ -9,8 +9,22 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Map;
 
+/**
+ * @psalm-immutable
+ */
 final class EnvironmentFactory implements EnvironmentFactoryInterface
 {
+    /** @var array<string, string> */
+    private array $env;
+
+    /**
+     * @param array<string, string> $env
+     */
+    public function __construct(array $env)
+    {
+        $this->env = $env;
+    }
+
     public function __invoke(): Environment
     {
         /** @var Map<string, string> */
@@ -21,5 +35,10 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
         }
 
         return new Environment($map);
+    }
+
+    public static function default(): self
+    {
+        return new self(\getenv());
     }
 }
