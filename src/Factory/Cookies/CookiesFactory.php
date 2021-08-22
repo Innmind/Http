@@ -37,9 +37,6 @@ final class CookiesFactory implements CookiesFactoryInterface
         return new Cookies($map);
     }
 
-    /**
-     * @psalm-pure
-     */
     public static function default(): self
     {
         /** @var array<string, string> */

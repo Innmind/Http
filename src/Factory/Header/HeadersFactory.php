@@ -46,9 +46,6 @@ final class HeadersFactory implements HeadersFactoryInterface
         return new Headers(...$headers);
     }
 
-    /**
-     * @psalm-pure
-     */
     public static function default(HeaderFactoryInterface $headerFactory): self
     {
         /** @var array<string, string> */
