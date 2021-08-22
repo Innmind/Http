@@ -19,7 +19,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Clock;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable\Stream;
+use Innmind\Stream\Readable;
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -31,6 +31,8 @@ use Innmind\Immutable\{
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
     private HeadersFactory $headersFactory;
+    /** @var callable(): Readable */
+    private $bodyFactory;
     private EnvironmentFactory $environmentFactory;
     private CookiesFactory $cookiesFactory;
     private QueryFactory $queryFactory;
@@ -40,10 +42,12 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     private array $server;
 
     /**
+     * @param callable(): Readable $bodyFactory
      * @param array<string, string> $server
      */
     public function __construct(
         HeadersFactory $headersFactory,
+        callable $bodyFactory,
         EnvironmentFactory $environmentFactory,
         CookiesFactory $cookiesFactory,
         QueryFactory $queryFactory,
@@ -52,6 +56,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         array $server,
     ) {
         $this->headersFactory = $headersFactory;
+        $this->bodyFactory = $bodyFactory;
         $this->environmentFactory = $environmentFactory;
         $this->cookiesFactory = $cookiesFactory;
         $this->queryFactory = $queryFactory;
@@ -101,7 +106,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                     static fn() => new ProtocolVersion(1, 1),
                 ),
             ($this->headersFactory)(),
-            new Stream(\fopen('php://input', 'r')),
+            ($this->bodyFactory)(),
             ($this->environmentFactory)(),
             ($this->cookiesFactory)(),
             ($this->queryFactory)(),
@@ -122,6 +127,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             Factory\Header\HeadersFactory::default(
                 Factories::default($clock),
             ),
+            static fn() => new Readable\Stream(\fopen('php://input', 'r')),
             Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),
             Factory\Query\QueryFactory::default(),
