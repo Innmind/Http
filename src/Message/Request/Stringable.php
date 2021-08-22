@@ -13,6 +13,9 @@ use Innmind\Http\{
 use Innmind\Url\Url;
 use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class Stringable implements RequestInterface
 {
     private RequestInterface $request;

@@ -12,6 +12,9 @@ use Innmind\Http\{
 };
 use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class Response implements ResponseInterface
 {
     private ProtocolVersion $protocolVersion;

@@ -5,6 +5,9 @@ namespace Innmind\Http;
 
 use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 interface Message
 {
     public function protocolVersion(): ProtocolVersion;

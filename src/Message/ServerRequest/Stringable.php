@@ -18,6 +18,9 @@ use Innmind\Http\{
 use Innmind\Url\Url;
 use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class Stringable implements ServerRequestInterface
 {
     private ServerRequestInterface $request;
@@ -128,17 +131,9 @@ RAW;
 
     private function bodyString(): string
     {
-        $body = $this
-            ->body()
-            ->stream()
-            ->size()
-            ->filter(static fn($size) => $size->toInt() > 0)
-            ->match(
-                fn() => $this->body()->toString(),
-                static fn() => null,
-            );
+        $body = $this->body()->toString();
 
-        if (\is_string($body)) {
+        if ($body !== '') {
             return $body;
         }
 

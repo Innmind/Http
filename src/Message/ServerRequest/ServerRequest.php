@@ -17,6 +17,9 @@ use Innmind\Http\{
 use Innmind\Url\Url;
 use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class ServerRequest implements ServerRequestInterface
 {
     private Url $url;
