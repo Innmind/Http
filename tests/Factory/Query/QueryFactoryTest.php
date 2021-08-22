@@ -14,14 +14,14 @@ class QueryFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new QueryFactory;
-
-        $this->assertInstanceOf(QueryFactoryInterface::class, $f);
-
         $_GET = [
             'foo' => 'bar',
             'baz' => 'foo',
         ];
+        $f = QueryFactory::default();
+
+        $this->assertInstanceOf(QueryFactoryInterface::class, $f);
+
         $q = ($f)();
 
         $this->assertInstanceOf(Query::class, $q);

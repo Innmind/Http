@@ -9,20 +9,38 @@ use Innmind\Http\{
     Message\Query\Parameter,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class QueryFactory implements QueryFactoryInterface
 {
+    /** @var array<int|string, string|array> */
+    private array $get;
+
+    /**
+     * @param array<int|string, string|array> $get
+     */
+    public function __construct(array $get)
+    {
+        $this->get = $get;
+    }
+
     public function __invoke(): Query
     {
         $queries = [];
 
-        /**
-         * @var string $name
-         * @var string|array $value
-         */
-        foreach ($_GET as $name => $value) {
-            $queries[] = new Parameter($name, $value);
+        foreach ($this->get as $name => $value) {
+            $queries[] = new Parameter((string) $name, $value);
         }
 
         return new Query(...$queries);
+    }
+
+    public static function default(): self
+    {
+        /** @var array<int|string, string|array> */
+        $get = $_GET;
+
+        return new self($get);
     }
 }

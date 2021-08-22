@@ -111,7 +111,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             ),
             Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),
-            new Factory\Query\QueryFactory,
+            Factory\Query\QueryFactory::default(),
             Factory\Form\FormFactory::default(),
             Factory\Files\FilesFactory::default(),
         );
