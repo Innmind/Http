@@ -17,6 +17,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class LinkFactory implements HeaderFactory
 {
     private const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';

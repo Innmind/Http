@@ -9,6 +9,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 interface HeaderFactory
 {
     /**

@@ -16,6 +16,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class AcceptCharsetFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';

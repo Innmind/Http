@@ -15,6 +15,9 @@ use Innmind\Immutable\{
     Sequence,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class CookieFactory implements HeaderFactory
 {
     private const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';

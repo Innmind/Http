@@ -14,6 +14,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class RangeFactory implements HeaderFactory
 {
     private const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';

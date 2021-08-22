@@ -15,6 +15,9 @@ use Innmind\Immutable\{
     Sequence,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class CacheControlFactory implements HeaderFactory
 {
     public function __invoke(Str $name, Str $value): Maybe

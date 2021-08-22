@@ -12,6 +12,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class HeaderFactory
 {
     public function __invoke(Str $name, Str $value): Header

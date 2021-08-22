@@ -14,6 +14,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class HostFactory implements HeaderFactory
 {
     public function __invoke(Str $name, Str $value): Maybe

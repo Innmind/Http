@@ -10,6 +10,9 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
+/**
+ * @psalm-immutable
+ */
 final class TryFactory
 {
     private HeaderFactory $try;

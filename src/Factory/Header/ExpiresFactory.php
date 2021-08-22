@@ -15,6 +15,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class ExpiresFactory implements HeaderFactory
 {
     private Clock $clock;

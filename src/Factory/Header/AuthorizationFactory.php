@@ -14,6 +14,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class AuthorizationFactory implements HeaderFactory
 {
     private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';

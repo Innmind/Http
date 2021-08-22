@@ -15,6 +15,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class LastModifiedFactory implements HeaderFactory
 {
     private Clock $clock;

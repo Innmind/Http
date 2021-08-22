@@ -17,6 +17,9 @@ use Innmind\Immutable\{
     Sequence,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class AcceptFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';

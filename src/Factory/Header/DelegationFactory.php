@@ -13,6 +13,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class DelegationFactory implements HeaderFactory
 {
     /** @var Map<string, HeaderFactory> */
