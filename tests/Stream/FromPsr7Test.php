@@ -61,8 +61,14 @@ class FromPsr7Test extends TestCase
         $this->assertNull($stream->rewind());
         $this->assertFalse($stream->end());
         $this->assertTrue($stream->end());
-        $this->assertFalse($stream->knowsSize());
-        $this->assertTrue($stream->knowsSize());
+        $this->assertFalse($stream->size()->match(
+            static fn() => true,
+            static fn() => false,
+        ));
+        $this->assertTrue($stream->size()->match(
+            static fn() => true,
+            static fn() => false,
+        ));
         $this->assertSame(66, $stream->size()->match(
             static fn($size) => $size->toInt(),
             static fn() => null,

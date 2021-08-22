@@ -64,11 +64,6 @@ final class FromPsr7 implements Readable
             ->map(static fn($size) => new Size($size));
     }
 
-    public function knowsSize(): bool
-    {
-        return \is_int($this->stream->getSize());
-    }
-
     public function read(int $length = null): Str
     {
         if (\is_null($length)) {
