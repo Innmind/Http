@@ -25,12 +25,9 @@ final class AllowValue implements Value
      */
     public static function of(string $value): Maybe
     {
-        try {
-            return Maybe::just(new self($value));
-        } catch (\Throwable $e) {
-            /** @var Maybe<self> */
-            return Maybe::nothing();
-        }
+        return Method::maybe($value)->map(
+            static fn($method) => new self($method->toString()),
+        );
     }
 
     public function toString(): string

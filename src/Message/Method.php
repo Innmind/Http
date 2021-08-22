@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
+use Innmind\Immutable\Maybe;
+
 /**
  * @psalm-immutable
  */
@@ -29,6 +31,7 @@ final class Method
 
     /**
      * @psalm-pure
+     * @throws \UnhandledMatchError
      */
     public static function of(string $method): self
     {
@@ -45,6 +48,21 @@ final class Method
             self::LINK => self::link(),
             self::UNLINK => self::unlink(),
         };
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(string $method): Maybe
+    {
+        try {
+            return Maybe::just(self::of($method));
+        } catch (\UnhandledMatchError $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     /**
