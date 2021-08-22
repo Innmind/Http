@@ -11,13 +11,9 @@ use Innmind\Http\Exception\DomainException;
 final class Parameter
 {
     private string $name;
-    /** @var string|array */
-    private $value;
+    private string|array $value;
 
-    /**
-     * @param string|array $value
-     */
-    public function __construct(string $name, $value)
+    public function __construct(string $name, string|array $value)
     {
         if ($name === '') {
             throw new DomainException('Parameter name can\'t be empty');
@@ -32,10 +28,7 @@ final class Parameter
         return $this->name;
     }
 
-    /**
-     * @return string|array
-     */
-    public function value()
+    public function value(): string|array
     {
         return $this->value;
     }
