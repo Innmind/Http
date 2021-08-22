@@ -11,14 +11,25 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
+/**
+ * @psalm-immutable
+ */
 final class HeadersFactory implements HeadersFactoryInterface
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
     private TryFactory $headerFactory;
+    /** @var array<string, string> */
+    private array $server;
 
-    public function __construct(HeaderFactoryInterface $headerFactory)
-    {
+    /**
+     * @param array<string, string> $server
+     */
+    public function __construct(
+        HeaderFactoryInterface $headerFactory,
+        array $server,
+    ) {
         $this->headerFactory = new TryFactory($headerFactory);
+        $this->server = $server;
     }
 
     public function __invoke(): Headers
@@ -36,17 +47,24 @@ final class HeadersFactory implements HeadersFactoryInterface
     }
 
     /**
+     * @psalm-pure
+     */
+    public static function default(HeaderFactoryInterface $headerFactory): self
+    {
+        /** @var array<string, string> */
+        $server = $_SERVER;
+
+        return new self($headerFactory, $server);
+    }
+
+    /**
      * @return array<string, string>
      */
     private function headers(): array
     {
         $headers = [];
 
-        /**
-         * @var string $key
-         * @var string $value
-         */
-        foreach ($_SERVER as $key => $value) {
+        foreach ($this->server as $key => $value) {
             $key = Str::of($key);
 
             if (!$key->matches(self::FORMAT)) {

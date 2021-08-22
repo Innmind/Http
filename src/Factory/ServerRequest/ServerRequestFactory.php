@@ -106,7 +106,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     public static function default(Clock $clock): self
     {
         return new self(
-            new Factory\Header\HeadersFactory(
+            Factory\Header\HeadersFactory::default(
                 Factories::default($clock),
             ),
             new Factory\Environment\EnvironmentFactory,

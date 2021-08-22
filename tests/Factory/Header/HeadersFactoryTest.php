@@ -24,7 +24,7 @@ class HeadersFactoryTest extends TestCase
         $_SERVER['CONTENT_MD5'] = '0';
         $_SERVER['CONTENT_TYPE'] = 'text/plain';
 
-        $f = new HeadersFactory(
+        $f = HeadersFactory::default(
             new class implements HeaderFactory {
                 public function __invoke(Str $name, Str $value): Maybe
                 {
