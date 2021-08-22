@@ -30,7 +30,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
         /** @var Map<string, string> */
         $map = Map::of();
 
-        foreach (\getenv() as $name => $value) {
+        foreach ($this->env as $name => $value) {
             $map = ($map)($name, $value);
         }
 
