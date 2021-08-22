@@ -7,6 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
     Header\Authorization,
+    Header\AuthorizationValue,
 };
 use Innmind\Immutable\{
     Str,
@@ -40,6 +41,7 @@ final class AuthorizationFactory implements HeaderFactory
         return $matches
             ->get('scheme')
             ->map(static fn($scheme) => $scheme->toString())
-            ->map(static fn($scheme) => Authorization::of($scheme, $param));
+            ->flatMap(static fn($scheme) => AuthorizationValue::of($scheme, $param))
+            ->map(static fn($value) => new Authorization($value));
     }
 }

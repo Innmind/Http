@@ -7,6 +7,7 @@ use Innmind\Http\{
     Header\Parameter as ParameterInterface,
     Exception\DomainException
 };
+use Innmind\Immutable\Maybe;
 
 /**
  * @psalm-immutable
@@ -22,6 +23,21 @@ final class Quality implements ParameterInterface
         }
 
         $this->parameter = new Parameter('q', (string) $value);
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(float $value): Maybe
+    {
+        try {
+            return Maybe::just(new self($value));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function name(): string

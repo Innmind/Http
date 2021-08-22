@@ -4,7 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
@@ -22,6 +25,21 @@ final class AuthorizationValue implements Value
 
         $this->scheme = $scheme;
         $this->parameter = $parameter;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $scheme, string $parameter): Maybe
+    {
+        try {
+            return Maybe::just(new self($scheme, $parameter));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function scheme(): string

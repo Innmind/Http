@@ -31,17 +31,18 @@ final class AcceptCharsetFactory implements HeaderFactory
             ->split(',')
             ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
-                $quality = $matches->get('quality')->match(
-                    static fn($quality) => (float) $quality->toString(),
-                    static fn() => 1,
-                );
+                $quality = $matches
+                    ->get('quality')
+                    ->map(static fn($quality) => (float) $quality->toString())
+                    ->otherwise(static fn() => Maybe::just(1))
+                    ->flatMap(static fn($quality) => Quality::of($quality));
 
-                return $matches
-                    ->get('charset')
-                    ->map(static fn($charset) => new AcceptCharsetValue(
+                return Maybe::all($matches->get('charset'), $quality)->flatMap(
+                    static fn(Str $charset, Quality $quality) => AcceptCharsetValue::of(
                         $charset->toString(),
-                        new Quality($quality),
-                    ));
+                        $quality,
+                    ),
+                );
             });
 
         if ($values->empty()) {

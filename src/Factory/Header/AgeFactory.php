@@ -6,6 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Header\Age,
+    Header\AgeValue,
     Header,
 };
 use Innmind\Immutable\{
@@ -23,6 +24,10 @@ final class AgeFactory implements HeaderFactory
         }
 
         /** @var Maybe<Header> */
-        return Maybe::just(Age::of((int) $value->toString()));
+        return Maybe::just($value->toString())
+            ->filter(static fn($age) => \is_numeric($age))
+            ->map(static fn($age) => (int) $age)
+            ->flatMap(static fn($age) => AgeValue::of($age))
+            ->map(static fn($value) => new Age($value));
     }
 }

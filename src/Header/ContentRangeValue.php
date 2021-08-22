@@ -4,7 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
@@ -37,6 +40,25 @@ final class ContentRangeValue implements Value
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
         $this->length = $length;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        string $unit,
+        int $firstPosition,
+        int $lastPosition,
+        int $length = null
+    ): Maybe {
+        try {
+            return Maybe::just(new self($unit, $firstPosition, $lastPosition, $length));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function unit(): string

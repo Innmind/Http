@@ -7,6 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
     Header\ContentEncoding,
+    Header\ContentEncodingValue,
 };
 use Innmind\Immutable\{
     Str,
@@ -23,6 +24,8 @@ final class ContentEncodingFactory implements HeaderFactory
         }
 
         /** @var Maybe<Header> */
-        return Maybe::just(ContentEncoding::of($value->toString()));
+        return ContentEncodingValue::of($value->toString())->map(
+            static fn($value) => new ContentEncoding($value),
+        );
     }
 }

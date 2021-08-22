@@ -6,8 +6,8 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\Allow,
+    Header\AllowValue,
 };
 use Innmind\Immutable\{
     Str,
@@ -26,9 +26,19 @@ final class AllowFactory implements HeaderFactory
         $values = $value
             ->split(',')
             ->map(static fn($allow) => $allow->trim()->toUpper()->toString())
-            ->toList();
+            ->map(static fn($allow) => AllowValue::of($allow));
 
-        /** @var Maybe<Header> */
-        return Maybe::just(Allow::of(...$values));
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new Allow);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(AllowValue ...$values) => new Allow(...$values),
+        );
     }
 }

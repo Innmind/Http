@@ -7,6 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
     Header\ContentLanguage,
+    Header\ContentLanguageValue,
 };
 use Innmind\Immutable\{
     Str,
@@ -25,9 +26,19 @@ final class ContentLanguageFactory implements HeaderFactory
         $values = $value
             ->split(',')
             ->map(static fn($language) => $language->trim()->toString())
-            ->toList();
+            ->map(static fn($language) => ContentLanguageValue::of($language));
 
-        /** @var Maybe<Header> */
-        return Maybe::just(ContentLanguage::of(...$values));
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new ContentLanguage);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(ContentLanguageValue ...$values) => new ContentLanguage(...$values),
+        );
     }
 }

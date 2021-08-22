@@ -7,6 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
     Header\ContentRange,
+    Header\ContentRangeValue,
 };
 use Innmind\Immutable\{
     Str,
@@ -42,11 +43,12 @@ final class ContentRangeFactory implements HeaderFactory
 
         /** @var Maybe<Header> */
         return Maybe::all($matches->get('unit'), $matches->get('first'), $matches->get('last'))
-            ->map(static fn(Str $unit, Str $first, Str $last) => ContentRange::of(
+            ->flatMap(static fn(Str $unit, Str $first, Str $last) => ContentRangeValue::of(
                 $unit->toString(),
                 (int) $first->toString(),
                 (int) $last->toString(),
                 $length,
-            ));
+            ))
+            ->map(static fn($value) => new ContentRange($value));
     }
 }

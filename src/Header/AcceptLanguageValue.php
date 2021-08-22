@@ -7,7 +7,10 @@ use Innmind\Http\{
     Header\Parameter\Quality,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
@@ -31,6 +34,21 @@ final class AcceptLanguageValue implements Value
 
         $this->language = $language;
         $this->quality = $quality;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $language, Quality $quality = null): Maybe
+    {
+        try {
+            return Maybe::just(new self($language, $quality));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function quality(): Quality

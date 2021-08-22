@@ -7,6 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
     Header\Range,
+    Header\RangeValue,
 };
 use Innmind\Immutable\{
     Str,
@@ -27,18 +28,21 @@ final class RangeFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $matches = $value->capture(self::PATTERN);
+        $matches = $value
+            ->capture(self::PATTERN)
+            ->map(static fn($_, $match) => $match->toString());
 
         /** @var Maybe<Header> */
         return Maybe::all(
             $matches->get('unit'),
-            $matches->get('first'),
-            $matches->get('last'),
+            $matches->get('first')->filter(static fn($first) => \is_numeric($first)),
+            $matches->get('last')->filter(static fn($last) => \is_numeric($last)),
         )
-            ->map(static fn(Str $unit, Str $first, Str $last) => Range::of(
-                $unit->toString(),
-                (int) $first->toString(),
-                (int) $last->toString(),
-            ));
+            ->flatMap(static fn(string $unit, string $first, string $last) => RangeValue::of(
+                $unit,
+                (int) $first,
+                (int) $last,
+            ))
+            ->map(static fn($value) => new Range($value));
     }
 }

@@ -44,7 +44,7 @@ final class AcceptFactory implements HeaderFactory
                     $matches->get('type'),
                     $matches->get('subType'),
                     $params,
-                )->map(static fn(Str $type, Str $subType, array $params) => new AcceptValue(
+                )->flatMap(static fn(Str $type, Str $subType, array $params) => AcceptValue::of(
                     $type->toString(),
                     $subType->toString(),
                     ...$params,

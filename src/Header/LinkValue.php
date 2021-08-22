@@ -9,6 +9,7 @@ use Innmind\Immutable\{
     Str,
     Map,
     Sequence,
+    Maybe,
 };
 use function Innmind\Immutable\join;
 
@@ -44,6 +45,24 @@ final class LinkValue implements Value
 
         $this->url = $url;
         $this->rel = $rel;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        Url $url,
+        string $rel = null,
+        Parameter ...$parameters,
+    ): Maybe {
+        try {
+            return Maybe::just(new self($url, $rel, ...$parameters));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function url(): Url

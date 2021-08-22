@@ -6,6 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Header\AcceptRanges,
+    Header\AcceptRangesValue,
     Header,
 };
 use Innmind\Immutable\{
@@ -23,6 +24,8 @@ final class AcceptRangesFactory implements HeaderFactory
         }
 
         /** @var Maybe<Header> */
-        return Maybe::just(AcceptRanges::of($value->toString()));
+        return AcceptRangesValue::of($value->toString())->map(
+            static fn($value) => new AcceptRanges($value),
+        );
     }
 }

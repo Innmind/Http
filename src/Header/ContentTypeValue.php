@@ -7,6 +7,7 @@ use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
     Map,
+    Maybe,
 };
 use function Innmind\Immutable\join;
 
@@ -42,6 +43,24 @@ final class ContentTypeValue implements Value
 
         $this->type = $type;
         $this->subType = $subType;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        string $type,
+        string $subType,
+        Parameter ...$parameters,
+    ): Maybe {
+        try {
+            return Maybe::just(new self($type, $subType, ...$parameters));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function type(): string

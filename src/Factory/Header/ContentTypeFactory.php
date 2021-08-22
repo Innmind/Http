@@ -7,6 +7,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
     Header\ContentType,
+    Header\ContentTypeValue,
     Header\Parameter,
 };
 use Innmind\Immutable\{
@@ -40,11 +41,12 @@ final class ContentTypeFactory implements HeaderFactory
             $matches->get('subType'),
             ...$params,
         )
-            ->map(static fn(Str $type, Str $subType, Parameter ...$params) => ContentType::of(
+            ->flatMap(static fn(Str $type, Str $subType, Parameter ...$params) => ContentTypeValue::of(
                 $type->toString(),
                 $subType->toString(),
                 ...$params,
-            ));
+            ))
+            ->map(static fn($value) => new ContentType($value));
     }
 
     /**

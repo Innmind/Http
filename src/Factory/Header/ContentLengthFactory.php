@@ -6,6 +6,7 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Header\ContentLength,
+    Header\ContentLengthValue,
     Header,
 };
 use Innmind\Immutable\{
@@ -23,6 +24,10 @@ final class ContentLengthFactory implements HeaderFactory
         }
 
         /** @var Maybe<Header> */
-        return Maybe::just(ContentLength::of((int) $value->toString()));
+        return Maybe::just($value->toString())
+            ->filter(static fn($length) => \is_numeric($length))
+            ->map(static fn($length) => (int) $length)
+            ->flatMap(static fn($length) => ContentLengthValue::of($length))
+            ->map(static fn($value) => new ContentLength($value));
     }
 }

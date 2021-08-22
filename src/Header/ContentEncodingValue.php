@@ -4,7 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
@@ -20,6 +23,21 @@ final class ContentEncodingValue implements Value
         }
 
         $this->coding = $coding;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $coding): Maybe
+    {
+        try {
+            return Maybe::just(new self($coding));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function toString(): string

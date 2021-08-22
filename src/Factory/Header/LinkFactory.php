@@ -49,8 +49,8 @@ final class LinkFactory implements HeaderFactory
                  * @psalm-suppress MixedArgumentTypeCoercion
                  * @psalm-suppress MixedArgument
                  */
-                return Maybe::all($url, $params)->map(
-                    static fn(Url $url, Map $params) => new LinkValue(
+                return Maybe::all($url, $params)->flatMap(
+                    static fn(Url $url, Map $params) => LinkValue::of(
                         $url,
                         $params->get('rel')->match(
                             static fn(Parameter $rel) => $rel->value(),
