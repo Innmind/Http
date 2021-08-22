@@ -13,9 +13,10 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header,
+    Stream,
 };
+use Innmind\Filesystem\File\Content;
 use Innmind\TimeContinuum\Clock;
-use Innmind\Stream\Readable\Stream;
 use Innmind\Immutable\{
     Map,
     Str,
@@ -40,7 +41,7 @@ final class FromPsr7
             ReasonPhrase::of($code),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($response->getHeaders()),
-            Stream::ofContent((string) $response->getBody()),
+            Content\OfStream::of(new Stream\FromPsr7($response->getBody())),
         );
     }
 

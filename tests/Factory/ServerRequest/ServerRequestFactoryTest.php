@@ -21,7 +21,7 @@ use Innmind\Http\{
     Headers,
 };
 use Innmind\TimeContinuum\Earth\Clock;
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestFactoryTest extends TestCase
@@ -34,7 +34,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $f = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Readable::class),
+            fn() => $this->createMock(Content::class),
             $env = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -84,7 +84,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Readable::class),
+            fn() => $this->createMock(Content::class),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -135,7 +135,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_PW'] = 'duh';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Readable::class),
+            fn() => $this->createMock(Content::class),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),

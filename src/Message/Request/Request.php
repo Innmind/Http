@@ -10,8 +10,7 @@ use Innmind\Http\{
     Headers,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
-use Innmind\Filesystem\Stream\NullStream;
+use Innmind\Filesystem\File\Content;
 
 final class Request implements RequestInterface
 {
@@ -19,20 +18,20 @@ final class Request implements RequestInterface
     private Method $method;
     private ProtocolVersion $protocolVersion;
     private Headers $headers;
-    private Readable $body;
+    private Content $body;
 
     public function __construct(
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null,
+        Content $body = null,
     ) {
         $this->url = $url;
         $this->method = $method;
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? new Headers;
-        $this->body = $body ?? new NullStream;
+        $this->body = $body ?? Content\Lines::ofContent('');
     }
 
     public function url(): Url
@@ -55,7 +54,7 @@ final class Request implements RequestInterface
         return $this->headers;
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->body;
     }

@@ -28,7 +28,7 @@ final class ToPsr7
                     return $headers;
                 },
             ),
-            new Stream($response->body()),
+            new Stream($response->body()->stream()),
             $response->protocolVersion()->toString(),
             $response->reasonPhrase()->toString(),
         );

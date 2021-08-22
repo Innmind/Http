@@ -15,8 +15,8 @@ use Innmind\Http\{
     Header\Host,
     Header\HostValue
 };
+use Innmind\Filesystem\File\Content\Lines;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -35,7 +35,7 @@ class StringableTest extends TestCase
                     )
                 )
             ),
-            Stream::ofContent('some body')
+            Lines::ofContent('some body')
         );
         $stringable = new Stringable($request);
 
@@ -73,7 +73,7 @@ RAW;
                     )
                 )
             ),
-            Stream::ofContent('some body'),
+            Lines::ofContent('some body'),
             null,
             null,
             Query::of(

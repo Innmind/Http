@@ -10,14 +10,13 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
 };
-use Innmind\Stream\Readable;
-use Innmind\Filesystem\Stream\NullStream;
+use Innmind\Filesystem\File\Content;
 
 final class Response implements ResponseInterface
 {
     private ProtocolVersion $protocolVersion;
     private Headers $headers;
-    private Readable $body;
+    private Content $body;
     private StatusCode $statusCode;
     private ReasonPhrase $reasonPhrase;
 
@@ -26,11 +25,11 @@ final class Response implements ResponseInterface
         ReasonPhrase $reasonPhrase,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null,
+        Content $body = null,
     ) {
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? new Headers;
-        $this->body = $body ?? new NullStream;
+        $this->body = $body ?? Content\Lines::ofContent('');
         $this->statusCode = $statusCode;
         $this->reasonPhrase = $reasonPhrase;
     }
@@ -45,7 +44,7 @@ final class Response implements ResponseInterface
         return $this->headers;
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->body;
     }

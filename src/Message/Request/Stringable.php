@@ -11,7 +11,7 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 
 final class Stringable implements RequestInterface
 {
@@ -42,7 +42,7 @@ final class Stringable implements RequestInterface
         return $this->request->headers();
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->request->body();
     }

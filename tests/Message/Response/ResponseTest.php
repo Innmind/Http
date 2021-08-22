@@ -12,7 +12,7 @@ use Innmind\Http\{
     Message\StatusCode,
     Message\ReasonPhrase
 };
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase
@@ -24,7 +24,7 @@ class ResponseTest extends TestCase
             $reason = new ReasonPhrase('OK'),
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
-            $body = $this->createMock(Readable::class)
+            $body = $this->createMock(Content::class)
         );
 
         $this->assertInstanceOf(Message::class, $r);
@@ -49,7 +49,7 @@ class ResponseTest extends TestCase
             $response->headers()
         );
         $this->assertInstanceOf(
-            Readable::class,
+            Content::class,
             $response->body()
         );
     }

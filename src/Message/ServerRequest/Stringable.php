@@ -16,7 +16,7 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 
 final class Stringable implements ServerRequestInterface
 {
@@ -47,7 +47,7 @@ final class Stringable implements ServerRequestInterface
         return $this->request->headers();
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->request->body();
     }
@@ -130,6 +130,7 @@ RAW;
     {
         $body = $this
             ->body()
+            ->stream()
             ->size()
             ->filter(static fn($size) => $size->toInt() > 0)
             ->match(

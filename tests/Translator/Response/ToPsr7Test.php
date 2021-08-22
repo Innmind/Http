@@ -12,7 +12,7 @@ use Innmind\Http\{
     Header\ContentType,
     Stream\ToPsr7 as Stream,
 };
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 use Psr\Http\Message\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +29,7 @@ class ToPsr7Test extends TestCase
             Headers::of(
                 ContentType::of('text', 'plain'),
             ),
-            $body = $this->createMock(Readable::class),
+            $body = $this->createMock(Content::class),
         ));
 
         $this->assertInstanceOf(ResponseInterface::class, $response);
@@ -37,6 +37,6 @@ class ToPsr7Test extends TestCase
         $this->assertSame('Created', $response->getReasonPhrase());
         $this->assertSame('1.1', $response->getProtocolVersion());
         $this->assertSame(['Content-Type' => ['text/plain']], $response->getHeaders());
-        $this->assertEquals(new Stream($body), $response->getBody());
+        $this->assertEquals(new Stream($body->stream()), $response->getBody());
     }
 }

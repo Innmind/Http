@@ -18,6 +18,7 @@ use Innmind\Http\{
     Factory,
 };
 use Innmind\TimeContinuum\Clock;
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use Innmind\Stream\Readable;
 use Innmind\Immutable\{
@@ -31,7 +32,7 @@ use Innmind\Immutable\{
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
     private HeadersFactory $headersFactory;
-    /** @var callable(): Readable */
+    /** @var callable(): Content */
     private $bodyFactory;
     private EnvironmentFactory $environmentFactory;
     private CookiesFactory $cookiesFactory;
@@ -42,7 +43,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     private array $server;
 
     /**
-     * @param callable(): Readable $bodyFactory
+     * @param callable(): Content $bodyFactory
      * @param array<string, string> $server
      */
     public function __construct(
@@ -127,7 +128,9 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             Factory\Header\HeadersFactory::default(
                 Factories::default($clock),
             ),
-            static fn() => new Readable\Stream(\fopen('php://input', 'r')),
+            static fn() => Content\OfStream::of(
+                new Readable\Stream(\fopen('php://input', 'r')),
+            ),
             Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),
             Factory\Query\QueryFactory::default(),

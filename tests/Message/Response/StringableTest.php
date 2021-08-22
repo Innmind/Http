@@ -15,7 +15,7 @@ use Innmind\Http\{
     Header\Allow,
     Header\AllowValue
 };
-use Innmind\Stream\Readable\Stream;
+use Innmind\Filesystem\File\Content\Lines;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -34,7 +34,7 @@ class StringableTest extends TestCase
                     new AllowValue('GET')
                 )
             ),
-            Stream::ofContent('{"some":"json", "value":42}')
+            Lines::ofContent('{"some":"json", "value":42}')
         );
         $stringable = new Stringable($response);
 

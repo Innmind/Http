@@ -14,14 +14,17 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
+use Innmind\Filesystem\Adapter\Chunk;
 
 final class ResponseSender implements Sender
 {
     private Clock $clock;
+    private Chunk $chunk;
 
     public function __construct(Clock $clock)
     {
         $this->clock = $clock;
+        $this->chunk = new Chunk;
     }
 
     public function __invoke(Response $response): void
@@ -59,13 +62,10 @@ final class ResponseSender implements Sender
             \header($header->toString(), false);
         });
 
-        $body = $response->body();
-        $body->rewind();
-
-        while (!$body->end()) {
-            echo $body->read(4096)->toString();
+        $_ = ($this->chunk)($response->body())->foreach(static function($chunk): void {
+            echo $chunk->toString();
             \flush();
-        }
+        });
 
         if (\function_exists('fastcgi_finish_request')) {
             \fastcgi_finish_request();

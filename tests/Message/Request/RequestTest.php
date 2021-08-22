@@ -11,8 +11,8 @@ use Innmind\Http\{
     Message\Request as RequestInterface,
     Message\Method
 };
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase
@@ -24,7 +24,7 @@ class RequestTest extends TestCase
             $method = Method::get(),
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
-            $body = $this->createMock(Readable::class)
+            $body = $this->createMock(Content::class)
         );
 
         $this->assertInstanceOf(Message::class, $r);
@@ -49,7 +49,7 @@ class RequestTest extends TestCase
             $request->headers()
         );
         $this->assertInstanceOf(
-            Readable::class,
+            Content::class,
             $request->body()
         );
     }

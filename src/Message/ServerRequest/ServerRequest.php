@@ -15,8 +15,7 @@ use Innmind\Http\{
     Headers,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
-use Innmind\Filesystem\Stream\NullStream;
+use Innmind\Filesystem\File\Content;
 
 final class ServerRequest implements ServerRequestInterface
 {
@@ -24,7 +23,7 @@ final class ServerRequest implements ServerRequestInterface
     private Method $method;
     private ProtocolVersion $protocolVersion;
     private Headers $headers;
-    private Readable $body;
+    private Content $body;
     private Environment $environment;
     private Cookies $cookies;
     private Query $query;
@@ -36,7 +35,7 @@ final class ServerRequest implements ServerRequestInterface
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null,
+        Content $body = null,
         Environment $environment = null,
         Cookies $cookies = null,
         Query $query = null,
@@ -47,7 +46,7 @@ final class ServerRequest implements ServerRequestInterface
         $this->method = $method;
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? new Headers;
-        $this->body = $body ?? new NullStream;
+        $this->body = $body ?? Content\Lines::ofContent('');
         $this->environment = $environment ?? new Environment;
         $this->cookies = $cookies ?? new Cookies;
         $this->query = $query ?? new Query;
@@ -65,7 +64,7 @@ final class ServerRequest implements ServerRequestInterface
         return $this->headers;
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->body;
     }

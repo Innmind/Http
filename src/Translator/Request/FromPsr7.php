@@ -15,6 +15,7 @@ use Innmind\Http\{
     Stream\FromPsr7 as Stream,
 };
 use Innmind\TimeContinuum\Clock;
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use Innmind\Immutable\{
     Map,
@@ -40,7 +41,7 @@ final class FromPsr7
             Method::of(\strtoupper($request->getMethod())),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($request->getHeaders()),
-            new Stream($request->getBody()),
+            Content\OfStream::of(new Stream($request->getBody())),
         );
     }
 
