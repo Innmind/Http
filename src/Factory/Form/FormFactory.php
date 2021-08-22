@@ -9,17 +9,27 @@ use Innmind\Http\{
     Message\Form\Parameter,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class FormFactory implements FormFactoryInterface
 {
+    /** @var array<int|string, string|array> */
+    private array $post;
+
+    /**
+     * @param array<int|string, string|array> $post
+     */
+    public function __construct(array $post)
+    {
+        $this->post = $post;
+    }
+
     public function __invoke(): Form
     {
         $forms = [];
 
-        /**
-         * @var scalar $name
-         * @var string|array $value
-         */
-        foreach ($_POST as $name => $value) {
+        foreach ($this->post as $name => $value) {
             $forms[] = new Parameter(
                 (string) $name,
                 $value,
@@ -27,5 +37,13 @@ final class FormFactory implements FormFactoryInterface
         }
 
         return new Form(...$forms);
+    }
+
+    public static function default(): self
+    {
+        /** @var array<int|string, string|array> */
+        $post = $_POST;
+
+        return new self($post);
     }
 }

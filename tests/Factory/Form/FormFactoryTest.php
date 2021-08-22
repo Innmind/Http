@@ -14,10 +14,6 @@ class FormFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new FormFactory;
-
-        $this->assertInstanceOf(FormFactoryInterface::class, $f);
-
         $_POST = [
             'tree' => [
                 'subtree' => [
@@ -26,6 +22,10 @@ class FormFactoryTest extends TestCase
             ],
             'another' => 'value',
         ];
+        $f = FormFactory::default();
+
+        $this->assertInstanceOf(FormFactoryInterface::class, $f);
+
         $f = ($f)();
 
         $this->assertInstanceOf(Form::class, $f);
