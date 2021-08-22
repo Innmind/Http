@@ -6,7 +6,7 @@ namespace Innmind\Http\Translator\Response;
 use Innmind\Http\{
     Message\Response,
     Header,
-    Adapter\Psr7\Stream,
+    Stream\ToPsr7 as Stream,
 };
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response as PsrReponse;

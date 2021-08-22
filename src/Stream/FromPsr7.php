@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Bridge\Psr7;
+namespace Innmind\Http\Stream;
 
 use Innmind\Http\Exception\LogicException;
 use Innmind\Stream\{
@@ -17,7 +17,7 @@ use Innmind\Immutable\{
 };
 use Psr\Http\Message\StreamInterface as PsrStream;
 
-final class Stream implements Readable
+final class FromPsr7 implements Readable
 {
     private PsrStream $stream;
     private bool $closed = false;

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Adapter\Psr7;
+namespace Tests\Innmind\Http\Stream;
 
 use Innmind\Http\{
-    Adapter\Psr7\Stream,
-    Exception\LogicException
+    Stream\ToPsr7,
+    Exception\LogicException,
 };
 use Innmind\Stream\{
     Readable,
@@ -25,7 +25,7 @@ use Innmind\BlackBox\{
     Set,
 };
 
-class StreamTest extends TestCase
+class ToPsr7Test extends TestCase
 {
     use BlackBox;
 
@@ -33,7 +33,7 @@ class StreamTest extends TestCase
     {
         $this->assertInstanceOf(
             StreamInterface::class,
-            new Stream($this->createMock(Readable::class))
+            new ToPsr7($this->createMock(Readable::class))
         );
     }
 
@@ -42,7 +42,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Unicode::strings())
             ->then(function($content) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -56,7 +56,7 @@ class StreamTest extends TestCase
 
     public function testClose()
     {
-        $stream = new Stream(
+        $stream = new ToPsr7(
             $inner = $this->createMock(Readable::class)
         );
         $inner
@@ -68,7 +68,7 @@ class StreamTest extends TestCase
 
     public function testDetachReturnNothingWhenTheUnderlyingResourceIsNotAccessible()
     {
-        $stream = new Stream(
+        $stream = new ToPsr7(
             $this->createMock(Readable::class)
         );
 
@@ -77,7 +77,7 @@ class StreamTest extends TestCase
 
     public function testDetachReturnTheUnderlyingResource()
     {
-        $stream = new Stream(new Readable\Stream(
+        $stream = new ToPsr7(new Readable\Stream(
             $resource = \fopen('php://temp', 'r+')
         ));
 
@@ -89,7 +89,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Integers::above(0))
             ->then(function($size) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -103,7 +103,7 @@ class StreamTest extends TestCase
 
     public function testReturnNothingWhenTheSizeIsUnknown()
     {
-        $stream = new Stream(
+        $stream = new ToPsr7(
             $inner = $this->createMock(Readable::class)
         );
         $inner
@@ -119,7 +119,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Integers::above(0))
             ->then(function($position) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -136,7 +136,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Elements::of(true, false))
             ->then(function($eof) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -153,7 +153,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Integers::above(0))
             ->then(function($position) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -171,7 +171,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Integers::above(0))
             ->then(function($position) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -210,7 +210,7 @@ class StreamTest extends TestCase
                         break;
                 }
 
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -232,7 +232,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Integers::above(0))
             ->then(function($offset) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -248,7 +248,7 @@ class StreamTest extends TestCase
 
     public function testRewind()
     {
-        $stream = new Stream(
+        $stream = new ToPsr7(
             $inner = $this->createMock(Readable::class)
         );
         $inner
@@ -260,7 +260,7 @@ class StreamTest extends TestCase
 
     public function testNotWritable()
     {
-        $stream = new Stream($this->createMock(Readable::class));
+        $stream = new ToPsr7($this->createMock(Readable::class));
 
         $this->assertFalse($stream->isWritable());
 
@@ -275,7 +275,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Elements::of(true, false))
             ->then(function($closed) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -292,7 +292,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Unicode::strings(), Set\Integers::above(0))
             ->then(function($content, $length) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -310,7 +310,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Unicode::strings())
             ->then(function($content) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $inner = $this->createMock(Readable::class)
                 );
                 $inner
@@ -328,7 +328,7 @@ class StreamTest extends TestCase
         $this
             ->forAll(Set\Unicode::strings())
             ->then(function($key) {
-                $stream = new Stream(
+                $stream = new ToPsr7(
                     $this->createMock(Readable::class)
                 );
 

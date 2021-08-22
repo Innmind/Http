@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Bridge\Psr7;
 
-use Innmind\Http\Bridge\Psr7\Stream;
+use Innmind\Http\Stream\FromPsr7;
 use Innmind\Stream\{
     Readable,
     Stream\Position,
@@ -12,11 +12,11 @@ use Innmind\Stream\{
 use Psr\Http\Message\StreamInterface;
 use PHPUnit\Framework\TestCase;
 
-class StreamTest extends TestCase
+class FromPsr7Test extends TestCase
 {
     public function testInterface()
     {
-        $stream = new Stream(
+        $stream = new FromPsr7(
             $psr = $this->createMock(StreamInterface::class)
         );
         $psr

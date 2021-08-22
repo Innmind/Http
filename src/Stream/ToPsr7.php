@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Adapter\Psr7;
+namespace Innmind\Http\Stream;
 
 use Innmind\Http\Exception\LogicException;
 use Innmind\Stream\{
@@ -13,10 +13,7 @@ use Innmind\Stream\{
 };
 use Psr\Http\Message\StreamInterface;
 
-/**
- * For the reverse adapter see Innmind\Http\Bridge\Psr7\Stream
- */
-final class Stream implements StreamInterface
+final class ToPsr7 implements StreamInterface
 {
     private Readable $stream;
 

@@ -12,7 +12,7 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header,
-    Bridge\Psr7\Stream,
+    Stream\FromPsr7,
 };
 use Innmind\TimeContinuum\Clock;
 use Innmind\Url\Url;
@@ -40,7 +40,7 @@ final class Psr7Translator
             Method::of(\strtoupper($request->getMethod())),
             new ProtocolVersion((int) $major, (int) $minor),
             $this->translateHeaders($request->getHeaders()),
-            new Stream($request->getBody()),
+            new FromPsr7($request->getBody()),
         );
     }
 

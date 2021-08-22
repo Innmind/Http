@@ -10,7 +10,7 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header\ContentType,
-    Adapter\Psr7\Stream,
+    Stream\ToPsr7 as Stream,
 };
 use Innmind\Stream\Readable;
 use Psr\Http\Message\ResponseInterface;
