@@ -76,14 +76,12 @@ final class ContentRangeValue implements Value
         return $this->lastPosition;
     }
 
-    public function isLengthKnown(): bool
+    /**
+     * @return Maybe<int>
+     */
+    public function length(): Maybe
     {
-        return $this->length !== null;
-    }
-
-    public function length(): ?int
-    {
-        return $this->length;
+        return Maybe::of($this->length);
     }
 
     public function toString(): string
