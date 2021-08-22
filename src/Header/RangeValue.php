@@ -21,7 +21,7 @@ final class RangeValue implements Value
     public function __construct(
         string $unit,
         int $firstPosition,
-        int $lastPosition
+        int $lastPosition,
     ) {
         if (
             !Str::of($unit)->matches('~^\w+$~') ||

@@ -59,9 +59,7 @@ final class ContentTypeFactory implements HeaderFactory
     {
         return $params
             ->split(';')
-            ->filter(static function(Str $value): bool {
-                return !$value->trim()->empty();
-            })
+            ->filter(static fn($value) => !$value->trim()->empty())
             ->map(static function(Str $value) {
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
 

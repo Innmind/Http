@@ -21,9 +21,7 @@ final class HeaderFactory
     {
         $values = $value
             ->split(',')
-            ->map(static function(Str $value): Str {
-                return $value->trim();
-            })
+            ->map(static fn($value) => $value->trim())
             ->map(static fn($value) => new Value\Value($value->toString()))
             ->toList();
 

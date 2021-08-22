@@ -25,7 +25,7 @@ final class ContentRange implements HeaderInterface
         string $unit,
         int $firstPosition,
         int $lastPosition,
-        int $length = null
+        int $length = null,
     ): self {
         return new self(new ContentRangeValue(
             $unit,

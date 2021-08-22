@@ -24,7 +24,7 @@ final class AcceptValue implements Value
     public function __construct(
         string $type,
         string $subType,
-        Parameter ...$parameters
+        Parameter ...$parameters,
     ) {
         $media = Str::of('%s/%s')->sprintf($type, $subType);
         /** @var Map<string, Parameter> */

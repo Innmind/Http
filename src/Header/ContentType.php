@@ -24,7 +24,7 @@ final class ContentType implements HeaderInterface
     public static function of(
         string $type,
         string $subType,
-        Parameter ...$parameters
+        Parameter ...$parameters,
     ): self {
         return new self(new ContentTypeValue(
             $type,

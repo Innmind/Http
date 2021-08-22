@@ -33,9 +33,7 @@ final class LinkFactory implements HeaderFactory
 
         $links = $value
             ->split(',')
-            ->map(static function(Str $link): Str {
-                return $link->trim();
-            })
+            ->map(static fn($link) => $link->trim())
             ->map(function(Str $link) {
                 $matches = $link->capture(self::PATTERN);
                 $params = $this->buildParams(
@@ -88,9 +86,7 @@ final class LinkFactory implements HeaderFactory
     {
         $params = $params
             ->split(';')
-            ->filter(static function(Str $value): bool {
-                return !$value->trim()->empty();
-            })
+            ->filter(static fn(Str $value) => !$value->trim()->empty())
             ->map(static function(Str $value) {
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 

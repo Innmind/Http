@@ -26,7 +26,7 @@ final class Request implements RequestInterface
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null
+        Readable $body = null,
     ) {
         $this->url = $url;
         $this->method = $method;

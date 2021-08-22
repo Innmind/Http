@@ -56,27 +56,27 @@ final class StatusCode
             );
     }
 
-    public function isInformational(): bool
+    public function informational(): bool
     {
         return ((int) ($this->value() / 100)) === 1;
     }
 
-    public function isSuccessful(): bool
+    public function successful(): bool
     {
         return ((int) ($this->value() / 100)) === 2;
     }
 
-    public function isRedirection(): bool
+    public function redirection(): bool
     {
         return ((int) ($this->value() / 100)) === 3;
     }
 
-    public function isClientError(): bool
+    public function clientError(): bool
     {
         return ((int) ($this->value() / 100)) === 4;
     }
 
-    public function isServerError(): bool
+    public function serverError(): bool
     {
         return ((int) ($this->value() / 100)) === 5;
     }

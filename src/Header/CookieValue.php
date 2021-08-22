@@ -25,7 +25,7 @@ final class CookieValue implements Value
         foreach ($parameters as $paramater) {
             $this->parameters = ($this->parameters)(
                 $paramater->name(),
-                $paramater
+                $paramater,
             );
         }
     }

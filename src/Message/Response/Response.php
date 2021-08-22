@@ -26,7 +26,7 @@ final class Response implements ResponseInterface
         ReasonPhrase $reasonPhrase,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null
+        Readable $body = null,
     ) {
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? new Headers;

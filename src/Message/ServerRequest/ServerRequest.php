@@ -41,7 +41,7 @@ final class ServerRequest implements ServerRequestInterface
         Cookies $cookies = null,
         Query $query = null,
         Form $form = null,
-        Files $files = null
+        Files $files = null,
     ) {
         $this->url = $url;
         $this->method = $method;

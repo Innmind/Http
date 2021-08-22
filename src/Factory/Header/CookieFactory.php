@@ -55,12 +55,8 @@ final class CookieFactory implements HeaderFactory
     {
         return $params
             ->split(';')
-            ->map(static function(Str $value): Str {
-                return $value->trim();
-            })
-            ->filter(static function(Str $value): bool {
-                return !$value->empty();
-            })
+            ->map(static fn($value) => $value->trim())
+            ->filter(static fn($value) => !$value->empty())
             ->map(static function(Str $value) {
                 $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
 

@@ -79,7 +79,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertTrue((new StatusCode($code))->isInformational());
+                $this->assertTrue((new StatusCode($code))->informational());
             });
 
         $codes
@@ -89,7 +89,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertFalse((new StatusCode($code))->isInformational());
+                $this->assertFalse((new StatusCode($code))->informational());
             });
     }
 
@@ -106,7 +106,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertTrue((new StatusCode($code))->isSuccessful());
+                $this->assertTrue((new StatusCode($code))->successful());
             });
 
         $codes
@@ -116,7 +116,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertFalse((new StatusCode($code))->isSuccessful());
+                $this->assertFalse((new StatusCode($code))->successful());
             });
     }
 
@@ -133,7 +133,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertTrue((new StatusCode($code))->isRedirection());
+                $this->assertTrue((new StatusCode($code))->redirection());
             });
 
         $codes
@@ -143,7 +143,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertFalse((new StatusCode($code))->isRedirection());
+                $this->assertFalse((new StatusCode($code))->redirection());
             });
     }
 
@@ -160,7 +160,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertTrue((new StatusCode($code))->isClientError());
+                $this->assertTrue((new StatusCode($code))->clientError());
             });
 
         $codes
@@ -170,7 +170,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertFalse((new StatusCode($code))->isClientError());
+                $this->assertFalse((new StatusCode($code))->clientError());
             });
     }
 
@@ -187,7 +187,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertTrue((new StatusCode($code))->isServerError());
+                $this->assertTrue((new StatusCode($code))->serverError());
             });
 
         $codes
@@ -197,7 +197,7 @@ class StatusCodeTest extends TestCase
                 static fn() => Map::of(),
             )
             ->foreach(function($name, $code): void {
-                $this->assertFalse((new StatusCode($code))->isServerError());
+                $this->assertFalse((new StatusCode($code))->serverError());
             });
     }
 

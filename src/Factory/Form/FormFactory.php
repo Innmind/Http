@@ -30,10 +30,7 @@ final class FormFactory implements FormFactoryInterface
         $forms = [];
 
         foreach ($this->post as $name => $value) {
-            $forms[] = new Parameter(
-                (string) $name,
-                $value,
-            );
+            $forms[] = new Parameter((string) $name, $value);
         }
 
         return new Form(...$forms);

@@ -6,7 +6,6 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
     Header\Parameter\Quality,

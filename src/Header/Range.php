@@ -24,7 +24,7 @@ final class Range implements HeaderInterface
     public static function of(
         string $unit,
         int $firstPosition,
-        int $lastPosition
+        int $lastPosition,
     ): self {
         return new self(new RangeValue(
             $unit,

@@ -26,7 +26,7 @@ final class LinkValue implements Value
     public function __construct(
         Url $url,
         string $rel = null,
-        Parameter ...$parameters
+        Parameter ...$parameters,
     ) {
         $rel = $rel ?? 'related';
         /** @var Map<string, Parameter> */
