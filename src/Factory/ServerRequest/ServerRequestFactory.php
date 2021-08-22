@@ -25,6 +25,9 @@ use Innmind\Immutable\{
     Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
     private HeadersFactory $headersFactory;
@@ -33,14 +36,20 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     private QueryFactory $queryFactory;
     private FormFactory $formFactory;
     private FilesFactory $filesFactory;
+    /** @var array<string, string> */
+    private array $server;
 
+    /**
+     * @param array<string, string> $server
+     */
     public function __construct(
         HeadersFactory $headersFactory,
         EnvironmentFactory $environmentFactory,
         CookiesFactory $cookiesFactory,
         QueryFactory $queryFactory,
         FormFactory $formFactory,
-        FilesFactory $filesFactory
+        FilesFactory $filesFactory,
+        array $server,
     ) {
         $this->headersFactory = $headersFactory;
         $this->environmentFactory = $environmentFactory;
@@ -48,24 +57,25 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         $this->queryFactory = $queryFactory;
         $this->formFactory = $formFactory;
         $this->filesFactory = $filesFactory;
+        $this->server = $server;
     }
 
     public function __invoke(): ServerRequest
     {
         /** @psalm-suppress MixedArgument */
-        $protocol = Str::of($_SERVER['SERVER_PROTOCOL'])->capture(
+        $protocol = Str::of($this->server['SERVER_PROTOCOL'])->capture(
             '~HTTP/(?<major>\d)\.(?<minor>\d)~',
         );
-        $https = Str::of((string) ($_SERVER['HTTPS'] ?? 'off'))->toLower()->toString();
+        /** @psalm-suppress RedundantCastGivenDocblockType */
+        $https = Str::of((string) ($this->server['HTTPS'] ?? 'off'))->toLower()->toString();
         $user = '';
 
-        if (isset($_SERVER['PHP_AUTH_USER'])) {
-            /** @var string */
-            $user = $_SERVER['PHP_AUTH_USER'];
+        if (isset($this->server['PHP_AUTH_USER'])) {
+            $user = $this->server['PHP_AUTH_USER'];
 
-            if (isset($_SERVER['PHP_AUTH_PW'])) {
+            if (isset($this->server['PHP_AUTH_PW'])) {
                 /** @psalm-suppress MixedOperand */
-                $user .= ':'.$_SERVER['PHP_AUTH_PW'];
+                $user .= ':'.$this->server['PHP_AUTH_PW'];
             }
 
             $user .= '@';
@@ -77,10 +87,10 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',
                 $user,
-                $_SERVER['HTTP_HOST'],
-                $_SERVER['REQUEST_URI'],
+                $this->server['HTTP_HOST'],
+                $this->server['REQUEST_URI'],
             )),
-            Method::of($_SERVER['REQUEST_METHOD']),
+            Method::of($this->server['REQUEST_METHOD']),
             Maybe::all($protocol->get('major'), $protocol->get('minor'))
                 ->map(static fn(Str $major, Str $minor) => new ProtocolVersion(
                     (int) $major->toString(),
@@ -105,6 +115,9 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     public static function default(Clock $clock): self
     {
+        /** @var array<string, string> */
+        $server = $_SERVER;
+
         return new self(
             Factory\Header\HeadersFactory::default(
                 Factories::default($clock),
@@ -114,6 +127,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             Factory\Query\QueryFactory::default(),
             Factory\Form\FormFactory::default(),
             Factory\Files\FilesFactory::default(),
+            $server,
         );
     }
 }
