@@ -19,10 +19,6 @@ class FilesFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new FilesFactory;
-
-        $this->assertInstanceOf(FilesFactoryInterface::class, $f);
-
         $_FILES = [
             'file1' => [
                 'name' => 'foo.txt',
@@ -39,6 +35,10 @@ class FilesFactoryTest extends TestCase
                 'size' => 0,
             ],
         ];
+        $f = FilesFactory::default();
+
+        $this->assertInstanceOf(FilesFactoryInterface::class, $f);
+
         \file_put_contents('/tmp/foo.txt', 'foo');
         $f = ($f)();
 

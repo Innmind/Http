@@ -27,20 +27,29 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @psalm-immutable
  * @psalm-import-type Status from Files
+ * @psalm-type Global = array<string, array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string|array>, tmp_name: list<string|array>, error: list<int|array>, type: list<string|array>}>
  */
 final class FilesFactory implements FilesFactoryInterface
 {
+    /** @var Global */
+    private array $files;
+
+    /**
+     * @param Global $files
+     */
+    public function __construct(array $files)
+    {
+        $this->files = $files;
+    }
+
     public function __invoke(): Files
     {
         /** @var Map<string, Either<Status, File>> */
         $files = Map::of();
 
-        /**
-         * @var string $name
-         * @var array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string|array>, tmp_name: list<string|array>, error: list<int|array>, type: list<string|array>} $content
-         */
-        foreach ($_FILES as $name => $content) {
+        foreach ($this->files as $name => $content) {
             if (!\is_string($content['name'])) {
                 throw new LogicException('Nested uploads are not supported');
             }
@@ -58,6 +67,14 @@ final class FilesFactory implements FilesFactoryInterface
         }
 
         return new Files($files);
+    }
+
+    public static function default(): self
+    {
+        /** @var Global */
+        $files = $_FILES;
+
+        return new self($files);
     }
 
     /**
