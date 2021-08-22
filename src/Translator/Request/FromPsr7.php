@@ -1,28 +1,28 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Translator\Response;
+namespace Innmind\Http\Translator\Request;
 
 use Innmind\Http\{
     Factory\HeaderFactory,
-    Factory\Header\Factories,
     Factory\Header\TryFactory,
-    Message\Response\Response,
-    Message\StatusCode,
-    Message\ReasonPhrase,
+    Factory\Header\Factories,
+    Message\Request\Request,
+    Message\Method,
     ProtocolVersion,
     Headers,
     Header,
+    Stream\FromPsr7 as Stream,
 };
 use Innmind\TimeContinuum\Clock;
-use Innmind\Stream\Readable\Stream;
+use Innmind\Url\Url;
 use Innmind\Immutable\{
     Map,
     Str,
 };
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
 
-final class Psr7Translator
+final class FromPsr7
 {
     private TryFactory $headerFactory;
 
@@ -31,16 +31,16 @@ final class Psr7Translator
         $this->headerFactory = new TryFactory($headerFactory);
     }
 
-    public function __invoke(ResponseInterface $response): Response
+    public function __invoke(RequestInterface $request): Request
     {
-        [$major, $minor] = \explode('.', $response->getProtocolVersion());
+        [$major, $minor] = \explode('.', $request->getProtocolVersion());
 
-        return new Response(
-            new StatusCode($code = $response->getStatusCode()),
-            ReasonPhrase::of($code),
+        return new Request(
+            Url::of((string) $request->getUri()),
+            Method::of(\strtoupper($request->getMethod())),
             new ProtocolVersion((int) $major, (int) $minor),
-            $this->translateHeaders($response->getHeaders()),
-            Stream::ofContent((string) $response->getBody()),
+            $this->translateHeaders($request->getHeaders()),
+            new Stream($request->getBody()),
         );
     }
 

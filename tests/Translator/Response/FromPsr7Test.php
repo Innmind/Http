@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Translator\Response;
 
 use Innmind\Http\{
-    Translator\Response\Psr7Translator,
+    Translator\Response\FromPsr7,
     Factory\Header\Factories,
     Factory\HeaderFactory,
     Message\Response
@@ -20,11 +20,11 @@ use Psr\Http\Message\{
 };
 use PHPUnit\Framework\TestCase;
 
-class Psr7TranslatorTest extends TestCase
+class FromPsr7Test extends TestCase
 {
     public function testInterface()
     {
-        $translator = new Psr7Translator(
+        $translator = new FromPsr7(
             new class implements HeaderFactory {
                 public function __invoke(Str $name, Str $value): Maybe
                 {
@@ -77,8 +77,8 @@ class Psr7TranslatorTest extends TestCase
     public function testDefault()
     {
         $this->assertEquals(
-            new Psr7Translator(Factories::default(new Clock)),
-            Psr7Translator::default(new Clock),
+            new FromPsr7(Factories::default(new Clock)),
+            FromPsr7::default(new Clock),
         );
     }
 }
