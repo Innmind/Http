@@ -10,7 +10,6 @@ use Innmind\Http\{
     Message\Response\Response,
     Message\Response as ResponseInterface,
     Message\StatusCode,
-    Message\ReasonPhrase
 };
 use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +20,6 @@ class ResponseTest extends TestCase
     {
         $r = new Response(
             $status = StatusCode::ok,
-            $reason = new ReasonPhrase('OK'),
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
             $body = $this->createMock(Content::class),
@@ -30,7 +28,6 @@ class ResponseTest extends TestCase
         $this->assertInstanceOf(Message::class, $r);
         $this->assertInstanceOf(ResponseInterface::class, $r);
         $this->assertSame($status, $r->statusCode());
-        $this->assertSame($reason, $r->reasonPhrase());
         $this->assertSame($protocol, $r->protocolVersion());
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
@@ -40,7 +37,6 @@ class ResponseTest extends TestCase
     {
         $response = new Response(
             StatusCode::ok,
-            new ReasonPhrase('OK'),
             new ProtocolVersion(2, 0),
         );
 

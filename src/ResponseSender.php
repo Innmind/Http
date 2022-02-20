@@ -38,7 +38,7 @@ final class ResponseSender implements Sender
                 'HTTP/%s %s %s',
                 $response->protocolVersion()->toString(),
                 $response->statusCode()->toString(),
-                $response->reasonPhrase()->toString(),
+                $response->statusCode()->reasonPhrase(),
             ),
             true,
             $response->statusCode()->toInt(),

@@ -33,19 +33,6 @@ class StatusCodeTest extends TestCase
         StatusCode::of(42); //sadly
     }
 
-    public function testAssociatedReasonPhrase()
-    {
-        foreach (StatusCode::cases() as $code) {
-            $reason = $code->associatedReasonPhrase();
-
-            $this->assertInstanceOf(ReasonPhrase::class, $reason);
-            $this->assertSame(
-                ReasonPhrase::of($code->toInt())->toString(),
-                $reason->toString(),
-            );
-        }
-    }
-
     public function testOf()
     {
         foreach (StatusCode::cases() as $code) {

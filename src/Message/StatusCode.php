@@ -248,11 +248,6 @@ enum StatusCode
         };
     }
 
-    public function associatedReasonPhrase(): ReasonPhrase
-    {
-        return ReasonPhrase::of($this->toInt());
-    }
-
     /**
      * @return non-empty-string
      */
@@ -364,5 +359,88 @@ enum StatusCode
     public function serverError(): bool
     {
         return $this->range() === StatusCode\Range::serverError;
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    public function reasonPhrase(): string
+    {
+        return match ($this) {
+            self::continue => 'Continue',
+            self::switchingProtocols => 'Switching Protocols',
+            self::processing => 'Processing',
+            self::ok => 'OK',
+            self::created => 'Created',
+            self::accepted => 'Accepted',
+            self::nonAuthoritativeInformation => 'Non-Authoritative Information',
+            self::noContent => 'No Content',
+            self::resetContent => 'Reset Content',
+            self::partialContent => 'Partial Content',
+            self::multiStatus => 'Multi-Status',
+            self::alreadyReported => 'Already Reported',
+            self::imUsed => 'IM Used',
+            self::multipleChoices => 'Multiple Choices',
+            self::movedPermanently => 'Moved Permanently',
+            self::found => 'Found',
+            self::seeOther => 'See Other',
+            self::notModified => 'Not Modified',
+            self::useProxy => 'Use Proxy',
+            self::reserved => 'Switch Proxy',
+            self::temporaryRedirect => 'Temporary Redirect',
+            self::permanentlyRedirect => 'Permanent Redirect',
+            self::badRequest => 'Bad Request',
+            self::unauthorized => 'Unauthorized',
+            self::paymentRequired => 'Payment Required',
+            self::forbidden => 'Forbidden',
+            self::notFound => 'Not Found',
+            self::methodNotAllowed => 'Method Not Allowed',
+            self::notAcceptable => 'Not Acceptable',
+            self::proxyAuthenticationRequired => 'Proxy Authentication Required',
+            self::requestTimeout => 'Request Timeout',
+            self::conflict => 'Conflict',
+            self::gone => 'Gone',
+            self::lengthRequired => 'Length Required',
+            self::preconditionFailed => 'Precondition Failed',
+            self::requestEntityTooLarge => 'Payload Too Large',
+            self::requestUriTooLong => 'URI Too Long',
+            self::unsupportedMediaType => 'Unsupported Media Type',
+            self::requestedRangeNotSatisfiable => 'Range Not Satisfiable',
+            self::expectationFailed => 'Expectation Failed',
+            self::iAmATeapot => 'I\'m a teapot',
+            self::unprocessableEntity => 'Unprocessable Entity',
+            self::locked => 'Locked',
+            self::failedDependency => 'Failed Dependency',
+            self::reservedForWebdavAdvancedCollectionsExpiredProposal => 'Reserved for WebDAV advanced collections expired proposal',
+            self::upgradeRequired => 'Upgrade Required',
+            self::preconditionRequired => 'Precondition Required',
+            self::tooManyRequests => 'Too Many Requests',
+            self::requestHeaderFieldsTooLarge => 'Request Header Fields Too Large',
+            self::noResponse => 'No Response',
+            self::unavailableForLegalReasons => 'Unavailable For Legal Reasons',
+            self::sslCertificateError => 'SSL Certificate Error',
+            self::sslCertificateRequired => 'SSL Certificate Required',
+            self::httpRequestSentToHttpsPort => 'HTTP Request Sent to HTTPS Port',
+            self::clientClosedRequest => 'Client Closed Request',
+            self::internalServerError => 'Internal Server Error',
+            self::notImplemented => 'Not Implemented',
+            self::badGateway => 'Bad Gateway',
+            self::serviceUnavailable => 'Service Unavailable',
+            self::gatewayTimeout => 'Gateway Timeout',
+            self::versionNotSupported => 'HTTP Version Not Supported',
+            self::variantAlsoNegotiatesExperimental => 'Variant Also Negotiates (Experimental)',
+            self::insufficientStorage => 'Insufficient Storage',
+            self::loopDetected => 'Loop Detected',
+            self::notExtended => 'Not Extended',
+            self::networkAuthenticationRequired => 'Network Authentication Required',
+            self::unknownError => 'Unknown Error',
+            self::webServerIsDown => 'Web Server Is Down',
+            self::connectionTimedOut => 'Connection Timed Out',
+            self::originIsUnreachable => 'Origin Is Unreachable',
+            self::aTimeoutOccured => 'A Timeout Occurred',
+            self::sslHandshakeFailed => 'SSL Handshake Failed',
+            self::invalidSslCertificate => 'Invalid SSL Certificate',
+            self::railgunError => 'Railgun Error',
+        };
     }
 }

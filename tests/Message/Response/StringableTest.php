@@ -24,7 +24,6 @@ class StringableTest extends TestCase
     {
         $response = new Response(
             $code = StatusCode::ok,
-            $code->associatedReasonPhrase(),
             new ProtocolVersion(2, 0),
             Headers::of(
                 new ContentType(
@@ -40,7 +39,6 @@ class StringableTest extends TestCase
 
         $this->assertInstanceOf(ResponseInterface::class, $stringable);
         $this->assertSame($response->statusCode(), $stringable->statusCode());
-        $this->assertSame($response->reasonPhrase(), $stringable->reasonPhrase());
         $this->assertSame($response->protocolVersion(), $stringable->protocolVersion());
         $this->assertSame($response->headers(), $stringable->headers());
         $this->assertSame($response->body(), $stringable->body());

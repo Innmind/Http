@@ -21,11 +21,9 @@ final class Response implements ResponseInterface
     private Headers $headers;
     private Content $body;
     private StatusCode $statusCode;
-    private ReasonPhrase $reasonPhrase;
 
     public function __construct(
         StatusCode $statusCode,
-        ReasonPhrase $reasonPhrase,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
         Content $body = null,
@@ -34,7 +32,6 @@ final class Response implements ResponseInterface
         $this->headers = $headers ?? new Headers;
         $this->body = $body ?? Content\Lines::ofContent('');
         $this->statusCode = $statusCode;
-        $this->reasonPhrase = $reasonPhrase;
     }
 
     public function protocolVersion(): ProtocolVersion
@@ -55,10 +52,5 @@ final class Response implements ResponseInterface
     public function statusCode(): StatusCode
     {
         return $this->statusCode;
-    }
-
-    public function reasonPhrase(): ReasonPhrase
-    {
-        return $this->reasonPhrase;
     }
 }
