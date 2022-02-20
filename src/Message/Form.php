@@ -77,7 +77,7 @@ final class Form implements \Countable
         return $this->parameters->values()->reduce($carry, $reducer);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->parameters->size();
     }

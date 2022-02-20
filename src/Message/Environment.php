@@ -59,7 +59,7 @@ final class Environment implements \Countable
         return $this->variables->reduce($carry, $reducer);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->variables->size();
     }

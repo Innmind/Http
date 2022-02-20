@@ -111,7 +111,7 @@ final class Headers implements \Countable
         return $this->headers->values()->reduce($carry, $reducer);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->headers->size();
     }
