@@ -27,7 +27,7 @@ enum StatusCode
     case seeOther;
     case notModified;
     case useProxy;
-    case reserved; // no longer used (was 'Switch Proxy')
+    case switchProxy; // no longer used
     case temporaryRedirect;
     case permanentlyRedirect; // RFC7238
     case badRequest;
@@ -110,7 +110,7 @@ enum StatusCode
             303 => self::seeOther,
             304 => self::notModified,
             305 => self::useProxy,
-            306 => self::reserved,
+            306 => self::switchProxy,
             307 => self::temporaryRedirect,
             308 => self::permanentlyRedirect,
             400 => self::badRequest,
@@ -190,7 +190,7 @@ enum StatusCode
             self::seeOther => 303,
             self::notModified => 304,
             self::useProxy => 305,
-            self::reserved => 306,
+            self::switchProxy => 306,
             self::temporaryRedirect => 307,
             self::permanentlyRedirect => 308,
             self::badRequest => 400,
@@ -278,7 +278,7 @@ enum StatusCode
             self::seeOther => StatusCode\Range::redirection,
             self::notModified => StatusCode\Range::redirection,
             self::useProxy => StatusCode\Range::redirection,
-            self::reserved => StatusCode\Range::redirection,
+            self::switchProxy => StatusCode\Range::redirection,
             self::temporaryRedirect => StatusCode\Range::redirection,
             self::permanentlyRedirect => StatusCode\Range::redirection,
             self::badRequest => StatusCode\Range::clientError,
@@ -386,7 +386,7 @@ enum StatusCode
             self::seeOther => 'See Other',
             self::notModified => 'Not Modified',
             self::useProxy => 'Use Proxy',
-            self::reserved => 'Switch Proxy',
+            self::switchProxy => 'Switch Proxy',
             self::temporaryRedirect => 'Temporary Redirect',
             self::permanentlyRedirect => 'Permanent Redirect',
             self::badRequest => 'Bad Request',

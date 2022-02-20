@@ -79,7 +79,7 @@ class StatusCodeTest extends TestCase
         $this->assertTrue(StatusCode::seeOther->redirection());
         $this->assertTrue(StatusCode::notModified->redirection());
         $this->assertTrue(StatusCode::useProxy->redirection());
-        $this->assertTrue(StatusCode::reserved->redirection());
+        $this->assertTrue(StatusCode::switchProxy->redirection());
         $this->assertTrue(StatusCode::temporaryRedirect->redirection());
         $this->assertTrue(StatusCode::permanentlyRedirect->redirection());
     }
