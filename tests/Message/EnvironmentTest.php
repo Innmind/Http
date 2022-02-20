@@ -38,7 +38,7 @@ class EnvironmentTest extends TestCase
         $variables = new Environment(
             Map::of()
                 ('foo', '42')
-                ('bar', 'baz')
+                ('bar', 'baz'),
         );
 
         $called = 0;
@@ -56,7 +56,7 @@ class EnvironmentTest extends TestCase
         $variables = new Environment(
             Map::of()
                 ('foo', '42')
-                ('bar', 'baz')
+                ('bar', 'baz'),
         );
 
         $reduced = $variables->reduce(

@@ -17,8 +17,8 @@ class QueryTest extends TestCase
         $f = new Query(
             $p = new Parameter(
                 'foo',
-                '24'
-            )
+                '24',
+            ),
         );
 
         $this->assertTrue($f->contains('foo'));

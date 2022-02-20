@@ -15,7 +15,7 @@ class ContentLanguageTest extends TestCase
     public function testInterface()
     {
         $h = new ContentLanguage(
-            $v = new ContentLanguageValue('fr')
+            $v = new ContentLanguageValue('fr'),
         );
 
         $this->assertInstanceOf(Header::class, $h);

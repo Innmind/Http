@@ -27,10 +27,10 @@ class StringableTest extends TestCase
             new ProtocolVersion(2, 0),
             Headers::of(
                 new ContentType(
-                    new ContentTypeValue('text', 'plain')
-                )
+                    new ContentTypeValue('text', 'plain'),
+                ),
             ),
-            Lines::ofContent('some body')
+            Lines::ofContent('some body'),
         );
         $stringable = new Stringable($request);
 

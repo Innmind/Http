@@ -38,7 +38,7 @@ class CookiesTest extends TestCase
         $cookies = new Cookies(
             Map::of()
                 ('foo', '42')
-                ('bar', 'baz')
+                ('bar', 'baz'),
         );
 
         $called = 0;
@@ -56,7 +56,7 @@ class CookiesTest extends TestCase
         $cookies = new Cookies(
             Map::of()
                 ('foo', '42')
-                ('bar', 'baz')
+                ('bar', 'baz'),
         );
 
         $reduced = $cookies->reduce(

@@ -15,7 +15,7 @@ class AllowTest extends TestCase
     public function testInterface()
     {
         $h = new Allow(
-            $v = new AllowValue('GET')
+            $v = new AllowValue('GET'),
         );
 
         $this->assertInstanceOf(Header::class, $h);

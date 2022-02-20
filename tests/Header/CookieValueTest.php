@@ -17,7 +17,7 @@ class CookieValueTest extends TestCase
     {
         $cookie = new CookieValue(
             new Parameter\Parameter('foo', 'bar'),
-            new Parameter\Parameter('bar', 'baz')
+            new Parameter\Parameter('bar', 'baz'),
         );
 
         $this->assertInstanceOf(Value::class, $cookie);

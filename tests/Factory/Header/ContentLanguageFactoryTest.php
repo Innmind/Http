@@ -17,7 +17,7 @@ class ContentLanguageFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentLanguageFactory
+            new ContentLanguageFactory,
         );
     }
 

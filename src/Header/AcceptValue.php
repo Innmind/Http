@@ -57,7 +57,7 @@ final class AcceptValue implements Value
     public static function of(
         string $type,
         string $subType,
-        Parameter ...$parameters
+        Parameter ...$parameters,
     ): Maybe {
         try {
             return Maybe::just(new self($type, $subType, ...$parameters));

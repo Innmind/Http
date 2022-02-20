@@ -17,7 +17,7 @@ class FromPsr7Test extends TestCase
     public function testInterface()
     {
         $stream = new FromPsr7(
-            $psr = $this->createMock(StreamInterface::class)
+            $psr = $this->createMock(StreamInterface::class),
         );
         $psr
             ->expects($this->once())

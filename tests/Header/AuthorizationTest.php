@@ -17,7 +17,7 @@ class AuthorizationTest extends TestCase
     public function testInterface()
     {
         $h = new Authorization(
-            $av = new AuthorizationValue('Basic', '')
+            $av = new AuthorizationValue('Basic', ''),
         );
 
         $this->assertInstanceOf(Header::class, $h);

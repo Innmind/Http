@@ -17,7 +17,7 @@ class ContentLengthTest extends TestCase
     public function testInterface()
     {
         $h = new ContentLength(
-            $av = new ContentLengthValue(42)
+            $av = new ContentLengthValue(42),
         );
 
         $this->assertInstanceOf(Header::class, $h);

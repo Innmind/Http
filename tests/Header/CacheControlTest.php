@@ -19,7 +19,7 @@ class CacheControlTest extends TestCase
     public function testInterface()
     {
         $h = new CacheControl(
-            $v = new PublicCache
+            $v = new PublicCache,
         );
 
         $this->assertInstanceOf(Header::class, $h);

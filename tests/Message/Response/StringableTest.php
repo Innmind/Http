@@ -28,13 +28,13 @@ class StringableTest extends TestCase
             new ProtocolVersion(2, 0),
             Headers::of(
                 new ContentType(
-                    new ContentTypeValue('text', 'plain')
+                    new ContentTypeValue('text', 'plain'),
                 ),
                 new Allow(
-                    new AllowValue('GET')
-                )
+                    new AllowValue('GET'),
+                ),
             ),
-            Lines::ofContent('{"some":"json", "value":42}')
+            Lines::ofContent('{"some":"json", "value":42}'),
         );
         $stringable = new Stringable($response);
 

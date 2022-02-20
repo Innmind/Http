@@ -32,7 +32,7 @@ class AcceptCharsetValueTest extends TestCase
     {
         $this->assertSame(
             '1',
-            (new AcceptCharsetValue('*'))->quality()->value()
+            (new AcceptCharsetValue('*'))->quality()->value(),
         );
     }
 

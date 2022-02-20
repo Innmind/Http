@@ -17,7 +17,7 @@ class AcceptRangesFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new AcceptRangesFactory
+            new AcceptRangesFactory,
         );
     }
 

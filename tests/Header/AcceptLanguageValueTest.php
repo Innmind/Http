@@ -31,7 +31,7 @@ class AcceptLanguageValueTest extends TestCase
     {
         $this->assertSame(
             '1',
-            (new AcceptLanguageValue('fr'))->quality()->value()
+            (new AcceptLanguageValue('fr'))->quality()->value(),
         );
     }
 

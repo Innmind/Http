@@ -24,7 +24,7 @@ class RequestTest extends TestCase
             $method = Method::get(),
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
-            $body = $this->createMock(Content::class)
+            $body = $this->createMock(Content::class),
         );
 
         $this->assertInstanceOf(Message::class, $r);
@@ -46,11 +46,11 @@ class RequestTest extends TestCase
 
         $this->assertInstanceOf(
             Headers::class,
-            $request->headers()
+            $request->headers(),
         );
         $this->assertInstanceOf(
             Content::class,
-            $request->body()
+            $request->body(),
         );
     }
 }

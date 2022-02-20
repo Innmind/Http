@@ -18,7 +18,7 @@ class ContentLocationTest extends TestCase
     public function testInterface()
     {
         $h = new ContentLocation(
-            $av = new LocationValue(Url::of('/foo/bar'))
+            $av = new LocationValue(Url::of('/foo/bar')),
         );
 
         $this->assertInstanceOf(Header::class, $h);

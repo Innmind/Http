@@ -39,7 +39,7 @@ class LinkValueTest extends TestCase
     {
         $this->assertSame(
             'related',
-            (new LinkValue(Url::of('/')))->relationship()
+            (new LinkValue(Url::of('/')))->relationship(),
         );
     }
 
@@ -49,7 +49,7 @@ class LinkValueTest extends TestCase
 
         new LinkValue(
             Url::of('/foo'),
-            ''
+            '',
         );
     }
 }

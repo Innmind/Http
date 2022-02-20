@@ -19,7 +19,7 @@ class AcceptValueTest extends TestCase
         $a = new AcceptValue(
             'text',
             'x-c',
-            $q = new Quality(0.8)
+            $q = new Quality(0.8),
         );
 
         $this->assertInstanceOf(Value::class, $a);
@@ -33,15 +33,15 @@ class AcceptValueTest extends TestCase
 
         new AcceptValue(
             '*',
-            '*'
+            '*',
         );
         new AcceptValue(
             'application',
-            '*'
+            '*',
         );
         new AcceptValue(
             'application',
-            'octet-stream'
+            'octet-stream',
         );
         new AcceptValue(
             'application',

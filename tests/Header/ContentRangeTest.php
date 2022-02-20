@@ -17,7 +17,7 @@ class ContentRangeTest extends TestCase
     public function testInterface()
     {
         $h = new ContentRange(
-            $cr = new ContentRangeValue('bytes', 0, 42)
+            $cr = new ContentRangeValue('bytes', 0, 42),
         );
 
         $this->assertInstanceOf(Header::class, $h);

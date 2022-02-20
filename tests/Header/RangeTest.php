@@ -17,7 +17,7 @@ class RangeTest extends TestCase
     public function testInterface()
     {
         $h = new Range(
-            $cr = new RangeValue('bytes', 0, 42)
+            $cr = new RangeValue('bytes', 0, 42),
         );
 
         $this->assertInstanceOf(Header::class, $h);

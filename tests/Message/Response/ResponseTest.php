@@ -24,7 +24,7 @@ class ResponseTest extends TestCase
             $reason = new ReasonPhrase('OK'),
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
-            $body = $this->createMock(Content::class)
+            $body = $this->createMock(Content::class),
         );
 
         $this->assertInstanceOf(Message::class, $r);
@@ -46,11 +46,11 @@ class ResponseTest extends TestCase
 
         $this->assertInstanceOf(
             Headers::class,
-            $response->headers()
+            $response->headers(),
         );
         $this->assertInstanceOf(
             Content::class,
-            $response->body()
+            $response->body(),
         );
     }
 }

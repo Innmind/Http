@@ -17,7 +17,7 @@ class ContentTypeFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentTypeFactory
+            new ContentTypeFactory,
         );
     }
 

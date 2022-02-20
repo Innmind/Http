@@ -44,7 +44,7 @@ class DelegationFactoryTest extends TestCase
         $factory = new DelegationFactory(
             Map::of()
                 ->put('x-foo', $mock)
-                ->put('foo', $neverToBeCalled)
+                ->put('foo', $neverToBeCalled),
         );
 
         $header = ($factory)($name, $value);

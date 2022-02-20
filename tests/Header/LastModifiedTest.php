@@ -18,7 +18,7 @@ class LastModifiedTest extends TestCase
     public function testInterface()
     {
         $h = new LastModified(
-            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200'))
+            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200')),
         );
 
         $this->assertInstanceOf(Header::class, $h);

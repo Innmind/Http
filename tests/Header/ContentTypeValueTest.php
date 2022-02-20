@@ -32,7 +32,7 @@ class ContentTypeValueTest extends TestCase
 
         new ContentTypeValue(
             'application',
-            'octet-stream'
+            'octet-stream',
         );
         new ContentTypeValue(
             'application',

@@ -17,7 +17,7 @@ class AcceptRangesTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptRanges(
-            $ar = new AcceptRangesValue('bytes')
+            $ar = new AcceptRangesValue('bytes'),
         );
 
         $this->assertInstanceOf(Header::class, $h);

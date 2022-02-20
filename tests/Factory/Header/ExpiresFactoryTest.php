@@ -18,7 +18,7 @@ class ExpiresFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ExpiresFactory(new Clock)
+            new ExpiresFactory(new Clock),
         );
     }
 

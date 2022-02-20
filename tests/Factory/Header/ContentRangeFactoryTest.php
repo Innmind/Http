@@ -17,7 +17,7 @@ class ContentRangeFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentRangeFactory
+            new ContentRangeFactory,
         );
     }
 

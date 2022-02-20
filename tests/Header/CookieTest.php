@@ -18,7 +18,7 @@ class CookieTest extends TestCase
     public function testInterface()
     {
         $cookie = new Cookie(
-            $value = new CookieValue(new Parameter('foo', 'bar'))
+            $value = new CookieValue(new Parameter('foo', 'bar')),
         );
 
         $this->assertInstanceOf(Header::class, $cookie);

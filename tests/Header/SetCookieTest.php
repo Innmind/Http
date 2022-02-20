@@ -21,11 +21,11 @@ class SetCookieTest extends TestCase
         $cookie = new SetCookie(
             $value = new CookieValue(
                 new Parameter('foo', 'bar'),
-                new Secure
+                new Secure,
             ),
             new CookieValue(
-                new Parameter('bar', 'baz')
-            )
+                new Parameter('bar', 'baz'),
+            ),
         );
 
         $this->assertInstanceOf(Header::class, $cookie);

@@ -63,31 +63,31 @@ class ServerRequestTest extends TestCase
 
         $this->assertInstanceOf(
             Headers::class,
-            $request->headers()
+            $request->headers(),
         );
         $this->assertInstanceOf(
             Content::class,
-            $request->body()
+            $request->body(),
         );
         $this->assertInstanceOf(
             Environment::class,
-            $request->environment()
+            $request->environment(),
         );
         $this->assertInstanceOf(
             Cookies::class,
-            $request->cookies()
+            $request->cookies(),
         );
         $this->assertInstanceOf(
             Query::class,
-            $request->query()
+            $request->query(),
         );
         $this->assertInstanceOf(
             Form::class,
-            $request->form()
+            $request->form(),
         );
         $this->assertInstanceOf(
             Files::class,
-            $request->files()
+            $request->files(),
         );
     }
 }

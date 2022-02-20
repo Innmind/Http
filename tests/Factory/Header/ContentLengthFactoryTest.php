@@ -17,7 +17,7 @@ class ContentLengthFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentLengthFactory
+            new ContentLengthFactory,
         );
     }
 

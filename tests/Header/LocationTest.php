@@ -18,7 +18,7 @@ class LocationTest extends TestCase
     public function testInterface()
     {
         $h = new Location(
-            $av = new LocationValue(Url::of('/foo/bar'))
+            $av = new LocationValue(Url::of('/foo/bar')),
         );
 
         $this->assertInstanceOf(Header::class, $h);

@@ -68,7 +68,7 @@ final class ResponseSender implements Sender
         });
 
         if (\function_exists('fastcgi_finish_request')) {
-            \fastcgi_finish_request();
+            fastcgi_finish_request();
         }
     }
 
@@ -87,7 +87,7 @@ final class ResponseSender implements Sender
                             /** @psalm-suppress PossiblyFalseReference Expires object uses a valid date */
                             $timestamp = \DateTimeImmutable::createFromFormat(
                                 (new Http)->toString(),
-                                \substr($parameter->value(), 1, -1) // remove double quotes
+                                \substr($parameter->value(), 1, -1), // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence
                             /** @psalm-suppress MixedAssignment */
@@ -121,7 +121,7 @@ final class ResponseSender implements Sender
                     }
 
                     return $parameters;
-                }
+                },
             );
 
             $options = [

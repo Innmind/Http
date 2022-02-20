@@ -18,7 +18,7 @@ class ReferrerTest extends TestCase
     public function testInterface()
     {
         $h = new Referrer(
-            $av = new ReferrerValue(Url::of('/foo/bar'))
+            $av = new ReferrerValue(Url::of('/foo/bar')),
         );
 
         $this->assertInstanceOf(Header::class, $h);

@@ -17,7 +17,7 @@ class AllowFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new AllowFactory
+            new AllowFactory,
         );
     }
 

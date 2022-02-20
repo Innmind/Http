@@ -31,11 +31,11 @@ class StringableTest extends TestCase
                 new Host(
                     new HostValue(
                         $url->authority()->host(),
-                        $url->authority()->port()
-                    )
-                )
+                        $url->authority()->port(),
+                    ),
+                ),
             ),
-            Lines::ofContent('some body')
+            Lines::ofContent('some body'),
         );
         $stringable = new Stringable($request);
 
@@ -69,9 +69,9 @@ RAW;
                 new Host(
                     new HostValue(
                         $url->authority()->host(),
-                        $url->authority()->port()
-                    )
-                )
+                        $url->authority()->port(),
+                    ),
+                ),
             ),
             Lines::ofContent('some body'),
             null,
@@ -79,8 +79,8 @@ RAW;
             Query::of(
                 new Query\Parameter('foo', 'bar'),
                 new Query\Parameter('bar', '42'),
-                new Query\Parameter('baz', ['foo'])
-            )
+                new Query\Parameter('baz', ['foo']),
+            ),
         );
         $stringable = new Stringable($request);
 
@@ -114,9 +114,9 @@ RAW;
                 new Host(
                     new HostValue(
                         $url->authority()->host(),
-                        $url->authority()->port()
-                    )
-                )
+                        $url->authority()->port(),
+                    ),
+                ),
             ),
             null,
             null,

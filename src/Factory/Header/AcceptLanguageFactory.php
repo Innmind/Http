@@ -57,7 +57,7 @@ final class AcceptLanguageFactory implements HeaderFactory
          * @var Maybe<Header>
          */
         return Maybe::all(...$values->toList())->map(
-            static fn(AcceptLanguageValue ...$values) => new AcceptLanguage(...$values)
+            static fn(AcceptLanguageValue ...$values) => new AcceptLanguage(...$values),
         );
     }
 }

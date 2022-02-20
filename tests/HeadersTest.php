@@ -25,8 +25,8 @@ class HeadersTest extends TestCase
                 new ContentTypeValue(
                     'application',
                     'json',
-                )
-            )
+                ),
+            ),
         );
 
         $this->assertTrue($hs->contains('content-type'));
@@ -50,8 +50,8 @@ class HeadersTest extends TestCase
                 new ContentTypeValue(
                     'application',
                     'json',
-                )
-            )
+                ),
+            ),
         );
 
         $this->assertInstanceOf(Headers::class, $headers);

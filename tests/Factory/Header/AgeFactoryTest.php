@@ -17,7 +17,7 @@ class AgeFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new AgeFactory
+            new AgeFactory,
         );
     }
 

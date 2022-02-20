@@ -17,8 +17,8 @@ class FormTest extends TestCase
         $f = new Form(
             $p = new Parameter(
                 '42',
-                '24'
-            )
+                '24',
+            ),
         );
 
         $this->assertFalse($f->contains('24'));

@@ -25,7 +25,7 @@ class ContentTypeTest extends TestCase
                 'text',
                 'html',
                 new Parameter\Parameter('charset', 'UTF-8'),
-            )
+            ),
         );
 
         $this->assertInstanceOf(Header::class, $h);

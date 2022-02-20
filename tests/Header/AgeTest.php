@@ -17,7 +17,7 @@ class AgeTest extends TestCase
     public function testInterface()
     {
         $h = new Age(
-            $av = new AgeValue(42)
+            $av = new AgeValue(42),
         );
 
         $this->assertInstanceOf(Header::class, $h);

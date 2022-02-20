@@ -17,7 +17,7 @@ class CookieFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new CookieFactory
+            new CookieFactory,
         );
     }
 

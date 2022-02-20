@@ -17,7 +17,7 @@ class WWWAuthenticateTest extends TestCase
     public function testInterface()
     {
         $header = new WWWAuthenticate(
-            $value = new WWWAuthenticateValue('Bearer', 'some value')
+            $value = new WWWAuthenticateValue('Bearer', 'some value'),
         );
 
         $this->assertInstanceOf(Header::class, $header);

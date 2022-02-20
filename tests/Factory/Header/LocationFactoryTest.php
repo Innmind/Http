@@ -17,7 +17,7 @@ class LocationFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new LocationFactory
+            new LocationFactory,
         );
     }
 

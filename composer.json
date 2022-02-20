@@ -42,6 +42,6 @@
         "vimeo/psalm": "~4.1",
         "innmind/black-box": "^4.9",
         "symfony/mime": "^5.1",
-        "innmind/coding-standard": "^1.1"
+        "innmind/coding-standard": "~2.0"
     }
 }

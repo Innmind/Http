@@ -33,7 +33,7 @@ class ToPsr7Test extends TestCase
     {
         $this->assertInstanceOf(
             StreamInterface::class,
-            new ToPsr7($this->createMock(Readable::class))
+            new ToPsr7($this->createMock(Readable::class)),
         );
     }
 
@@ -43,7 +43,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Unicode::strings())
             ->then(function($content) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -57,7 +57,7 @@ class ToPsr7Test extends TestCase
     public function testClose()
     {
         $stream = new ToPsr7(
-            $inner = $this->createMock(Readable::class)
+            $inner = $this->createMock(Readable::class),
         );
         $inner
             ->expects($this->once())
@@ -69,7 +69,7 @@ class ToPsr7Test extends TestCase
     public function testDetachReturnNothingWhenTheUnderlyingResourceIsNotAccessible()
     {
         $stream = new ToPsr7(
-            $this->createMock(Readable::class)
+            $this->createMock(Readable::class),
         );
 
         $this->assertNull($stream->detach());
@@ -78,7 +78,7 @@ class ToPsr7Test extends TestCase
     public function testDetachReturnTheUnderlyingResource()
     {
         $stream = new ToPsr7(new Readable\Stream(
-            $resource = \fopen('php://temp', 'r+')
+            $resource = \fopen('php://temp', 'r+'),
         ));
 
         $this->assertSame($resource, $stream->detach());
@@ -90,7 +90,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Integers::above(0))
             ->then(function($size) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -104,7 +104,7 @@ class ToPsr7Test extends TestCase
     public function testReturnNothingWhenTheSizeIsUnknown()
     {
         $stream = new ToPsr7(
-            $inner = $this->createMock(Readable::class)
+            $inner = $this->createMock(Readable::class),
         );
         $inner
             ->expects($this->once())
@@ -120,7 +120,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Integers::above(0))
             ->then(function($position) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -137,7 +137,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Elements::of(true, false))
             ->then(function($eof) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -154,7 +154,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Integers::above(0))
             ->then(function($position) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -172,7 +172,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Integers::above(0))
             ->then(function($position) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -193,7 +193,7 @@ class ToPsr7Test extends TestCase
         $this
             ->forAll(
                 Set\Elements::of(null, \SEEK_CUR, \SEEK_SET),
-                Set\Integers::above(0)
+                Set\Integers::above(0),
             )
             ->then(function($whence, $offset) {
                 switch ($whence) {
@@ -211,7 +211,7 @@ class ToPsr7Test extends TestCase
                 }
 
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -220,7 +220,7 @@ class ToPsr7Test extends TestCase
                         $this->callback(static function($position) use ($offset) {
                             return $position->toInt() === $offset;
                         }),
-                        $mode
+                        $mode,
                     );
 
                 $this->assertNull($stream->seek($offset, $whence));
@@ -233,7 +233,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Integers::above(0))
             ->then(function($offset) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->never())
@@ -249,7 +249,7 @@ class ToPsr7Test extends TestCase
     public function testRewind()
     {
         $stream = new ToPsr7(
-            $inner = $this->createMock(Readable::class)
+            $inner = $this->createMock(Readable::class),
         );
         $inner
             ->expects($this->once())
@@ -276,7 +276,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Elements::of(true, false))
             ->then(function($closed) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -293,7 +293,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Unicode::strings(), Set\Integers::above(0))
             ->then(function($content, $length) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -311,7 +311,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Unicode::strings())
             ->then(function($content) {
                 $stream = new ToPsr7(
-                    $inner = $this->createMock(Readable::class)
+                    $inner = $this->createMock(Readable::class),
                 );
                 $inner
                     ->expects($this->once())
@@ -329,7 +329,7 @@ class ToPsr7Test extends TestCase
             ->forAll(Set\Unicode::strings())
             ->then(function($key) {
                 $stream = new ToPsr7(
-                    $this->createMock(Readable::class)
+                    $this->createMock(Readable::class),
                 );
 
                 $this->assertNull($stream->getMetadata($key));

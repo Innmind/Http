@@ -180,7 +180,7 @@ class ServerRequestFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             ServerRequestFactoryInterface::class,
-            ServerRequestFactory::default(new Clock)
+            ServerRequestFactory::default(new Clock),
         );
     }
 }

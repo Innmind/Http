@@ -17,7 +17,7 @@ class LinkFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new LinkFactory
+            new LinkFactory,
         );
     }
 

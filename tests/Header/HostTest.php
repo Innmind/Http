@@ -21,7 +21,7 @@ class HostTest extends TestCase
     public function testInterface()
     {
         $h = new Host(
-            $av = new HostValue(UrlHost::of('example.com'), Port::none())
+            $av = new HostValue(UrlHost::of('example.com'), Port::none()),
         );
 
         $this->assertInstanceOf(Header::class, $h);

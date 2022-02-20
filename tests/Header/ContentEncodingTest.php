@@ -17,7 +17,7 @@ class ContentEncodingTest extends TestCase
     public function testInterface()
     {
         $h = new ContentEncoding(
-            $ce = new ContentEncodingValue('compress')
+            $ce = new ContentEncodingValue('compress'),
         );
 
         $this->assertInstanceOf(Header::class, $h);
