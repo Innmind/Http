@@ -11,7 +11,6 @@ use Innmind\Immutable\{
     Sequence,
     Maybe,
 };
-use function Innmind\Immutable\join;
 
 /**
  * @psalm-immutable
@@ -88,7 +87,7 @@ final class LinkValue implements Value
         $parameters = $this->parameters->values()->map(
             static fn($paramater) => $paramater->toString(),
         );
-        $parameters = join(';', $parameters);
+        $parameters = Str::of(';')->join($parameters);
         $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
         $link = Str::of('<%s>; rel="%s"')->sprintf($this->url->toString(), $this->rel);
 

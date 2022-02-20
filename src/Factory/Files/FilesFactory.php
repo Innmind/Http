@@ -97,7 +97,7 @@ final class FilesFactory implements FilesFactoryInterface
         return Either::right(File\File::named(
             $name,
             Content\AtPath::of(Path::of($path)),
-            MediaType::of($media)->match(
+            MediaType::maybe($media)->match(
                 static fn($media) => $media,
                 static fn() => MediaType::null(),
             ),

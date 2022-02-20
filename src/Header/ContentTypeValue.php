@@ -9,7 +9,6 @@ use Innmind\Immutable\{
     Map,
     Maybe,
 };
-use function Innmind\Immutable\join;
 
 /**
  * @psalm-immutable
@@ -86,7 +85,7 @@ final class ContentTypeValue implements Value
         $parameters = $this->parameters->values()->map(
             static fn($paramater) => $paramater->toString(),
         );
-        $parameters = join(';', $parameters);
+        $parameters = Str::of(';')->join($parameters);
         $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
 
         return Str::of($this->type)

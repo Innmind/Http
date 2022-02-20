@@ -44,20 +44,20 @@ class FilesFactoryTest extends TestCase
 
         $this->assertInstanceOf(Files::class, $f);
         $this->assertSame('foo.txt', $f->get('file1')->match(
-            static fn() => null,
             static fn($file) => $file->name()->toString(),
+            static fn() => null,
         ));
         $this->assertSame('foo', $f->get('file1')->match(
-            static fn() => null,
             static fn($file) => $file->content()->toString(),
+            static fn() => null,
         ));
         $this->assertSame('text/plain', $f->get('file1')->match(
-            static fn() => null,
             static fn($file) => $file->mediaType()->toString(),
+            static fn() => null,
         ));
         $this->assertInstanceOf(NotUploaded::class, $f->get('file2')->match(
-            static fn($status) => $status,
             static fn() => null,
+            static fn($status) => $status,
         ));
         @\unlink('/tmp/foo.txt');
     }

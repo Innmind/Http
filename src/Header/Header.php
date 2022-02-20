@@ -4,8 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
-use function Innmind\Immutable\join;
+use Innmind\Immutable\{
+    Set,
+    Str,
+};
 
 /**
  * @psalm-immutable
@@ -38,7 +40,7 @@ final class Header implements HeaderInterface
     public function toString(): string
     {
         $values = $this->values->map(static fn($value) => $value->toString());
-        $values = join(', ', $values);
+        $values = Str::of(', ')->join($values);
 
         return $values->prepend("{$this->name}: ")->toString();
     }

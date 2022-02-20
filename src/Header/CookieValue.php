@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Immutable\Map;
-use function Innmind\Immutable\join;
+use Innmind\Immutable\{
+    Map,
+    Str,
+};
 
 /**
  * @psalm-immutable
@@ -44,6 +46,6 @@ final class CookieValue implements Value
             static fn($paramater) => $paramater->toString(),
         );
 
-        return join('; ', $parameters)->toString();
+        return Str::of('; ')->join($parameters)->toString();
     }
 }

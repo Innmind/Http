@@ -87,7 +87,9 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             $user .= '@';
         }
 
-        /** @psalm-suppress MixedArgument */
+        /**
+         * @psalm-suppress ImpureFunctionCall
+         */
         return new ServerRequest\ServerRequest(
             Url::of(\sprintf(
                 '%s://%s%s%s',
@@ -129,7 +131,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 Factories::default($clock),
             ),
             static fn() => Content\OfStream::of(
-                new Readable\Stream(\fopen('php://input', 'r')),
+                Readable\Stream::of(\fopen('php://input', 'r')),
             ),
             Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),

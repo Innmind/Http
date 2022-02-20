@@ -15,16 +15,14 @@
         "issues": "http://github.com/Innmind/Http/issues"
     },
     "require": {
-        "php": "~8.0",
-        "innmind/url": "dev-next",
-        "innmind/immutable": "dev-next",
-        "innmind/filesystem": "dev-next",
-        "innmind/time-continuum": "dev-next",
-        "innmind/stream": "dev-next",
+        "php": "~8.1",
+        "innmind/url": "~4.0",
+        "innmind/immutable": "~4.0",
+        "innmind/filesystem": "~5.0",
+        "innmind/time-continuum": "~3.0",
+        "innmind/stream": "~3.0",
         "guzzlehttp/psr7": "^1.6"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Innmind\\Http\\": "src/"

@@ -19,16 +19,16 @@ class FilesTest extends TestCase
         $fs = new Files(Map::of(['foo', Either::right($f)]));
 
         $this->assertSame($f, $fs->get('foo')->match(
-            static fn() => null,
             static fn($foo) => $foo,
+            static fn() => null,
         ));
     }
 
     public function testReturnNothingWhenAccessingUnknownFile()
     {
         $this->assertNull((new Files)->get('foo')->match(
-            static fn() => null,
             static fn($foo) => $foo,
+            static fn() => null,
         ));
     }
 }
