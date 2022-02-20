@@ -8,26 +8,19 @@ use Innmind\Immutable\Maybe;
 /**
  * @psalm-immutable
  */
-final class Method
+enum Method
 {
-    private const GET = 'GET';
-    private const POST = 'POST';
-    private const PUT = 'PUT';
-    private const PATCH = 'PATCH';
-    private const DELETE = 'DELETE';
-    private const OPTIONS = 'OPTIONS';
-    private const TRACE = 'TRACE';
-    private const CONNECT = 'CONNECT';
-    private const HEAD = 'HEAD';
-    private const LINK = 'LINK';
-    private const UNLINK = 'UNLINK';
-
-    private string $method;
-
-    private function __construct(string $method)
-    {
-        $this->method = $method;
-    }
+    case get;
+    case post;
+    case put;
+    case patch;
+    case delete;
+    case options;
+    case trace;
+    case connect;
+    case head;
+    case link;
+    case unlink;
 
     /**
      * @psalm-pure
@@ -36,17 +29,17 @@ final class Method
     public static function of(string $method): self
     {
         return match ($method) {
-            self::GET => self::get(),
-            self::POST => self::post(),
-            self::PUT => self::put(),
-            self::PATCH => self::patch(),
-            self::DELETE => self::delete(),
-            self::OPTIONS => self::options(),
-            self::TRACE => self::trace(),
-            self::CONNECT => self::connect(),
-            self::HEAD => self::head(),
-            self::LINK => self::link(),
-            self::UNLINK => self::unlink(),
+            'GET' => self::get,
+            'POST' => self::post,
+            'PUT' => self::put,
+            'PATCH' => self::patch,
+            'DELETE' => self::delete,
+            'OPTIONS' => self::options,
+            'TRACE' => self::trace,
+            'CONNECT' => self::connect,
+            'HEAD' => self::head,
+            'LINK' => self::link,
+            'UNLINK' => self::unlink,
         };
     }
 
@@ -65,101 +58,20 @@ final class Method
         }
     }
 
-    /**
-     * @psalm-pure
-     */
-    public static function get(): self
-    {
-        return new self(self::GET);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function post(): self
-    {
-        return new self(self::POST);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function put(): self
-    {
-        return new self(self::PUT);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function patch(): self
-    {
-        return new self(self::PATCH);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function delete(): self
-    {
-        return new self(self::DELETE);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function options(): self
-    {
-        return new self(self::OPTIONS);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function trace(): self
-    {
-        return new self(self::TRACE);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function connect(): self
-    {
-        return new self(self::CONNECT);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function head(): self
-    {
-        return new self(self::HEAD);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function link(): self
-    {
-        return new self(self::LINK);
-    }
-
-    /**
-     * @psalm-pure
-     */
-    public static function unlink(): self
-    {
-        return new self(self::UNLINK);
-    }
-
-    public function equals(self $other): bool
-    {
-        return $this->toString() === $other->toString();
-    }
-
     public function toString(): string
     {
-        return $this->method;
+        return match ($this) {
+            self::get => 'GET',
+            self::post => 'POST',
+            self::put => 'PUT',
+            self::patch => 'PATCH',
+            self::delete => 'DELETE',
+            self::options => 'OPTIONS',
+            self::trace => 'TRACE',
+            self::connect => 'CONNECT',
+            self::head => 'HEAD',
+            self::link => 'LINK',
+            self::unlink => 'UNLINK',
+        };
     }
 }

@@ -21,7 +21,7 @@ class RequestTest extends TestCase
     {
         $r = new Request(
             $url = Url::of('example.com'),
-            $method = Method::get(),
+            $method = Method::get,
             $protocol = new ProtocolVersion(2, 0),
             $headers = Headers::of(),
             $body = $this->createMock(Content::class),
@@ -40,7 +40,7 @@ class RequestTest extends TestCase
     {
         $request = new Request(
             Url::of('example.com'),
-            Method::get(),
+            Method::get,
             new ProtocolVersion(2, 0),
         );
 

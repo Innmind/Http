@@ -23,7 +23,7 @@ class StringableTest extends TestCase
     {
         $request = new Request(
             $url = Url::of('http://example.com/foo/bar?query=string'),
-            Method::post(),
+            Method::post,
             new ProtocolVersion(2, 0),
             Headers::of(
                 new ContentType(
