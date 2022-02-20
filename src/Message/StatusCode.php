@@ -10,7 +10,7 @@ enum StatusCode
 {
     case continue;
     case switchingProtocols;
-    case processing;
+    case processing; // RFC2518
     case ok;
     case created;
     case accepted;
@@ -18,18 +18,18 @@ enum StatusCode
     case noContent;
     case resetContent;
     case partialContent;
-    case multiStatus;
-    case alreadyReported;
-    case imUsed;
+    case multiStatus; // RFC4918
+    case alreadyReported; // RFC5842
+    case imUsed; // RFC3229
     case multipleChoices;
     case movedPermanently;
     case found;
     case seeOther;
     case notModified;
     case useProxy;
-    case reserved;
+    case reserved; // no longer used (was 'Switch Proxy')
     case temporaryRedirect;
-    case permanentlyRedirect;
+    case permanentlyRedirect; // RFC7238
     case badRequest;
     case unauthorized;
     case paymentRequired;
@@ -48,40 +48,40 @@ enum StatusCode
     case unsupportedMediaType;
     case requestedRangeNotSatisfiable;
     case expectationFailed;
-    case iAmATeapot;
-    case unprocessableEntity;
-    case locked;
-    case failedDependency;
-    case reservedForWebdavAdvancedCollectionsExpiredProposal;
-    case upgradeRequired;
-    case preconditionRequired;
-    case tooManyRequests;
-    case requestHeaderFieldsTooLarge;
-    case noResponse;
+    case iAmATeapot; // RFC2324
+    case unprocessableEntity; // RFC4918
+    case locked; // RFC4918
+    case failedDependency; // RFC4918
+    case reservedForWebdavAdvancedCollectionsExpiredProposal; // RFC2817
+    case upgradeRequired; // RFC2817
+    case preconditionRequired; // RFC6585
+    case tooManyRequests; // RFC6585
+    case requestHeaderFieldsTooLarge; // RFC6585
+    case noResponse; // nginx
     case unavailableForLegalReasons;
-    case sslCertificateError;
-    case sslCertificateRequired;
-    case httpRequestSentToHttpsPort;
-    case clientClosedRequest;
+    case sslCertificateError; // nginx
+    case sslCertificateRequired; // nginx
+    case httpRequestSentToHttpsPort; // nginx
+    case clientClosedRequest; // nginx
     case internalServerError;
     case notImplemented;
     case badGateway;
     case serviceUnavailable;
     case gatewayTimeout;
     case versionNotSupported;
-    case variantAlsoNegotiatesExperimental;
-    case insufficientStorage;
-    case loopDetected;
-    case notExtended;
+    case variantAlsoNegotiatesExperimental; // RFC2295
+    case insufficientStorage; // RFC4918
+    case loopDetected; // RFC5842
+    case notExtended; // RFC2774
     case networkAuthenticationRequired;
-    case unknownError;
-    case webServerIsDown;
-    case connectionTimedOut;
-    case originIsUnreachable;
-    case aTimeoutOccured;
-    case sslHandshakeFailed;
-    case invalidSslCertificate;
-    case railgunError;
+    case unknownError; // cloudflare
+    case webServerIsDown; // cloudflare
+    case connectionTimedOut; // cloudflare
+    case originIsUnreachable; // cloudflare
+    case aTimeoutOccured; // cloudflare
+    case sslHandshakeFailed; // cloudflare
+    case invalidSslCertificate; // cloudflare
+    case railgunError; // cloudflare
 
     /**
      * @psalm-pure
@@ -93,7 +93,7 @@ enum StatusCode
         return match ($code) {
             100 => self::continue,
             101 => self::switchingProtocols,
-            102 => self::processing, // RFC2518
+            102 => self::processing,
             200 => self::ok,
             201 => self::created,
             202 => self::accepted,
@@ -101,9 +101,9 @@ enum StatusCode
             204 => self::noContent,
             205 => self::resetContent,
             206 => self::partialContent,
-            207 => self::multiStatus, // RFC4918
-            208 => self::alreadyReported, // RFC5842
-            226 => self::imUsed, // RFC3229
+            207 => self::multiStatus,
+            208 => self::alreadyReported,
+            226 => self::imUsed,
             300 => self::multipleChoices,
             301 => self::movedPermanently,
             302 => self::found,
@@ -112,7 +112,7 @@ enum StatusCode
             305 => self::useProxy,
             306 => self::reserved,
             307 => self::temporaryRedirect,
-            308 => self::permanentlyRedirect, // RFC7238
+            308 => self::permanentlyRedirect,
             400 => self::badRequest,
             401 => self::unauthorized,
             402 => self::paymentRequired,
@@ -131,40 +131,40 @@ enum StatusCode
             415 => self::unsupportedMediaType,
             416 => self::requestedRangeNotSatisfiable,
             417 => self::expectationFailed,
-            418 => self::iAmATeapot, // RFC2324
-            422 => self::unprocessableEntity, // RFC4918
-            423 => self::locked, // RFC4918
-            424 => self::failedDependency, // RFC4918
-            425 => self::reservedForWebdavAdvancedCollectionsExpiredProposal, // RFC2817
-            426 => self::upgradeRequired, // RFC2817
-            428 => self::preconditionRequired, // RFC6585
-            429 => self::tooManyRequests, // RFC6585
-            431 => self::requestHeaderFieldsTooLarge, // RFC6585
-            444 => self::noResponse, // nginx
+            418 => self::iAmATeapot,
+            422 => self::unprocessableEntity,
+            423 => self::locked,
+            424 => self::failedDependency,
+            425 => self::reservedForWebdavAdvancedCollectionsExpiredProposal,
+            426 => self::upgradeRequired,
+            428 => self::preconditionRequired,
+            429 => self::tooManyRequests,
+            431 => self::requestHeaderFieldsTooLarge,
+            444 => self::noResponse,
             451 => self::unavailableForLegalReasons,
-            495 => self::sslCertificateError, // nginx
-            496 => self::sslCertificateRequired, // nginx
-            497 => self::httpRequestSentToHttpsPort, // nginx
-            499 => self::clientClosedRequest, // nginx
+            495 => self::sslCertificateError,
+            496 => self::sslCertificateRequired,
+            497 => self::httpRequestSentToHttpsPort,
+            499 => self::clientClosedRequest,
             500 => self::internalServerError,
             501 => self::notImplemented,
             502 => self::badGateway,
             503 => self::serviceUnavailable,
             504 => self::gatewayTimeout,
             505 => self::versionNotSupported,
-            506 => self::variantAlsoNegotiatesExperimental, // RFC2295
-            507 => self::insufficientStorage, // RFC4918
-            508 => self::loopDetected, // RFC5842
-            510 => self::notExtended, // RFC2774
+            506 => self::variantAlsoNegotiatesExperimental,
+            507 => self::insufficientStorage,
+            508 => self::loopDetected,
+            510 => self::notExtended,
             511 => self::networkAuthenticationRequired,
-            520 => self::unknownError, // cloudflare
-            521 => self::webServerIsDown, // cloudflare
-            522 => self::connectionTimedOut, // cloudflare
-            523 => self::originIsUnreachable, // cloudflare
-            524 => self::aTimeoutOccured, // cloudflare
-            525 => self::sslHandshakeFailed, // cloudflare
-            526 => self::invalidSslCertificate, // cloudflare
-            527 => self::railgunError, // cloudflare
+            520 => self::unknownError,
+            521 => self::webServerIsDown,
+            522 => self::connectionTimedOut,
+            523 => self::originIsUnreachable,
+            524 => self::aTimeoutOccured,
+            525 => self::sslHandshakeFailed,
+            526 => self::invalidSslCertificate,
+            527 => self::railgunError,
         };
     }
 
@@ -173,7 +173,7 @@ enum StatusCode
         return match ($this) {
             self::continue => 100,
             self::switchingProtocols => 101,
-            self::processing => 102, // RFC2518
+            self::processing => 102,
             self::ok => 200,
             self::created => 201,
             self::accepted => 202,
@@ -181,9 +181,9 @@ enum StatusCode
             self::noContent => 204,
             self::resetContent => 205,
             self::partialContent => 206,
-            self::multiStatus => 207, // RFC4918
-            self::alreadyReported => 208, // RFC5842
-            self::imUsed => 226, // RFC3229
+            self::multiStatus => 207,
+            self::alreadyReported => 208,
+            self::imUsed => 226,
             self::multipleChoices => 300,
             self::movedPermanently => 301,
             self::found => 302,
@@ -192,7 +192,7 @@ enum StatusCode
             self::useProxy => 305,
             self::reserved => 306,
             self::temporaryRedirect => 307,
-            self::permanentlyRedirect => 308, // RFC7238
+            self::permanentlyRedirect => 308,
             self::badRequest => 400,
             self::unauthorized => 401,
             self::paymentRequired => 402,
@@ -211,40 +211,40 @@ enum StatusCode
             self::unsupportedMediaType => 415,
             self::requestedRangeNotSatisfiable => 416,
             self::expectationFailed => 417,
-            self::iAmATeapot => 418, // RFC2324
-            self::unprocessableEntity => 422, // RFC4918
-            self::locked => 423, // RFC4918
-            self::failedDependency => 424, // RFC4918
-            self::reservedForWebdavAdvancedCollectionsExpiredProposal => 425, // RFC2817
-            self::upgradeRequired => 426, // RFC2817
-            self::preconditionRequired => 428, // RFC6585
-            self::tooManyRequests => 429, // RFC6585
-            self::requestHeaderFieldsTooLarge => 431, // RFC6585
-            self::noResponse => 444, // nginx
+            self::iAmATeapot => 418,
+            self::unprocessableEntity => 422,
+            self::locked => 423,
+            self::failedDependency => 424,
+            self::reservedForWebdavAdvancedCollectionsExpiredProposal => 425,
+            self::upgradeRequired => 426,
+            self::preconditionRequired => 428,
+            self::tooManyRequests => 429,
+            self::requestHeaderFieldsTooLarge => 431,
+            self::noResponse => 444,
             self::unavailableForLegalReasons => 451,
-            self::sslCertificateError => 495, // nginx
-            self::sslCertificateRequired => 496, // nginx
-            self::httpRequestSentToHttpsPort => 497, // nginx
-            self::clientClosedRequest => 499, // nginx
+            self::sslCertificateError => 495,
+            self::sslCertificateRequired => 496,
+            self::httpRequestSentToHttpsPort => 497,
+            self::clientClosedRequest => 499,
             self::internalServerError => 500,
             self::notImplemented => 501,
             self::badGateway => 502,
             self::serviceUnavailable => 503,
             self::gatewayTimeout => 504,
             self::versionNotSupported => 505,
-            self::variantAlsoNegotiatesExperimental => 506, // RFC2295
-            self::insufficientStorage => 507, // RFC4918
-            self::loopDetected => 508, // RFC5842
-            self::notExtended => 510, // RFC2774
+            self::variantAlsoNegotiatesExperimental => 506,
+            self::insufficientStorage => 507,
+            self::loopDetected => 508,
+            self::notExtended => 510,
             self::networkAuthenticationRequired => 511,
-            self::unknownError => 520, // cloudflare
-            self::webServerIsDown => 521, // cloudflare
-            self::connectionTimedOut => 522, // cloudflare
-            self::originIsUnreachable => 523, // cloudflare
-            self::aTimeoutOccured => 524, // cloudflare
-            self::sslHandshakeFailed => 525, // cloudflare
-            self::invalidSslCertificate => 526, // cloudflare
-            self::railgunError => 527, // cloudflare
+            self::unknownError => 520,
+            self::webServerIsDown => 521,
+            self::connectionTimedOut => 522,
+            self::originIsUnreachable => 523,
+            self::aTimeoutOccured => 524,
+            self::sslHandshakeFailed => 525,
+            self::invalidSslCertificate => 526,
+            self::railgunError => 527,
         };
     }
 
