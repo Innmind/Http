@@ -41,7 +41,7 @@ final class ResponseSender implements Sender
                 $response->reasonPhrase()->toString(),
             ),
             true,
-            $response->statusCode()->value(),
+            $response->statusCode()->toInt(),
         );
 
         $headers = $response->headers();

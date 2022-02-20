@@ -23,7 +23,7 @@ class StringableTest extends TestCase
     public function testInterface()
     {
         $response = new Response(
-            $code = StatusCode::of('OK'),
+            $code = StatusCode::ok,
             $code->associatedReasonPhrase(),
             new ProtocolVersion(2, 0),
             Headers::of(
