@@ -28,7 +28,7 @@ class ServerRequestTest extends TestCase
         $r = new ServerRequest(
             $url = Url::of('example.com'),
             $method = Method::get,
-            $protocol = new ProtocolVersion(2, 0),
+            $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
             $body = $this->createMock(Content::class),
             $env = new Environment,
@@ -58,7 +58,7 @@ class ServerRequestTest extends TestCase
         $request = new ServerRequest(
             Url::of('example.com'),
             Method::get,
-            new ProtocolVersion(1, 1),
+            ProtocolVersion::v11,
         );
 
         $this->assertInstanceOf(

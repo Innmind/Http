@@ -20,7 +20,7 @@ class ResponseTest extends TestCase
     {
         $r = new Response(
             $status = StatusCode::ok,
-            $protocol = new ProtocolVersion(2, 0),
+            $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
             $body = $this->createMock(Content::class),
         );
@@ -37,7 +37,7 @@ class ResponseTest extends TestCase
     {
         $response = new Response(
             StatusCode::ok,
-            new ProtocolVersion(2, 0),
+            ProtocolVersion::v20,
         );
 
         $this->assertInstanceOf(

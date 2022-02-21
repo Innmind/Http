@@ -100,13 +100,13 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             )),
             Method::of($this->server['REQUEST_METHOD']),
             Maybe::all($protocol->get('major'), $protocol->get('minor'))
-                ->map(static fn(Str $major, Str $minor) => new ProtocolVersion(
+                ->flatMap(static fn(Str $major, Str $minor) => ProtocolVersion::maybe(
                     (int) $major->toString(),
                     (int) $minor->toString(),
                 ))
                 ->match(
                     static fn($protocol) => $protocol,
-                    static fn() => new ProtocolVersion(1, 1),
+                    static fn() => ProtocolVersion::v11,
                 ),
             ($this->headersFactory)(),
             ($this->bodyFactory)(),

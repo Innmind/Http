@@ -26,7 +26,7 @@ class StringableTest extends TestCase
         $request = new ServerRequest(
             $url = Url::of('http://example.com/foo/bar'),
             Method::post,
-            new ProtocolVersion(2, 0),
+            ProtocolVersion::v20,
             Headers::of(
                 new Host(
                     new HostValue(
@@ -64,7 +64,7 @@ RAW;
         $request = new ServerRequest(
             $url = Url::of('http://example.com/foo/bar'),
             Method::post,
-            new ProtocolVersion(2, 0),
+            ProtocolVersion::v20,
             Headers::of(
                 new Host(
                     new HostValue(
@@ -109,7 +109,7 @@ RAW;
         $request = new ServerRequest(
             $url = Url::of('http://example.com/foo/bar'),
             Method::post,
-            new ProtocolVersion(2, 0),
+            ProtocolVersion::v20,
             Headers::of(
                 new Host(
                     new HostValue(

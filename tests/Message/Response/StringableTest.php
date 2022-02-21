@@ -24,7 +24,7 @@ class StringableTest extends TestCase
     {
         $response = new Response(
             $code = StatusCode::ok,
-            new ProtocolVersion(2, 0),
+            ProtocolVersion::v20,
             Headers::of(
                 new ContentType(
                     new ContentTypeValue('text', 'plain'),
