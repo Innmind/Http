@@ -35,11 +35,9 @@
     "require-dev": {
         "psr/http-message": "^1.0",
         "phpunit/phpunit": "^9.5.14",
-        "symfony/http-foundation": "~4.4|~5.0",
         "vimeo/psalm": "~4.21",
         "nikic/php-parser": "^4.13.1",
         "innmind/black-box": "^4.9",
-        "symfony/mime": "^5.1",
         "innmind/coding-standard": "~2.0"
     }
 }
