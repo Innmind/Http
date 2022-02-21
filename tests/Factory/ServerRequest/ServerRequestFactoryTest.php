@@ -57,7 +57,7 @@ class ServerRequestFactoryTest extends TestCase
         $files
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Files);
+            ->willReturn(Files::of([]));
         $cookies
             ->expects($this->once())
             ->method('__invoke')
@@ -107,7 +107,7 @@ class ServerRequestFactoryTest extends TestCase
         $files
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Files);
+            ->willReturn(Files::of([]));
         $cookies
             ->expects($this->once())
             ->method('__invoke')
@@ -158,7 +158,7 @@ class ServerRequestFactoryTest extends TestCase
         $files
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Files);
+            ->willReturn(Files::of([]));
         $cookies
             ->expects($this->once())
             ->method('__invoke')

@@ -22,16 +22,15 @@ use Innmind\Immutable\{
 
 /**
  * @psalm-immutable
- * @psalm-type Global = array<string, array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string|array>, tmp_name: list<string|array>, error: list<int|array>, type: list<string|array>}>
+ *
+ * The structure of $_FILES is way too weird to describe it as type, so there is
+ * a bunch of annotations to suppress Psalm errors because it can't understand
+ * the data being passed around
  */
 final class FilesFactory implements FilesFactoryInterface
 {
-    /** @var Global */
     private array $files;
 
-    /**
-     * @param Global $files
-     */
     public function __construct(array $files)
     {
         $this->files = $files;
@@ -39,35 +38,50 @@ final class FilesFactory implements FilesFactoryInterface
 
     public function __invoke(): Files
     {
-        /** @var Map<string, Either<Status, File>> */
-        $files = Map::of();
+        $files = [];
 
-        foreach ($this->files as $name => $content) {
-            if (!\is_string($content['name'])) {
-                throw new LogicException('Nested uploads are not supported');
-            }
-
-            /**
-             * @psalm-suppress PossiblyInvalidArgument
-             * @psalm-suppress PossiblyInvalidCast
-             */
-            $files = ($files)($name, $this->buildFile(
-                $content['name'],
-                $content['tmp_name'],
-                $content['error'],
-                $content['type'],
-            ));
+        /** @var array $content */
+        foreach ($this->files as $key => $content) {
+            $files[$key] = $this->map($content);
         }
 
-        return new Files($files);
+        return Files::of($files);
     }
 
     public static function default(): self
     {
-        /** @var Global */
-        $files = $_FILES;
+        return new self($_FILES);
+    }
 
-        return new self($files);
+    private function map(array $content): array|Either
+    {
+        /** @psalm-suppress MixedArgument */
+        if (\is_string($content['name'])) {
+            return $this->buildFile(
+                $content['name'],
+                $content['tmp_name'],
+                $content['error'],
+                $content['type'],
+            );
+        }
+
+        $nested = [];
+
+        /** @psalm-suppress MixedAssignment */
+        foreach ($content['name'] as $key => $_) {
+            /**
+             * @psalm-suppress MixedArrayOffset
+             * @psalm-suppress MixedArrayAccess
+             */
+            $nested[$key] = $this->map([
+                'name' => $content['name'][$key],
+                'tmp_name' => $content['tmp_name'][$key],
+                'error' => $content['error'][$key],
+                'type' => $content['type'][$key],
+            ]);
+        }
+
+        return $nested;
     }
 
     /**

@@ -54,7 +54,7 @@ final class ServerRequest implements ServerRequestInterface
         $this->cookies = $cookies ?? new Cookies;
         $this->query = $query ?? Query::of([]);
         $this->form = $form ?? Form::of([]);
-        $this->files = $files ?? new Files;
+        $this->files = $files ?? Files::of([]);
     }
 
     public function protocolVersion(): ProtocolVersion
