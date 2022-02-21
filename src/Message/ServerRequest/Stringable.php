@@ -110,23 +110,7 @@ RAW;
             return '';
         }
 
-        /** @var list<Query\Parameter> */
-        $parameters = $this->query()->reduce(
-            [],
-            static function(array $parameters, Query\Parameter $parameter): array {
-                $parameters[] = $parameter;
-
-                return $parameters;
-            },
-        );
-        $query = [];
-
-        foreach ($parameters as $parameter) {
-            /** @psalm-suppress MixedAssignment */
-            $query[$parameter->name()] = $parameter->value();
-        }
-
-        return '?'.\rawurldecode(\http_build_query($query));
+        return '?'.\rawurldecode(\http_build_query($this->query()->data()));
     }
 
     private function bodyString(): string

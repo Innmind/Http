@@ -14,11 +14,11 @@ use Innmind\Http\{
  */
 final class QueryFactory implements QueryFactoryInterface
 {
-    /** @var array<int|string, string|array> */
+    /** @var array<string, string|array> */
     private array $get;
 
     /**
-     * @param array<int|string, string|array> $get
+     * @param array<string, string|array> $get
      */
     public function __construct(array $get)
     {
@@ -27,18 +27,12 @@ final class QueryFactory implements QueryFactoryInterface
 
     public function __invoke(): Query
     {
-        $queries = [];
-
-        foreach ($this->get as $name => $value) {
-            $queries[] = new Parameter((string) $name, $value);
-        }
-
-        return new Query(...$queries);
+        return Query::of($this->get);
     }
 
     public static function default(): self
     {
-        /** @var array<int|string, string|array> */
+        /** @var array<string, string|array> */
         $get = $_GET;
 
         return new self($get);

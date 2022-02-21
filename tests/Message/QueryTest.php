@@ -3,83 +3,108 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Query,
-    Message\Query\Parameter,
-};
-use Innmind\Immutable\SideEffect;
+use Innmind\Http\Message\Query;
 use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Query(
-            $p = new Parameter(
-                'foo',
-                '24',
-            ),
-        );
+        $query = Query::of([
+            42 => '24',
+            'foo' => 'bar',
+        ]);
 
-        $this->assertTrue($f->contains('foo'));
-        $this->assertFalse($f->contains('bar'));
-        $this->assertSame($p, $f->get('foo')->match(
-            static fn($foo) => $foo,
+        $this->assertFalse($query->contains('24'));
+        $this->assertTrue($query->contains(42));
+        $this->assertSame('24', $query->get(42)->match(
+            static fn($value) => $value,
             static fn() => null,
         ));
-        $this->assertSame(1, $f->count());
-    }
-
-    public function testOf()
-    {
-        $query = Query::of(new Parameter('foo', '24'));
-
-        $this->assertInstanceOf(Query::class, $query);
-        $this->assertTrue($query->contains('foo'));
+        $this->assertSame(2, $query->count());
+        $this->assertSame(
+            [
+                42 => '24',
+                'foo' => 'bar',
+            ],
+            $query->data(),
+        );
     }
 
     public function testReturnNothingWhenAccessingUnknownParameter()
     {
-        $this->assertNull((new Query)->get('foo')->match(
+        $this->assertNull(Query::of([])->get('foo')->match(
             static fn($foo) => $foo,
             static fn() => null,
         ));
     }
 
-    public function testForeach()
+    public function testList()
     {
-        $query = new Query(
-            new Parameter('foo', 'bar'),
-            new Parameter('bar', 'baz'),
+        $this->assertSame(
+            [1, 2, 3],
+            Query::of(['foo' => [1, 2, 3]])->list('foo')->match(
+                static fn($list) => $list->data(),
+                static fn() => null,
+            ),
         );
-
-        $called = 0;
-        $this->assertInstanceOf(
-            SideEffect::class,
-            $query->foreach(static function() use (&$called) {
-                ++$called;
-            }),
+        $this->assertNull(
+            Query::of(['foo' => 'bar'])->list('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
         );
-        $this->assertSame(2, $called);
+        $this->assertNull(
+            Query::of(['foo' => [0 => 1, 2 => 3]])->list('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
+        );
     }
 
-    public function testReduce()
+    public function testDictionary()
     {
-        $query = new Query(
-            new Parameter('foo', 'bar'),
-            new Parameter('bar', 'baz'),
+        $this->assertNull(
+            Query::of(['foo' => [1, 2, 3]])->dictionary('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
         );
-
-        $reduced = $query->reduce(
-            [],
-            static function($carry, $parameter) {
-                $carry[] = $parameter->name();
-                $carry[] = $parameter->value();
-
-                return $carry;
-            },
+        $this->assertNull(
+            Query::of(['foo' => 'bar'])->dictionary('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
         );
+        $this->assertSame(
+            [0 => 1, 2 => 3],
+            Query::of(['foo' => [0 => 1, 2 => 3]])->dictionary('foo')->match(
+                static fn($list) => $list->data(),
+                static fn() => null,
+            ),
+        );
+    }
 
-        $this->assertSame(['foo', 'bar', 'bar', 'baz'], $reduced);
+    public function testNestedGet()
+    {
+        $query = Query::of([
+            'foo' => [
+                'bar' => [
+                    'baz' => '42',
+                ],
+            ],
+        ]);
+
+        $this->assertSame(
+            '42',
+            $query
+                ->dictionary('foo')
+                ->flatMap(static fn($foo) => $foo->dictionary('bar'))
+                ->flatMap(static fn($bar) => $bar->get('baz'))
+                ->match(
+                    static fn($baz) => $baz,
+                    static fn() => null,
+                ),
+        );
     }
 }

@@ -27,11 +27,11 @@ class QueryFactoryTest extends TestCase
         $this->assertInstanceOf(Query::class, $q);
         $this->assertSame(2, $q->count());
         $this->assertSame('bar', $q->get('foo')->match(
-            static fn($foo) => $foo->value(),
+            static fn($foo) => $foo,
             static fn() => null,
         ));
         $this->assertSame('foo', $q->get('baz')->match(
-            static fn($baz) => $baz->value(),
+            static fn($baz) => $baz,
             static fn() => null,
         ));
     }

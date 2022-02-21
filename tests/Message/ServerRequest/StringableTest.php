@@ -76,11 +76,11 @@ RAW;
             Lines::ofContent('some body'),
             null,
             null,
-            Query::of(
-                new Query\Parameter('foo', 'bar'),
-                new Query\Parameter('bar', '42'),
-                new Query\Parameter('baz', ['foo']),
-            ),
+            Query::of([
+                'foo' => 'bar',
+                'bar' => '42',
+                'baz' => ['foo'],
+            ]),
         );
         $stringable = new Stringable($request);
 

@@ -52,7 +52,7 @@ final class ServerRequest implements ServerRequestInterface
         $this->body = $body ?? Content\Lines::ofContent('');
         $this->environment = $environment ?? new Environment;
         $this->cookies = $cookies ?? new Cookies;
-        $this->query = $query ?? new Query;
+        $this->query = $query ?? Query::of([]);
         $this->form = $form ?? Form::of([]);
         $this->files = $files ?? new Files;
     }
