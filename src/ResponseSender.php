@@ -14,17 +14,28 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
-use Innmind\Filesystem\Adapter\Chunk;
+use Innmind\Filesystem\{
+    Adapter\Chunk,
+    File,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+};
 
 final class ResponseSender implements Sender
 {
     private Clock $clock;
-    private Chunk $chunk;
+    /** @var callable(File\Content): Sequence<Str> */
+    private $chunk;
 
-    public function __construct(Clock $clock)
+    /**
+     * @param callable(File\Content): Sequence<Str> $chunk
+     */
+    public function __construct(Clock $clock, callable $chunk = new Chunk)
     {
         $this->clock = $clock;
-        $this->chunk = new Chunk;
+        $this->chunk = $chunk;
     }
 
     public function __invoke(Response $response): void
