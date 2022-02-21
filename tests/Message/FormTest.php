@@ -3,83 +3,108 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Form,
-    Message\Form\Parameter,
-};
-use Innmind\Immutable\SideEffect;
+use Innmind\Http\Message\Form;
 use PHPUnit\Framework\TestCase;
 
 class FormTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Form(
-            $p = new Parameter(
-                '42',
-                '24',
-            ),
-        );
+        $form = Form::of([
+            42 => '24',
+            'foo' => 'bar',
+        ]);
 
-        $this->assertFalse($f->contains('24'));
-        $this->assertTrue($f->contains('42'));
-        $this->assertSame($p, $f->get('42')->match(
-            static fn($parameter) => $parameter,
+        $this->assertFalse($form->contains('24'));
+        $this->assertTrue($form->contains(42));
+        $this->assertSame('24', $form->get(42)->match(
+            static fn($value) => $value,
             static fn() => null,
         ));
-        $this->assertSame(1, $f->count());
-    }
-
-    public function testOf()
-    {
-        $form = Form::of(new Parameter('42', '24'));
-
-        $this->assertInstanceOf(Form::class, $form);
-        $this->assertTrue($form->contains('42'));
+        $this->assertSame(2, $form->count());
+        $this->assertSame(
+            [
+                42 => '24',
+                'foo' => 'bar',
+            ],
+            $form->data(),
+        );
     }
 
     public function testReturnNothingWhenAccessingUnknownParameter()
     {
-        $this->assertNull((new Form)->get('foo')->match(
+        $this->assertNull(Form::of([])->get('foo')->match(
             static fn($foo) => $foo,
             static fn() => null,
         ));
     }
 
-    public function testForeach()
+    public function testList()
     {
-        $form = new Form(
-            new Parameter('foo', 'bar'),
-            new Parameter('bar', 'baz'),
+        $this->assertSame(
+            [1, 2, 3],
+            Form::of(['foo' => [1, 2, 3]])->list('foo')->match(
+                static fn($list) => $list->data(),
+                static fn() => null,
+            ),
         );
-
-        $called = 0;
-        $this->assertInstanceOf(
-            SideEffect::class,
-            $form->foreach(static function() use (&$called) {
-                ++$called;
-            }),
+        $this->assertNull(
+            Form::of(['foo' => 'bar'])->list('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
         );
-        $this->assertSame(2, $called);
+        $this->assertNull(
+            Form::of(['foo' => [0 => 1, 2 => 3]])->list('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
+        );
     }
 
-    public function testReduce()
+    public function testDictionary()
     {
-        $form = new Form(
-            new Parameter('foo', 'bar'),
-            new Parameter('bar', 'baz'),
+        $this->assertNull(
+            Form::of(['foo' => [1, 2, 3]])->dictionary('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
         );
-
-        $reduced = $form->reduce(
-            [],
-            static function($carry, $parameter) {
-                $carry[] = $parameter->name();
-                $carry[] = $parameter->value();
-
-                return $carry;
-            },
+        $this->assertNull(
+            Form::of(['foo' => 'bar'])->dictionary('foo')->match(
+                static fn($list) => $list,
+                static fn() => null,
+            ),
         );
+        $this->assertSame(
+            [0 => 1, 2 => 3],
+            Form::of(['foo' => [0 => 1, 2 => 3]])->dictionary('foo')->match(
+                static fn($list) => $list->data(),
+                static fn() => null,
+            ),
+        );
+    }
 
-        $this->assertSame(['foo', 'bar', 'bar', 'baz'], $reduced);
+    public function testNestedGet()
+    {
+        $form = Form::of([
+            'foo' => [
+                'bar' => [
+                    'baz' => '42',
+                ],
+            ],
+        ]);
+
+        $this->assertSame(
+            '42',
+            $form
+                ->dictionary('foo')
+                ->flatMap(static fn($foo) => $foo->dictionary('bar'))
+                ->flatMap(static fn($bar) => $bar->get('baz'))
+                ->match(
+                    static fn($baz) => $baz,
+                    static fn() => null,
+                ),
+        );
     }
 }

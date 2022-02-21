@@ -14,11 +14,11 @@ use Innmind\Http\{
  */
 final class FormFactory implements FormFactoryInterface
 {
-    /** @var array<int|string, string|array> */
+    /** @var array<string, string|array> */
     private array $post;
 
     /**
-     * @param array<int|string, string|array> $post
+     * @param array<string, string|array> $post
      */
     public function __construct(array $post)
     {
@@ -27,18 +27,12 @@ final class FormFactory implements FormFactoryInterface
 
     public function __invoke(): Form
     {
-        $forms = [];
-
-        foreach ($this->post as $name => $value) {
-            $forms[] = new Parameter((string) $name, $value);
-        }
-
-        return new Form(...$forms);
+        return Form::of($this->post);
     }
 
     public static function default(): self
     {
-        /** @var array<int|string, string|array> */
+        /** @var array<string, string|array> */
         $post = $_POST;
 
         return new self($post);

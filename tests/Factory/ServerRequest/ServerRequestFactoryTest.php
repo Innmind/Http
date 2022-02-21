@@ -53,7 +53,7 @@ class ServerRequestFactoryTest extends TestCase
         $form
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Form::of());
+            ->willReturn(Form::of([]));
         $files
             ->expects($this->once())
             ->method('__invoke')
@@ -103,7 +103,7 @@ class ServerRequestFactoryTest extends TestCase
         $form
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Form::of());
+            ->willReturn(Form::of([]));
         $files
             ->expects($this->once())
             ->method('__invoke')
@@ -154,7 +154,7 @@ class ServerRequestFactoryTest extends TestCase
         $form
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Form::of());
+            ->willReturn(Form::of([]));
         $files
             ->expects($this->once())
             ->method('__invoke')

@@ -34,7 +34,7 @@ class ServerRequestTest extends TestCase
             $env = new Environment,
             $cookies = new Cookies,
             $query = Query::of(),
-            $form = Form::of(),
+            $form = Form::of([]),
             $files = new Files,
         );
 

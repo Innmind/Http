@@ -141,21 +141,6 @@ RAW;
             return '';
         }
 
-        /** @var list<Form\Parameter> */
-        $parameters = $this->form()->reduce(
-            [],
-            static function(array $parameters, Form\Parameter $parameter): array {
-                $parameters[] = $parameter;
-
-                return $parameters;
-            },
-        );
-        $form = [];
-
-        foreach ($parameters as $parameter) {
-            $form[$parameter->name()] = $parameter->value();
-        }
-
-        return \rawurldecode(\http_build_query($form));
+        return \rawurldecode(\http_build_query($this->form()->data()));
     }
 }

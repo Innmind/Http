@@ -122,14 +122,11 @@ RAW;
             null,
             null,
             null,
-            Form::of(
-                new Form\Parameter('foo', 'bar'),
-                new Form\Parameter('bar', '42'),
-                new Form\Parameter(
-                    'baz',
-                    ['foo'],
-                ),
-            ),
+            Form::of([
+                'foo' => 'bar',
+                'bar' => '42',
+                'baz' => ['foo'],
+            ]),
         );
         $stringable = new Stringable($request);
 

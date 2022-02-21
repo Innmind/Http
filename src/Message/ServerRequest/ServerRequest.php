@@ -53,7 +53,7 @@ final class ServerRequest implements ServerRequestInterface
         $this->environment = $environment ?? new Environment;
         $this->cookies = $cookies ?? new Cookies;
         $this->query = $query ?? new Query;
-        $this->form = $form ?? new Form;
+        $this->form = $form ?? Form::of([]);
         $this->files = $files ?? new Files;
     }
 
