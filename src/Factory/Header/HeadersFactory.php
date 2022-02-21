@@ -43,7 +43,7 @@ final class HeadersFactory implements HeadersFactoryInterface
             );
         }
 
-        return new Headers(...$headers);
+        return Headers::of(...$headers);
     }
 
     public static function default(HeaderFactoryInterface $headerFactory): self

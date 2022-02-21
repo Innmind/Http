@@ -20,7 +20,7 @@ class HeadersTest extends TestCase
 {
     public function testInterface()
     {
-        $hs = new Headers(
+        $hs = Headers::of(
             $ct = new ContentType(
                 new ContentTypeValue(
                     'application',
@@ -60,7 +60,7 @@ class HeadersTest extends TestCase
 
     public function testReturnNothingWhenAccessingUnknownHeader()
     {
-        $this->assertNull((new Headers)->get('foo')->match(
+        $this->assertNull(Headers::of()->get('foo')->match(
             static fn($header) => $header,
             static fn() => null,
         ));
@@ -68,7 +68,7 @@ class HeadersTest extends TestCase
 
     public function testAdd()
     {
-        $headers1 = new Headers;
+        $headers1 = Headers::of();
         $headers2 = ($headers1)(ContentType::of('application', 'json'));
         $headers3 = ($headers2)($header = ContentType::of('application', 'json'));
 

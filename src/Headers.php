@@ -18,10 +18,7 @@ final class Headers implements \Countable
     /** @var Map<string, Header> */
     private Map $headers;
 
-    /**
-     * @no-named-arguments
-     */
-    public function __construct(Header ...$headers)
+    private function __construct(Header ...$headers)
     {
         /** @var Map<string, Header> */
         $this->headers = Map::of();

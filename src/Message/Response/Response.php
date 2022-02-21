@@ -29,7 +29,7 @@ final class Response implements ResponseInterface
         Content $body = null,
     ) {
         $this->protocolVersion = $protocolVersion;
-        $this->headers = $headers ?? new Headers;
+        $this->headers = $headers ?? Headers::of();
         $this->body = $body ?? Content\Lines::ofContent('');
         $this->statusCode = $statusCode;
     }

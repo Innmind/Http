@@ -48,7 +48,7 @@ final class ServerRequest implements ServerRequestInterface
         $this->url = $url;
         $this->method = $method;
         $this->protocolVersion = $protocolVersion;
-        $this->headers = $headers ?? new Headers;
+        $this->headers = $headers ?? Headers::of();
         $this->body = $body ?? Content\Lines::ofContent('');
         $this->environment = $environment ?? new Environment;
         $this->cookies = $cookies ?? new Cookies;
