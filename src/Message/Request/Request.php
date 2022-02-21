@@ -34,7 +34,7 @@ final class Request implements RequestInterface
         $this->method = $method;
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? Headers::of();
-        $this->body = $body ?? Content\Lines::ofContent('');
+        $this->body = $body ?? Content\None::of();
     }
 
     public function url(): Url
