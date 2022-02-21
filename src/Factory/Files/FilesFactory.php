@@ -6,13 +6,7 @@ namespace Innmind\Http\Factory\Files;
 use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\ExceedsFormMaxFileSize,
-    File\ExceedsIniMaxFileSize,
-    File\NoTemporaryDirectory,
-    File\NotUploaded,
-    File\PartiallyUploaded,
-    File\StoppedByExtension,
-    File\WriteFailed,
+    File\Status,
     Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
@@ -28,7 +22,6 @@ use Innmind\Immutable\{
 
 /**
  * @psalm-immutable
- * @psalm-import-type Status from Files
  * @psalm-type Global = array<string, array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string|array>, tmp_name: list<string|array>, error: list<int|array>, type: list<string|array>}>
  */
 final class FilesFactory implements FilesFactoryInterface
@@ -104,20 +97,17 @@ final class FilesFactory implements FilesFactoryInterface
         ));
     }
 
-    /**
-     * @return ?Status
-     */
-    private function status(int $status)
+    private function status(int $status): ?Status
     {
         return match ($status) {
-            \UPLOAD_ERR_FORM_SIZE => new ExceedsFormMaxFileSize,
-            \UPLOAD_ERR_INI_SIZE => new ExceedsIniMaxFileSize,
-            \UPLOAD_ERR_NO_TMP_DIR => new NoTemporaryDirectory,
-            \UPLOAD_ERR_NO_FILE => new NotUploaded,
+            \UPLOAD_ERR_FORM_SIZE => Status::exceedsFormMaxFileSize,
+            \UPLOAD_ERR_INI_SIZE => Status::exceedsIniMaxFileSize,
+            \UPLOAD_ERR_NO_TMP_DIR => Status::noTemporaryDirectory,
+            \UPLOAD_ERR_NO_FILE => Status::notUploaded,
             \UPLOAD_ERR_OK => null,
-            \UPLOAD_ERR_PARTIAL => new PartiallyUploaded,
-            \UPLOAD_ERR_EXTENSION => new StoppedByExtension,
-            \UPLOAD_ERR_CANT_WRITE => new WriteFailed,
+            \UPLOAD_ERR_PARTIAL => Status::partiallyUploaded,
+            \UPLOAD_ERR_EXTENSION => Status::stoppedByExtension,
+            \UPLOAD_ERR_CANT_WRITE => Status::writeFailed,
         };
     }
 }

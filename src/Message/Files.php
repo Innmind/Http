@@ -3,15 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\File\{
-    ExceedsFormMaxFileSize,
-    ExceedsIniMaxFileSize,
-    NoTemporaryDirectory,
-    NotUploaded,
-    PartiallyUploaded,
-    StoppedByExtension,
-    WriteFailed,
-};
+use Innmind\Http\File\Status;
 use Innmind\Filesystem\File;
 use Innmind\Immutable\{
     Map,
@@ -19,7 +11,6 @@ use Innmind\Immutable\{
 };
 
 /**
- * @psalm-type Status = ExceedsFormMaxFileSize|ExceedsIniMaxFileSize|NoTemporaryDirectory|NotUploaded|PartiallyUploaded|StoppedByExtension|WriteFailed
  * @psalm-immutable
  */
 final class Files
@@ -43,7 +34,7 @@ final class Files
         /** @var Either<Status, File> */
         return $this->files->get($name)->match(
             static fn($either) => $either,
-            static fn() => Either::left(new NotUploaded),
+            static fn() => Either::left(Status::notUploaded),
         );
     }
 }

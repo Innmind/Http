@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\Files\FilesFactory,
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\NotUploaded,
+    File\Status,
 };
 use Innmind\Immutable\{
     Map,
@@ -55,7 +55,7 @@ class FilesFactoryTest extends TestCase
             static fn($file) => $file->mediaType()->toString(),
             static fn() => null,
         ));
-        $this->assertInstanceOf(NotUploaded::class, $f->get('file2')->match(
+        $this->assertSame(Status::notUploaded, $f->get('file2')->match(
             static fn() => null,
             static fn($status) => $status,
         ));
