@@ -17,6 +17,9 @@ final class Environment implements \Countable
     /** @var Map<string, string> */
     private Map $variables;
 
+    /**
+     * @param Map<string, string>|null $variables
+     */
     public function __construct(Map $variables = null)
     {
         /** @var Map<string, string> */

@@ -17,6 +17,9 @@ final class Cookies implements \Countable
     /** @var Map<string, string> */
     private Map $cookies;
 
+    /**
+     * @param Map<string, string>|null $cookies
+     */
     public function __construct(Map $cookies = null)
     {
         /** @var Map<string, string> */
