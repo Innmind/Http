@@ -14,7 +14,7 @@ class CookiesFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new CookiesFactory;
+        $f = CookiesFactory::default();
 
         $this->assertInstanceOf(CookiesFactoryInterface::class, $f);
 

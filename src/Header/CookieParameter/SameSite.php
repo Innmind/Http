@@ -3,29 +3,48 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\CookieParameter;
 
-use Innmind\Http\{
-    Header\Parameter\Parameter,
-    Exception\DomainException,
-};
+use Innmind\Http\Header\Parameter;
 
-final class SameSite extends Parameter
+/**
+ * @psalm-immutable
+ */
+final class SameSite implements Parameter
 {
-    public function __construct(string $value)
-    {
-        if (!\in_array($value, ['Strict', 'Lax'], true)) {
-            throw new DomainException($value);
-        }
+    private Parameter $parameter;
 
-        parent::__construct('SameSite', $value);
+    private function __construct(string $value)
+    {
+        $this->parameter = new Parameter\Parameter('SameSite', $value);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function strict(): self
     {
         return new self('Strict');
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function lax(): self
     {
         return new self('Lax');
+    }
+
+    public function name(): string
+    {
+        return $this->parameter->name();
+    }
+
+    public function value(): string
+    {
+        return $this->parameter->value();
+    }
+
+    public function toString(): string
+    {
+        return $this->parameter->toString();
     }
 }

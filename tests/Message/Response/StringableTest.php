@@ -15,7 +15,7 @@ use Innmind\Http\{
     Header\Allow,
     Header\AllowValue
 };
-use Innmind\Stream\Readable\Stream;
+use Innmind\Filesystem\File\Content\Lines;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -23,24 +23,22 @@ class StringableTest extends TestCase
     public function testInterface()
     {
         $response = new Response(
-            $code = StatusCode::of('OK'),
-            $code->associatedReasonPhrase(),
-            new ProtocolVersion(2, 0),
+            $code = StatusCode::ok,
+            ProtocolVersion::v20,
             Headers::of(
                 new ContentType(
-                    new ContentTypeValue('text', 'plain')
+                    new ContentTypeValue('text', 'plain'),
                 ),
                 new Allow(
-                    new AllowValue('GET')
-                )
+                    new AllowValue('GET'),
+                ),
             ),
-            Stream::ofContent('{"some":"json", "value":42}')
+            Lines::ofContent('{"some":"json", "value":42}'),
         );
         $stringable = new Stringable($response);
 
         $this->assertInstanceOf(ResponseInterface::class, $stringable);
         $this->assertSame($response->statusCode(), $stringable->statusCode());
-        $this->assertSame($response->reasonPhrase(), $stringable->reasonPhrase());
         $this->assertSame($response->protocolVersion(), $stringable->protocolVersion());
         $this->assertSame($response->headers(), $stringable->headers());
         $this->assertSame($response->body(), $stringable->body());

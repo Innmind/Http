@@ -4,37 +4,44 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\Allow,
     Header\AllowValue,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AllowFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class AllowFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'allow') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        /** @var list<AllowValue> */
         $values = $value
             ->split(',')
-            ->reduce(
-                [],
-                static function(array $carry, Str $allow): array {
-                    $carry[] = new AllowValue(
-                        $allow->trim()->toUpper()->toString(),
-                    );
+            ->map(static fn($allow) => $allow->trim()->toUpper()->toString())
+            ->map(static fn($allow) => AllowValue::of($allow));
 
-                    return $carry;
-                },
-            );
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new Allow);
+        }
 
-        return new Allow(...$values);
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(AllowValue ...$values) => new Allow(...$values),
+        );
     }
 }

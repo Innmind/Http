@@ -5,33 +5,31 @@ namespace Innmind\Http\Header;
 
 use Innmind\Immutable\{
     Map,
-    Sequence,
+    Str,
 };
-use function Innmind\Immutable\join;
 
-final class CookieValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class CookieValue implements Value
 {
     /** @var Map<string, Parameter> */
     private Map $parameters;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(Parameter ...$parameters)
     {
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         foreach ($parameters as $paramater) {
             $this->parameters = ($this->parameters)(
                 $paramater->name(),
-                $paramater
+                $paramater,
             );
         }
-
-        $parameters = $this->parameters->values()->toSequenceOf(
-            'string',
-            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
-        );
-
-        parent::__construct(join('; ', $parameters)->toString());
     }
 
     /**
@@ -40,5 +38,14 @@ final class CookieValue extends Value\Value
     public function parameters(): Map
     {
         return $this->parameters;
+    }
+
+    public function toString(): string
+    {
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+
+        return Str::of('; ')->join($parameters)->toString();
     }
 }

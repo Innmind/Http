@@ -3,30 +3,49 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-use Innmind\Http\Exception\HeaderNotFound;
 use Innmind\Immutable\{
     Str,
     Map,
+    SideEffect,
+    Maybe,
 };
 
+/**
+ * @psalm-immutable
+ */
 final class Headers implements \Countable
 {
-    /** @var Map<string, Header<Header\Value>> */
+    /** @var Map<string, Header> */
     private Map $headers;
 
-    public function __construct(Header ...$headers)
+    private function __construct(Header ...$headers)
     {
-        /** @var Map<string, Header<Header\Value>> */
-        $this->headers = Map::of('string', Header::class);
+        /** @var Map<string, Header> */
+        $this->headers = Map::of();
 
         foreach ($headers as $header) {
             $this->headers = ($this->headers)(
-                Str::of($header->name())->toLower()->toString(),
+                $this->normalize($header->name()),
                 $header,
             );
         }
     }
 
+    public function __invoke(Header $header): self
+    {
+        $self = clone $this;
+        $self->headers = ($self->headers)(
+            $this->normalize($header->name()),
+            $header,
+        );
+
+        return $self;
+    }
+
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
     public static function of(Header ...$headers): self
     {
         return new self(...$headers);
@@ -35,29 +54,24 @@ final class Headers implements \Countable
     /**
      * @param string $name Case insensitive
      *
-     * @throws HeaderNotFound
+     * @return Maybe<Header>
      */
-    public function get(string $name): Header
+    public function get(string $name): Maybe
     {
-        if (!$this->contains($name)) {
-            throw new HeaderNotFound($name);
-        }
-
-        return $this->headers->get(Str::of($name)->toLower()->toString());
+        return $this->headers->get($this->normalize($name));
     }
 
-    public function add(Header ...$headers): self
+    /**
+     * @template T of Header
+     *
+     * @param class-string<T> $type
+     *
+     * @return Maybe<T>
+     */
+    public function find(string $type): Maybe
     {
-        $self = clone $this;
-
-        foreach ($headers as $header) {
-            $self->headers = ($self->headers)(
-                Str::of($header->name())->toLower()->toString(),
-                $header,
-            );
-        }
-
-        return $self;
+        /** @var Maybe<T> */
+        return $this->headers->values()->find(static fn($header) => $header instanceof $type);
     }
 
     /**
@@ -67,15 +81,18 @@ final class Headers implements \Countable
      */
     public function contains(string $name): bool
     {
-        return $this->headers->contains(Str::of($name)->toLower()->toString());
+        return $this->get($name)->match(
+            static fn() => true,
+            static fn() => false,
+        );
     }
 
     /**
      * @param callable(Header): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->headers->values()->foreach($function);
+        return $this->headers->values()->foreach($function);
     }
 
     /**
@@ -91,8 +108,13 @@ final class Headers implements \Countable
         return $this->headers->values()->reduce($carry, $reducer);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->headers->size();
+    }
+
+    private function normalize(string $name): string
+    {
+        return Str::of($name)->toLower()->toString();
     }
 }

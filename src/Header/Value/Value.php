@@ -5,7 +5,10 @@ namespace Innmind\Http\Header\Value;
 
 use Innmind\Http\Header\Value as ValueInterface;
 
-class Value implements ValueInterface
+/**
+ * @psalm-immutable
+ */
+final class Value implements ValueInterface
 {
     private string $value;
 

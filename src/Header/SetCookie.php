@@ -4,20 +4,55 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
+use Innmind\Immutable\Set;
 
 /**
- * @extends Header<CookieValue>
- * @implements HeaderInterface<CookieValue>
+ * @psalm-immutable
  */
-final class SetCookie extends Header implements HeaderInterface
+final class SetCookie implements HeaderInterface
 {
+    private Header $header;
+    /** @var Set<CookieValue> */
+    private Set $cookies;
+
+    /**
+     * @no-named-arguments
+     */
     public function __construct(CookieValue ...$values)
     {
-        parent::__construct('Set-Cookie', ...$values);
+        $this->header = new Header('Set-Cookie', ...$values);
+        $this->cookies = Set::of(...$values);
     }
 
+    /**
+     * @no-named-arguments
+     * @psalm-pure
+     */
     public static function of(Parameter ...$values): self
     {
         return new self(new CookieValue(...$values));
+    }
+
+    public function name(): string
+    {
+        return $this->header->name();
+    }
+
+    public function values(): Set
+    {
+        return $this->header->values();
+    }
+
+    /**
+     * @return Set<CookieValue>
+     */
+    public function cookies(): Set
+    {
+        return $this->cookies;
+    }
+
+    public function toString(): string
+    {
+        return $this->header->toString();
     }
 }

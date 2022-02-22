@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentLengthFactory,
     Header\ContentLength,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +17,7 @@ class ContentLengthFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentLengthFactory
+            new ContentLengthFactory,
         );
     }
 
@@ -27,20 +26,23 @@ class ContentLengthFactoryTest extends TestCase
         $header = (new ContentLengthFactory)(
             Str::of('Content-Length'),
             Str::of('42'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentLength::class, $header);
         $this->assertSame('Content-Length: 42', $header->toString());
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new ContentLengthFactory)(
+        $this->assertNull((new ContentLengthFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

@@ -7,11 +7,13 @@ use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
     Str,
     Map,
-    Sequence,
+    Maybe,
 };
-use function Innmind\Immutable\join;
 
-final class ContentTypeValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class ContentTypeValue implements Value
 {
     private string $type;
     private string $subType;
@@ -21,11 +23,11 @@ final class ContentTypeValue extends Value\Value
     public function __construct(
         string $type,
         string $subType,
-        Parameter ...$parameters
+        Parameter ...$parameters,
     ) {
         $media = Str::of('%s/%s')->sprintf($type, $subType);
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
         if (!$media->matches('~^[\w\-.]+/[\w\-.]+$~')) {
             throw new DomainException($media->toString());
@@ -40,19 +42,24 @@ final class ContentTypeValue extends Value\Value
 
         $this->type = $type;
         $this->subType = $subType;
+    }
 
-        $parameters = $this->parameters->values()->toSequenceOf(
-            'string',
-            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
-        );
-        $parameters = join(';', $parameters);
-        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
-
-        parent::__construct(
-            $media
-                ->append($parameters->toString())
-                ->toString(),
-        );
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        string $type,
+        string $subType,
+        Parameter ...$parameters,
+    ): Maybe {
+        try {
+            return Maybe::just(new self($type, $subType, ...$parameters));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function type(): string
@@ -71,5 +78,20 @@ final class ContentTypeValue extends Value\Value
     public function parameters(): Map
     {
         return $this->parameters;
+    }
+
+    public function toString(): string
+    {
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+        $parameters = Str::of(';')->join($parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
+
+        return Str::of($this->type)
+            ->append('/')
+            ->append($this->subType)
+            ->append($parameters->toString())
+            ->toString();
     }
 }

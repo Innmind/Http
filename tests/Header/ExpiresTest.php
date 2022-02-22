@@ -11,7 +11,6 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ExpiresTest extends TestCase
@@ -19,15 +18,17 @@ class ExpiresTest extends TestCase
     public function testInterface()
     {
         $h = new Expires(
-            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200'))
+            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200')),
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Expires', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($d, first($v));
+        $this->assertSame($d, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
     }
 

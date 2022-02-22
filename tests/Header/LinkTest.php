@@ -25,7 +25,7 @@ class LinkTest extends TestCase
                 Url::of('/some/resource'),
                 'some relation',
                 new Parameter\Parameter('title', 'Foo'),
-            )
+            ),
         );
 
         $this->assertInstanceOf(Header::class, $h);
@@ -33,7 +33,7 @@ class LinkTest extends TestCase
         $this->assertTrue($h->values()->contains($v));
         $this->assertSame(
             'Link: </some/resource>; rel="some relation";title=Foo',
-            $h->toString()
+            $h->toString(),
         );
     }
 

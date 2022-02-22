@@ -4,26 +4,31 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\ContentEncoding,
     Header\ContentEncodingValue,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class ContentEncodingFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class ContentEncodingFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'content-encoding') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        return new ContentEncoding(
-            new ContentEncodingValue(
-                $value->toString(),
-            ),
+        /** @var Maybe<Header> */
+        return ContentEncodingValue::of($value->toString())->map(
+            static fn($value) => new ContentEncoding($value),
         );
     }
 }

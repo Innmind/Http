@@ -7,8 +7,14 @@ use Innmind\Http\{
     Header\CacheControlValue,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
+/**
+ * @psalm-immutable
+ */
 final class PrivateCache implements CacheControlValue
 {
     private string $field;
@@ -20,6 +26,21 @@ final class PrivateCache implements CacheControlValue
         }
 
         $this->field = $field;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $field): Maybe
+    {
+        try {
+            return Maybe::just(new self($field));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function field(): string

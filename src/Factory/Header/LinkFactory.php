@@ -4,90 +4,111 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\LinkValue,
     Header\Link,
     Header\Parameter,
-    Exception\DomainException
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
     Map,
+    Maybe,
 };
-use function Innmind\Immutable\unwrap;
 
-final class LinkFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class LinkFactory implements HeaderFactory
 {
     private const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'link') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        $values = $value
+        $links = $value
             ->split(',')
-            ->map(static function(Str $link): Str {
-                return $link->trim();
-            });
-        $values->foreach(static function(Str $link): void {
-            if (!$link->matches(self::PATTERN)) {
-                throw new DomainException($link->toString());
-            }
-        });
-
-        /** @var list<LinkValue> */
-        $links = $values->reduce(
-            [],
-            function(array $carry, Str $link): array {
+            ->map(static fn($link) => $link->trim())
+            ->map(function(Str $link) {
                 $matches = $link->capture(self::PATTERN);
                 $params = $this->buildParams(
-                    $matches->contains('params') ? $matches->get('params') : Str::of('')
+                    $matches->get('params')->match(
+                        static fn($params) => $params,
+                        static fn() => Str::of(''),
+                    ),
                 );
-                $carry[] = new LinkValue(
-                    Url::of($matches->get('url')->toString()),
-                    $params->contains('rel') ?
-                        $params->get('rel')->value() : null,
-                    ...unwrap($params
-                        ->remove('rel')
-                        ->values()),
-                );
+                $url = $matches
+                    ->get('url')
+                    ->flatMap(static fn($url) => Url::maybe($url->toString()));
 
-                return $carry;
-            },
+                /**
+                 * @psalm-suppress MixedArgumentTypeCoercion
+                 * @psalm-suppress MixedArgument
+                 */
+                return Maybe::all($url, $params)->flatMap(
+                    static fn(Url $url, Map $params) => LinkValue::of(
+                        $url,
+                        $params->get('rel')->match(
+                            static fn(Parameter $rel) => $rel->value(),
+                            static fn() => null,
+                        ),
+                        ...$params
+                            ->remove('rel')
+                            ->values()
+                            ->toList(),
+                    ),
+                );
+            });
+
+        if ($links->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new Link);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$links->toList())->map(
+            static fn(LinkValue ...$links) => new Link(...$links),
         );
-
-        return new Link(...$links);
     }
 
     /**
-     * @return Map<string, Parameter>
+     * @return Maybe<Map<string, Parameter\Parameter>>
      */
-    private function buildParams(Str $params): Map
+    private function buildParams(Str $params): Maybe
     {
-        /** @var Map<string, Parameter> */
-        return $params
+        $params = $params
             ->split(';')
-            ->filter(static function(Str $value): bool {
-                return !$value->trim()->empty();
-            })
-            ->reduce(
-                Map::of('string', Parameter::class),
-                static function(Map $carry, Str $value): Map {
-                    $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
+            ->filter(static fn(Str $value) => !$value->trim()->empty())
+            ->map(static function(Str $value) {
+                $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
-                    return ($carry)(
-                        $matches->get('key')->toString(),
-                        new Parameter\Parameter(
-                            $matches->get('key')->toString(),
-                            $matches->get('value')->toString(),
-                        ),
-                    );
-                },
-            );
+                return Maybe::all($matches->get('key'), $matches->get('value'))
+                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                        $key->toString(),
+                        $value->toString(),
+                    ))
+                    ->map(static fn($parameter) => [$parameter->name(), $parameter]);
+            });
+
+        if ($params->empty()) {
+            /** @var Maybe<Map<string, Parameter\Parameter>> */
+            return Maybe::just(Map::of());
+        }
+
+        /**
+         * @psalm-suppress MixedArgumentTypeCoercion
+         * @var Maybe<Map<string, Parameter\Parameter>>
+         */
+        return Maybe::all(...$params->toList())->map(
+            static fn(array ...$params) => Map::of(...$params),
+        );
     }
 }

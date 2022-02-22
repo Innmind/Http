@@ -5,8 +5,6 @@ namespace Innmind\Http\Message\ServerRequest;
 
 use Innmind\Http\{
     Message\ServerRequest as ServerRequestInterface,
-    Message\Request\Request,
-    Message\Message,
     Message\Method,
     Message\Environment,
     Message\Cookies,
@@ -17,11 +15,18 @@ use Innmind\Http\{
     Headers,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
-use Innmind\Filesystem\Stream\NullStream;
+use Innmind\Filesystem\File\Content;
 
-final class ServerRequest extends Request implements ServerRequestInterface
+/**
+ * @psalm-immutable
+ */
+final class ServerRequest implements ServerRequestInterface
 {
+    private Url $url;
+    private Method $method;
+    private ProtocolVersion $protocolVersion;
+    private Headers $headers;
+    private Content $body;
     private Environment $environment;
     private Cookies $cookies;
     private Query $query;
@@ -33,26 +38,48 @@ final class ServerRequest extends Request implements ServerRequestInterface
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null,
+        Content $body = null,
         Environment $environment = null,
         Cookies $cookies = null,
         Query $query = null,
         Form $form = null,
-        Files $files = null
+        Files $files = null,
     ) {
-        parent::__construct(
-            $url,
-            $method,
-            $protocolVersion,
-            $headers ?? new Headers,
-            $body ?? new NullStream,
-        );
-
+        $this->url = $url;
+        $this->method = $method;
+        $this->protocolVersion = $protocolVersion;
+        $this->headers = $headers ?? Headers::of();
+        $this->body = $body ?? Content\None::of();
         $this->environment = $environment ?? new Environment;
         $this->cookies = $cookies ?? new Cookies;
-        $this->query = $query ?? new Query;
-        $this->form = $form ?? new Form;
-        $this->files = $files ?? new Files;
+        $this->query = $query ?? Query::of([]);
+        $this->form = $form ?? Form::of([]);
+        $this->files = $files ?? Files::of([]);
+    }
+
+    public function protocolVersion(): ProtocolVersion
+    {
+        return $this->protocolVersion;
+    }
+
+    public function headers(): Headers
+    {
+        return $this->headers;
+    }
+
+    public function body(): Content
+    {
+        return $this->body;
+    }
+
+    public function url(): Url
+    {
+        return $this->url;
+    }
+
+    public function method(): Method
+    {
+        return $this->method;
     }
 
     public function environment(): Environment

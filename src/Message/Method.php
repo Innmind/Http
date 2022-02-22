@@ -3,110 +3,75 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\Exception\DomainException;
+use Innmind\Immutable\Maybe;
 
 /**
  * @psalm-immutable
  */
-final class Method
+enum Method
 {
-    private const GET = 'GET';
-    private const POST = 'POST';
-    private const PUT = 'PUT';
-    private const PATCH = 'PATCH';
-    private const DELETE = 'DELETE';
-    private const OPTIONS = 'OPTIONS';
-    private const TRACE = 'TRACE';
-    private const CONNECT = 'CONNECT';
-    private const HEAD = 'HEAD';
-    private const LINK = 'LINK';
-    private const UNLINK = 'UNLINK';
+    case get;
+    case post;
+    case put;
+    case patch;
+    case delete;
+    case options;
+    case trace;
+    case connect;
+    case head;
+    case link;
+    case unlink;
 
-    private static ?self $get = null;
-    private static ?self $post = null;
-    private static ?self $put = null;
-    private static ?self $patch = null;
-    private static ?self $delete = null;
-    private static ?self $options = null;
-    private static ?self $trace = null;
-    private static ?self $connect = null;
-    private static ?self $head = null;
-    private static ?self $link = null;
-    private static ?self $unlink = null;
-
-    private string $method;
-
-    public function __construct(string $method)
+    /**
+     * @psalm-pure
+     * @throws \UnhandledMatchError
+     */
+    public static function of(string $method): self
     {
-        if (!\defined('self::'.$method)) {
-            throw new DomainException($method);
+        return match ($method) {
+            'GET' => self::get,
+            'POST' => self::post,
+            'PUT' => self::put,
+            'PATCH' => self::patch,
+            'DELETE' => self::delete,
+            'OPTIONS' => self::options,
+            'TRACE' => self::trace,
+            'CONNECT' => self::connect,
+            'HEAD' => self::head,
+            'LINK' => self::link,
+            'UNLINK' => self::unlink,
+        };
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(string $method): Maybe
+    {
+        try {
+            return Maybe::just(self::of($method));
+        } catch (\UnhandledMatchError $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
         }
-
-        $this->method = $method;
-    }
-
-    public static function get(): self
-    {
-        return self::$get ??= new self(self::GET);
-    }
-
-    public static function post(): self
-    {
-        return self::$post ??= new self(self::POST);
-    }
-
-    public static function put(): self
-    {
-        return self::$put ??= new self(self::PUT);
-    }
-
-    public static function patch(): self
-    {
-        return self::$patch ??= new self(self::PATCH);
-    }
-
-    public static function delete(): self
-    {
-        return self::$delete ??= new self(self::DELETE);
-    }
-
-    public static function options(): self
-    {
-        return self::$options ??= new self(self::OPTIONS);
-    }
-
-    public static function trace(): self
-    {
-        return self::$trace ??= new self(self::TRACE);
-    }
-
-    public static function connect(): self
-    {
-        return self::$connect ??= new self(self::CONNECT);
-    }
-
-    public static function head(): self
-    {
-        return self::$head ??= new self(self::HEAD);
-    }
-
-    public static function link(): self
-    {
-        return self::$link ??= new self(self::LINK);
-    }
-
-    public static function unlink(): self
-    {
-        return self::$unlink ??= new self(self::UNLINK);
-    }
-
-    public function equals(self $other): bool
-    {
-        return $this->toString() === $other->toString();
     }
 
     public function toString(): string
     {
-        return $this->method;
+        return match ($this) {
+            self::get => 'GET',
+            self::post => 'POST',
+            self::put => 'PUT',
+            self::patch => 'PATCH',
+            self::delete => 'DELETE',
+            self::options => 'OPTIONS',
+            self::trace => 'TRACE',
+            self::connect => 'CONNECT',
+            self::head => 'HEAD',
+            self::link => 'LINK',
+            self::unlink => 'UNLINK',
+        };
     }
 }

@@ -3,12 +3,32 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\CookieParameter;
 
-use Innmind\Http\Header\Parameter\Parameter;
+use Innmind\Http\Header\Parameter;
 
-final class Secure extends Parameter
+/**
+ * @psalm-immutable
+ */
+final class Secure implements Parameter
 {
+    private Parameter $parameter;
+
     public function __construct()
     {
-        parent::__construct('Secure', '');
+        $this->parameter = new Parameter\Parameter('Secure', '');
+    }
+
+    public function name(): string
+    {
+        return $this->parameter->name();
+    }
+
+    public function value(): string
+    {
+        return $this->parameter->value();
+    }
+
+    public function toString(): string
+    {
+        return $this->parameter->toString();
     }
 }

@@ -5,10 +5,20 @@ namespace Innmind\Http\Header;
 
 use Innmind\Url\Url;
 
-final class LocationValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class LocationValue implements Value
 {
+    private Url $url;
+
     public function __construct(Url $url)
     {
-        parent::__construct($url->toString());
+        $this->url = $url;
+    }
+
+    public function toString(): string
+    {
+        return $this->url->toString();
     }
 }

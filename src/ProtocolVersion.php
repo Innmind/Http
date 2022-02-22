@@ -3,29 +3,42 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-final class ProtocolVersion
+use Innmind\Immutable\Maybe;
+
+/**
+ * @psalm-immutable
+ */
+enum ProtocolVersion
 {
-    private int $major;
-    private int $minor;
+    case v10;
+    case v11;
+    case v20;
 
-    public function __construct(int $major, int $minor)
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(int $major, int $minor): Maybe
     {
-        $this->major = $major;
-        $this->minor = $minor;
+        /** @var Maybe<self> */
+        return Maybe::of(match ("$major.$minor") {
+            '1.0' => self::v10,
+            '1.1' => self::v11,
+            '2.0' => self::v20,
+            default => null,
+        });
     }
 
-    public function major(): int
-    {
-        return $this->major;
-    }
-
-    public function minor(): int
-    {
-        return $this->minor;
-    }
-
+    /**
+     * @return non-empty-string
+     */
     public function toString(): string
     {
-        return $this->major.'.'.$this->minor;
+        return match ($this) {
+            self::v10 => '1.0',
+            self::v11 => '1.1',
+            self::v20 => '2.0',
+        };
     }
 }

@@ -10,10 +10,8 @@ class ProtocolVersionTest extends TestCase
 {
     public function testInterface()
     {
-        $p = new ProtocolVersion(2, 0);
-
-        $this->assertSame(2, $p->major());
-        $this->assertSame(0, $p->minor());
-        $this->assertSame('2.0', $p->toString());
+        $this->assertSame('1.0', ProtocolVersion::v10->toString());
+        $this->assertSame('1.1', ProtocolVersion::v11->toString());
+        $this->assertSame('2.0', ProtocolVersion::v20->toString());
     }
 }

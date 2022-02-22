@@ -11,8 +11,11 @@ use Innmind\Http\{
     Headers,
     Header,
 };
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class Stringable implements ResponseInterface
 {
     private ResponseInterface $response;
@@ -27,11 +30,6 @@ final class Stringable implements ResponseInterface
         return $this->response->statusCode();
     }
 
-    public function reasonPhrase(): ReasonPhrase
-    {
-        return $this->response->reasonPhrase();
-    }
-
     public function protocolVersion(): ProtocolVersion
     {
         return $this->response->protocolVersion();
@@ -42,7 +40,7 @@ final class Stringable implements ResponseInterface
         return $this->response->headers();
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->response->body();
     }
@@ -64,7 +62,7 @@ final class Stringable implements ResponseInterface
         $headers = \implode("\n", $headers);
 
         return <<<RAW
-HTTP/{$this->protocolVersion()->toString()} {$this->statusCode()->toString()} {$this->reasonPhrase()->toString()}
+HTTP/{$this->protocolVersion()->toString()} {$this->statusCode()->toString()} {$this->statusCode()->reasonPhrase()}
 $headers
 
 {$this->body()->toString()}

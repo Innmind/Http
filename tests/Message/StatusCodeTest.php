@@ -6,10 +6,7 @@ namespace Tests\Innmind\Http\Message;
 use Innmind\Http\{
     Message\StatusCode,
     Message\ReasonPhrase,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Map;
-use function Innmind\Immutable\unwrap;
 use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
@@ -22,150 +19,128 @@ class StatusCodeTest extends TestCase
 
     public function testInterface()
     {
-        $c = new StatusCode(200);
+        $c = StatusCode::ok;
 
-        $this->assertSame(200, $c->value());
+        $this->assertSame(200, $c->toInt());
         $this->assertSame('200', $c->toString());
     }
 
     public function testThrowWhenInvalidStatusCode()
     {
-        $this->expectException(DomainException::class);
+        $this->expectException(\UnhandledMatchError::class);
         $this->expectExceptionMessage('42');
 
-        new StatusCode(42); //sadly
-    }
-
-    public function testAssociatedReasonPhrase()
-    {
-        StatusCode::codes()->foreach(function($name, $code): void {
-            $reason = StatusCode::of($name)->associatedReasonPhrase();
-
-            $this->assertInstanceOf(ReasonPhrase::class, $reason);
-            $this->assertSame(
-                ReasonPhrase::defaults()->get($code),
-                $reason->toString()
-            );
-        });
+        StatusCode::of(42); //sadly
     }
 
     public function testOf()
     {
-        StatusCode::codes()->foreach(function($name, $code): void {
-            $status = StatusCode::of($name);
-
-            $this->assertInstanceOf(StatusCode::class, $status);
-            $this->assertSame($code, $status->value());
-        });
+        foreach (StatusCode::cases() as $code) {
+            $this->assertSame(
+                $code->toInt(),
+                StatusCode::of($code->toInt())->toInt(),
+            );
+        }
     }
 
     public function testCodes()
     {
-        $codes = StatusCode::codes();
+        $codes = StatusCode::cases();
 
-        $this->assertInstanceOf(Map::class, $codes);
-        $this->assertSame('string', (string) $codes->keyType());
-        $this->assertSame('int', (string) $codes->valueType());
-        $this->assertSame(74, $codes->count());
+        $this->assertCount(74, $codes);
     }
 
     public function testIsInformational()
     {
-        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) ($code / 100)) === 1;
-        });
-
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isInformational());
-        });
-
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isInformational());
-        });
+        $this->assertTrue(StatusCode::continue->informational());
+        $this->assertTrue(StatusCode::switchingProtocols->informational());
+        $this->assertTrue(StatusCode::processing->informational());
     }
 
     public function testIsSuccessful()
     {
-        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) ($code / 100)) === 2;
-        });
-
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isSuccessful());
-        });
-
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isSuccessful());
-        });
+        $this->assertTrue(StatusCode::ok->successful());
+        $this->assertTrue(StatusCode::created->successful());
+        $this->assertTrue(StatusCode::accepted->successful());
+        $this->assertTrue(StatusCode::nonAuthoritativeInformation->successful());
+        $this->assertTrue(StatusCode::noContent->successful());
+        $this->assertTrue(StatusCode::resetContent->successful());
+        $this->assertTrue(StatusCode::partialContent->successful());
+        $this->assertTrue(StatusCode::multiStatus->successful());
+        $this->assertTrue(StatusCode::alreadyReported->successful());
+        $this->assertTrue(StatusCode::imUsed->successful());
     }
 
     public function testIsRedirection()
     {
-        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) ($code / 100)) === 3;
-        });
-
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isRedirection());
-        });
-
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isRedirection());
-        });
+        $this->assertTrue(StatusCode::multipleChoices->redirection());
+        $this->assertTrue(StatusCode::movedPermanently->redirection());
+        $this->assertTrue(StatusCode::found->redirection());
+        $this->assertTrue(StatusCode::seeOther->redirection());
+        $this->assertTrue(StatusCode::notModified->redirection());
+        $this->assertTrue(StatusCode::useProxy->redirection());
+        $this->assertTrue(StatusCode::switchProxy->redirection());
+        $this->assertTrue(StatusCode::temporaryRedirect->redirection());
+        $this->assertTrue(StatusCode::permanentlyRedirect->redirection());
     }
 
     public function testIsClientError()
     {
-        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) ($code / 100)) === 4;
-        });
-
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isClientError());
-        });
-
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isClientError());
-        });
+        $this->assertTrue(StatusCode::badRequest->clientError());
+        $this->assertTrue(StatusCode::unauthorized->clientError());
+        $this->assertTrue(StatusCode::paymentRequired->clientError());
+        $this->assertTrue(StatusCode::forbidden->clientError());
+        $this->assertTrue(StatusCode::notFound->clientError());
+        $this->assertTrue(StatusCode::methodNotAllowed->clientError());
+        $this->assertTrue(StatusCode::notAcceptable->clientError());
+        $this->assertTrue(StatusCode::proxyAuthenticationRequired->clientError());
+        $this->assertTrue(StatusCode::requestTimeout->clientError());
+        $this->assertTrue(StatusCode::conflict->clientError());
+        $this->assertTrue(StatusCode::gone->clientError());
+        $this->assertTrue(StatusCode::lengthRequired->clientError());
+        $this->assertTrue(StatusCode::preconditionFailed->clientError());
+        $this->assertTrue(StatusCode::requestEntityTooLarge->clientError());
+        $this->assertTrue(StatusCode::requestUriTooLong->clientError());
+        $this->assertTrue(StatusCode::unsupportedMediaType->clientError());
+        $this->assertTrue(StatusCode::requestedRangeNotSatisfiable->clientError());
+        $this->assertTrue(StatusCode::expectationFailed->clientError());
+        $this->assertTrue(StatusCode::iAmATeapot->clientError());
+        $this->assertTrue(StatusCode::unprocessableEntity->clientError());
+        $this->assertTrue(StatusCode::locked->clientError());
+        $this->assertTrue(StatusCode::failedDependency->clientError());
+        $this->assertTrue(StatusCode::reservedForWebdavAdvancedCollectionsExpiredProposal->clientError());
+        $this->assertTrue(StatusCode::upgradeRequired->clientError());
+        $this->assertTrue(StatusCode::preconditionRequired->clientError());
+        $this->assertTrue(StatusCode::tooManyRequests->clientError());
+        $this->assertTrue(StatusCode::requestHeaderFieldsTooLarge->clientError());
+        $this->assertTrue(StatusCode::noResponse->clientError());
+        $this->assertTrue(StatusCode::unavailableForLegalReasons->clientError());
+        $this->assertTrue(StatusCode::sslCertificateError->clientError());
+        $this->assertTrue(StatusCode::sslCertificateRequired->clientError());
+        $this->assertTrue(StatusCode::httpRequestSentToHttpsPort->clientError());
+        $this->assertTrue(StatusCode::clientClosedRequest->clientError());
     }
 
     public function testIsServerError()
     {
-        $codes =  StatusCode::codes()->partition(static function($name, $code): bool {
-            return ((int) ($code / 100)) === 5;
-        });
-
-        $codes->get(true)->foreach(function($name, $code): void {
-            $this->assertTrue((new StatusCode($code))->isServerError());
-        });
-
-        $codes->get(false)->foreach(function($name, $code): void {
-            $this->assertFalse((new StatusCode($code))->isServerError());
-        });
-    }
-
-    public function testEquality()
-    {
-        $this
-            ->forAll(Set\Elements::of(...unwrap(StatusCode::codes()->keys())))
-            ->then(function($code) {
-                $status = StatusCode::of($code);
-
-                $this->assertTrue($status->equals($status));
-                $this->assertTrue($status->equals(StatusCode::of($code)));
-            });
-    }
-
-    public function testInequality()
-    {
-        $this
-            ->forAll(
-                Set\Elements::of(...unwrap(StatusCode::codes()->keys())),
-                Set\Elements::of(...unwrap(StatusCode::codes()->keys())),
-            )
-            ->filter(fn($a, $b) => $a !== $b)
-            ->then(function($a, $b) {
-                $this->assertFalse(StatusCode::of($a)->equals(StatusCode::of($b)));
-            });
+        $this->assertTrue(StatusCode::internalServerError->serverError());
+        $this->assertTrue(StatusCode::notImplemented->serverError());
+        $this->assertTrue(StatusCode::badGateway->serverError());
+        $this->assertTrue(StatusCode::serviceUnavailable->serverError());
+        $this->assertTrue(StatusCode::gatewayTimeout->serverError());
+        $this->assertTrue(StatusCode::versionNotSupported->serverError());
+        $this->assertTrue(StatusCode::variantAlsoNegotiatesExperimental->serverError());
+        $this->assertTrue(StatusCode::insufficientStorage->serverError());
+        $this->assertTrue(StatusCode::loopDetected->serverError());
+        $this->assertTrue(StatusCode::notExtended->serverError());
+        $this->assertTrue(StatusCode::networkAuthenticationRequired->serverError());
+        $this->assertTrue(StatusCode::unknownError->serverError());
+        $this->assertTrue(StatusCode::webServerIsDown->serverError());
+        $this->assertTrue(StatusCode::connectionTimedOut->serverError());
+        $this->assertTrue(StatusCode::originIsUnreachable->serverError());
+        $this->assertTrue(StatusCode::aTimeoutOccured->serverError());
+        $this->assertTrue(StatusCode::sslHandshakeFailed->serverError());
+        $this->assertTrue(StatusCode::invalidSslCertificate->serverError());
+        $this->assertTrue(StatusCode::railgunError->serverError());
     }
 }

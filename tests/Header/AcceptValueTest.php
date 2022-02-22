@@ -19,26 +19,29 @@ class AcceptValueTest extends TestCase
         $a = new AcceptValue(
             'text',
             'x-c',
-            $q = new Quality(0.8)
+            $q = new Quality(0.8),
         );
 
         $this->assertInstanceOf(Value::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
-        $this->assertSame($q, $a->parameters()->get('q'));
+        $this->assertSame($q, $a->parameters()->get('q')->match(
+            static fn($q) => $q,
+            static fn() => null,
+        ));
         $this->assertSame('text/x-c;q=0.8', $a->toString());
 
         new AcceptValue(
             '*',
-            '*'
+            '*',
         );
         new AcceptValue(
             'application',
-            '*'
+            '*',
         );
         new AcceptValue(
             'application',
-            'octet-stream'
+            'octet-stream',
         );
         new AcceptValue(
             'application',

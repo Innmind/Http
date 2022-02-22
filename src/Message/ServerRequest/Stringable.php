@@ -16,8 +16,11 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class Stringable implements ServerRequestInterface
 {
     private ServerRequestInterface $request;
@@ -47,7 +50,7 @@ final class Stringable implements ServerRequestInterface
         return $this->request->headers();
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->request->body();
     }
@@ -107,50 +110,21 @@ RAW;
             return '';
         }
 
-        /** @var list<Query\Parameter> */
-        $parameters = $this->query()->reduce(
-            [],
-            static function(array $parameters, Query\Parameter $parameter): array {
-                $parameters[] = $parameter;
-
-                return $parameters;
-            },
-        );
-        $query = [];
-
-        foreach ($parameters as $parameter) {
-            /** @psalm-suppress MixedAssignment */
-            $query[$parameter->name()] = $parameter->value();
-        }
-
-        return '?'.\rawurldecode(\http_build_query($query));
+        return '?'.\rawurldecode(\http_build_query($this->query()->data()));
     }
 
     private function bodyString(): string
     {
-        if ($this->body()->knowsSize() && $this->body()->size()->toInt() > 0) {
-            return $this->body()->toString();
+        $body = $this->body()->toString();
+
+        if ($body !== '') {
+            return $body;
         }
 
         if (\count($this->form()) === 0) {
             return '';
         }
 
-        /** @var list<Form\Parameter> */
-        $parameters = $this->form()->reduce(
-            [],
-            static function(array $parameters, Form\Parameter $parameter): array {
-                $parameters[] = $parameter;
-
-                return $parameters;
-            },
-        );
-        $form = [];
-
-        foreach ($parameters as $parameter) {
-            $form[$parameter->name()] = $parameter->value();
-        }
-
-        return \rawurldecode(\http_build_query($form));
+        return \rawurldecode(\http_build_query($this->form()->data()));
     }
 }

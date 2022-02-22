@@ -4,42 +4,40 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\DateValue,
     Header\IfUnmodifiedSince,
     TimeContinuum\Format\Http,
-    Exception\DomainException,
 };
-use Innmind\TimeContinuum\{
-    Earth\PointInTime\PointInTime,
-    Earth\Format\ISO8601,
+use Innmind\TimeContinuum\Clock;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
 };
-use Innmind\Immutable\Str;
 
-final class IfUnmodifiedSinceFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class IfUnmodifiedSinceFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    private Clock $clock;
+
+    public function __construct(Clock $clock)
+    {
+        $this->clock = $clock;
+    }
+
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'if-unmodified-since') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        $date = \DateTimeImmutable::createFromFormat(
-            (new Http)->toString(),
-            $value->toString(),
-        );
-
-        if (!$date instanceof \DateTimeImmutable) {
-            throw new DomainException($name->toString());
-        }
-
-        return new IfUnmodifiedSince(
-            new DateValue(
-                new PointInTime(
-                    $date->format((new ISO8601)->toString()),
-                ),
-            ),
-        );
+        /** @var Maybe<Header> */
+        return $this
+            ->clock
+            ->at($value->toString(), new Http)
+            ->map(static fn($point) => IfUnmodifiedSince::of($point));
     }
 }

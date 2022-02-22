@@ -4,27 +4,31 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\ContentLocation,
-    Header\LocationValue,
-    Exception\DomainException,
 };
 use Innmind\Url\Url;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class ContentLocationFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class ContentLocationFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'content-location') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        return new ContentLocation(
-            new LocationValue(
-                Url::of($value->toString()),
-            ),
+        /** @var Maybe<Header> */
+        return Url::maybe($value->toString())->map(
+            static fn($url) => ContentLocation::of($url),
         );
     }
 }

@@ -3,8 +3,16 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\File;
 
-interface Status
+/**
+ * @psalm-immutable
+ */
+enum Status
 {
-    public function value(): int;
-    public function toString(): string;
+    case exceedsFormMaxFileSize;
+    case exceedsIniMaxFileSize;
+    case noTemporaryDirectory;
+    case notUploaded;
+    case partiallyUploaded;
+    case stoppedByExtension;
+    case writeFailed;
 }

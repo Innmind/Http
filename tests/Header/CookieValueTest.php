@@ -17,16 +17,20 @@ class CookieValueTest extends TestCase
     {
         $cookie = new CookieValue(
             new Parameter\Parameter('foo', 'bar'),
-            new Parameter\Parameter('bar', 'baz')
+            new Parameter\Parameter('bar', 'baz'),
         );
 
         $this->assertInstanceOf(Value::class, $cookie);
         $this->assertInstanceOf(Map::class, $cookie->parameters());
-        $this->assertSame('string', (string) $cookie->parameters()->keyType());
-        $this->assertSame(Parameter::class, (string) $cookie->parameters()->valueType());
         $this->assertCount(2, $cookie->parameters());
-        $this->assertSame('bar', $cookie->parameters()->get('foo')->value());
-        $this->assertSame('baz', $cookie->parameters()->get('bar')->value());
+        $this->assertSame('bar', $cookie->parameters()->get('foo')->match(
+            static fn($foo) => $foo->value(),
+            static fn() => null,
+        ));
+        $this->assertSame('baz', $cookie->parameters()->get('bar')->match(
+            static fn($bar) => $bar->value(),
+            static fn() => null,
+        ));
         $this->assertSame('foo=bar; bar=baz', $cookie->toString());
     }
 }

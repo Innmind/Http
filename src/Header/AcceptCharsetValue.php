@@ -7,10 +7,17 @@ use Innmind\Http\{
     Header\Parameter\Quality,
     Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AcceptCharsetValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class AcceptCharsetValue implements Value
 {
+    private Str $charset;
     private Quality $quality;
 
     public function __construct(string $charset, Quality $quality = null)
@@ -25,17 +32,36 @@ final class AcceptCharsetValue extends Value\Value
             throw new DomainException($charset->toString());
         }
 
+        $this->charset = $charset;
         $this->quality = $quality;
-        parent::__construct(
-            $charset
-                ->append(';')
-                ->append($quality->toString())
-                ->toString(),
-        );
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $charset, Quality $quality = null): Maybe
+    {
+        try {
+            return Maybe::just(new self($charset, $quality));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function quality(): Quality
     {
         return $this->quality;
+    }
+
+    public function toString(): string
+    {
+        return $this
+            ->charset
+            ->append(';')
+            ->append($this->quality->toString())
+            ->toString();
     }
 }

@@ -10,9 +10,8 @@ use Innmind\Http\{
     Message\Response\Response,
     Message\Response as ResponseInterface,
     Message\StatusCode,
-    Message\ReasonPhrase
 };
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase
@@ -20,17 +19,15 @@ class ResponseTest extends TestCase
     public function testInterface()
     {
         $r = new Response(
-            $status = new StatusCode(200),
-            $reason = new ReasonPhrase('OK'),
-            $protocol = new ProtocolVersion(2, 0),
+            $status = StatusCode::ok,
+            $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
-            $body = $this->createMock(Readable::class)
+            $body = $this->createMock(Content::class),
         );
 
         $this->assertInstanceOf(Message::class, $r);
         $this->assertInstanceOf(ResponseInterface::class, $r);
         $this->assertSame($status, $r->statusCode());
-        $this->assertSame($reason, $r->reasonPhrase());
         $this->assertSame($protocol, $r->protocolVersion());
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
@@ -39,18 +36,17 @@ class ResponseTest extends TestCase
     public function testDefaultValues()
     {
         $response = new Response(
-            new StatusCode(200),
-            new ReasonPhrase('OK'),
-            new ProtocolVersion(2, 0),
+            StatusCode::ok,
+            ProtocolVersion::v20,
         );
 
         $this->assertInstanceOf(
             Headers::class,
-            $response->headers()
+            $response->headers(),
         );
         $this->assertInstanceOf(
-            Readable::class,
-            $response->body()
+            Content::class,
+            $response->body(),
         );
     }
 }

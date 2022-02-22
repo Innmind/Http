@@ -16,7 +16,7 @@ class AcceptLanguageTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptLanguage(
-            $v = new AcceptLanguageValue('fr', new Quality(0.8))
+            $v = new AcceptLanguageValue('fr', new Quality(0.8)),
         );
 
         $this->assertInstanceOf(Header::class, $h);

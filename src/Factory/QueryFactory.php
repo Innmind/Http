@@ -5,6 +5,9 @@ namespace Innmind\Http\Factory;
 
 use Innmind\Http\Message\Query;
 
+/**
+ * @psalm-immutable
+ */
 interface QueryFactory
 {
     public function __invoke(): Query;

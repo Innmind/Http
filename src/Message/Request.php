@@ -6,6 +6,9 @@ namespace Innmind\Http\Message;
 use Innmind\Http\Message;
 use Innmind\Url\Url;
 
+/**
+ * @psalm-immutable
+ */
 interface Request extends Message
 {
     public function url(): Url;

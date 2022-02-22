@@ -17,8 +17,8 @@ use Innmind\Http\{
     Message\Form,
     Message\Files
 };
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestTest extends TestCase
@@ -27,15 +27,15 @@ class ServerRequestTest extends TestCase
     {
         $r = new ServerRequest(
             $url = Url::of('example.com'),
-            $method = Method::get(),
-            $protocol = new ProtocolVersion(2, 0),
+            $method = Method::get,
+            $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
-            $body = $this->createMock(Readable::class),
+            $body = $this->createMock(Content::class),
             $env = new Environment,
             $cookies = new Cookies,
-            $query = Query::of(),
-            $form = Form::of(),
-            $files = Files::of()
+            $query = Query::of([]),
+            $form = Form::of([]),
+            $files = Files::of([]),
         );
 
         $this->assertInstanceOf(Message::class, $r);
@@ -57,37 +57,37 @@ class ServerRequestTest extends TestCase
     {
         $request = new ServerRequest(
             Url::of('example.com'),
-            Method::get(),
-            new ProtocolVersion(1, 1),
+            Method::get,
+            ProtocolVersion::v11,
         );
 
         $this->assertInstanceOf(
             Headers::class,
-            $request->headers()
+            $request->headers(),
         );
         $this->assertInstanceOf(
-            Readable::class,
-            $request->body()
+            Content::class,
+            $request->body(),
         );
         $this->assertInstanceOf(
             Environment::class,
-            $request->environment()
+            $request->environment(),
         );
         $this->assertInstanceOf(
             Cookies::class,
-            $request->cookies()
+            $request->cookies(),
         );
         $this->assertInstanceOf(
             Query::class,
-            $request->query()
+            $request->query(),
         );
         $this->assertInstanceOf(
             Form::class,
-            $request->form()
+            $request->form(),
         );
         $this->assertInstanceOf(
             Files::class,
-            $request->files()
+            $request->files(),
         );
     }
 }

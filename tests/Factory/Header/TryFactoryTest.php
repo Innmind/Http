@@ -8,22 +8,14 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 use PHPUnit\Framework\TestCase;
 
 class TryFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new TryFactory(
-                $this->createMock(HeaderFactory::class),
-                $this->createMock(HeaderFactory::class)
-            )
-        );
-    }
-
     public function testMake()
     {
         $name = Str::of('foo');
@@ -34,15 +26,11 @@ class TryFactoryTest extends TestCase
             ->method('__invoke')
             ->with($name, $value)
             ->willReturn(
-                $expected = $this->createMock(Header::class)
+                Maybe::just($expected = $this->createMock(Header::class)),
             );
-        $fallback = $this->createMock(HeaderFactory::class);
-        $fallback
-            ->expects($this->never())
-            ->method('__invoke');
-        $factory = new TryFactory($try, $fallback);
+        $factory = new TryFactory($try);
 
-        $this->assertSame($expected, ($factory)($name, $value));
+        $this->assertEquals($expected, ($factory)($name, $value));
     }
 
     public function testMakeViaFallback()
@@ -54,17 +42,9 @@ class TryFactoryTest extends TestCase
             ->expects($this->once())
             ->method('__invoke')
             ->with($name, $value)
-            ->will(
-                $this->throwException(new \Error)
-            );
-        $fallback = $this->createMock(HeaderFactory::class);
-        $fallback
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($name, $value)
-            ->willReturn(
-                $expected = $this->createMock(Header::class)
-            );
+            ->willReturn(Maybe::nothing());
+        $expected = $this->createMock(Header::class);
+        $fallback = static fn() => $expected;
         $factory = new TryFactory($try, $fallback);
 
         $this->assertSame($expected, ($factory)($name, $value));

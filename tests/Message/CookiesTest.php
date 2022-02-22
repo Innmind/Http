@@ -3,65 +3,60 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Cookies,
-    Exception\CookieNotFound,
+use Innmind\Http\Message\Cookies;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
 };
-use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
 class CookiesTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Cookies(
-            Map::of('string', 'string')
-                ('foo', '42')
-        );
+        $f = new Cookies(Map::of(['foo', '42']));
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
-        $this->assertSame('42', $f->get('foo'));
+        $this->assertSame('42', $f->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
         $this->assertSame(1, $f->count());
     }
 
-    public function testThrowWhenAccessingUnknownCookie()
+    public function testReturnNothingWhenAccessingUnknownCookie()
     {
-        $this->expectException(CookieNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Cookies)->get('foo');
-    }
-
-    public function testThrowWhenInvalidMap()
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 must be of type Map<string, string>');
-
-        new Cookies(Map::of('string', 'scalar'));
+        $this->assertNull((new Cookies)->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
     public function testForeach()
     {
         $cookies = new Cookies(
-            Map::of('string', 'string')
+            Map::of()
                 ('foo', '42')
-                ('bar', 'baz')
+                ('bar', 'baz'),
         );
 
         $called = 0;
-        $this->assertNull($cookies->foreach(static function() use (&$called) {
-            ++$called;
-        }));
+        $this->assertInstanceOf(
+            SideEffect::class,
+            $cookies->foreach(static function() use (&$called) {
+                ++$called;
+            }),
+        );
         $this->assertSame(2, $called);
     }
 
     public function testReduce()
     {
         $cookies = new Cookies(
-            Map::of('string', 'string')
+            Map::of()
                 ('foo', '42')
-                ('bar', 'baz')
+                ('bar', 'baz'),
         );
 
         $reduced = $cookies->reduce(

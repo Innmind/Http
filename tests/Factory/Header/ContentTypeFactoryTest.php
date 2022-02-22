@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentTypeFactory,
     Header\ContentType,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +17,7 @@ class ContentTypeFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentTypeFactory
+            new ContentTypeFactory,
         );
     }
 
@@ -27,6 +26,9 @@ class ContentTypeFactoryTest extends TestCase
         $header = (new ContentTypeFactory)(
             Str::of('Content-Type'),
             Str::of('image/gif'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
@@ -38,31 +40,34 @@ class ContentTypeFactoryTest extends TestCase
         $header = (new ContentTypeFactory)(
             Str::of('Content-Type'),
             Str::of('image/gif; foo="bar"; q=0.5'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
         $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->toString());
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new ContentTypeFactory)(
+        $this->assertNull((new ContentTypeFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Content-Type');
-
-        (new ContentTypeFactory)(
+        $this->assertNull((new ContentTypeFactory)(
             Str::of('Content-Type'),
             Str::of('foo'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

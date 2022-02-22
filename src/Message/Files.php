@@ -3,75 +3,109 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    File,
-    Exception\FileNotFound,
+use Innmind\Http\File\Status;
+use Innmind\Filesystem\File;
+use Innmind\Immutable\{
+    Sequence,
+    Either,
 };
-use Innmind\Immutable\Map;
 
-final class Files implements \Countable
+/**
+ * @psalm-immutable
+ */
+final class Files
 {
-    /** @var Map<string, File> */
-    private Map $files;
+    private array $files;
 
-    public function __construct(File ...$files)
+    private function __construct(array $files)
     {
-        /** @var Map<string, File> */
-        $this->files = Map::of('string', File::class);
-
-        foreach ($files as $file) {
-            $this->files = ($this->files)(
-                $file->uploadKey(),
-                $file,
-            );
-        }
-    }
-
-    public static function of(File ...$files): self
-    {
-        return new self(...$files);
+        $this->files = $files;
     }
 
     /**
-     * @throws FileNotFound
+     * @psalm-pure
      */
-    public function get(string $name): File
+    public static function of(array $files): self
     {
-        if (!$this->contains($name)) {
-            throw new FileNotFound($name);
+        return new self($files);
+    }
+
+    /**
+     * @param int|non-empty-string $key
+     *
+     * @return Either<Status, File>
+     */
+    public function get(int|string $key): Either
+    {
+        if (!\array_key_exists($key, $this->files)) {
+            /** @var Either<Status, File> */
+            return Either::left(Status::notUploaded);
         }
 
-        return $this->files->get($name);
-    }
+        $data = $this->files[$key];
 
-    public function contains(string $name): bool
-    {
-        return $this->files->contains($name);
+        if (!$data instanceof Either) {
+            /** @var Either<Status, File> */
+            return Either::left(Status::notUploaded);
+        }
+
+        /** @var Either<Status, File> */
+        return $data
+            ->filter(
+                static fn($right) => $right instanceof File,
+                static fn() => Status::notUploaded,
+            )
+            ->leftMap(static fn($left) => match ($left instanceof Status) {
+                true => $left,
+                false => Status::notUploaded,
+            });
     }
 
     /**
-     * @param callable(File): void $function
+     * @param non-empty-string $name
      */
-    public function foreach(callable $function): void
+    public function under(string $name): self
     {
-        $this->files->values()->foreach($function);
+        /** @var mixed */
+        $under = $this->files[$name] ?? [];
+
+        if (\is_array($under)) {
+            return new self($under);
+        }
+
+        return new self([]);
     }
 
     /**
-     * @template R
+     * Files that failed to be uploaded won't be listed
      *
-     * @param R $carry
-     * @param callable(R, File): R $reducer
+     * @param non-empty-string $name
      *
-     * @return R
+     * @return Sequence<File>
      */
-    public function reduce($carry, callable $reducer)
+    public function list(string $name): Sequence
     {
-        return $this->files->values()->reduce($carry, $reducer);
-    }
+        /** @var mixed */
+        $under = $this->files[$name] ?? [];
 
-    public function count()
-    {
-        return $this->files->size();
+        if (!\is_array($under)) {
+            $under = [];
+        }
+
+        if (!\array_is_list($under)) {
+            $under = [];
+        }
+
+        /**
+         * @psalm-suppress MixedArgumentTypeCoercion Psalm doesn't understand the filter
+         * @var Sequence<File>
+         */
+        return Sequence::of(...$under)
+            ->filter(static fn($value) => $value instanceof Either)
+            ->map(static fn(Either $either): mixed => $either->match(
+                static fn(mixed $right): mixed => $right,
+                static fn() => null, // discard errors
+            ))
+            ->filter(static fn($right) => $right instanceof File);
     }
 }

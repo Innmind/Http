@@ -4,50 +4,60 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\AcceptCharsetValue,
     Header\AcceptCharset,
     Header\Parameter\Quality,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AcceptCharsetFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class AcceptCharsetFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept-charset') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        $values = $value->split(',');
-        $values->foreach(static function(Str $accept): void {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException($accept->toString());
-            }
-        });
-
-        /** @var list<AcceptCharsetValue> */
-        $values = $values->reduce(
-            [],
-            static function(array $carry, Str $accept): array {
+        $values = $value
+            ->split(',')
+            ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
-                $carry[] = new AcceptCharsetValue(
-                    $matches->get('charset')->toString(),
-                    new Quality(
-                        $matches->contains('quality') ?
-                            (float) $matches->get('quality')->toString() : 1,
+                $quality = $matches
+                    ->get('quality')
+                    ->map(static fn($quality) => (float) $quality->toString())
+                    ->otherwise(static fn() => Maybe::just(1))
+                    ->flatMap(static fn($quality) => Quality::of($quality));
+
+                return Maybe::all($matches->get('charset'), $quality)->flatMap(
+                    static fn(Str $charset, Quality $quality) => AcceptCharsetValue::of(
+                        $charset->toString(),
+                        $quality,
                     ),
                 );
+            });
 
-                return $carry;
-            },
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new AcceptCharset);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(AcceptCharsetValue ...$values) => new AcceptCharset(...$values),
         );
-
-        return new AcceptCharset(...$values);
     }
 }

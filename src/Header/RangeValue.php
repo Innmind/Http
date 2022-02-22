@@ -4,9 +4,15 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class RangeValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class RangeValue implements Value
 {
     private string $unit;
     private int $firstPosition;
@@ -15,7 +21,7 @@ final class RangeValue extends Value\Value
     public function __construct(
         string $unit,
         int $firstPosition,
-        int $lastPosition
+        int $lastPosition,
     ) {
         if (
             !Str::of($unit)->matches('~^\w+$~') ||
@@ -29,12 +35,24 @@ final class RangeValue extends Value\Value
         $this->unit = $unit;
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
-        parent::__construct(\sprintf(
-            '%s=%s-%s',
-            $unit,
-            $firstPosition,
-            $lastPosition,
-        ));
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        string $unit,
+        int $firstPosition,
+        int $lastPosition,
+    ): Maybe {
+        try {
+            return Maybe::just(new self($unit, $firstPosition, $lastPosition));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function unit(): string
@@ -50,5 +68,15 @@ final class RangeValue extends Value\Value
     public function lastPosition(): int
     {
         return $this->lastPosition;
+    }
+
+    public function toString(): string
+    {
+        return \sprintf(
+            '%s=%s-%s',
+            $this->unit,
+            $this->firstPosition,
+            $this->lastPosition,
+        );
     }
 }

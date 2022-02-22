@@ -5,6 +5,9 @@ namespace Innmind\Http\Header\Parameter;
 
 use Innmind\Http\Header\Parameter as ParameterInterface;
 
+/**
+ * @psalm-immutable
+ */
 class NullParameter implements ParameterInterface
 {
     public function name(): string

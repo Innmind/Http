@@ -14,7 +14,6 @@ use Innmind\Immutable\{
     Set,
     Map,
 };
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeTest extends TestCase
@@ -26,15 +25,17 @@ class ContentTypeTest extends TestCase
                 'text',
                 'html',
                 new Parameter\Parameter('charset', 'UTF-8'),
-            )
+            ),
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Type', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($ct, first($v));
+        $this->assertSame($ct, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toString());
     }
 

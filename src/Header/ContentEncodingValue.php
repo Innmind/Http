@@ -4,18 +4,44 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class ContentEncodingValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class ContentEncodingValue implements Value
 {
+    private string $coding;
+
     public function __construct(string $coding)
     {
-        $coding = Str::of($coding);
-
-        if (!$coding->matches('~^[\w\-]+$~')) {
-            throw new DomainException($coding->toString());
+        if (!Str::of($coding)->matches('~^[\w\-]+$~')) {
+            throw new DomainException($coding);
         }
 
-        parent::__construct($coding->toString());
+        $this->coding = $coding;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $coding): Maybe
+    {
+        try {
+            return Maybe::just(new self($coding));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
+    }
+
+    public function toString(): string
+    {
+        return $this->coding;
     }
 }

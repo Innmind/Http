@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\AcceptLanguageFactory,
     Factory\HeaderFactory,
     Header\AcceptLanguage,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class AcceptLanguageFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Accept-Language'),
             Str::of('da, en-gb;q=0.8, en;q=0.7'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(AcceptLanguage::class, $h);
@@ -32,25 +34,25 @@ class AcceptLanguageFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new AcceptLanguageFactory)(
+        $this->assertNull((new AcceptLanguageFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('@');
-
-        (new AcceptLanguageFactory)(
+        $this->assertNull((new AcceptLanguageFactory)(
             Str::of('Accept-Language'),
             Str::of('@'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

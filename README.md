@@ -4,7 +4,9 @@
 [![codecov](https://codecov.io/gh/innmind/http/branch/develop/graph/badge.svg)](https://codecov.io/gh/innmind/http)
 [![Type Coverage](https://shepherd.dev/github/innmind/http/coverage.svg)](https://shepherd.dev/github/innmind/http)
 
-Value objects and interfaces to abstract http messages (because [PSR7](https://github.com/php-fig/http-message) didn't go far enough).
+Immutable value objects and interfaces to abstract http messages.
+
+**Important**: you must use [`vimeo/psalm`](https://packagist.org/packages/vimeo/psalm) to make sure you use this library correctly.
 
 ## Build a `ServerRequest`
 
@@ -20,7 +22,6 @@ $request = ServerRequestFactory::default()();
 use Innmind\Http\{
     Message\Response\Response,
     Message\StatusCode,
-    Message\ReasonPhrase,
     ProtocolVersion,
     Headers,
     Header,
@@ -28,24 +29,19 @@ use Innmind\Http\{
     Header\ContentTypeValue,
     ResponseSender,
 };
-use Innmind\Stream\Readable\Stream;
+use Innmind\Filesystem\File\Content;
+use Innmind\TimeContinuum\Earth\Clock;
 
 $response = new Response(
-    $code = StatusCode::of('OK'),
-    $code->associatedReasonPhrase(),
-    new ProtocolVersion(1, 1),
+    StatusCode::ok,
+    ProtocolVersion::v11,
     Headers::of(
-        new ContentType(
-            new ContentTypeValue(
-                'application',
-                'json',
-            ),
-        ),
+        ContentType::of('application', 'json'),
     ),
-    Stream::ofContent('{"some": "data"}'),
+    Content\Lines::ofContent('{"some": "data"}'),
 );
 
-(new ResponseSender)($response);
+(new ResponseSender(new Clock))($response);
 ```
 
 will build the following message:

@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\RangeFactory,
     Factory\HeaderFactory,
     Header\Range,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class RangeFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Range'),
             Str::of('bytes=0-42'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Range::class, $h);
@@ -32,25 +34,25 @@ class RangeFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new RangeFactory)(
+        $this->assertNull((new RangeFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Range');
-
-        (new RangeFactory)(
+        $this->assertNull((new RangeFactory)(
             Str::of('Range'),
             Str::of('foo'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

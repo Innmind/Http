@@ -13,8 +13,8 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue
 };
+use Innmind\Filesystem\File\Content\Lines;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -23,14 +23,14 @@ class StringableTest extends TestCase
     {
         $request = new Request(
             $url = Url::of('http://example.com/foo/bar?query=string'),
-            Method::post(),
-            new ProtocolVersion(2, 0),
+            Method::post,
+            ProtocolVersion::v20,
             Headers::of(
                 new ContentType(
-                    new ContentTypeValue('text', 'plain')
-                )
+                    new ContentTypeValue('text', 'plain'),
+                ),
             ),
-            Stream::ofContent('some body')
+            Lines::ofContent('some body'),
         );
         $stringable = new Stringable($request);
 

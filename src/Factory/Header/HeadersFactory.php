@@ -11,14 +11,25 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Str;
 
+/**
+ * @psalm-immutable
+ */
 final class HeadersFactory implements HeadersFactoryInterface
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
-    private HeaderFactoryInterface $headerFactory;
+    private TryFactory $headerFactory;
+    /** @var array<string, string> */
+    private array $server;
 
-    public function __construct(HeaderFactoryInterface $headerFactory)
-    {
-        $this->headerFactory = $headerFactory;
+    /**
+     * @param array<string, string> $server
+     */
+    public function __construct(
+        HeaderFactoryInterface $headerFactory,
+        array $server,
+    ) {
+        $this->headerFactory = new TryFactory($headerFactory);
+        $this->server = $server;
     }
 
     public function __invoke(): Headers
@@ -26,14 +37,21 @@ final class HeadersFactory implements HeadersFactoryInterface
         $headers = [];
 
         foreach ($this->headers() as $name => $value) {
-            /** @psalm-suppress RedundantCastGivenDocblockType */
             $headers[] = ($this->headerFactory)(
-                Str::of((string) $name),
-                Str::of((string) $value),
+                Str::of($name),
+                Str::of($value),
             );
         }
 
-        return new Headers(...$headers);
+        return Headers::of(...$headers);
+    }
+
+    public static function default(HeaderFactoryInterface $headerFactory): self
+    {
+        /** @var array<string, string> */
+        $server = $_SERVER;
+
+        return new self($headerFactory, $server);
     }
 
     /**
@@ -43,11 +61,7 @@ final class HeadersFactory implements HeadersFactoryInterface
     {
         $headers = [];
 
-        /**
-         * @var string $key
-         * @var string $value
-         */
-        foreach ($_SERVER as $key => $value) {
+        foreach ($this->server as $key => $value) {
             $key = Str::of($key);
 
             if (!$key->matches(self::FORMAT)) {
@@ -58,7 +72,8 @@ final class HeadersFactory implements HeadersFactoryInterface
                 ->pregReplace('~^HTTP_~', '')
                 ->replace('_', '-')
                 ->toString();
-            $headers[$key] = $value;
+            /** @psalm-suppress RedundantCastGivenDocblockType */
+            $headers[$key] = (string) $value;
         }
 
         return $headers;
