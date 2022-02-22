@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/innmind/http/branch/develop/graph/badge.svg)](https://codecov.io/gh/innmind/http)
 [![Type Coverage](https://shepherd.dev/github/innmind/http/coverage.svg)](https://shepherd.dev/github/innmind/http)
 
-Value objects and interfaces to abstract http messages (because [PSR7](https://github.com/php-fig/http-message) didn't go far enough).
+Value objects and interfaces to abstract http messages.
 
 ## Build a `ServerRequest`
 
