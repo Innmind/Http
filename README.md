@@ -6,6 +6,8 @@
 
 Immutable value objects and interfaces to abstract http messages.
 
+**Important**: you must use [`vimeo/psalm`](https://packagist.org/packages/vimeo/psalm) to make sure you use this library correctly.
+
 ## Build a `ServerRequest`
 
 ```php
