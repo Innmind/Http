@@ -6,101 +6,122 @@ namespace Innmind\Http\Factory\Files;
 use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File,
-    File\Status\ExceedsFormMaxFileSize,
-    File\Status\ExceedsIniMaxFileSize,
-    File\Status\NoTemporaryDirectory,
-    File\Status\NotUploaded,
-    File\Status\Ok,
-    File\Status\PartiallyUploaded,
-    File\Status\StoppedByExtension,
-    File\Status\WriteFailed,
     File\Status,
     Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
-use Innmind\Filesystem\Stream\LazyStream;
+use Innmind\Filesystem\{
+    File,
+    File\Content,
+};
 use Innmind\Url\Path;
+use Innmind\Immutable\{
+    Map,
+    Either,
+};
 
+/**
+ * @psalm-immutable
+ *
+ * The structure of $_FILES is way too weird to describe it as type, so there is
+ * a bunch of annotations to suppress Psalm errors because it can't understand
+ * the data being passed around
+ */
 final class FilesFactory implements FilesFactoryInterface
 {
+    private array $files;
+
+    public function __construct(array $files)
+    {
+        $this->files = $files;
+    }
+
     public function __invoke(): Files
     {
-        $map = [];
+        $files = [];
 
-        /**
-         * @var string $name
-         * @var array{name: string, tmp_name: string, error: int, type: string}|array{name: list<string>, tmp_name: list<string>, error: list<int>, type: list<string>} $content
-         */
-        foreach ($_FILES as $name => $content) {
-            if (\is_array($content['name'])) {
-                foreach ($content['name'] as $subName => $filename) {
-                    /** @psalm-suppress PossiblyInvalidArrayAccess */
-                    $map[] = $this->buildFile(
-                        $filename,
-                        $content['tmp_name'][$subName],
-                        $content['error'][$subName],
-                        $content['type'][$subName],
-                        $name.'.'.$subName,
-                    );
-                }
+        /** @var array $content */
+        foreach ($this->files as $key => $content) {
+            $files[$key] = $this->map($content);
+        }
 
-                continue;
-            }
+        return Files::of($files);
+    }
 
-            /**
-             * @psalm-suppress PossiblyInvalidArgument
-             * @psalm-suppress PossiblyInvalidCast
-             */
-            $map[] = $this->buildFile(
+    public static function default(): self
+    {
+        return new self($_FILES);
+    }
+
+    private function map(array $content): array|Either
+    {
+        /** @psalm-suppress MixedArgument */
+        if (\is_string($content['name'])) {
+            return $this->buildFile(
                 $content['name'],
                 $content['tmp_name'],
                 $content['error'],
                 $content['type'],
-                $name,
             );
         }
 
-        return new Files(...$map);
+        $nested = [];
+
+        /** @psalm-suppress MixedAssignment */
+        foreach ($content['name'] as $key => $_) {
+            /**
+             * @psalm-suppress MixedArrayOffset
+             * @psalm-suppress MixedArrayAccess
+             */
+            $nested[$key] = $this->map([
+                'name' => $content['name'][$key],
+                'tmp_name' => $content['tmp_name'][$key],
+                'error' => $content['error'][$key],
+                'type' => $content['type'][$key],
+            ]);
+        }
+
+        return $nested;
     }
 
+    /**
+     * @return Either<Status, File>
+     */
     private function buildFile(
         string $name,
         string $path,
         int $status,
         string $media,
-        string $uploadKey
-    ): File {
-        return new File\File(
-            $name,
-            new LazyStream(Path::of($path)),
-            $uploadKey,
-            $this->status($status),
-            MediaType::of($media),
-        );
-    }
+    ): Either {
+        $status = $this->status($status);
 
-    private function status(int $status): Status
-    {
-        switch ($status) {
-            case \UPLOAD_ERR_FORM_SIZE:
-                return new ExceedsFormMaxFileSize;
-            case \UPLOAD_ERR_INI_SIZE:
-                return new ExceedsIniMaxFileSize;
-            case \UPLOAD_ERR_NO_TMP_DIR:
-                return new NoTemporaryDirectory;
-            case \UPLOAD_ERR_NO_FILE:
-                return new NotUploaded;
-            case \UPLOAD_ERR_OK:
-                return new Ok;
-            case \UPLOAD_ERR_PARTIAL:
-                return new PartiallyUploaded;
-            case \UPLOAD_ERR_EXTENSION:
-                return new StoppedByExtension;
-            case \UPLOAD_ERR_CANT_WRITE:
-                return new WriteFailed;
+        if (!\is_null($status)) {
+            /** @var Either<Status, File> */
+            return Either::left($status);
         }
 
-        throw new LogicException("Unknown file upload status $status");
+        /** @var Either<Status, File> */
+        return Either::right(File\File::named(
+            $name,
+            Content\AtPath::of(Path::of($path)),
+            MediaType::maybe($media)->match(
+                static fn($media) => $media,
+                static fn() => MediaType::null(),
+            ),
+        ));
+    }
+
+    private function status(int $status): ?Status
+    {
+        return match ($status) {
+            \UPLOAD_ERR_FORM_SIZE => Status::exceedsFormMaxFileSize,
+            \UPLOAD_ERR_INI_SIZE => Status::exceedsIniMaxFileSize,
+            \UPLOAD_ERR_NO_TMP_DIR => Status::noTemporaryDirectory,
+            \UPLOAD_ERR_NO_FILE => Status::notUploaded,
+            \UPLOAD_ERR_OK => null,
+            \UPLOAD_ERR_PARTIAL => Status::partiallyUploaded,
+            \UPLOAD_ERR_EXTENSION => Status::stoppedByExtension,
+            \UPLOAD_ERR_CANT_WRITE => Status::writeFailed,
+        };
     }
 }

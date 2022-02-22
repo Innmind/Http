@@ -20,19 +20,27 @@ use Innmind\Http\{
     Message\Cookies,
     Headers,
 };
+use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;
 
 class ServerRequestFactoryTest extends TestCase
 {
     public function testMake()
     {
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $_SERVER['HTTP_HOST'] = 'localhost:8080';
+        $_SERVER['REQUEST_URI'] = '/index.php';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $f = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
+            fn() => $this->createMock(Content::class),
             $env = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
-            $files = $this->createMock(FilesFactory::class)
+            $files = $this->createMock(FilesFactory::class),
+            $_SERVER,
         );
         $headers
             ->expects($this->once())
@@ -41,15 +49,15 @@ class ServerRequestFactoryTest extends TestCase
         $query
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Query::of());
+            ->willReturn(Query::of([]));
         $form
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Form::of());
+            ->willReturn(Form::of([]));
         $files
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Files::of());
+            ->willReturn(Files::of([]));
         $cookies
             ->expects($this->once())
             ->method('__invoke')
@@ -61,10 +69,6 @@ class ServerRequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
-        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-        $_SERVER['HTTP_HOST'] = 'localhost:8080';
-        $_SERVER['REQUEST_URI'] = '/index.php';
-        $_SERVER['REQUEST_METHOD'] = 'GET';
         $r = ($f)();
 
         $this->assertInstanceOf(ServerRequest::class, $r);
@@ -73,13 +77,20 @@ class ServerRequestFactoryTest extends TestCase
 
     public function testMakeWithUser()
     {
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $_SERVER['HTTP_HOST'] = 'localhost:8080';
+        $_SERVER['REQUEST_URI'] = '/index.php';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['PHP_AUTH_USER'] = 'john';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
+            fn() => $this->createMock(Content::class),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
-            $files = $this->createMock(FilesFactory::class)
+            $files = $this->createMock(FilesFactory::class),
+            $_SERVER,
         );
         $headers
             ->expects($this->once())
@@ -88,15 +99,15 @@ class ServerRequestFactoryTest extends TestCase
         $query
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Query::of());
+            ->willReturn(Query::of([]));
         $form
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Form::of());
+            ->willReturn(Form::of([]));
         $files
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Files::of());
+            ->willReturn(Files::of([]));
         $cookies
             ->expects($this->once())
             ->method('__invoke')
@@ -108,11 +119,6 @@ class ServerRequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
-        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-        $_SERVER['HTTP_HOST'] = 'localhost:8080';
-        $_SERVER['REQUEST_URI'] = '/index.php';
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['PHP_AUTH_USER'] = 'john';
         $request = ($factory)();
 
         $this->assertInstanceOf(ServerRequest::class, $request);
@@ -121,13 +127,21 @@ class ServerRequestFactoryTest extends TestCase
 
     public function testMakeWithUserAndPassword()
     {
+        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
+        $_SERVER['HTTP_HOST'] = 'localhost:8080';
+        $_SERVER['REQUEST_URI'] = '/index.php';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['PHP_AUTH_USER'] = 'john';
+        $_SERVER['PHP_AUTH_PW'] = 'duh';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
+            fn() => $this->createMock(Content::class),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
             $form = $this->createMock(FormFactory::class),
-            $files = $this->createMock(FilesFactory::class)
+            $files = $this->createMock(FilesFactory::class),
+            $_SERVER,
         );
         $headers
             ->expects($this->once())
@@ -136,15 +150,15 @@ class ServerRequestFactoryTest extends TestCase
         $query
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Query::of());
+            ->willReturn(Query::of([]));
         $form
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Form::of());
+            ->willReturn(Form::of([]));
         $files
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(Files::of());
+            ->willReturn(Files::of([]));
         $cookies
             ->expects($this->once())
             ->method('__invoke')
@@ -156,12 +170,6 @@ class ServerRequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
-        $_SERVER['SERVER_PROTOCOL'] = 'HTTP/1.1';
-        $_SERVER['HTTP_HOST'] = 'localhost:8080';
-        $_SERVER['REQUEST_URI'] = '/index.php';
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['PHP_AUTH_USER'] = 'john';
-        $_SERVER['PHP_AUTH_PW'] = 'duh';
         $request = ($factory)();
 
         $this->assertInstanceOf(ServerRequest::class, $request);
@@ -172,7 +180,7 @@ class ServerRequestFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             ServerRequestFactoryInterface::class,
-            ServerRequestFactory::default()
+            ServerRequestFactory::default(new Clock),
         );
     }
 }

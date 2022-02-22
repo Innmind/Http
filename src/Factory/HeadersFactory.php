@@ -5,6 +5,9 @@ namespace Innmind\Http\Factory;
 
 use Innmind\Http\Headers;
 
+/**
+ * @psalm-immutable
+ */
 interface HeadersFactory
 {
     public function __invoke(): Headers;

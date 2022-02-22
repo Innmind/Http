@@ -4,26 +4,31 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header\AcceptRanges,
     Header\AcceptRangesValue,
     Header,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AcceptRangesFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class AcceptRangesFactory implements HeaderFactory
 {
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept-ranges') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        return new AcceptRanges(
-            new AcceptRangesValue(
-                $value->toString(),
-            ),
+        /** @var Maybe<Header> */
+        return AcceptRangesValue::of($value->toString())->map(
+            static fn($value) => new AcceptRanges($value),
         );
     }
 }

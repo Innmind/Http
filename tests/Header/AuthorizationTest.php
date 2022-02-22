@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\AuthorizationValue
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class AuthorizationTest extends TestCase
@@ -18,15 +17,17 @@ class AuthorizationTest extends TestCase
     public function testInterface()
     {
         $h = new Authorization(
-            $av = new AuthorizationValue('Basic', '')
+            $av = new AuthorizationValue('Basic', ''),
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Authorization', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame(Value::class, (string) $v->type());
-        $this->assertSame($av, first($v));
+        $this->assertSame($av, $v->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Authorization: "Basic"', $h->toString());
     }
 

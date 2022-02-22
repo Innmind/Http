@@ -14,14 +14,28 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
+use Innmind\Filesystem\{
+    Adapter\Chunk,
+    File,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+};
 
 final class ResponseSender implements Sender
 {
     private Clock $clock;
+    /** @var callable(File\Content): Sequence<Str> */
+    private $chunk;
 
-    public function __construct(Clock $clock)
+    /**
+     * @param callable(File\Content): Sequence<Str> $chunk
+     */
+    public function __construct(Clock $clock, callable $chunk = new Chunk)
     {
         $this->clock = $clock;
+        $this->chunk = $chunk;
     }
 
     public function __invoke(Response $response): void
@@ -35,17 +49,21 @@ final class ResponseSender implements Sender
                 'HTTP/%s %s %s',
                 $response->protocolVersion()->toString(),
                 $response->statusCode()->toString(),
-                $response->reasonPhrase()->toString(),
+                $response->statusCode()->reasonPhrase(),
             ),
             true,
-            $response->statusCode()->value(),
+            $response->statusCode()->toInt(),
         );
 
-        if (!$response->headers()->contains('date')) {
-            \header((new Date(new DateValue($this->clock->now())))->toString());
-        }
+        $headers = $response->headers();
+        $headers = $headers
+            ->get('date')
+            ->match(
+                static fn() => $headers,
+                fn() => ($headers)(Date::of($this->clock->now())),
+            );
 
-        $response->headers()->foreach(function(Header $header): void {
+        $_ = $headers->foreach(function(Header $header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
 
@@ -55,23 +73,19 @@ final class ResponseSender implements Sender
             \header($header->toString(), false);
         });
 
-        $body = $response->body();
-        $body->rewind();
-
-        while (!$body->end()) {
-            echo $body->read(4096)->toString();
+        $_ = ($this->chunk)($response->body())->foreach(static function($chunk): void {
+            echo $chunk->toString();
             \flush();
-        }
+        });
 
         if (\function_exists('fastcgi_finish_request')) {
-            \fastcgi_finish_request();
+            fastcgi_finish_request();
         }
     }
 
     private function sendCookie(SetCookie $cookie): void
     {
-        /** @psalm-suppress ArgumentTypeCoercion */
-        $cookie->values()->foreach(static function(CookieValue $value): void {
+        $_ = $cookie->cookies()->foreach(static function(CookieValue $value): void {
             $parameters = $value->parameters()->values()->reduce(
                 [],
                 static function(array $parameters, Parameter $parameter): array {
@@ -84,7 +98,7 @@ final class ResponseSender implements Sender
                             /** @psalm-suppress PossiblyFalseReference Expires object uses a valid date */
                             $timestamp = \DateTimeImmutable::createFromFormat(
                                 (new Http)->toString(),
-                                \substr($parameter->value(), 1, -1) // remove double quotes
+                                \substr($parameter->value(), 1, -1), // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence
                             /** @psalm-suppress MixedAssignment */
@@ -118,7 +132,7 @@ final class ResponseSender implements Sender
                     }
 
                     return $parameters;
-                }
+                },
             );
 
             $options = [

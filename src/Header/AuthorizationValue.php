@@ -4,31 +4,42 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AuthorizationValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class AuthorizationValue implements Value
 {
     private string $scheme;
     private string $parameter;
 
     public function __construct(string $scheme, string $parameter)
     {
-        $scheme = Str::of($scheme);
-
-        if (!$scheme->matches('~^\w+$~')) {
-            throw new DomainException($scheme->toString());
+        if (!Str::of($scheme)->matches('~^\w+$~')) {
+            throw new DomainException($scheme);
         }
 
-        $this->scheme = $scheme->toString();
+        $this->scheme = $scheme;
         $this->parameter = $parameter;
-        parent::__construct(
-            $scheme
-                ->prepend('"')
-                ->append('" ')
-                ->append($parameter)
-                ->trim()
-                ->toString(),
-        );
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(string $scheme, string $parameter): Maybe
+    {
+        try {
+            return Maybe::just(new self($scheme, $parameter));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function scheme(): string
@@ -39,5 +50,15 @@ final class AuthorizationValue extends Value\Value
     public function parameter(): string
     {
         return $this->parameter;
+    }
+
+    public function toString(): string
+    {
+        return Str::of($this->scheme)
+            ->prepend('"')
+            ->append('" ')
+            ->append($this->parameter)
+            ->trim()
+            ->toString();
     }
 }

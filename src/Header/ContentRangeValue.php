@@ -4,9 +4,15 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Exception\DomainException;
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class ContentRangeValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class ContentRangeValue implements Value
 {
     private string $unit;
     private int $firstPosition;
@@ -17,7 +23,7 @@ final class ContentRangeValue extends Value\Value
         string $unit,
         int $firstPosition,
         int $lastPosition,
-        int $length = null
+        int $length = null,
     ) {
         if (
             !Str::of($unit)->matches('~^\w+$~') ||
@@ -34,13 +40,25 @@ final class ContentRangeValue extends Value\Value
         $this->firstPosition = $firstPosition;
         $this->lastPosition = $lastPosition;
         $this->length = $length;
-        parent::__construct(\sprintf(
-            '%s %s-%s/%s',
-            $unit,
-            $firstPosition,
-            $lastPosition,
-            $length ?? '*',
-        ));
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        string $unit,
+        int $firstPosition,
+        int $lastPosition,
+        int $length = null,
+    ): Maybe {
+        try {
+            return Maybe::just(new self($unit, $firstPosition, $lastPosition, $length));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function unit(): string
@@ -58,13 +76,22 @@ final class ContentRangeValue extends Value\Value
         return $this->lastPosition;
     }
 
-    public function isLengthKnown(): bool
+    /**
+     * @return Maybe<int>
+     */
+    public function length(): Maybe
     {
-        return $this->length !== null;
+        return Maybe::of($this->length);
     }
 
-    public function length(): ?int
+    public function toString(): string
     {
-        return $this->length;
+        return \sprintf(
+            '%s %s-%s/%s',
+            $this->unit,
+            $this->firstPosition,
+            $this->lastPosition,
+            $this->length ?? '*',
+        );
     }
 }

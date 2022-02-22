@@ -11,8 +11,11 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
+use Innmind\Filesystem\File\Content;
 
+/**
+ * @psalm-immutable
+ */
 final class Stringable implements RequestInterface
 {
     private RequestInterface $request;
@@ -42,7 +45,7 @@ final class Stringable implements RequestInterface
         return $this->request->headers();
     }
 
-    public function body(): Readable
+    public function body(): Content
     {
         return $this->request->body();
     }

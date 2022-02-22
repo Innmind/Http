@@ -4,24 +4,27 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
-use function Innmind\Immutable\join;
+use Innmind\Immutable\{
+    Set,
+    Str,
+};
 
 /**
- * @template V of Value
- * @implements HeaderInterface<V>
+ * @psalm-immutable
  */
-class Header implements HeaderInterface
+final class Header implements HeaderInterface
 {
     private string $name;
-    /** @var Set<V> */
+    /** @var Set<Value> */
     private Set $values;
 
+    /**
+     * @no-named-arguments
+     */
     public function __construct(string $name, Value ...$values)
     {
         $this->name = $name;
-        /** @var Set<V> */
-        $this->values = Set::of(Value::class, ...$values);
+        $this->values = Set::of(...$values);
     }
 
     public function name(): string
@@ -36,11 +39,8 @@ class Header implements HeaderInterface
 
     public function toString(): string
     {
-        $values = $this->values->mapTo(
-            'string',
-            static fn(Value $value): string => $value->toString(),
-        );
-        $values = join(', ', $values);
+        $values = $this->values->map(static fn($value) => $value->toString());
+        $values = Str::of(', ')->join($values);
 
         return $values->prepend("{$this->name}: ")->toString();
     }

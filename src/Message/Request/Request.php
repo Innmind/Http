@@ -5,35 +5,36 @@ namespace Innmind\Http\Message\Request;
 
 use Innmind\Http\{
     Message\Request as RequestInterface,
-    Message\Message,
     Message\Method,
     ProtocolVersion,
     Headers,
 };
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
-use Innmind\Filesystem\Stream\NullStream;
+use Innmind\Filesystem\File\Content;
 
-class Request extends Message implements RequestInterface
+/**
+ * @psalm-immutable
+ */
+final class Request implements RequestInterface
 {
     private Url $url;
     private Method $method;
+    private ProtocolVersion $protocolVersion;
+    private Headers $headers;
+    private Content $body;
 
     public function __construct(
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
-        Readable $body = null
+        Content $body = null,
     ) {
         $this->url = $url;
         $this->method = $method;
-
-        parent::__construct(
-            $protocolVersion,
-            $headers ?? new Headers,
-            $body ?? new NullStream,
-        );
+        $this->protocolVersion = $protocolVersion;
+        $this->headers = $headers ?? Headers::of();
+        $this->body = $body ?? Content\None::of();
     }
 
     public function url(): Url
@@ -44,5 +45,20 @@ class Request extends Message implements RequestInterface
     public function method(): Method
     {
         return $this->method;
+    }
+
+    public function protocolVersion(): ProtocolVersion
+    {
+        return $this->protocolVersion;
+    }
+
+    public function headers(): Headers
+    {
+        return $this->headers;
+    }
+
+    public function body(): Content
+    {
+        return $this->body;
     }
 }

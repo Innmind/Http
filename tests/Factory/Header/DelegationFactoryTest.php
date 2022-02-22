@@ -10,7 +10,8 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\{
     Map,
-    Str
+    Str,
+    Maybe,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -20,18 +21,8 @@ class DelegationFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new DelegationFactory(
-                Map::of('string', HeaderFactory::class)
-            ),
+            new DelegationFactory(Map::of()),
         );
-    }
-
-    public function testThrowWhenInvalidMap()
-    {
-        $this->expectException(\TypeError::class);
-        $this->expectExceptionMessage('Argument 1 must be of type Map<string, Innmind\Http\Factory\HeaderFactory>');
-
-        new DelegationFactory(Map::of('string', 'callable'));
     }
 
     public function testMake()
@@ -44,16 +35,16 @@ class DelegationFactoryTest extends TestCase
             ->method('__invoke')
             ->with($name, $value)
             ->willReturn(
-                $expected = $this->createMock(Header::class)
+                $expected = Maybe::just($this->createMock(Header::class)),
             );
         $neverToBeCalled = $this->createMock(HeaderFactory::class);
         $neverToBeCalled
             ->expects($this->never())
             ->method('__invoke');
         $factory = new DelegationFactory(
-            Map::of('string', HeaderFactory::class)
+            Map::of()
                 ->put('x-foo', $mock)
-                ->put('foo', $neverToBeCalled)
+                ->put('foo', $neverToBeCalled),
         );
 
         $header = ($factory)($name, $value);

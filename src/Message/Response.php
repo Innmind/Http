@@ -5,8 +5,10 @@ namespace Innmind\Http\Message;
 
 use Innmind\Http\Message;
 
+/**
+ * @psalm-immutable
+ */
 interface Response extends Message
 {
     public function statusCode(): StatusCode;
-    public function reasonPhrase(): ReasonPhrase;
 }

@@ -3,75 +3,83 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\{
-    Message\Form\Parameter,
-    Exception\FormParameterNotFound,
-};
-use Innmind\Immutable\Map;
+use Innmind\Immutable\Maybe;
 
+/**
+ * @psalm-immutable
+ */
 final class Form implements \Countable
 {
-    /** @var Map<string, Parameter> */
-    private Map $parameters;
+    private array $data;
 
-    public function __construct(Parameter ...$parameters)
+    private function __construct(array $data)
     {
-        /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
-
-        foreach ($parameters as $parameter) {
-            $this->parameters = ($this->parameters)(
-                $parameter->name(),
-                $parameter,
-            );
-        }
-    }
-
-    public static function of(Parameter ...$parameters): self
-    {
-        return new self(...$parameters);
+        $this->data = $data;
     }
 
     /**
-     * @throws FormParameterNotFound
+     * @psalm-pure
      */
-    public function get(string $key): Parameter
+    public static function of(array $data): self
     {
-        if (!$this->contains($key)) {
-            throw new FormParameterNotFound($key);
+        return new self($data);
+    }
+
+    /**
+     * @return Maybe<string|array>
+     */
+    public function get(int|string $key): Maybe
+    {
+        if (!\array_key_exists($key, $this->data)) {
+            /** @var Maybe<string|array> */
+            return Maybe::nothing();
         }
 
-        return $this->parameters->get($key);
-    }
-
-    public function contains(string $key): bool
-    {
-        return $this->parameters->contains($key);
+        /** @var Maybe<string|array> */
+        return Maybe::just($this->data[$key]);
     }
 
     /**
-     * @param callable(Parameter): void $function
+     * @return Maybe<self>
      */
-    public function foreach(callable $function): void
+    public function list(int|string $key): Maybe
     {
-        $this->parameters->values()->foreach($function);
+        /** @psalm-suppress InvalidArgument Psalm doesn't understand the filters */
+        return $this
+            ->get($key)
+            ->filter(static fn($data) => \is_array($data))
+            ->filter(static fn(array $data) => \array_is_list($data))
+            ->map(static fn(array $data) => new self($data));
     }
 
     /**
-     * @template R
-     *
-     * @param R $carry
-     * @param callable(R, Parameter): R $reducer
-     *
-     * @return R
+     * @return Maybe<self>
      */
-    public function reduce($carry, callable $reducer)
+    public function dictionary(int|string $key): Maybe
     {
-        return $this->parameters->values()->reduce($carry, $reducer);
+        /** @psalm-suppress InvalidArgument Psalm doesn't understand the filters */
+        return $this
+            ->get($key)
+            ->filter(static fn($data) => \is_array($data))
+            ->filter(static fn(array $data) => !\array_is_list($data))
+            ->map(static fn(array $data) => new self($data));
     }
 
-    public function count()
+    public function contains(int|string $key): bool
     {
-        return $this->parameters->size();
+        return $this->get($key)->match(
+            static fn() => true,
+            static fn() => false,
+        );
+    }
+
+    public function data(): array
+    {
+        return $this->data;
+    }
+
+    public function count(): int
+    {
+        return \count($this->data);
     }
 }

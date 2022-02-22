@@ -3,34 +3,36 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
-use Innmind\Http\Exception\EnvironmentVariableNotFound;
-use Innmind\Immutable\Map;
-use function Innmind\Immutable\assertMap;
+use Innmind\Immutable\{
+    Map,
+    SideEffect,
+    Maybe,
+};
 
+/**
+ * @psalm-immutable
+ */
 final class Environment implements \Countable
 {
     /** @var Map<string, string> */
     private Map $variables;
 
+    /**
+     * @param Map<string, string>|null $variables
+     */
     public function __construct(Map $variables = null)
     {
         /** @var Map<string, string> */
-        $variables = $variables ?? Map::of('string', 'string');
-
-        assertMap('string', 'string', $variables, 1);
+        $variables = $variables ?? Map::of();
 
         $this->variables = $variables;
     }
 
     /**
-     * @throws EnvironmentVariableNotFound
+     * @return Maybe<string>
      */
-    public function get(string $name): string
+    public function get(string $name): Maybe
     {
-        if (!$this->contains($name)) {
-            throw new EnvironmentVariableNotFound($name);
-        }
-
         return $this->variables->get($name);
     }
 
@@ -42,9 +44,9 @@ final class Environment implements \Countable
     /**
      * @param callable(string, string): void $function
      */
-    public function foreach(callable $function): void
+    public function foreach(callable $function): SideEffect
     {
-        $this->variables->foreach($function);
+        return $this->variables->foreach($function);
     }
 
     /**
@@ -60,7 +62,7 @@ final class Environment implements \Countable
         return $this->variables->reduce($carry, $reducer);
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->variables->size();
     }

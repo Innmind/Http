@@ -17,7 +17,7 @@ class AcceptCharsetTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptCharset(
-            $v = new AcceptCharsetValue('unicode-1-1', new Quality(0.8))
+            $v = new AcceptCharsetValue('unicode-1-1', new Quality(0.8)),
         );
 
         $this->assertInstanceOf(Header::class, $h);

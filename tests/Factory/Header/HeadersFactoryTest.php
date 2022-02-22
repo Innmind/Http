@@ -5,9 +5,13 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\HeadersFactory,
-    Factory\Header\HeaderFactory,
+    Factory\HeaderFactory,
     Factory\HeadersFactory as HeadersFactoryInterface,
     Headers
+};
+use Innmind\Immutable\{
+    Maybe,
+    Str,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -20,8 +24,13 @@ class HeadersFactoryTest extends TestCase
         $_SERVER['CONTENT_MD5'] = '0';
         $_SERVER['CONTENT_TYPE'] = 'text/plain';
 
-        $f = new HeadersFactory(
-            new HeaderFactory,
+        $f = HeadersFactory::default(
+            new class implements HeaderFactory {
+                public function __invoke(Str $name, Str $value): Maybe
+                {
+                    return Maybe::nothing();
+                }
+            },
         );
 
         $this->assertInstanceOf(HeadersFactoryInterface::class, $f);

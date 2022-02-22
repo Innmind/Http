@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\ContentRangeFactory,
     Header\ContentRange,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +17,7 @@ class ContentRangeFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ContentRangeFactory
+            new ContentRangeFactory,
         );
     }
 
@@ -27,6 +26,9 @@ class ContentRangeFactoryTest extends TestCase
         $header = (new ContentRangeFactory)(
             Str::of('Content-Range'),
             Str::of('bytes 0-42/*'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
@@ -38,31 +40,34 @@ class ContentRangeFactoryTest extends TestCase
         $header = (new ContentRangeFactory)(
             Str::of('Content-Range'),
             Str::of('bytes 0-42/66'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentRange::class, $header);
         $this->assertSame('Content-Range: bytes 0-42/66', $header->toString());
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new ContentRangeFactory)(
+        $this->assertNull((new ContentRangeFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Content-Range');
-
-        (new ContentRangeFactory)(
+        $this->assertNull((new ContentRangeFactory)(
             Str::of('Content-Range'),
             Str::of('foo'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

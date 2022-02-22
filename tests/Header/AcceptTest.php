@@ -25,7 +25,7 @@ class AcceptTest extends TestCase
                 'text',
                 'html',
                 new Quality(0.8),
-            )
+            ),
         );
 
         $this->assertInstanceOf(Header::class, $h);

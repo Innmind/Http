@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\AuthorizationFactory,
     Factory\HeaderFactory,
     Header\Authorization,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class AuthorizationFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Authorization'),
             Str::of('Basic realm="WallyWorld"'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Authorization::class, $h);
@@ -32,25 +34,25 @@ class AuthorizationFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new AuthorizationFactory)(
+        $this->assertNull((new AuthorizationFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Authorization');
-
-        (new AuthorizationFactory)(
+        $this->assertNull((new AuthorizationFactory)(
             Str::of('Authorization'),
             Str::of('@'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

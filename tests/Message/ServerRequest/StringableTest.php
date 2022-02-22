@@ -15,8 +15,8 @@ use Innmind\Http\{
     Header\Host,
     Header\HostValue
 };
+use Innmind\Filesystem\File\Content\Lines;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable\Stream;
 use PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -25,17 +25,17 @@ class StringableTest extends TestCase
     {
         $request = new ServerRequest(
             $url = Url::of('http://example.com/foo/bar'),
-            Method::post(),
-            new ProtocolVersion(2, 0),
+            Method::post,
+            ProtocolVersion::v20,
             Headers::of(
                 new Host(
                     new HostValue(
                         $url->authority()->host(),
-                        $url->authority()->port()
-                    )
-                )
+                        $url->authority()->port(),
+                    ),
+                ),
             ),
-            Stream::ofContent('some body')
+            Lines::ofContent('some body'),
         );
         $stringable = new Stringable($request);
 
@@ -63,24 +63,24 @@ RAW;
     {
         $request = new ServerRequest(
             $url = Url::of('http://example.com/foo/bar'),
-            Method::post(),
-            new ProtocolVersion(2, 0),
+            Method::post,
+            ProtocolVersion::v20,
             Headers::of(
                 new Host(
                     new HostValue(
                         $url->authority()->host(),
-                        $url->authority()->port()
-                    )
-                )
+                        $url->authority()->port(),
+                    ),
+                ),
             ),
-            Stream::ofContent('some body'),
+            Lines::ofContent('some body'),
             null,
             null,
-            Query::of(
-                new Query\Parameter('foo', 'bar'),
-                new Query\Parameter('bar', '42'),
-                new Query\Parameter('baz', ['foo'])
-            )
+            Query::of([
+                'foo' => 'bar',
+                'bar' => '42',
+                'baz' => ['foo'],
+            ]),
         );
         $stringable = new Stringable($request);
 
@@ -108,28 +108,25 @@ RAW;
     {
         $request = new ServerRequest(
             $url = Url::of('http://example.com/foo/bar'),
-            Method::post(),
-            new ProtocolVersion(2, 0),
+            Method::post,
+            ProtocolVersion::v20,
             Headers::of(
                 new Host(
                     new HostValue(
                         $url->authority()->host(),
-                        $url->authority()->port()
-                    )
-                )
-            ),
-            null,
-            null,
-            null,
-            null,
-            Form::of(
-                new Form\Parameter('foo', 'bar'),
-                new Form\Parameter('bar', '42'),
-                new Form\Parameter(
-                    'baz',
-                    ['foo'],
+                        $url->authority()->port(),
+                    ),
                 ),
             ),
+            null,
+            null,
+            null,
+            null,
+            Form::of([
+                'foo' => 'bar',
+                'bar' => '42',
+                'baz' => ['foo'],
+            ]),
         );
         $stringable = new Stringable($request);
 

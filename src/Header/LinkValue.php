@@ -9,10 +9,13 @@ use Innmind\Immutable\{
     Str,
     Map,
     Sequence,
+    Maybe,
 };
-use function Innmind\Immutable\join;
 
-final class LinkValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class LinkValue implements Value
 {
     private Url $url;
     private string $rel;
@@ -22,13 +25,13 @@ final class LinkValue extends Value\Value
     public function __construct(
         Url $url,
         string $rel = null,
-        Parameter ...$parameters
+        Parameter ...$parameters,
     ) {
         $rel = $rel ?? 'related';
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of('string', Parameter::class);
+        $this->parameters = Map::of();
 
-        if (empty($rel)) {
+        if (Str::of($rel)->empty()) {
             throw new DomainException('Relation can\'t be empty');
         }
 
@@ -41,20 +44,24 @@ final class LinkValue extends Value\Value
 
         $this->url = $url;
         $this->rel = $rel;
+    }
 
-        $parameters = $this->parameters->values()->toSequenceOf(
-            'string',
-            static fn(Parameter $paramater): \Generator => yield $paramater->toString(),
-        );
-        $parameters = join(';', $parameters);
-        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
-        $link = Str::of('<%s>; rel="%s"')->sprintf($url->toString(), $rel);
-
-        parent::__construct(
-            $link
-                ->append($parameters->toString())
-                ->toString(),
-        );
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function of(
+        Url $url,
+        string $rel = null,
+        Parameter ...$parameters,
+    ): Maybe {
+        try {
+            return Maybe::just(new self($url, $rel, ...$parameters));
+        } catch (DomainException $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function url(): Url
@@ -73,5 +80,19 @@ final class LinkValue extends Value\Value
     public function parameters(): Map
     {
         return $this->parameters;
+    }
+
+    public function toString(): string
+    {
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+        $parameters = Str::of(';')->join($parameters);
+        $parameters = !$parameters->empty() ? $parameters->prepend(';') : $parameters;
+        $link = Str::of('<%s>; rel="%s"')->sprintf($this->url->toString(), $this->rel);
+
+        return $link
+            ->append($parameters->toString())
+            ->toString();
     }
 }

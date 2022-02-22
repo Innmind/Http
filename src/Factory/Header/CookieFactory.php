@@ -4,60 +4,67 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
     Header\Cookie,
-    Header\CookieValue,
     Header\Parameter\Parameter,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+    Sequence,
+};
 
-final class CookieFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class CookieFactory implements HeaderFactory
 {
     private const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if (
             $name->toLower()->toString() !== 'cookie' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        return new Cookie(
-            new CookieValue(
-                ...$this->buildParams($value),
-            ),
+        $values = $this->buildParams($value);
+
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(Cookie::of());
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(Parameter ...$params) => Cookie::of(...$params),
         );
     }
 
     /**
-     * @return list<Parameter>
+     * @return Sequence<Maybe<Parameter>>
      */
-    private function buildParams(Str $params): array
+    private function buildParams(Str $params): Sequence
     {
-        /** @var list<Parameter> */
         return $params
             ->split(';')
-            ->map(static function(Str $value): Str {
-                return $value->trim();
-            })
-            ->filter(static function(Str $value): bool {
-                return !$value->empty();
-            })
-            ->reduce(
-                [],
-                static function(array $carry, Str $value): array {
-                    $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
-                    $carry[] = new Parameter(
-                        $matches->get('key')->toString(),
-                        $matches->get('value')->toString(),
-                    );
+            ->map(static fn($value) => $value->trim())
+            ->filter(static fn($value) => !$value->empty())
+            ->map(static function(Str $value) {
+                $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
 
-                    return $carry;
-                },
-            );
+                return Maybe::all($matches->get('key'), $matches->get('value'))
+                    ->map(static fn(Str $key, Str $value) => new Parameter(
+                        $key->toString(),
+                        $value->toString(),
+                    ));
+            });
     }
 }

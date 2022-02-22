@@ -5,6 +5,9 @@ namespace Innmind\Http\Header\CacheControlValue;
 
 use Innmind\Http\Header\CacheControlValue;
 
+/**
+ * @psalm-immutable
+ */
 final class NoTransform implements CacheControlValue
 {
     public function toString(): string

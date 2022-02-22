@@ -4,34 +4,47 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\AuthorizationValue,
     Header\Authorization,
-    Exception\DomainException,
+    Header\AuthorizationValue,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AuthorizationFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class AuthorizationFactory implements HeaderFactory
 {
     private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if (
             $name->toLower()->toString() !== 'authorization' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
         $matches = $value->capture(self::PATTERN);
+        $param = $matches
+            ->get('param')
+            ->map(static fn($param) => $param->toString())
+            ->match(
+                static fn($param) => $param,
+                static fn() => '',
+            );
 
-        return new Authorization(
-            new AuthorizationValue(
-                $matches->get('scheme')->toString(),
-                $matches->contains('param') ? $matches->get('param')->toString() : '',
-            ),
-        );
+        /** @var Maybe<Header> */
+        return $matches
+            ->get('scheme')
+            ->map(static fn($scheme) => $scheme->toString())
+            ->flatMap(static fn($scheme) => AuthorizationValue::of($scheme, $param))
+            ->map(static fn($value) => new Authorization($value));
     }
 }

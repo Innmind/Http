@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Factory\Header\LinkFactory,
     Header\Link,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +17,7 @@ class LinkFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new LinkFactory
+            new LinkFactory,
         );
     }
 
@@ -27,6 +26,9 @@ class LinkFactoryTest extends TestCase
         $header = (new LinkFactory)(
             Str::of('Link'),
             Str::of('</foo>; rel="next"; title=foo; bar="baz", </bar>'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Link::class, $header);
@@ -41,6 +43,9 @@ class LinkFactoryTest extends TestCase
         $header = (new LinkFactory)(
             Str::of('Link'),
             Str::of('</foo>; rel="next"; title="!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~"'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Link::class, $header);
@@ -50,25 +55,25 @@ class LinkFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new LinkFactory)(
+        $this->assertNull((new LinkFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenNotValid()
+    public function testReturnNothingWhenNotValid()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new LinkFactory)(
+        $this->assertNull((new LinkFactory)(
             Str::of('Link'),
             Str::of('foo'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

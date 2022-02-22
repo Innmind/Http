@@ -14,7 +14,7 @@ class EnvironmentFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new EnvironmentFactory;
+        $f = EnvironmentFactory::default();
 
         $this->assertInstanceOf(EnvironmentFactoryInterface::class, $f);
 

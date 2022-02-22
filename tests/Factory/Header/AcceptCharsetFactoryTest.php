@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\AcceptCharsetFactory,
     Factory\HeaderFactory,
     Header\AcceptCharset,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -23,6 +22,9 @@ class AcceptCharsetFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Accept-Charset'),
             Str::of('iso-8859-5, unicode-1-1;q=0.8'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(AcceptCharset::class, $h);
@@ -32,25 +34,25 @@ class AcceptCharsetFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new AcceptCharsetFactory)(
+        $this->assertNull((new AcceptCharsetFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
-    public function testThrowWhenInvalidValue()
+    public function testReturnNothingWhenInvalidValue()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('@');
-
-        (new AcceptCharsetFactory)(
+        $this->assertNull((new AcceptCharsetFactory)(
             Str::of('Accept-Charset'),
             Str::of('@'),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 }

@@ -8,7 +8,10 @@ use Innmind\Url\Authority\{
     Port,
 };
 
-final class HostValue extends Value\Value
+/**
+ * @psalm-immutable
+ */
+final class HostValue implements Value
 {
     private UrlHost $host;
     private Port $port;
@@ -17,8 +20,6 @@ final class HostValue extends Value\Value
     {
         $this->host = $host;
         $this->port = $port;
-
-        parent::__construct($host->toString().$port->format());
     }
 
     public function host(): UrlHost
@@ -29,5 +30,10 @@ final class HostValue extends Value\Value
     public function port(): Port
     {
         return $this->port;
+    }
+
+    public function toString(): string
+    {
+        return $this->host->toString().$this->port->format();
     }
 }

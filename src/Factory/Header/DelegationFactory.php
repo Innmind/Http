@@ -4,35 +4,36 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
 };
 use Innmind\Immutable\{
     Map,
     Str,
+    Maybe,
 };
-use function Innmind\Immutable\assertMap;
 
-final class DelegationFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class DelegationFactory implements HeaderFactory
 {
-    /** @var Map<string, HeaderFactoryInterface> */
+    /** @var Map<string, HeaderFactory> */
     private Map $factories;
 
     /**
-     * @param Map<string, HeaderFactoryInterface> $factories
+     * @param Map<string, HeaderFactory> $factories
      */
     public function __construct(Map $factories)
     {
-        assertMap('string', HeaderFactoryInterface::class, $factories, 1);
-
         $this->factories = $factories;
     }
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         return $this
             ->factories
             ->get($name->toLower()->toString())
-            ($name, $value);
+            ->flatMap(static fn($factory) => $factory($name, $value));
     }
 }

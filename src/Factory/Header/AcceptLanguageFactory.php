@@ -4,50 +4,60 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\Value,
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
     Header\Parameter\Quality,
-    Exception\DomainException,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class AcceptLanguageFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class AcceptLanguageFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept-language') {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        $values = $value->split(',');
-        $values->foreach(static function(Str $accept): void {
-            if (!$accept->matches(self::PATTERN)) {
-                throw new DomainException($accept->toString());
-            }
-        });
-
-        /** @var list<AcceptLanguageValue> */
-        $values = $values->reduce(
-            [],
-            static function(array $carry, Str $accept): array {
+        $values = $value
+            ->split(',')
+            ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
-                $carry[] = new AcceptLanguageValue(
-                    $matches->get('lang')->toString(),
-                    new Quality(
-                        $matches->contains('quality') ?
-                            (float) $matches->get('quality')->toString() : 1,
+                $quality = $matches
+                    ->get('quality')
+                    ->map(static fn($quality) => (float) $quality->toString())
+                    ->otherwise(static fn() => Maybe::just(1))
+                    ->flatMap(static fn($quality) => Quality::of($quality));
+
+                return Maybe::all($matches->get('lang'), $quality)->flatMap(
+                    static fn(Str $lang, Quality $quality) => AcceptLanguageValue::of(
+                        $lang->toString(),
+                        $quality,
                     ),
                 );
+            });
 
-                return $carry;
-            }
+        if ($values->empty()) {
+            /** @var Maybe<Header> */
+            return Maybe::just(new AcceptLanguage);
+        }
+
+        /**
+         * @psalm-suppress NamedArgumentNotAllowed
+         * @var Maybe<Header>
+         */
+        return Maybe::all(...$values->toList())->map(
+            static fn(AcceptLanguageValue ...$values) => new AcceptLanguage(...$values),
         );
-
-        return new AcceptLanguage(...$values);
     }
 }

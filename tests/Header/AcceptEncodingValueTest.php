@@ -31,7 +31,7 @@ class AcceptEncodingValueTest extends TestCase
     {
         $this->assertSame(
             '1',
-            (new AcceptEncodingValue('*'))->quality()->value()
+            (new AcceptEncodingValue('*'))->quality()->value(),
         );
     }
 

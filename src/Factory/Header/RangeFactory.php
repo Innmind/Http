@@ -4,35 +4,48 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\HeaderFactory,
     Header,
-    Header\RangeValue,
     Header\Range,
-    Exception\DomainException,
+    Header\RangeValue,
 };
-use Innmind\Immutable\Str;
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
-final class RangeFactory implements HeaderFactoryInterface
+/**
+ * @psalm-immutable
+ */
+final class RangeFactory implements HeaderFactory
 {
     private const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Maybe
     {
         if (
             $name->toLower()->toString() !== 'range' ||
             !$value->matches(self::PATTERN)
         ) {
-            throw new DomainException($name->toString());
+            /** @var Maybe<Header> */
+            return Maybe::nothing();
         }
 
-        $matches = $value->capture(self::PATTERN);
+        $matches = $value
+            ->capture(self::PATTERN)
+            ->map(static fn($_, $match) => $match->toString());
 
-        return new Range(
-            new RangeValue(
-                $matches->get('unit')->toString(),
-                (int) $matches->get('first')->toString(),
-                (int) $matches->get('last')->toString(),
-            ),
-        );
+        /** @var Maybe<Header> */
+        return Maybe::all(
+            $matches->get('unit'),
+            $matches->get('first')->filter(static fn($first) => \is_numeric($first)),
+            $matches->get('last')->filter(static fn($last) => \is_numeric($last)),
+        )
+            ->flatMap(static fn(string $unit, string $first, string $last) => RangeValue::of(
+                $unit,
+                (int) $first,
+                (int) $last,
+            ))
+            ->map(static fn($value) => new Range($value));
     }
 }

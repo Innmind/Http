@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\Files\FilesFactory,
     Factory\FilesFactory as FilesFactoryInterface,
     Message\Files,
-    File\Status\Ok
+    File\Status,
 };
 use Innmind\Immutable\{
     Map,
@@ -19,10 +19,6 @@ class FilesFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new FilesFactory;
-
-        $this->assertInstanceOf(FilesFactoryInterface::class, $f);
-
         $_FILES = [
             'file1' => [
                 'name' => 'foo.txt',
@@ -31,49 +27,101 @@ class FilesFactoryTest extends TestCase
                 'error' => \UPLOAD_ERR_OK,
                 'size' => 3,
             ],
-        ];
-        \file_put_contents('/tmp/foo.txt', 'foo');
-        $f = ($f)();
-
-        $this->assertInstanceOf(Files::class, $f);
-        $this->assertSame(1, $f->count());
-        $this->assertSame('foo.txt', $f->get('file1')->name()->toString());
-        $this->assertSame('foo', $f->get('file1')->content()->toString());
-        $this->assertSame('text/plain', $f->get('file1')->mediaType()->toString());
-        $this->assertInstanceOf(Ok::class, $f->get('file1')->status());
-        @\unlink('/tmp/foo.txt');
-    }
-
-    public function testMakeNested()
-    {
-        $f = new FilesFactory;
-
-        $_FILES = [
-            'download' => [
+            'file2' => [
+                'name' => 'bar.txt',
+                'type' => 'text/plain',
+                'tmp_name' => '/tmp/bar.txt',
+                'error' => \UPLOAD_ERR_NO_FILE,
+                'size' => 0,
+            ],
+            'list' => [
+                'name' => ['list.txt'],
+                'type' => ['text/plain'],
+                'tmp_name' => ['/tmp/list.txt'],
+                'error' => [\UPLOAD_ERR_OK],
+                'size' => [3],
+            ],
+            'nested' => [
                 'name' => [
-                    'file1' => 'bar.txt',
+                    'list' => ['nested.txt'],
+                    'key' => 'key.txt',
                 ],
                 'type' => [
-                    'file1' => 'text/plain',
+                    'list' => ['text/plain'],
+                    'key' => 'text/plain',
                 ],
                 'tmp_name' => [
-                    'file1' => '/tmp/bar.txt',
+                    'list' => ['/tmp/nested.txt'],
+                    'key' => '/tmp/nested.txt',
                 ],
                 'error' => [
-                    'file1' => \UPLOAD_ERR_OK,
+                    'list' => [\UPLOAD_ERR_OK],
+                    'key' => \UPLOAD_ERR_OK,
                 ],
                 'size' => [
-                    'file1' => 3,
+                    'list' => [3],
+                    'key' => 3,
                 ],
             ],
         ];
-        \file_put_contents('/tmp/bar.txt', 'bar');
-        $f = ($f)();
+        $factory = FilesFactory::default();
 
-        $this->assertInstanceOf(Files::class, $f);
-        $this->assertSame(1, $f->count());
-        $this->assertSame('bar.txt', $f->get('download.file1')->name()->toString());
-        $this->assertSame('bar', $f->get('download.file1')->content()->toString());
-        @\unlink('/tmp/bar.txt');
+        $this->assertInstanceOf(FilesFactoryInterface::class, $factory);
+
+        \file_put_contents('/tmp/foo.txt', 'foo');
+        $files = ($factory)();
+
+        $this->assertInstanceOf(Files::class, $files);
+        $this->assertSame('foo.txt', $files->get('file1')->match(
+            static fn($file) => $file->name()->toString(),
+            static fn() => null,
+        ));
+        $this->assertSame('foo', $files->get('file1')->match(
+            static fn($file) => $file->content()->toString(),
+            static fn() => null,
+        ));
+        $this->assertSame('text/plain', $files->get('file1')->match(
+            static fn($file) => $file->mediaType()->toString(),
+            static fn() => null,
+        ));
+        $this->assertSame(Status::notUploaded, $files->get('file2')->match(
+            static fn() => null,
+            static fn($status) => $status,
+        ));
+        $this->assertSame(
+            ['list.txt'],
+            $files
+                ->list('list')
+                ->map(static fn($file) => $file->name()->toString())
+                ->toList(),
+        );
+        $this->assertSame(
+            ['nested.txt'],
+            $files
+                ->under('nested')
+                ->list('list')
+                ->map(static fn($file) => $file->name()->toString())
+                ->toList(),
+        );
+        $this->assertSame(
+            'key.txt',
+            $files
+                ->under('nested')
+                ->get('key')
+                ->match(
+                    static fn($file) => $file->name()->toString(),
+                    static fn() => null,
+                ),
+        );
+        $this->assertNull(
+            $files
+                ->under('nested')
+                ->get('unknown')
+                ->match(
+                    static fn($file) => $file->name()->toString(),
+                    static fn() => null,
+                ),
+        );
+        @\unlink('/tmp/foo.txt');
     }
 }

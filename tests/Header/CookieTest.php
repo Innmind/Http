@@ -11,7 +11,6 @@ use Innmind\Http\{
     Header\Parameter\Parameter
 };
 use Innmind\Immutable\Set;
-use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class CookieTest extends TestCase
@@ -19,15 +18,17 @@ class CookieTest extends TestCase
     public function testInterface()
     {
         $cookie = new Cookie(
-            $value = new CookieValue(new Parameter('foo', 'bar'))
+            $value = new CookieValue(new Parameter('foo', 'bar')),
         );
 
         $this->assertInstanceOf(Header::class, $cookie);
         $this->assertSame('Cookie', $cookie->name());
         $values = $cookie->values();
         $this->assertInstanceOf(Set::class, $values);
-        $this->assertSame(Value::class, (string) $values->type());
-        $this->assertSame($value, first($values));
+        $this->assertSame($value, $values->find(static fn() => true)->match(
+            static fn($first) => $first,
+            static fn() => null,
+        ));
         $this->assertSame('Cookie: foo=bar', $cookie->toString());
     }
 

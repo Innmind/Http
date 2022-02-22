@@ -8,20 +8,40 @@ use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
 };
+use Innmind\Immutable\Set;
 
 /**
- * @extends Header<HostValue>
- * @implements HeaderInterface<HostValue>
+ * @psalm-immutable
  */
-final class Host extends Header implements HeaderInterface
+final class Host implements HeaderInterface
 {
+    private Header $header;
+
     public function __construct(HostValue $host)
     {
-        parent::__construct('Host', $host);
+        $this->header = new Header('Host', $host);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function of(UrlHost $host, Port $port): self
     {
         return new self(new HostValue($host, $port));
+    }
+
+    public function name(): string
+    {
+        return $this->header->name();
+    }
+
+    public function values(): Set
+    {
+        return $this->header->values();
+    }
+
+    public function toString(): string
+    {
+        return $this->header->toString();
     }
 }

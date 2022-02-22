@@ -5,8 +5,12 @@ namespace Tests\Innmind\Http\Message;
 
 use Innmind\Http\{
     Message\Files,
-    File,
-    Exception\FileNotFound,
+    File\Status,
+};
+use Innmind\Filesystem\File;
+use Innmind\Immutable\{
+    Map,
+    Either,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -14,74 +18,72 @@ class FilesTest extends TestCase
 {
     public function testInterface()
     {
-        $f = $this->createMock(File::class);
-        $f
-            ->expects($this->once())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $fs = new Files($f);
+        $file = $this->createMock(File::class);
+        $files = Files::of([
+            'foo' => Either::right($file),
+        ]);
 
-        $this->assertTrue($fs->contains('foo'));
-        $this->assertFalse($fs->contains('bar'));
-        $this->assertSame($f, $fs->get('foo'));
-        $this->assertSame(1, $fs->count());
+        $this->assertSame($file, $files->get('foo')->match(
+            static fn($foo) => $foo,
+            static fn() => null,
+        ));
     }
 
-    public function testOf()
+    public function testReturnNothingWhenAccessingUnknownFile()
+    {
+        $this->assertSame(
+            Status::notUploaded,
+            Files::of([])->get('foo')->match(
+                static fn() => null,
+                static fn($status) => $status,
+            ),
+        );
+    }
+
+    public function testUnder()
     {
         $file = $this->createMock(File::class);
-        $file
-            ->expects($this->once())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $files = Files::of($file);
+        $files = Files::of([
+            'bar' => [
+                'foo' => Either::right($file),
+            ],
+        ]);
 
-        $this->assertInstanceOf(Files::class, $files);
-        $this->assertTrue($files->contains('foo'));
-    }
-
-    public function testThrowWhenAccessingUnknownFile()
-    {
-        $this->expectException(FileNotFound::class);
-        $this->expectExceptionMessage('foo');
-
-        (new Files)->get('foo');
-    }
-
-    public function testForeach()
-    {
-        $file = $this->createMock(File::class);
-        $file
-            ->expects($this->once())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $files = new Files($file);
-
-        $called = 0;
-        $this->assertNull($files->foreach(static function() use (&$called) {
-            ++$called;
-        }));
-        $this->assertSame(1, $called);
-    }
-
-    public function testReduce()
-    {
-        $file = $this->createMock(File::class);
-        $file
-            ->expects($this->any())
-            ->method('uploadKey')
-            ->willReturn('foo');
-        $files = new Files($file);
-
-        $reduced = $files->reduce(
-            [],
-            static function($carry, $file) {
-                $carry[] = $file->uploadKey();
-
-                return $carry;
-            },
+        $this->assertSame(
+            $file,
+            $files->under('bar')->get('foo')->match(
+                static fn($foo) => $foo,
+                static fn() => null,
+            ),
         );
 
-        $this->assertSame(['foo'], $reduced);
+        $this->assertSame(
+            Status::notUploaded,
+            $files->under('baz')->get('foo')->match(
+                static fn() => null,
+                static fn($status) => $status,
+            ),
+        );
+    }
+
+    public function testList()
+    {
+        $file1 = $this->createMock(File::class);
+        $file2 = $this->createMock(File::class);
+        $files = Files::of([
+            'bar' => [
+                Either::right($file1),
+                Either::right(42),
+                Either::left(Status::exceedsFormMaxFileSize),
+                Either::left(42),
+                Either::right($file2),
+                24,
+            ],
+        ]);
+
+        $this->assertSame(
+            [$file1, $file2],
+            $files->list('bar')->toList(),
+        );
     }
 }

@@ -4,15 +4,35 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
+use Innmind\Immutable\Set;
 
 /**
- * @extends Header<AcceptLanguageValue>
- * @implements HeaderInterface<AcceptLanguageValue>
+ * @psalm-immutable
  */
-final class AcceptLanguage extends Header implements HeaderInterface
+final class AcceptLanguage implements HeaderInterface
 {
+    private Header $header;
+
+    /**
+     * @no-named-arguments
+     */
     public function __construct(AcceptLanguageValue ...$values)
     {
-        parent::__construct('Accept-Language', ...$values);
+        $this->header = new Header('Accept-Language', ...$values);
+    }
+
+    public function name(): string
+    {
+        return $this->header->name();
+    }
+
+    public function values(): Set
+    {
+        return $this->header->values();
+    }
+
+    public function toString(): string
+    {
+        return $this->header->toString();
     }
 }

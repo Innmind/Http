@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\HostFactory,
     Factory\HeaderFactory,
     Header\Host,
-    Exception\DomainException,
 };
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
@@ -26,6 +25,9 @@ class HostFactoryTest extends TestCase
         $h = ($f)(
             Str::of('Host'),
             Str::of($host),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
         );
 
         $this->assertInstanceOf(Host::class, $h);
@@ -35,15 +37,15 @@ class HostFactoryTest extends TestCase
         );
     }
 
-    public function testThrowWhenNotExpectedHeader()
+    public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo');
-
-        (new HostFactory)(
+        $this->assertNull((new HostFactory)(
             Str::of('foo'),
             Str::of(''),
-        );
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
     }
 
     public function cases(): array

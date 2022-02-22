@@ -16,7 +16,7 @@ class AcceptEncodingTest extends TestCase
     public function testInterface()
     {
         $h = new AcceptEncoding(
-            $v = new AcceptEncodingValue('compress', new Quality(1))
+            $v = new AcceptEncodingValue('compress', new Quality(1)),
         );
 
         $this->assertInstanceOf(Header::class, $h);
