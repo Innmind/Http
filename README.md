@@ -22,7 +22,6 @@ $request = ServerRequestFactory::default()();
 use Innmind\Http\{
     Message\Response\Response,
     Message\StatusCode,
-    Message\ReasonPhrase,
     ProtocolVersion,
     Headers,
     Header,
@@ -30,24 +29,19 @@ use Innmind\Http\{
     Header\ContentTypeValue,
     ResponseSender,
 };
-use Innmind\Stream\Readable\Stream;
+use Innmind\Filesystem\File\Content;
+use Innmind\TimeContinuum\Earth\Clock;
 
 $response = new Response(
-    $code = StatusCode::of('OK'),
-    $code->associatedReasonPhrase(),
-    new ProtocolVersion(1, 1),
+    StatusCode::ok,
+    ProtocolVersion::v11,
     Headers::of(
-        new ContentType(
-            new ContentTypeValue(
-                'application',
-                'json',
-            ),
-        ),
+        ContentType::of('application', 'json'),
     ),
-    Stream::ofContent('{"some": "data"}'),
+    Content\Lines::ofContent('{"some": "data"}'),
 );
 
-(new ResponseSender)($response);
+(new ResponseSender(new Clock))($response);
 ```
 
 will build the following message:
