@@ -33,12 +33,33 @@ class StatusCodeTest extends TestCase
         StatusCode::of(42); //sadly
     }
 
+    public function testReturnNothingWhenInvalidStatusCode()
+    {
+        $this->assertNull(StatusCode::maybe(42)->match(
+            static fn($code) => $code,
+            static fn() => null,
+        ));
+    }
+
     public function testOf()
     {
         foreach (StatusCode::cases() as $code) {
             $this->assertSame(
                 $code->toInt(),
                 StatusCode::of($code->toInt())->toInt(),
+            );
+        }
+    }
+
+    public function testMaybe()
+    {
+        foreach (StatusCode::cases() as $code) {
+            $this->assertSame(
+                $code->toInt(),
+                StatusCode::maybe($code->toInt())->match(
+                    static fn($code) => $code->toInt(),
+                    static fn() => null,
+                ),
             );
         }
     }

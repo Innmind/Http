@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message;
 
+use Innmind\Immutable\Maybe;
+
 /**
  * @psalm-immutable
  */
@@ -166,6 +168,21 @@ enum StatusCode
             526 => self::invalidSslCertificate,
             527 => self::railgunError,
         };
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(int $code): Maybe
+    {
+        try {
+            return Maybe::just(self::of($code));
+        } catch (\UnhandledMatchError $e) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
     }
 
     public function toInt(): int
