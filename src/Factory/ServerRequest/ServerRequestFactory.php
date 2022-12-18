@@ -16,6 +16,7 @@ use Innmind\Http\{
     Factory\FormFactory,
     Factory\FilesFactory,
     Factory,
+    File\Input,
 };
 use Innmind\TimeContinuum\Clock;
 use Innmind\Filesystem\File\Content;
@@ -130,7 +131,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             Factory\Header\HeadersFactory::default(
                 Factories::default($clock),
             ),
-            static fn() => Content\OfStream::of(
+            static fn() => Input::of(
                 Readable\Stream::of(\fopen('php://input', 'r')),
             ),
             Factory\Environment\EnvironmentFactory::default(),

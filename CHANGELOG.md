@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.3.1 - 2022-12-18
+
+### Added
+
+- `Innmind\Http\File\Input`
+
+### Fixed
+
+- `Innmind\Http\Factory\ServerRequest\ServerRequestFactory` now uses the new `Input` as request body as the resource can't be rewinded
+
 ## 5.3.0 - 2022-12-18
 
 ### Added
