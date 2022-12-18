@@ -55,7 +55,10 @@ final class FilesFactory implements FilesFactoryInterface
 
     private function map(array $content): array|Either
     {
-        /** @psalm-suppress MixedArgument */
+        /**
+         * @psalm-suppress MixedArgument
+         * @psalm-suppress ArgumentTypeCoercion
+         */
         if (\is_string($content['name'])) {
             return $this->buildFile(
                 $content['name'],
@@ -85,6 +88,8 @@ final class FilesFactory implements FilesFactoryInterface
     }
 
     /**
+     * @param non-empty-string $name
+     *
      * @return Either<Status, File>
      */
     private function buildFile(

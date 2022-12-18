@@ -15,7 +15,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Clock;
 use Innmind\Filesystem\{
-    Adapter\Chunk,
+    Chunk,
     File,
 };
 use Innmind\Immutable\{
