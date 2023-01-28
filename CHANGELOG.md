@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- `Innmind\Http\Header\Authorization` string representation no longer encapsulate the realm with `"`
+
 ## 5.3.1 - 2022-12-18
 
 ### Added
