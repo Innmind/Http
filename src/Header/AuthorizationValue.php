@@ -55,8 +55,7 @@ final class AuthorizationValue implements Value
     public function toString(): string
     {
         return Str::of($this->scheme)
-            ->prepend('"')
-            ->append('" ')
+            ->append(' ')
             ->append($this->parameter)
             ->trim()
             ->toString();
