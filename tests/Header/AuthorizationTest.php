@@ -28,7 +28,7 @@ class AuthorizationTest extends TestCase
             static fn($first) => $first,
             static fn() => null,
         ));
-        $this->assertSame('Authorization: "Basic"', $h->toString());
+        $this->assertSame('Authorization: Basic', $h->toString());
     }
 
     public function testOf()
@@ -36,6 +36,6 @@ class AuthorizationTest extends TestCase
         $header = Authorization::of('Basic', 'foo');
 
         $this->assertInstanceOf(Authorization::class, $header);
-        $this->assertSame('Authorization: "Basic" foo', $header->toString());
+        $this->assertSame('Authorization: Basic foo', $header->toString());
     }
 }
