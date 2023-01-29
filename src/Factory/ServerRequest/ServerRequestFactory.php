@@ -21,7 +21,10 @@ use Innmind\Http\{
 use Innmind\TimeContinuum\Clock;
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
-use Innmind\Stream\Readable;
+use Innmind\Stream\{
+    Capabilities,
+    Streams,
+};
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -122,8 +125,9 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Return a fully configured factory
      */
-    public static function default(Clock $clock): self
+    public static function default(Clock $clock, Capabilities $capabilities = null): self
     {
+        $capabilities ??= Streams::fromAmbientAuthority();
         /** @var array<string, string> */
         $server = $_SERVER;
 
@@ -132,7 +136,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 Factories::default($clock),
             ),
             static fn() => Input::of(
-                Readable\Stream::of(\fopen('php://input', 'r')),
+                $capabilities->readable()->acquire(\fopen('php://input', 'r')),
             ),
             Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),

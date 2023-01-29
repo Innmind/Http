@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- `Innmind\Http\Factory\ServerRequest\ServerRequestFactory::default()` now accepts `Innmind\Stream\Capabilities` as second argument
+
 ### Changed
 
 - `Innmind\Http\Header\Authorization` string representation no longer encapsulate the realm with `"`
