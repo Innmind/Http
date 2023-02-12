@@ -10,6 +10,7 @@ use Innmind\Http\{
     Header\ContentTypeValue,
     Header\Parameter,
 };
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -20,55 +21,26 @@ use Innmind\Immutable\{
  */
 final class ContentTypeFactory implements HeaderFactory
 {
-    private const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
-
     public function __invoke(Str $name, Str $value): Maybe
     {
-        if (
-            $name->toLower()->toString() !== 'content-type' ||
-            !$value->matches(self::PATTERN)
-        ) {
+        if ($name->toLower()->toString() !== 'content-type') {
             /** @var Maybe<Header> */
             return Maybe::nothing();
         }
 
-        $matches = $value->capture(self::PATTERN);
-        $params = $this->buildParams($matches->get('params')->match(
-            static fn($params) => $params,
-            static fn() => Str::of(''),
-        ));
-
         /** @var Maybe<Header> */
-        return Maybe::all(
-            $matches->get('type'),
-            $matches->get('subType'),
-            ...$params,
-        )
-            ->flatMap(static fn(Str $type, Str $subType, Parameter ...$params) => ContentTypeValue::of(
-                $type->toString(),
-                $subType->toString(),
-                ...$params,
+        return MediaType::maybe($value->toString())
+            ->flatMap(static fn($mediaType) => ContentTypeValue::of(
+                $mediaType->topLevel(),
+                $mediaType->subType(),
+                ...$mediaType
+                    ->parameters()
+                    ->map(static fn($param) => new Parameter\Parameter(
+                        $param->name(),
+                        $param->value(),
+                    ))
+                    ->toList(),
             ))
             ->map(static fn($value) => new ContentType($value));
-    }
-
-    /**
-     * @return list<Maybe<Parameter\Parameter>>
-     */
-    private function buildParams(Str $params): array
-    {
-        return $params
-            ->split(';')
-            ->filter(static fn($value) => !$value->trim()->empty())
-            ->map(static function(Str $value) {
-                $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
-
-                return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
-                        $key->toString(),
-                        $value->toString(),
-                    ));
-            })
-            ->toList();
     }
 }
