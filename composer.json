@@ -20,7 +20,8 @@
         "innmind/immutable": "~4.0",
         "innmind/filesystem": "~6.2",
         "innmind/time-continuum": "~3.0",
-        "innmind/stream": "~4.0"
+        "innmind/stream": "~4.0",
+        "innmind/media-type": "^2.0.1"
     },
     "autoload": {
         "psr-4": {

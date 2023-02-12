@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.0.1 - 2023-02-12
+
+### Fixed
+
+- Parsing `Content-Type` headers like `application/x-www-form-urlencoded` by reusing the `innmind/media-type` abstraction
+
 ## 6.0.0 - 2023-01-29
 
 ### Added

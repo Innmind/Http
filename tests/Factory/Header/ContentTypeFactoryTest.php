@@ -70,4 +70,21 @@ class ContentTypeFactoryTest extends TestCase
             static fn() => null,
         ));
     }
+
+    public function testFormEncoded()
+    {
+        $header = (new ContentTypeFactory)(
+            Str::of('Content-Type'),
+            Str::of('application/x-www-form-urlencoded'),
+        )->match(
+            static fn($header) => $header,
+            static fn() => null,
+        );
+
+        $this->assertInstanceOf(ContentType::class, $header);
+        $this->assertSame(
+            'Content-Type: application/x-www-form-urlencoded',
+            $header->toString(),
+        );
+    }
 }
