@@ -13,10 +13,12 @@ use Innmind\Immutable\Set;
 final class IfUnmodifiedSince implements HeaderInterface
 {
     private Header $header;
+    private DateValue $value;
 
     public function __construct(DateValue $date)
     {
         $this->header = new Header('If-Unmodified-Since', $date);
+        $this->value = $date;
     }
 
     /**
@@ -35,6 +37,11 @@ final class IfUnmodifiedSince implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function date(): PointInTime
+    {
+        return $this->value->date();
     }
 
     public function toString(): string

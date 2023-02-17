@@ -16,10 +16,12 @@ use Innmind\Immutable\Set;
 final class Host implements HeaderInterface
 {
     private Header $header;
+    private HostValue $value;
 
     public function __construct(HostValue $host)
     {
         $this->header = new Header('Host', $host);
+        $this->value = $host;
     }
 
     /**
@@ -38,6 +40,16 @@ final class Host implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function host(): UrlHost
+    {
+        return $this->value->host();
+    }
+
+    public function port(): Port
+    {
+        return $this->value->port();
     }
 
     public function toString(): string

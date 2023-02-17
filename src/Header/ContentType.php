@@ -12,10 +12,12 @@ use Innmind\Immutable\Set;
 final class ContentType implements HeaderInterface
 {
     private Header $header;
+    private ContentTypeValue $content;
 
     public function __construct(ContentTypeValue $content)
     {
         $this->header = new Header('Content-Type', $content);
+        $this->content = $content;
     }
 
     /**
@@ -41,6 +43,11 @@ final class ContentType implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function content(): ContentTypeValue
+    {
+        return $this->content;
     }
 
     public function toString(): string

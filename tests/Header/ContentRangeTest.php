@@ -29,6 +29,7 @@ class ContentRangeTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Content-Range: bytes 0-42/*', $h->toString());
+        $this->assertSame('bytes 0-42/*', $h->range()->toString());
     }
 
     public function testOf()

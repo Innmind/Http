@@ -12,10 +12,12 @@ use Innmind\Immutable\Set;
 final class Authorization implements HeaderInterface
 {
     private Header $header;
+    private AuthorizationValue $value;
 
     public function __construct(AuthorizationValue $authorization)
     {
         $this->header = new Header('Authorization', $authorization);
+        $this->value = $authorization;
     }
 
     /**
@@ -34,6 +36,16 @@ final class Authorization implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function scheme(): string
+    {
+        return $this->value->scheme();
+    }
+
+    public function parameter(): string
+    {
+        return $this->value->parameter();
     }
 
     public function toString(): string

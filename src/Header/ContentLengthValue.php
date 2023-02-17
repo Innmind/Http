@@ -11,6 +11,7 @@ use Innmind\Immutable\Maybe;
  */
 final class ContentLengthValue implements Value
 {
+    /** @var 0|positive-int */
     private int $length;
 
     public function __construct(int $length)
@@ -19,6 +20,7 @@ final class ContentLengthValue implements Value
             throw new DomainException((string) $length);
         }
 
+        /** @var 0|positive-int */
         $this->length = $length;
     }
 
@@ -35,6 +37,14 @@ final class ContentLengthValue implements Value
             /** @var Maybe<self> */
             return Maybe::nothing();
         }
+    }
+
+    /**
+     * @return 0|positive-int
+     */
+    public function length(): int
+    {
+        return $this->length;
     }
 
     public function toString(): string

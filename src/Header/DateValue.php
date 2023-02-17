@@ -21,6 +21,11 @@ final class DateValue implements Value
         $this->date = $date;
     }
 
+    public function date(): PointInTime
+    {
+        return $this->date;
+    }
+
     public function toString(): string
     {
         return $this->date->changeTimezone(new UTC)->format(new Http);

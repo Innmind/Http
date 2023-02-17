@@ -13,10 +13,12 @@ use Innmind\Immutable\Set;
 final class Referrer implements HeaderInterface
 {
     private Header $header;
+    private ReferrerValue $referrer;
 
     public function __construct(ReferrerValue $referrer)
     {
         $this->header = new Header('Referer', $referrer);
+        $this->referrer = $referrer;
     }
 
     /**
@@ -35,6 +37,11 @@ final class Referrer implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function referrer(): Url
+    {
+        return $this->referrer->url();
     }
 
     public function toString(): string

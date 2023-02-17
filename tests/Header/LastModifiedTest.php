@@ -30,6 +30,7 @@ class LastModifiedTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Last-Modified: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
+        $this->assertSame($d->date(), $h->date());
     }
 
     public function testOf()

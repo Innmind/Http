@@ -30,6 +30,7 @@ class CookieTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Cookie: foo=bar', $cookie->toString());
+        $this->assertSame($value->parameters(), $cookie->parameters());
     }
 
     public function testOf()

@@ -1,5 +1,31 @@
 # Changelog
 
+## 6.1.0 - 2023-02-17
+
+### Added
+
+- `Innmind\Http\Header\Age::age()`
+- `Innmind\Http\Header\AgeValue::age()`
+- `Innmind\Http\Header\Authorization::scheme()`
+- `Innmind\Http\Header\Authorization::parameter()`
+- `Innmind\Http\Header\ContentLength::length()`
+- `Innmind\Http\Header\ContentLengthValue::length()`
+- `Innmind\Http\Header\ContentLocation::url()`
+- `Innmind\Http\Header\ContentRange::range()`
+- `Innmind\Http\Header\ContentType::content()`
+- `Innmind\Http\Header\Cookie::parameters()`
+- `Innmind\Http\Header\Date::date()`
+- `Innmind\Http\Header\DateValue::date()`
+- `Innmind\Http\Header\Expires::date()`
+- `Innmind\Http\Header\Host::host()`
+- `Innmind\Http\Header\Host::port()`
+- `Innmind\Http\Header\IfModifiedSince::date()`
+- `Innmind\Http\Header\IfUnmodifiedSince::date()`
+- `Innmind\Http\Header\LastModified::date()`
+- `Innmind\Http\Header\Range::range()`
+- `Innmind\Http\Header\Referrer::referrer()`
+- `Innmind\Http\Header\ReferrerValue::url()`
+
 ## 6.0.1 - 2023-02-12
 
 ### Fixed

@@ -12,10 +12,12 @@ use Innmind\Immutable\Set;
 final class Range implements HeaderInterface
 {
     private Header $header;
+    private RangeValue $range;
 
     public function __construct(RangeValue $range)
     {
         $this->header = new Header('Range', $range);
+        $this->range = $range;
     }
 
     /**
@@ -41,6 +43,11 @@ final class Range implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function range(): RangeValue
+    {
+        return $this->range;
     }
 
     public function toString(): string

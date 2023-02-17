@@ -11,6 +11,7 @@ use Innmind\Immutable\Maybe;
  */
 final class AgeValue implements Value
 {
+    /** @var 0|positive-int */
     private int $age;
 
     public function __construct(int $age)
@@ -19,6 +20,7 @@ final class AgeValue implements Value
             throw new DomainException((string) $age);
         }
 
+        /** @var 0|positive-int */
         $this->age = $age;
     }
 
@@ -35,6 +37,14 @@ final class AgeValue implements Value
             /** @var Maybe<self> */
             return Maybe::nothing();
         }
+    }
+
+    /**
+     * @return 0|positive-int
+     */
+    public function age(): int
+    {
+        return $this->age;
     }
 
     public function toString(): string

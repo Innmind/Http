@@ -29,6 +29,7 @@ class ContentLengthTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Content-Length: 42', $h->toString());
+        $this->assertSame(42, $h->length());
     }
 
     public function testOf()

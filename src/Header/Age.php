@@ -12,10 +12,12 @@ use Innmind\Immutable\Set;
 final class Age implements HeaderInterface
 {
     private Header $header;
+    private AgeValue $value;
 
     public function __construct(AgeValue $age)
     {
         $this->header = new Header('Age', $age);
+        $this->value = $age;
     }
 
     /**
@@ -34,6 +36,14 @@ final class Age implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    /**
+     * @return 0|positive-int
+     */
+    public function age(): int
+    {
+        return $this->value->age();
     }
 
     public function toString(): string

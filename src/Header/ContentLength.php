@@ -12,10 +12,12 @@ use Innmind\Immutable\Set;
 final class ContentLength implements HeaderInterface
 {
     private Header $header;
+    private ContentLengthValue $value;
 
     public function __construct(ContentLengthValue $length)
     {
         $this->header = new Header('Content-Length', $length);
+        $this->value = $length;
     }
 
     /**
@@ -34,6 +36,14 @@ final class ContentLength implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    /**
+     * @return 0|positive-int
+     */
+    public function length(): int
+    {
+        return $this->value->length();
     }
 
     public function toString(): string
