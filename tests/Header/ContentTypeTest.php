@@ -37,6 +37,7 @@ class ContentTypeTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toString());
+        $this->assertSame('text/html;charset=UTF-8', $h->content()->toString());
     }
 
     public function testOf()

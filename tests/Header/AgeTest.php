@@ -29,6 +29,7 @@ class AgeTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Age: 42', $h->toString());
+        $this->assertSame(42, $h->age());
     }
 
     public function testOf()

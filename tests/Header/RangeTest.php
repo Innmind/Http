@@ -29,6 +29,7 @@ class RangeTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Range: bytes=0-42', $h->toString());
+        $this->assertSame($cr, $h->range());
     }
 
     public function testOf()

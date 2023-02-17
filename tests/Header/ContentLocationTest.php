@@ -30,6 +30,7 @@ class ContentLocationTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Content-Location: /foo/bar', $h->toString());
+        $this->assertSame('/foo/bar', $h->url()->toString());
     }
 
     public function testOf()

@@ -13,10 +13,12 @@ use Innmind\Immutable\Set;
 final class ContentLocation implements HeaderInterface
 {
     private Header $header;
+    private LocationValue $value;
 
     public function __construct(LocationValue $location)
     {
         $this->header = new Header('Content-Location', $location);
+        $this->value = $location;
     }
 
     /**
@@ -35,6 +37,11 @@ final class ContentLocation implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function url(): Url
+    {
+        return $this->value->url();
     }
 
     public function toString(): string

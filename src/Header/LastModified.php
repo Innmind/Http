@@ -13,10 +13,12 @@ use Innmind\Immutable\Set;
 final class LastModified implements HeaderInterface
 {
     private Header $header;
+    private DateValue $value;
 
     public function __construct(DateValue $date)
     {
         $this->header = new Header('Last-Modified', $date);
+        $this->value = $date;
     }
 
     /**
@@ -35,6 +37,11 @@ final class LastModified implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    public function date(): PointInTime
+    {
+        return $this->value->date();
     }
 
     public function toString(): string

@@ -4,7 +4,10 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Immutable\{
+    Set,
+    Map,
+};
 
 /**
  * @psalm-immutable
@@ -12,10 +15,12 @@ use Innmind\Immutable\Set;
 final class Cookie implements HeaderInterface
 {
     private Header $header;
+    private CookieValue $value;
 
     public function __construct(CookieValue $value)
     {
         $this->header = new Header('Cookie', $value);
+        $this->value = $value;
     }
 
     /**
@@ -35,6 +40,14 @@ final class Cookie implements HeaderInterface
     public function values(): Set
     {
         return $this->header->values();
+    }
+
+    /**
+     * @return Map<string, Parameter>
+     */
+    public function parameters(): Map
+    {
+        return $this->value->parameters();
     }
 
     public function toString(): string

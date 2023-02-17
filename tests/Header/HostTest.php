@@ -33,6 +33,8 @@ class HostTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Host: example.com', $h->toString());
+        $this->assertSame($av->host(), $h->host());
+        $this->assertSame($av->port(), $h->port());
     }
 
     public function testOf()

@@ -30,6 +30,7 @@ class ReferrerTest extends TestCase
             static fn() => null,
         ));
         $this->assertSame('Referer: /foo/bar', $h->toString());
+        $this->assertSame('/foo/bar', $h->referrer()->toString());
     }
 
     public function testOf()

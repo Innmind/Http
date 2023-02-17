@@ -17,6 +17,11 @@ final class ReferrerValue implements Value
         $this->url = $url;
     }
 
+    public function url(): Url
+    {
+        return $this->url;
+    }
+
     public function toString(): string
     {
         return $this->url->toString();
