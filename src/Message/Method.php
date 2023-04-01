@@ -58,6 +58,40 @@ enum Method
         }
     }
 
+    public function safe(): bool
+    {
+        return match ($this) {
+            self::get => true,
+            self::post => false,
+            self::put => false,
+            self::patch => false,
+            self::delete => false,
+            self::options => true,
+            self::trace => true,
+            self::connect => false,
+            self::head => true,
+            self::link => false,
+            self::unlink => false,
+        };
+    }
+
+    public function idempotent(): bool
+    {
+        return match ($this) {
+            self::get => true,
+            self::post => false,
+            self::put => true,
+            self::patch => false,
+            self::delete => true,
+            self::options => true,
+            self::trace => true,
+            self::connect => false,
+            self::head => true,
+            self::link => false,
+            self::unlink => false,
+        };
+    }
+
     public function toString(): string
     {
         return match ($this) {
