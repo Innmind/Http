@@ -6,6 +6,7 @@
 
 - `Innmind\Http\Headers::filter()`
 - `Innmind\Http\Message\Method::safe()` and `::idempotent()`
+- `Innmind\Http\Header\ContentType\Boundary`
 
 ## 6.1.0 - 2023-02-17
 
