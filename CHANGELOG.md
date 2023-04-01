@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `Innmind\Http\Headers::filter()`
+
 ## 6.1.0 - 2023-02-17
 
 ### Added

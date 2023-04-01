@@ -90,6 +90,14 @@ final class Headers implements \Countable
     }
 
     /**
+     * @param callable(Header): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self($this->headers->filter(static fn($_, $header) => $filter($header)));
+    }
+
+    /**
      * @param callable(Header): void $function
      */
     public function foreach(callable $function): SideEffect
