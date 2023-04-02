@@ -18,28 +18,20 @@ final class Headers implements \Countable
     /** @var Map<string, Header> */
     private Map $headers;
 
-    private function __construct(Header ...$headers)
+    /**
+     * @param Map<string, Header> $headers
+     */
+    private function __construct(Map $headers)
     {
-        /** @var Map<string, Header> */
-        $this->headers = Map::of();
-
-        foreach ($headers as $header) {
-            $this->headers = ($this->headers)(
-                $this->normalize($header->name()),
-                $header,
-            );
-        }
+        $this->headers = $headers;
     }
 
     public function __invoke(Header $header): self
     {
-        $self = clone $this;
-        $self->headers = ($self->headers)(
-            $this->normalize($header->name()),
+        return new self(($this->headers)(
+            self::normalize($header->name()),
             $header,
-        );
-
-        return $self;
+        ));
     }
 
     /**
@@ -48,7 +40,17 @@ final class Headers implements \Countable
      */
     public static function of(Header ...$headers): self
     {
-        return new self(...$headers);
+        /** @var Map<string, Header> */
+        $map = Map::of();
+
+        foreach ($headers as $header) {
+            $map = ($map)(
+                self::normalize($header->name()),
+                $header,
+            );
+        }
+
+        return new self($map);
     }
 
     /**
@@ -58,7 +60,7 @@ final class Headers implements \Countable
      */
     public function get(string $name): Maybe
     {
-        return $this->headers->get($this->normalize($name));
+        return $this->headers->get(self::normalize($name));
     }
 
     /**
@@ -88,6 +90,14 @@ final class Headers implements \Countable
     }
 
     /**
+     * @param callable(Header): bool $filter
+     */
+    public function filter(callable $filter): self
+    {
+        return new self($this->headers->filter(static fn($_, $header) => $filter($header)));
+    }
+
+    /**
      * @param callable(Header): void $function
      */
     public function foreach(callable $function): SideEffect
@@ -113,7 +123,10 @@ final class Headers implements \Countable
         return $this->headers->size();
     }
 
-    private function normalize(string $name): string
+    /**
+     * @psalm-pure
+     */
+    private static function normalize(string $name): string
     {
         return Str::of($name)->toLower()->toString();
     }

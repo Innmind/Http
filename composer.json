@@ -18,10 +18,11 @@
         "php": "~8.1",
         "innmind/url": "~4.0",
         "innmind/immutable": "~4.0",
-        "innmind/filesystem": "~6.2",
+        "innmind/filesystem": "~6.3",
         "innmind/time-continuum": "~3.0",
         "innmind/stream": "~4.0",
-        "innmind/media-type": "^2.0.1"
+        "innmind/media-type": "^2.0.1",
+        "ramsey/uuid": "~4.7"
     },
     "autoload": {
         "psr-4": {
@@ -38,7 +39,8 @@
         "phpunit/phpunit": "^9.5.14",
         "vimeo/psalm": "~4.21",
         "nikic/php-parser": "^4.13.2",
-        "innmind/black-box": "^4.9",
-        "innmind/coding-standard": "~2.0"
+        "innmind/black-box": "^4.17",
+        "innmind/coding-standard": "~2.0",
+        "symfony/process": "^6.2"
     }
 }

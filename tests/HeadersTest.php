@@ -143,4 +143,25 @@ class HeadersTest extends TestCase
             static fn() => false,
         ));
     }
+
+    public function testFilter()
+    {
+        $headers = Headers::of(
+            ContentType::of('application', 'json'),
+            new Header('x-foo'),
+        );
+
+        $this->assertCount(
+            0,
+            $headers->filter(static fn() => false),
+        );
+        $this->assertCount(
+            2,
+            $headers->filter(static fn() => true),
+        );
+        $this->assertCount(
+            1,
+            $headers->filter(static fn($header) => $header instanceof ContentType),
+        );
+    }
 }

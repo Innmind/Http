@@ -53,3 +53,36 @@ Content-Type : application/json
 
 {"some": "data"}
 ```
+
+## Build a multipart `Request`
+
+```php
+use Innmind\Http\{
+    Message\Request\Request,
+    Message\Method,
+    Content\Multipart,
+    Header\ContentType,
+    Header\ContentType\Boundary,
+    Headers,
+    ProtocolVersion,
+};
+use Innmind\Filesystem\{
+    File\File,
+    File\Content,
+};
+use Innmind\Url\Url;
+
+$boundary = Boundary::uuid();
+$request = new Request(
+    Url::of('http://some-server.com/')
+    Method::post,
+    ProtocolVersion::v11,
+    Headers::of(ContentType::of('multipart', 'form-data', $boundary)),
+    Multipart::boundary($boundary)
+        ->with('some[key]', 'some value')
+        ->withFile('some[file]', File::named(
+            'whatever.txt',
+            Content\Lines::ofContent(' can be any file content'),
+        )),
+);
+```

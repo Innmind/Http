@@ -1,5 +1,14 @@
 # Changelog
 
+## 6.2.0 - 2023-04-02
+
+### Added
+
+- `Innmind\Http\Headers::filter()`
+- `Innmind\Http\Message\Method::safe()` and `::idempotent()`
+- `Innmind\Http\Header\ContentType\Boundary`
+- `Innmind\Http\Content\Multipart`
+
 ## 6.1.0 - 2023-02-17
 
 ### Added
