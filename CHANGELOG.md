@@ -9,6 +9,10 @@
 - `Innmind\Http\Message\Response\Stringable::asContent()`
 - `Innmind\Http\Message\ServerRequest\Stringable::asContent()`
 
+### Changed
+
+- `Innmind\Http\Headers` now keeps the order in which headers are added
+
 ## 6.2.0 - 2023-04-02
 
 ### Added
