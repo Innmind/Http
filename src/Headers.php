@@ -8,6 +8,7 @@ use Innmind\Immutable\{
     Map,
     SideEffect,
     Maybe,
+    Set,
 };
 
 /**
@@ -121,6 +122,14 @@ final class Headers implements \Countable
     public function count(): int
     {
         return $this->headers->size();
+    }
+
+    /**
+     * @return Set<Header>
+     */
+    public function all(): Set
+    {
+        return $this->headers->values()->toSet();
     }
 
     /**
