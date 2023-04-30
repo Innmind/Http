@@ -75,7 +75,6 @@ final class Stringable implements RequestInterface
         $headers = $this
             ->headers()
             ->all()
-            ->sort(static fn($a, $b) => $b->name() <=> $a->name())
             ->map(static fn($header) => $header->toString())
             ->map(Str::of(...))
             ->map(static fn($header) => $header->append("\n"));

@@ -7,7 +7,6 @@ use Innmind\Immutable\{
     Str,
     SideEffect,
     Maybe,
-    Set,
     Sequence,
     Predicate\Instance,
 };
@@ -127,11 +126,11 @@ final class Headers implements \Countable
     }
 
     /**
-     * @return Set<Header>
+     * @return Sequence<Header>
      */
-    public function all(): Set
+    public function all(): Sequence
     {
-        return $this->headers->toSet();
+        return $this->headers;
     }
 
     /**
