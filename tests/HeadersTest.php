@@ -164,4 +164,17 @@ class HeadersTest extends TestCase
             $headers->filter(static fn($header) => $header instanceof ContentType),
         );
     }
+
+    public function testAll()
+    {
+        $headers = Headers::of(
+            $contentType = ContentType::of('application', 'json'),
+            $foo = new Header('x-foo'),
+        );
+
+        $this->assertSame(
+            [$contentType, $foo],
+            $headers->all()->toList(),
+        );
+    }
 }

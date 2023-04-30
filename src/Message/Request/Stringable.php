@@ -11,7 +11,14 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\File\Content;
+use Innmind\Filesystem\{
+    File\Content,
+    Chunk,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+};
 
 /**
  * @psalm-immutable
@@ -23,6 +30,14 @@ final class Stringable implements RequestInterface
     public function __construct(RequestInterface $request)
     {
         $this->request = $request;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(RequestInterface $request): self
+    {
+        return new self($request);
     }
 
     public function url(): Url
@@ -50,24 +65,31 @@ final class Stringable implements RequestInterface
         return $this->request->body();
     }
 
+    public function asContent(): Content
+    {
+        $status = Str::of("%s %s HTTP/%s\n")->sprintf(
+            $this->method()->toString(),
+            $this->url()->toString(),
+            $this->protocolVersion()->toString(),
+        );
+        $headers = $this
+            ->headers()
+            ->all()
+            ->map(static fn($header) => $header->toString())
+            ->map(Str::of(...))
+            ->map(static fn($header) => $header->append("\n"));
+        $body = (new Chunk)($this->body());
+
+        return Content\Chunks::of(
+            Sequence::lazyStartingWith($status)
+                ->append($headers)
+                ->add(Str::of("\n"))
+                ->append($body),
+        );
+    }
+
     public function toString(): string
     {
-        $headers = $this->headers()->reduce(
-            [],
-            static function(array $headers, Header $header): array {
-                $headers[] = $header;
-
-                return $headers;
-            },
-        );
-        $headers = \array_map(static fn(Header $header): string => $header->toString(), $headers);
-        $headers = \implode("\n", $headers);
-
-        return <<<RAW
-{$this->method()->toString()} {$this->url()->toString()} HTTP/{$this->protocolVersion()->toString()}
-$headers
-
-{$this->body()->toString()}
-RAW;
+        return $this->asContent()->toString();
     }
 }

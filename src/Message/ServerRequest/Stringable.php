@@ -16,7 +16,14 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\File\Content;
+use Innmind\Filesystem\{
+    File\Content,
+    Chunk,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+};
 
 /**
  * @psalm-immutable
@@ -28,6 +35,14 @@ final class Stringable implements ServerRequestInterface
     public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(ServerRequestInterface $request): self
+    {
+        return new self($request);
     }
 
     public function url(): Url
@@ -80,28 +95,32 @@ final class Stringable implements ServerRequestInterface
         return $this->request->files();
     }
 
+    public function asContent(): Content
+    {
+        $status = Str::of("%s %s%s HTTP/%s\n")->sprintf(
+            $this->method()->toString(),
+            $this->url()->path()->toString(),
+            $this->queryString(),
+            $this->protocolVersion()->toString(),
+        );
+        $headers = $this
+            ->headers()
+            ->all()
+            ->map(static fn($header) => $header->toString())
+            ->map(Str::of(...))
+            ->map(static fn($header) => $header->append("\n"));
+
+        return Content\Chunks::of(
+            Sequence::lazyStartingWith($status)
+                ->append($headers)
+                ->add(Str::of("\n"))
+                ->append($this->bodyChunks()),
+        );
+    }
+
     public function toString(): string
     {
-        $headers = $this->headers()->reduce(
-            [],
-            static function(array $headers, Header $header): array {
-                $headers[] = $header;
-
-                return $headers;
-            },
-        );
-        $headers = \array_map(
-            static fn(Header $header): string => $header->toString(),
-            $headers,
-        );
-        $headers = \implode("\n", $headers);
-
-        return <<<RAW
-{$this->method()->toString()} {$this->url()->path()->toString()}{$this->queryString()} HTTP/{$this->protocolVersion()->toString()}
-$headers
-
-{$this->bodyString()}
-RAW;
+        return $this->asContent()->toString();
     }
 
     private function queryString(): string
@@ -113,18 +132,18 @@ RAW;
         return '?'.\rawurldecode(\http_build_query($this->query()->data()));
     }
 
-    private function bodyString(): string
+    /**
+     * @return Sequence<Str>
+     */
+    private function bodyChunks(): Sequence
     {
-        $body = $this->body()->toString();
-
-        if ($body !== '') {
-            return $body;
+        if (\count($this->form()) !== 0) {
+            return Sequence::of($this->form()->data())
+                ->map(\http_build_query(...))
+                ->map(\rawurldecode(...))
+                ->map(Str::of(...));
         }
 
-        if (\count($this->form()) === 0) {
-            return '';
-        }
-
-        return \rawurldecode(\http_build_query($this->form()->data()));
+        return (new Chunk)($this->body());
     }
 }

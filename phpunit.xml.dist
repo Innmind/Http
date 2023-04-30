@@ -9,6 +9,9 @@
       <directory>./vendor</directory>
     </exclude>
   </coverage>
+  <php>
+    <env name="BLACKBOX_SET_SIZE" value="1"/>
+  </php>
   <testsuites>
     <testsuite name="Httptest suite">
       <directory>./tests</directory>

@@ -5,9 +5,10 @@ namespace Innmind\Http;
 
 use Innmind\Immutable\{
     Str,
-    Map,
     SideEffect,
     Maybe,
+    Sequence,
+    Predicate\Instance,
 };
 
 /**
@@ -15,23 +16,27 @@ use Innmind\Immutable\{
  */
 final class Headers implements \Countable
 {
-    /** @var Map<string, Header> */
-    private Map $headers;
+    /** @var Sequence<Header> */
+    private Sequence $headers;
 
     /**
-     * @param Map<string, Header> $headers
+     * @param Sequence<Header> $headers
      */
-    private function __construct(Map $headers)
+    private function __construct(Sequence $headers)
     {
         $this->headers = $headers;
     }
 
     public function __invoke(Header $header): self
     {
-        return new self(($this->headers)(
-            self::normalize($header->name()),
-            $header,
-        ));
+        $name = self::normalize($header->name());
+
+        return new self(
+            $this
+                ->headers
+                ->filter(static fn($header) => self::normalize($header->name()) !== $name)
+                ->add($header),
+        );
     }
 
     /**
@@ -40,17 +45,10 @@ final class Headers implements \Countable
      */
     public static function of(Header ...$headers): self
     {
-        /** @var Map<string, Header> */
-        $map = Map::of();
-
-        foreach ($headers as $header) {
-            $map = ($map)(
-                self::normalize($header->name()),
-                $header,
-            );
-        }
-
-        return new self($map);
+        return Sequence::of(...$headers)->reduce(
+            new self(Sequence::of()),
+            static fn(self $headers, $header) => ($headers)($header),
+        );
     }
 
     /**
@@ -60,7 +58,9 @@ final class Headers implements \Countable
      */
     public function get(string $name): Maybe
     {
-        return $this->headers->get(self::normalize($name));
+        $normalized = self::normalize($name);
+
+        return $this->headers->find(static fn($header) => self::normalize($header->name()) === $normalized);
     }
 
     /**
@@ -72,8 +72,10 @@ final class Headers implements \Countable
      */
     public function find(string $type): Maybe
     {
-        /** @var Maybe<T> */
-        return $this->headers->values()->find(static fn($header) => $header instanceof $type);
+        return $this
+            ->headers
+            ->keep(Instance::of($type))
+            ->first();
     }
 
     /**
@@ -94,7 +96,7 @@ final class Headers implements \Countable
      */
     public function filter(callable $filter): self
     {
-        return new self($this->headers->filter(static fn($_, $header) => $filter($header)));
+        return new self($this->headers->filter($filter));
     }
 
     /**
@@ -102,7 +104,7 @@ final class Headers implements \Countable
      */
     public function foreach(callable $function): SideEffect
     {
-        return $this->headers->values()->foreach($function);
+        return $this->headers->foreach($function);
     }
 
     /**
@@ -115,12 +117,20 @@ final class Headers implements \Countable
      */
     public function reduce($carry, callable $reducer)
     {
-        return $this->headers->values()->reduce($carry, $reducer);
+        return $this->headers->reduce($carry, $reducer);
     }
 
     public function count(): int
     {
         return $this->headers->size();
+    }
+
+    /**
+     * @return Sequence<Header>
+     */
+    public function all(): Sequence
+    {
+        return $this->headers;
     }
 
     /**

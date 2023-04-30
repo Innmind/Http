@@ -1,5 +1,18 @@
 # Changelog
 
+## 6.3.0 - 2023-04-30
+
+### Added
+
+- `Innmind\Http\Headers::all()`
+- `Innmind\Http\Message\Request\Stringable::asContent()`
+- `Innmind\Http\Message\Response\Stringable::asContent()`
+- `Innmind\Http\Message\ServerRequest\Stringable::asContent()`
+
+### Changed
+
+- `Innmind\Http\Headers` now keeps the order in which headers are added
+
 ## 6.2.0 - 2023-04-02
 
 ### Added
