@@ -26,6 +26,8 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
       - name: PHPUnit
         run: vendor/bin/phpunit
+        env:
+          BLACKBOX_SET_SIZE: 100
   coverage:
     runs-on: ${{ matrix.os }}
     strategy:
