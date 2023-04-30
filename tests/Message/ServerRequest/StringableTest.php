@@ -37,7 +37,7 @@ class StringableTest extends TestCase
             ),
             Lines::ofContent('some body'),
         );
-        $stringable = new Stringable($request);
+        $stringable = Stringable::of($request);
 
         $this->assertInstanceOf(ServerRequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());
@@ -82,7 +82,7 @@ RAW;
                 'baz' => ['foo'],
             ]),
         );
-        $stringable = new Stringable($request);
+        $stringable = Stringable::of($request);
 
         $this->assertInstanceOf(ServerRequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());
@@ -128,7 +128,7 @@ RAW;
                 'baz' => ['foo'],
             ]),
         );
-        $stringable = new Stringable($request);
+        $stringable = Stringable::of($request);
 
         $this->assertInstanceOf(ServerRequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());

@@ -5,6 +5,9 @@
 ### Added
 
 - `Innmind\Http\Headers::all()`
+- `Innmind\Http\Message\Request\Stringable::asContent()`
+- `Innmind\Http\Message\Response\Stringable::asContent()`
+- `Innmind\Http\Message\ServerRequest\Stringable::asContent()`
 
 ## 6.2.0 - 2023-04-02
 

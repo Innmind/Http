@@ -35,7 +35,7 @@ class StringableTest extends TestCase
             ),
             Lines::ofContent('{"some":"json", "value":42}'),
         );
-        $stringable = new Stringable($response);
+        $stringable = Stringable::of($response);
 
         $this->assertInstanceOf(ResponseInterface::class, $stringable);
         $this->assertSame($response->statusCode(), $stringable->statusCode());
