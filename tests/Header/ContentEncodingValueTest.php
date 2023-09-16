@@ -34,7 +34,7 @@ class ContentEncodingValueTest extends TestCase
         new ContentEncodingValue($value);
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['*'],

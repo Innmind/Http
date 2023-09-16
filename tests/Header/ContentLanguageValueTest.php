@@ -35,7 +35,7 @@ class ContentLanguageValueTest extends TestCase
         new ContentLanguageValue($value);
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['*'],

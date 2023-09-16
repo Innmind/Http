@@ -46,7 +46,7 @@ final class File
         $headers = $this
             ->headers()
             ->fold(new Concat)
-            ->toEncoding('ASCII')
+            ->toEncoding(Str\Encoding::ascii)
             ->length();
 
         return $this

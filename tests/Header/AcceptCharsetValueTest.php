@@ -47,7 +47,7 @@ class AcceptCharsetValueTest extends TestCase
         new AcceptCharsetValue($value, new Quality(1));
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['@'],

@@ -39,7 +39,7 @@ class AllowValueTest extends TestCase
         new AllowValue($value);
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['42'],

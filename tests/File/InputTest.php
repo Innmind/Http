@@ -37,8 +37,7 @@ class InputTest extends TestCase
         $this
             ->forAll(Set\Sequence::of(
                 $this->strings(),
-                Set\Integers::between(1, 10),
-            ))
+            )->between(1, 10))
             ->then(function($lines) {
                 \file_put_contents('/tmp/test_content', \implode("\n", $lines));
                 $content = Input::of(Stream::open(Path::of('/tmp/test_content')));
@@ -77,8 +76,7 @@ class InputTest extends TestCase
             ->forAll(
                 Set\Sequence::of(
                     $this->strings(),
-                    Set\Integers::between(1, 10),
-                ),
+                )->between(1, 10),
                 $this->strings(),
             )
             ->then(function($lines, $replacement) {
@@ -106,8 +104,7 @@ class InputTest extends TestCase
             ->forAll(
                 Set\Sequence::of(
                     $this->strings(),
-                    Set\Integers::between(1, 10),
-                ),
+                )->between(1, 10),
                 $this->strings(),
             )
             ->then(function($lines, $newLine) {
@@ -132,8 +129,7 @@ class InputTest extends TestCase
         $this
             ->forAll(Set\Sequence::of(
                 $this->strings(),
-                Set\Integers::between(1, 10),
-            ))
+            )->between(1, 10))
             ->then(function($lines) {
                 \file_put_contents('/tmp/test_content', \implode("\n", $lines));
                 $content = Input::of(Stream::open(Path::of('/tmp/test_content')));
@@ -154,8 +150,7 @@ class InputTest extends TestCase
             ->forAll(
                 Set\Sequence::of(
                     $this->strings(),
-                    Set\Integers::between(1, 10),
-                ),
+                )->between(1, 10),
                 $this->strings(),
             )
             ->then(function($lines, $replacement) {
@@ -190,8 +185,7 @@ class InputTest extends TestCase
         $this
             ->forAll(Set\Sequence::of(
                 $this->strings(),
-                Set\Integers::between(1, 10),
-            ))
+            )->between(1, 10))
             ->then(function($lines) {
                 \file_put_contents('/tmp/test_content', \implode("\n", $lines));
                 $content = Input::of(Stream::open(Path::of('/tmp/test_content')));
@@ -211,8 +205,7 @@ class InputTest extends TestCase
         $this
             ->forAll(Set\Sequence::of(
                 $this->strings(),
-                Set\Integers::between(1, 10),
-            ))
+            )->between(1, 10))
             ->then(function($lines) {
                 \file_put_contents('/tmp/test_content', \implode("\n", $lines));
                 $content = Input::of(Stream::open(Path::of('/tmp/test_content')));
@@ -226,10 +219,9 @@ class InputTest extends TestCase
         $this
             ->forAll(Set\Sequence::of(
                 $this->strings(),
-                Set\Integers::between(0, 10),
-            ))
+            )->between(0, 10))
             ->then(function($lines) {
-                $expectedSize = Str::of(\implode("\n", $lines))->toEncoding('ASCII')->length();
+                $expectedSize = Str::of(\implode("\n", $lines))->toEncoding(Str\Encoding::ascii)->length();
                 \file_put_contents('/tmp/test_content', \implode("\n", $lines));
                 $content = Input::of(Stream::open(Path::of('/tmp/test_content')));
 
@@ -248,8 +240,7 @@ class InputTest extends TestCase
         $this
             ->forAll(Set\Sequence::of(
                 $this->strings(),
-                Set\Integers::between(1, 10),
-            ))
+            )->between(1, 10))
             ->then(function($lines) {
                 \file_put_contents('/tmp/test_content', \implode("\n", $lines));
                 $content = Input::of(Stream::open(Path::of('/tmp/test_content')));

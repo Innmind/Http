@@ -45,7 +45,7 @@ final class Data
             $this
                 ->chunks()
                 ->fold(new Concat)
-                ->toEncoding('ASCII')
+                ->toEncoding(Str\Encoding::ascii)
                 ->length(),
         );
     }

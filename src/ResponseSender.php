@@ -32,10 +32,10 @@ final class ResponseSender implements Sender
     /**
      * @param callable(File\Content): Sequence<Str> $chunk
      */
-    public function __construct(Clock $clock, callable $chunk = new Chunk)
+    public function __construct(Clock $clock, callable $chunk = null)
     {
         $this->clock = $clock;
-        $this->chunk = $chunk;
+        $this->chunk = $chunk ?? new Chunk;
     }
 
     public function __invoke(Response $response): void

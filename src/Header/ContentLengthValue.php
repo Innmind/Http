@@ -20,7 +20,6 @@ final class ContentLengthValue implements Value
             throw new DomainException((string) $length);
         }
 
-        /** @var 0|positive-int */
         $this->length = $length;
     }
 
