@@ -72,6 +72,7 @@ final class LinkFactory implements HeaderFactory
 
         /**
          * @psalm-suppress NamedArgumentNotAllowed
+         * @psalm-suppress InvalidArgument
          * @var Maybe<Header>
          */
         return Maybe::all(...$links->toList())->map(
@@ -105,6 +106,7 @@ final class LinkFactory implements HeaderFactory
 
         /**
          * @psalm-suppress MixedArgumentTypeCoercion
+         * @psalm-suppress InvalidArgument
          * @var Maybe<Map<string, Parameter\Parameter>>
          */
         return Maybe::all(...$params->toList())->map(

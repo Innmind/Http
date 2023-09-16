@@ -54,6 +54,7 @@ final class AcceptLanguageFactory implements HeaderFactory
 
         /**
          * @psalm-suppress NamedArgumentNotAllowed
+         * @psalm-suppress InvalidArgument
          * @var Maybe<Header>
          */
         return Maybe::all(...$values->toList())->map(

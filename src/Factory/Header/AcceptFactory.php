@@ -60,6 +60,7 @@ final class AcceptFactory implements HeaderFactory
 
         /**
          * @psalm-suppress NamedArgumentNotAllowed
+         * @psalm-suppress InvalidArgument
          * @var Maybe<Header>
          */
         return Maybe::all(...$values->toList())->map(
@@ -90,7 +91,10 @@ final class AcceptFactory implements HeaderFactory
             return Maybe::just([]);
         }
 
-        /** @var Maybe<list<Parameter>> */
+        /**
+         * @psalm-suppress InvalidArgument
+         * @var Maybe<list<Parameter>>
+         */
         return Maybe::all(...$params->toList())->map(
             static fn(Parameter ...$params) => $params,
         );

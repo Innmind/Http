@@ -79,7 +79,10 @@ final class CacheControlFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
+        /**
+         * @psalm-suppress InvalidArgument
+         * @var Maybe<Header>
+         */
         return Maybe::all(...$values->toList())->map(
             static fn(CacheControlValue ...$values) => new CacheControl(...$values),
         );
