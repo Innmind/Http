@@ -117,7 +117,7 @@ final class Multipart implements Content, Chunkable
     public function size(): Maybe
     {
         // +2 for carriage return and -- (for last boundary)
-        $boundary = $this->boundaryStr()->toEncoding('ASCII')->length() + 2;
+        $boundary = $this->boundaryStr()->toEncoding(Str\Encoding::ascii)->length() + 2;
 
         if ($this->parts->empty()) {
             return Maybe::just(new Size($boundary + $boundary));

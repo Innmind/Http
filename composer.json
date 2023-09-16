@@ -17,7 +17,7 @@
     "require": {
         "php": "~8.2",
         "innmind/url": "~4.0",
-        "innmind/immutable": "~4.13",
+        "innmind/immutable": "~4.15|~5.0",
         "innmind/filesystem": "^6.3.2",
         "innmind/time-continuum": "~3.0",
         "innmind/stream": "~4.0",
