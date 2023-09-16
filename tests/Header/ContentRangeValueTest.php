@@ -45,7 +45,7 @@ class ContentRangeValueTest extends TestCase
         new ContentRangeValue($unit, $first, $last, $length);
     }
 
-    public function invalids()
+    public static function invalids()
     {
         return [
             ['', 0, 42, null],

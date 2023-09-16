@@ -62,7 +62,7 @@ class AcceptValueTest extends TestCase
         new AcceptValue($type, $sub);
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['*', 'octet-stream'],

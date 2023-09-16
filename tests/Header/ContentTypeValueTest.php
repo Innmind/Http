@@ -53,7 +53,7 @@ class ContentTypeValueTest extends TestCase
         new ContentTypeValue($type, $sub);
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['*', '*'],

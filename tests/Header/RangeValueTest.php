@@ -34,7 +34,7 @@ class RangeValueTest extends TestCase
         new RangeValue($unit, $first, $last);
     }
 
-    public function invalids()
+    public static function invalids()
     {
         return [
             ['', 0, 42],

@@ -46,7 +46,7 @@ class AcceptEncodingValueTest extends TestCase
         new AcceptEncodingValue($value, new Quality(1));
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['@'],

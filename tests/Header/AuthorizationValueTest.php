@@ -37,7 +37,7 @@ class AuthorizationValueTest extends TestCase
         new AuthorizationValue($value, '');
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['foo@bar'],

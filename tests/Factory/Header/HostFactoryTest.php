@@ -48,7 +48,7 @@ class HostFactoryTest extends TestCase
         ));
     }
 
-    public function cases(): array
+    public static function cases(): array
     {
         return [
             ['www.w3.org:8080'],

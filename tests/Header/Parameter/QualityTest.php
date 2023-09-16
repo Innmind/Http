@@ -35,7 +35,7 @@ class QualityTest extends TestCase
         new Quality($v);
     }
 
-    public function invalids()
+    public static function invalids()
     {
         return [
             [-1],

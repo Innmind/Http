@@ -35,7 +35,7 @@ class AcceptRangesValueTest extends TestCase
         new AcceptRangesValue($value);
     }
 
-    public function invalids(): array
+    public static function invalids(): array
     {
         return [
             ['*'],
