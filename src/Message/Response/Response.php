@@ -30,7 +30,7 @@ final class Response implements ResponseInterface
     ) {
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? Headers::of();
-        $this->body = $body ?? Content\None::of();
+        $this->body = $body ?? Content::none();
         $this->statusCode = $statusCode;
     }
 

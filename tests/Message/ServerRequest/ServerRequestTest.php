@@ -30,7 +30,7 @@ class ServerRequestTest extends TestCase
             $method = Method::get,
             $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
-            $body = $this->createMock(Content::class),
+            $body = Content::none(),
             $env = new Environment,
             $cookies = new Cookies,
             $query = Query::of([]),

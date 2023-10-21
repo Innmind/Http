@@ -14,10 +14,6 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
-use Innmind\Filesystem\{
-    Chunk,
-    File,
-};
 use Innmind\Immutable\{
     Sequence,
     Str,
@@ -26,16 +22,10 @@ use Innmind\Immutable\{
 final class ResponseSender implements Sender
 {
     private Clock $clock;
-    /** @var callable(File\Content): Sequence<Str> */
-    private $chunk;
 
-    /**
-     * @param callable(File\Content): Sequence<Str> $chunk
-     */
-    public function __construct(Clock $clock, callable $chunk = null)
+    public function __construct(Clock $clock)
     {
         $this->clock = $clock;
-        $this->chunk = $chunk ?? new Chunk;
     }
 
     public function __invoke(Response $response): void
@@ -73,10 +63,13 @@ final class ResponseSender implements Sender
             \header($header->toString(), false);
         });
 
-        $_ = ($this->chunk)($response->body())->foreach(static function($chunk): void {
-            echo $chunk->toString();
-            \flush();
-        });
+        $_ = $response
+            ->body()
+            ->chunks()
+            ->foreach(static function($chunk): void {
+                echo $chunk->toString();
+                \flush();
+            });
 
         if (\function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();

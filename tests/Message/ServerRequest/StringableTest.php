@@ -15,7 +15,7 @@ use Innmind\Http\{
     Header\Host,
     Header\HostValue
 };
-use Innmind\Filesystem\File\Content\Lines;
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ class StringableTest extends TestCase
                     ),
                 ),
             ),
-            Lines::ofContent('some body'),
+            Content::ofString('some body'),
         );
         $stringable = Stringable::of($request);
 
@@ -73,7 +73,7 @@ RAW;
                     ),
                 ),
             ),
-            Lines::ofContent('some body'),
+            Content::ofString('some body'),
             null,
             null,
             Query::of([

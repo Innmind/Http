@@ -16,10 +16,7 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\Url\Url;
-use Innmind\Filesystem\{
-    File\Content,
-    Chunk,
-};
+use Innmind\Filesystem\File\Content;
 use Innmind\Immutable\{
     Sequence,
     Str,
@@ -110,7 +107,7 @@ final class Stringable implements ServerRequestInterface
             ->map(Str::of(...))
             ->map(static fn($header) => $header->append("\n"));
 
-        return Content\Chunks::of(
+        return Content::ofChunks(
             Sequence::lazyStartingWith($status)
                 ->append($headers)
                 ->add(Str::of("\n"))
@@ -144,6 +141,6 @@ final class Stringable implements ServerRequestInterface
                 ->map(Str::of(...));
         }
 
-        return (new Chunk)($this->body());
+        return $this->body()->chunks();
     }
 }

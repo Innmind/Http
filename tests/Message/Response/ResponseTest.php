@@ -22,7 +22,7 @@ class ResponseTest extends TestCase
             $status = StatusCode::ok,
             $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
-            $body = $this->createMock(Content::class),
+            $body = Content::none(),
         );
 
         $this->assertInstanceOf(Message::class, $r);

@@ -24,7 +24,7 @@ class RequestTest extends TestCase
             $method = Method::get,
             $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
-            $body = $this->createMock(Content::class),
+            $body = Content::none(),
         );
 
         $this->assertInstanceOf(Message::class, $r);

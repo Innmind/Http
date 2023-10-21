@@ -13,7 +13,7 @@ use Innmind\Http\{
     Header\ContentType,
     Header\ContentTypeValue
 };
-use Innmind\Filesystem\File\Content\Lines;
+use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +30,7 @@ class StringableTest extends TestCase
                     new ContentTypeValue('text', 'plain'),
                 ),
             ),
-            Lines::ofContent('some body'),
+            Content::ofString('some body'),
         );
         $stringable = Stringable::of($request);
 

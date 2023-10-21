@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Content\Multipart;
 
-use Innmind\Filesystem\{
-    File as Binary,
-    Chunk,
-};
+use Innmind\Filesystem\File as Binary;
 use Innmind\Immutable\{
     Sequence,
     Str,
@@ -35,7 +32,7 @@ final class File
     {
         return $this
             ->headers()
-            ->append((new Chunk)($this->file->content()));
+            ->append($this->file->content()->chunks());
     }
 
     /**

@@ -34,7 +34,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $f = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Content::class),
+            static fn() => Content::none(),
             $env = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -84,7 +84,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Content::class),
+            static fn() => Content::none(),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -135,7 +135,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_PW'] = 'duh';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Content::class),
+            static fn() => Content::none(),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),

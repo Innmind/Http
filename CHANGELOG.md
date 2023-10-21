@@ -1,5 +1,16 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- Requires `innmind/filesystem:~7.0`
+- `Innmind\Http\Content\Multipart` now longer implements `Innmind\Filesystem\File\Content`, use `->asContent()`
+
+### Removed
+
+- `Innmind\Http\File\Input`
+
 ## 6.4.0 - 2023-09-16
 
 ### Added

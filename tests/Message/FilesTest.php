@@ -18,7 +18,7 @@ class FilesTest extends TestCase
 {
     public function testInterface()
     {
-        $file = $this->createMock(File::class);
+        $file = File::named('foo', File\Content::none());
         $files = Files::of([
             'foo' => Either::right($file),
         ]);
@@ -42,7 +42,7 @@ class FilesTest extends TestCase
 
     public function testUnder()
     {
-        $file = $this->createMock(File::class);
+        $file = File::named('bar', File\Content::none());
         $files = Files::of([
             'bar' => [
                 'foo' => Either::right($file),
@@ -68,8 +68,8 @@ class FilesTest extends TestCase
 
     public function testList()
     {
-        $file1 = $this->createMock(File::class);
-        $file2 = $this->createMock(File::class);
+        $file1 = File::named('foo', File\Content::none());
+        $file2 = File::named('bar', File\Content::none());
         $files = Files::of([
             'bar' => [
                 Either::right($file1),

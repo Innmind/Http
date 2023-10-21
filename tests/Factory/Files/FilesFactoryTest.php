@@ -9,6 +9,8 @@ use Innmind\Http\{
     Message\Files,
     File\Status,
 };
+use Innmind\IO\IO;
+use Innmind\Stream\Streams;
 use Innmind\Immutable\{
     Map,
     MapInterface
@@ -64,7 +66,10 @@ class FilesFactoryTest extends TestCase
                 ],
             ],
         ];
-        $factory = FilesFactory::default();
+        $factory = FilesFactory::default(
+            $streams = Streams::fromAmbientAuthority(),
+            IO::of($streams->watch()->waitForever(...)),
+        );
 
         $this->assertInstanceOf(FilesFactoryInterface::class, $factory);
 
