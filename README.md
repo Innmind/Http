@@ -20,8 +20,8 @@ $request = ServerRequestFactory::default()();
 
 ```php
 use Innmind\Http\{
-    Message\Response\Response,
-    Message\StatusCode,
+    Response,
+    Response\StatusCode,
     ProtocolVersion,
     Headers,
     Header,
@@ -32,7 +32,7 @@ use Innmind\Http\{
 use Innmind\Filesystem\File\Content;
 use Innmind\TimeContinuum\Earth\Clock;
 
-$response = new Response(
+$response = Response::of(
     StatusCode::ok,
     ProtocolVersion::v11,
     Headers::of(
@@ -58,8 +58,8 @@ Content-Type : application/json
 
 ```php
 use Innmind\Http\{
-    Message\Request\Request,
-    Message\Method,
+    Request,
+    Method,
     Content\Multipart,
     Header\ContentType,
     Header\ContentType\Boundary,
@@ -73,7 +73,7 @@ use Innmind\Filesystem\{
 use Innmind\Url\Url;
 
 $boundary = Boundary::uuid();
-$request = new Request(
+$request = Request::of(
     Url::of('http://some-server.com/')
     Method::post,
     ProtocolVersion::v11,
@@ -82,7 +82,7 @@ $request = new Request(
         ->with('some[key]', 'some value')
         ->withFile('some[file]', File::named(
             'whatever.txt',
-            Content\Lines::ofContent(' can be any file content'),
+            Content::ofString(' can be any file content'),
         )),
 );
 ```
