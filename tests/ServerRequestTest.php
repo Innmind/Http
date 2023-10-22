@@ -8,11 +8,11 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Method,
-    Message\Environment,
-    Message\Cookies,
-    Message\Query,
-    Message\Form,
-    Message\Files
+    ServerRequest\Environment,
+    ServerRequest\Cookies,
+    ServerRequest\Query,
+    ServerRequest\Form,
+    ServerRequest\Files
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message;
+namespace Tests\Innmind\Http\ServerRequest;
 
-use Innmind\Http\Message\Environment;
+use Innmind\Http\ServerRequest\Environment;
 use Innmind\Immutable\{
     Map,
     SideEffect,

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message;
+namespace Tests\Innmind\Http\ServerRequest;
 
-use Innmind\Http\Message\Cookies;
+use Innmind\Http\ServerRequest\Cookies;
 use Innmind\Immutable\{
     Map,
     SideEffect,

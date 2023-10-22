@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Files;
 
 use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
-    Message\Files,
+    ServerRequest\Files,
     File\Status,
     Exception\LogicException,
 };

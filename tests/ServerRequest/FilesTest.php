@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message;
+namespace Tests\Innmind\Http\ServerRequest;
 
 use Innmind\Http\{
-    Message\Files,
+    ServerRequest\Files,
     File\Status,
 };
 use Innmind\Filesystem\File;

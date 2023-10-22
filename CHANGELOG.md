@@ -18,6 +18,11 @@
 - `Innmind\Http\Message\StatusCode` has been moved to `Innmind\Http\Response\StatusCode`
 - `Innmind\Http\Message\StatusCode\Range` has been moved to `Innmind\Http\Response\StatusCode\Range`
 - `Innmind\Http\Message\Method` has been moved to `Innmind\Http\Method`
+- `Innmind\Http\Message\Cookies` has been moved to `Innmind\Http\ServerRequest\Cookies`
+- `Innmind\Http\Message\Environment` has been moved to `Innmind\Http\ServerRequest\Environment`
+- `Innmind\Http\Message\Files` has been moved to `Innmind\Http\ServerRequest\Files`
+- `Innmind\Http\Message\Form` has been moved to `Innmind\Http\ServerRequest\Form`
+- `Innmind\Http\Message\Query` has been moved to `Innmind\Http\ServerRequest\Query`
 
 ### Removed
 

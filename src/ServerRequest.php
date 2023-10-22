@@ -4,11 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\Environment,
-    Message\Cookies,
-    Message\Query,
-    Message\Form,
-    Message\Files,
+    ServerRequest\Environment,
+    ServerRequest\Cookies,
+    ServerRequest\Query,
+    ServerRequest\Form,
+    ServerRequest\Files,
 };
 use Innmind\Url\Url;
 use Innmind\Filesystem\File\Content;

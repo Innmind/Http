@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Environment;
 
 use Innmind\Http\{
     Factory\EnvironmentFactory as EnvironmentFactoryInterface,
-    Message\Environment,
+    ServerRequest\Environment,
 };
 use Innmind\Immutable\Map;
 

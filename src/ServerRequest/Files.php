@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Message;
+namespace Innmind\Http\ServerRequest;
 
 use Innmind\Http\File\Status;
 use Innmind\Filesystem\File;

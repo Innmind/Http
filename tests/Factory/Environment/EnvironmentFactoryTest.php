@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Factory\Environment;
 use Innmind\Http\{
     Factory\Environment\EnvironmentFactory,
     Factory\EnvironmentFactory as EnvironmentFactoryInterface,
-    Message\Environment
+    ServerRequest\Environment,
 };
 use PHPUnit\Framework\TestCase;
 

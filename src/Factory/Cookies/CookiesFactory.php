@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Cookies;
 
 use Innmind\Http\{
     Factory\CookiesFactory as CookiesFactoryInterface,
-    Message\Cookies,
+    ServerRequest\Cookies,
 };
 use Innmind\Immutable\Map;
 

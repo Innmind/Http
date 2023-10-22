@@ -13,11 +13,11 @@ use Innmind\Http\{
     Factory\FormFactory,
     Factory\FilesFactory,
     ServerRequest,
-    Message\Query,
-    Message\Form,
-    Message\Files,
-    Message\Environment,
-    Message\Cookies,
+    ServerRequest\Query,
+    ServerRequest\Form,
+    ServerRequest\Files,
+    ServerRequest\Environment,
+    ServerRequest\Cookies,
     Headers,
 };
 use Innmind\TimeContinuum\Earth\Clock;

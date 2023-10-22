@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Factory\Files;
 use Innmind\Http\{
     Factory\Files\FilesFactory,
     Factory\FilesFactory as FilesFactoryInterface,
-    Message\Files,
+    ServerRequest\Files,
     File\Status,
 };
 use Innmind\IO\IO;
