@@ -11,20 +11,16 @@ use Innmind\Http\{
 use Innmind\Filesystem\{
     File as Binary,
     File\Content,
-    File\Content\Chunkable,
 };
-use Innmind\Stream\Stream\Size;
 use Innmind\Immutable\{
     Sequence,
     Str,
-    Maybe,
-    SideEffect,
 };
 
 /**
  * @psalm-immutable
  */
-final class Multipart implements Content, Chunkable
+final class Multipart
 {
     private Boundary $boundary;
     /** @var Sequence<Data|File> */
@@ -66,32 +62,15 @@ final class Multipart implements Content, Chunkable
         );
     }
 
-    public function foreach(callable $function): SideEffect
+    public function asContent(): Content
     {
-        return $this->content()->foreach($function);
+        return Content::ofChunks($this->chunks());
     }
 
-    public function map(callable $map): Content
-    {
-        return $this->content()->map($map);
-    }
-
-    public function flatMap(callable $map): Content
-    {
-        return $this->content()->flatMap($map);
-    }
-
-    public function filter(callable $filter): Content
-    {
-        return $this->content()->filter($filter);
-    }
-
-    public function lines(): Sequence
-    {
-        return $this->content()->lines();
-    }
-
-    public function chunks(): Sequence
+    /**
+     * @return Sequence<Str>
+     */
+    private function chunks(): Sequence
     {
         $boundary = $this->boundaryStr();
         $boundaryLine = Sequence::lazyStartingWith($boundary->append("\r\n"));
@@ -107,50 +86,6 @@ final class Multipart implements Content, Chunkable
                 ->add(Str::of("\r\n")),
             )
             ->add($boundary->append('--'));
-    }
-
-    public function reduce($carry, callable $reducer)
-    {
-        return $this->content()->reduce($carry, $reducer);
-    }
-
-    public function size(): Maybe
-    {
-        // +2 for carriage return and -- (for last boundary)
-        $boundary = $this->boundaryStr()->toEncoding(Str\Encoding::ascii)->length() + 2;
-
-        if ($this->parts->empty()) {
-            return Maybe::just(new Size($boundary + $boundary));
-        }
-
-        /** @var Maybe<int> */
-        $parts = $this
-            ->parts
-            ->map(
-                static fn($part) => $part
-                    ->size()
-                    ->map(static fn($size) => $boundary + $size + 2),
-            )
-            ->match(
-                static fn($first, $rest) => Maybe::all($first, ...$rest->toList())->map(
-                    static fn(int ...$sizes) => \array_sum($sizes),
-                ),
-                static fn() => Maybe::nothing(),
-            );
-
-        return $parts
-            ->map(static fn($size) => $size + $boundary)
-            ->map(static fn($size) => new Size($size));
-    }
-
-    public function toString(): string
-    {
-        return $this->content()->toString();
-    }
-
-    private function content(): Content
-    {
-        return Content\Chunks::of($this->chunks());
     }
 
     private function boundaryStr(): Str

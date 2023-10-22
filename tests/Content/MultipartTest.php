@@ -8,9 +8,8 @@ use Innmind\Http\{
     Header\ContentType\Boundary,
 };
 use Innmind\Filesystem\{
-    File\File,
+    File,
     File\Content,
-    File\Content\Chunkable,
 };
 use Innmind\Immutable\{
     Str,
@@ -28,21 +27,13 @@ class MultipartTest extends TestCase
 {
     use BlackBox;
 
-    public function testInterface()
-    {
-        $boundary = Boundary::uuid();
-
-        $this->assertInstanceOf(Content::class, Multipart::boundary($boundary));
-        $this->assertInstanceOf(Chunkable::class, Multipart::boundary($boundary));
-    }
-
     public function testRender()
     {
         $content = Multipart::boundary($boundary = Boundary::uuid())
             ->with('foo', 'bar')
             ->withFile('baz', File::named(
                 'baz.txt',
-                Content\Chunks::of(Sequence::of(Str::of("foo\nbar\nbaz"))),
+                Content::ofChunks(Sequence::of(Str::of("foo\nbar\nbaz"))),
             ));
         $expected = <<<EXPECTED
         --{$boundary->value()}\r
@@ -60,8 +51,8 @@ class MultipartTest extends TestCase
         --{$boundary->value()}--
         EXPECTED;
 
-        $this->assertSame($expected, $content->toString());
-        $this->assertSame(\mb_strlen($expected, 'ASCII'), $content->size()->match(
+        $this->assertSame($expected, $content->asContent()->toString());
+        $this->assertSame(\mb_strlen($expected, 'ASCII'), $content->asContent()->size()->match(
             static fn($size) => $size->toInt(),
             static fn() => null,
         ));
@@ -73,8 +64,9 @@ class MultipartTest extends TestCase
             ->with('foo', 'bar')
             ->withFile('baz', File::named(
                 'baz.txt',
-                Content\Chunks::of(Sequence::of(Str::of("foo\nbar\nbaz"))),
+                Content::ofChunks(Sequence::of(Str::of("foo\nbar\nbaz"))),
             ))
+            ->asContent()
             ->lines()
             ->map(static fn($line) => $line->toString())
             ->toList();
@@ -107,8 +99,8 @@ class MultipartTest extends TestCase
         --{$boundary->value()}--
         EXPECTED;
 
-        $this->assertSame($expected, $content->toString());
-        $this->assertSame(80, $content->size()->match(
+        $this->assertSame($expected, $content->asContent()->toString());
+        $this->assertSame(80, $content->asContent()->size()->match(
             static fn($size) => $size->toInt(),
             static fn() => null,
         ));
@@ -136,7 +128,7 @@ class MultipartTest extends TestCase
                     ->withFile($fileName, $file);
 
                 $in = \fopen('php://temp', 'w+');
-                \fwrite($in, $content->toString());
+                \fwrite($in, $content->asContent()->toString());
                 \fseek($in, 0);
 
                 $handle = \curl_init('http://localhost:8080/');

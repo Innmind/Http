@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Environment;
 
 use Innmind\Http\{
     Factory\EnvironmentFactory as EnvironmentFactoryInterface,
-    Message\Environment,
+    ServerRequest\Environment,
 };
 use Innmind\Immutable\Map;
 
@@ -34,7 +34,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
             $map = ($map)($name, $value);
         }
 
-        return new Environment($map);
+        return Environment::of($map);
     }
 
     public static function default(): self

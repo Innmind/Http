@@ -5,8 +5,7 @@ namespace Innmind\Http\Factory\Form;
 
 use Innmind\Http\{
     Factory\FormFactory as FormFactoryInterface,
-    Message\Form,
-    Message\Form\Parameter,
+    ServerRequest\Form,
 };
 
 /**

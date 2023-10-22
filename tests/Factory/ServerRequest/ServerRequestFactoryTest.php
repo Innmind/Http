@@ -12,12 +12,12 @@ use Innmind\Http\{
     Factory\QueryFactory,
     Factory\FormFactory,
     Factory\FilesFactory,
-    Message\ServerRequest,
-    Message\Query,
-    Message\Form,
-    Message\Files,
-    Message\Environment,
-    Message\Cookies,
+    ServerRequest,
+    ServerRequest\Query,
+    ServerRequest\Form,
+    ServerRequest\Files,
+    ServerRequest\Environment,
+    ServerRequest\Cookies,
     Headers,
 };
 use Innmind\TimeContinuum\Earth\Clock;
@@ -34,7 +34,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $f = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Content::class),
+            static fn() => Content::none(),
             $env = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -61,11 +61,11 @@ class ServerRequestFactoryTest extends TestCase
         $cookies
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Cookies);
+            ->willReturn(Cookies::of());
         $env
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Environment);
+            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -84,7 +84,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Content::class),
+            static fn() => Content::none(),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -111,11 +111,11 @@ class ServerRequestFactoryTest extends TestCase
         $cookies
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Cookies);
+            ->willReturn(Cookies::of());
         $environment
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Environment);
+            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -135,7 +135,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_PW'] = 'duh';
         $factory = new ServerRequestFactory(
             $headers = $this->createMock(HeadersFactory::class),
-            fn() => $this->createMock(Content::class),
+            static fn() => Content::none(),
             $environment = $this->createMock(EnvironmentFactory::class),
             $cookies = $this->createMock(CookiesFactory::class),
             $query = $this->createMock(QueryFactory::class),
@@ -162,11 +162,11 @@ class ServerRequestFactoryTest extends TestCase
         $cookies
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Cookies);
+            ->willReturn(Cookies::of());
         $environment
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Environment);
+            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
