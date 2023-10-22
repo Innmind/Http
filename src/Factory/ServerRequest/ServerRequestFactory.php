@@ -6,7 +6,7 @@ namespace Innmind\Http\Factory\ServerRequest;
 use Innmind\Http\{
     Factory\ServerRequestFactory as ServerRequestFactoryInterface,
     ServerRequest,
-    Message\Method,
+    Method,
     ProtocolVersion,
     Factory\HeadersFactory,
     Factory\Header\Factories,

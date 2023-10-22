@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Message\Method;
+use Innmind\Http\Method;
 use Innmind\Immutable\Maybe;
 
 /**

@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\ServerRequest;
 use Innmind\Http\{
     ServerRequest\Stringable,
     ServerRequest,
-    Message\Method,
+    Method,
     Message\Query,
     Message\Form,
     ProtocolVersion,

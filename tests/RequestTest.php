@@ -7,7 +7,7 @@ use Innmind\Http\{
     Request,
     ProtocolVersion,
     Headers,
-    Message\Method,
+    Method,
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
