@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Cookies;
 
 use Innmind\Http\{
     Factory\CookiesFactory as CookiesFactoryInterface,
-    Message\Cookies,
+    ServerRequest\Cookies,
 };
 use Innmind\Immutable\Map;
 
@@ -34,7 +34,7 @@ final class CookiesFactory implements CookiesFactoryInterface
             $map = ($map)($name, $value);
         }
 
-        return new Cookies($map);
+        return Cookies::of($map);
     }
 
     public static function default(): self

@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Factory\Query;
 use Innmind\Http\{
     Factory\Query\QueryFactory,
     Factory\QueryFactory as QueryFactoryInterface,
-    Message\Query
+    ServerRequest\Query,
 };
 use PHPUnit\Framework\TestCase;
 

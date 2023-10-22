@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Factory\Form;
 use Innmind\Http\{
     Factory\Form\FormFactory,
     Factory\FormFactory as FormFactoryInterface,
-    Message\Form
+    ServerRequest\Form,
 };
 use PHPUnit\Framework\TestCase;
 

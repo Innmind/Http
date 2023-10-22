@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\Files;
 
 use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
-    Message\Files,
+    ServerRequest\Files,
     File\Status,
     Exception\LogicException,
 };
@@ -15,6 +15,8 @@ use Innmind\Filesystem\{
     File\Content,
 };
 use Innmind\Url\Path;
+use Innmind\IO\IO;
+use Innmind\Stream\Capabilities;
 use Innmind\Immutable\{
     Map,
     Either,
@@ -29,10 +31,14 @@ use Innmind\Immutable\{
  */
 final class FilesFactory implements FilesFactoryInterface
 {
+    private Capabilities $capabilities;
+    private IO $io;
     private array $files;
 
-    public function __construct(array $files)
+    public function __construct(Capabilities $capabilities, IO $io, array $files)
     {
+        $this->capabilities = $capabilities;
+        $this->io = $io;
         $this->files = $files;
     }
 
@@ -48,9 +54,9 @@ final class FilesFactory implements FilesFactoryInterface
         return Files::of($files);
     }
 
-    public static function default(): self
+    public static function default(Capabilities $capabilities, IO $io): self
     {
-        return new self($_FILES);
+        return new self($capabilities, $io, $_FILES);
     }
 
     private function map(array $content): array|Either
@@ -105,10 +111,17 @@ final class FilesFactory implements FilesFactoryInterface
             return Either::left($status);
         }
 
-        /** @var Either<Status, File> */
-        return Either::right(File\File::named(
+        /**
+         * @psalm-suppress ImpureMethodCall
+         * @var Either<Status, File>
+         */
+        return Either::right(File::named(
             $name,
-            Content\AtPath::of(Path::of($path)),
+            Content::atPath(
+                $this->capabilities->readable(),
+                $this->io->readable(),
+                Path::of($path),
+            ),
             MediaType::maybe($media)->match(
                 static fn($media) => $media,
                 static fn() => MediaType::null(),

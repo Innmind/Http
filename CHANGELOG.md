@@ -1,5 +1,42 @@
 # Changelog
 
+## 7.0.0 - 2023-10-22
+
+### Changed
+
+- Requires `innmind/filesystem:~7.0`
+- `Innmind\Http\Content\Multipart` now longer implements `Innmind\Filesystem\File\Content`, use `->asContent()`
+- `Innmind\Http\Message\Response\Response` as been moved to `Innmind\Http\Response`
+- `Innmind\Http\Message\Request\Request` as been moved to `Innmind\Http\Request`
+- `Innmind\Http\Message\ServerRequest\ServerRequest` as been moved to `Innmind\Http\ServerRequest`
+- `Innmind\Http\Message\Request\Stringable` has be called like this now `Stringable::new()($request)`
+- `Innmind\Http\Message\Response\Stringable` has be called like this now `Stringable::new()($request)`
+- `Innmind\Http\Message\ServerRequest\Stringable` has be called like this now `Stringable::new()($request)`
+- `Innmind\Http\Message\Request\Stringable` has been moved to `Innmind\Http\Request\Stringable`
+- `Innmind\Http\Message\Response\Stringable` has been moved to `Innmind\Http\Response\Stringable`
+- `Innmind\Http\Message\ServerRequest\Stringable` has been moved to `Innmind\Http\ServerRequest\Stringable`
+- `Innmind\Http\Message\StatusCode` has been moved to `Innmind\Http\Response\StatusCode`
+- `Innmind\Http\Message\StatusCode\Range` has been moved to `Innmind\Http\Response\StatusCode\Range`
+- `Innmind\Http\Message\Method` has been moved to `Innmind\Http\Method`
+- `Innmind\Http\Message\Cookies` has been moved to `Innmind\Http\ServerRequest\Cookies`
+- `Innmind\Http\Message\Environment` has been moved to `Innmind\Http\ServerRequest\Environment`
+- `Innmind\Http\Message\Files` has been moved to `Innmind\Http\ServerRequest\Files`
+- `Innmind\Http\Message\Form` has been moved to `Innmind\Http\ServerRequest\Form`
+- `Innmind\Http\Message\Query` has been moved to `Innmind\Http\ServerRequest\Query`
+- `Innmind\Http\Request` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\ServerRequest` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\Response` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\ServerRequest\Cookies` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\ServerRequest\Environment` constructor is now private, use `::of()` named constructor instead
+
+### Removed
+
+- `Innmind\Http\File\Input`
+- `Innmind\Http\Message\Response`
+- `Innmind\Http\Message\Request`
+- `Innmind\Http\Message\ServerRequest`
+- `Innmind\Http\Message`
+
 ## 6.4.0 - 2023-09-16
 
 ### Added

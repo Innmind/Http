@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Factory\Cookies;
 use Innmind\Http\{
     Factory\Cookies\CookiesFactory,
     Factory\CookiesFactory as CookiesFactoryInterface,
-    Message\Cookies
+    ServerRequest\Cookies,
 };
 use PHPUnit\Framework\TestCase;
 
