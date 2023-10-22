@@ -7,7 +7,7 @@ use Innmind\Http\{
     Response,
     ProtocolVersion,
     Headers,
-    Message\StatusCode,
+    Response\StatusCode,
 };
 use Innmind\Filesystem\File\Content;
 use PHPUnit\Framework\TestCase;

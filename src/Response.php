@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-use Innmind\Http\{
-    Message\ReasonPhrase,
-    Message\StatusCode,
-};
+use Innmind\Http\Response\StatusCode;
 use Innmind\Filesystem\File\Content;
 
 /**

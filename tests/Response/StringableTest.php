@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Response;
 use Innmind\Http\{
     Response\Stringable,
     Response,
-    Message\StatusCode,
+    Response\StatusCode,
     ProtocolVersion,
     Headers,
     Header\ContentType,

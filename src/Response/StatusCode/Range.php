@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Message\StatusCode;
+namespace Innmind\Http\Response\StatusCode;
 
 enum Range
 {

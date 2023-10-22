@@ -1,12 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message;
+namespace Tests\Innmind\Http\Response;
 
-use Innmind\Http\{
-    Message\StatusCode,
-    Message\ReasonPhrase,
-};
+use Innmind\Http\Response\StatusCode;
 use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,

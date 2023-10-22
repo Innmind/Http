@@ -15,6 +15,8 @@
 - `Innmind\Http\Message\Request\Stringable` has been moved to `Innmind\Http\Request\Stringable`
 - `Innmind\Http\Message\Response\Stringable` has been moved to `Innmind\Http\Response\Stringable`
 - `Innmind\Http\Message\ServerRequest\Stringable` has been moved to `Innmind\Http\ServerRequest\Stringable`
+- `Innmind\Http\Message\StatusCode` has been moved to `Innmind\Http\Response\StatusCode`
+- `Innmind\Http\Message\StatusCode\Range` has been moved to `Innmind\Http\Response\StatusCode\Range`
 
 ### Removed
 
