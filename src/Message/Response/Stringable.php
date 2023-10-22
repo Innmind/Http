@@ -3,14 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Message\Response;
 
-use Innmind\Http\{
-    Response,
-    Message\StatusCode,
-    Message\ReasonPhrase,
-    ProtocolVersion,
-    Headers,
-    Header,
-};
+use Innmind\Http\Response;
 use Innmind\Filesystem\File\Content;
 use Innmind\Immutable\{
     Sequence,
@@ -22,55 +15,24 @@ use Innmind\Immutable\{
  */
 final class Stringable
 {
-    private Response $response;
-
-    public function __construct(Response $response)
+    private function __construct()
     {
-        $this->response = $response;
     }
 
-    /**
-     * @psalm-pure
-     */
-    public static function of(Response $response): self
-    {
-        return new self($response);
-    }
-
-    public function statusCode(): StatusCode
-    {
-        return $this->response->statusCode();
-    }
-
-    public function protocolVersion(): ProtocolVersion
-    {
-        return $this->response->protocolVersion();
-    }
-
-    public function headers(): Headers
-    {
-        return $this->response->headers();
-    }
-
-    public function body(): Content
-    {
-        return $this->response->body();
-    }
-
-    public function asContent(): Content
+    public function __invoke(Response $response): Content
     {
         $status = Str::of("HTTP/%s %s %s\n")->sprintf(
-            $this->protocolVersion()->toString(),
-            $this->statusCode()->toString(),
-            $this->statusCode()->reasonPhrase(),
+            $response->protocolVersion()->toString(),
+            $response->statusCode()->toString(),
+            $response->statusCode()->reasonPhrase(),
         );
-        $headers = $this
+        $headers = $response
             ->headers()
             ->all()
             ->map(static fn($header) => $header->toString())
             ->map(Str::of(...))
             ->map(static fn($header) => $header->append("\n"));
-        $body = $this->body()->chunks();
+        $body = $response->body()->chunks();
 
         return Content::ofChunks(
             Sequence::lazyStartingWith($status)
@@ -80,8 +42,11 @@ final class Stringable
         );
     }
 
-    public function toString(): string
+    /**
+     * @psalm-pure
+     */
+    public static function new(): self
     {
-        return $this->asContent()->toString();
+        return new self;
     }
 }

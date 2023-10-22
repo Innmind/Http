@@ -36,18 +36,8 @@ class StringableTest extends TestCase
             ),
             Content::ofString('some body'),
         );
-        $stringable = Stringable::of($request);
+        $stringable = Stringable::new()($request);
 
-        $this->assertSame($request->url(), $stringable->url());
-        $this->assertSame($request->method(), $stringable->method());
-        $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
-        $this->assertSame($request->headers(), $stringable->headers());
-        $this->assertSame($request->body(), $stringable->body());
-        $this->assertSame($request->environment(), $stringable->environment());
-        $this->assertSame($request->cookies(), $stringable->cookies());
-        $this->assertSame($request->query(), $stringable->query());
-        $this->assertSame($request->form(), $stringable->form());
-        $this->assertSame($request->files(), $stringable->files());
         $expected = <<<RAW
 POST /foo/bar HTTP/2.0
 Host: example.com
@@ -80,18 +70,8 @@ RAW;
                 'baz' => ['foo'],
             ]),
         );
-        $stringable = Stringable::of($request);
+        $stringable = Stringable::new()($request);
 
-        $this->assertSame($request->url(), $stringable->url());
-        $this->assertSame($request->method(), $stringable->method());
-        $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
-        $this->assertSame($request->headers(), $stringable->headers());
-        $this->assertSame($request->body(), $stringable->body());
-        $this->assertSame($request->environment(), $stringable->environment());
-        $this->assertSame($request->cookies(), $stringable->cookies());
-        $this->assertSame($request->query(), $stringable->query());
-        $this->assertSame($request->form(), $stringable->form());
-        $this->assertSame($request->files(), $stringable->files());
         $expected = <<<RAW
 POST /foo/bar?foo=bar&bar=42&baz[0]=foo HTTP/2.0
 Host: example.com
@@ -125,18 +105,8 @@ RAW;
                 'baz' => ['foo'],
             ]),
         );
-        $stringable = Stringable::of($request);
+        $stringable = Stringable::new()($request);
 
-        $this->assertSame($request->url(), $stringable->url());
-        $this->assertSame($request->method(), $stringable->method());
-        $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
-        $this->assertSame($request->headers(), $stringable->headers());
-        $this->assertSame($request->body(), $stringable->body());
-        $this->assertSame($request->environment(), $stringable->environment());
-        $this->assertSame($request->cookies(), $stringable->cookies());
-        $this->assertSame($request->query(), $stringable->query());
-        $this->assertSame($request->form(), $stringable->form());
-        $this->assertSame($request->files(), $stringable->files());
         $expected = <<<RAW
 POST /foo/bar HTTP/2.0
 Host: example.com

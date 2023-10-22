@@ -34,12 +34,8 @@ class StringableTest extends TestCase
             ),
             Content::ofString('{"some":"json", "value":42}'),
         );
-        $stringable = Stringable::of($response);
+        $stringable = Stringable::new()($response);
 
-        $this->assertSame($response->statusCode(), $stringable->statusCode());
-        $this->assertSame($response->protocolVersion(), $stringable->protocolVersion());
-        $this->assertSame($response->headers(), $stringable->headers());
-        $this->assertSame($response->body(), $stringable->body());
         $expected = <<<RAW
 HTTP/2.0 200 OK
 Content-Type: text/plain

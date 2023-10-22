@@ -31,13 +31,8 @@ class StringableTest extends TestCase
             ),
             Content::ofString('some body'),
         );
-        $stringable = Stringable::of($request);
+        $stringable = Stringable::new()($request);
 
-        $this->assertSame($request->url(), $stringable->url());
-        $this->assertSame($request->method(), $stringable->method());
-        $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
-        $this->assertSame($request->headers(), $stringable->headers());
-        $this->assertSame($request->body(), $stringable->body());
         $expected = <<<RAW
 POST http://example.com/foo/bar?query=string HTTP/2.0
 Content-Type: text/plain
