@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Message\Response;
 
 use Innmind\Http\{
-    Message\Response as ResponseInterface,
+    Response,
     Message\StatusCode,
     Message\ReasonPhrase,
     ProtocolVersion,
@@ -20,11 +20,11 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class Stringable implements ResponseInterface
+final class Stringable
 {
-    private ResponseInterface $response;
+    private Response $response;
 
-    public function __construct(ResponseInterface $response)
+    public function __construct(Response $response)
     {
         $this->response = $response;
     }
@@ -32,7 +32,7 @@ final class Stringable implements ResponseInterface
     /**
      * @psalm-pure
      */
-    public static function of(ResponseInterface $response): self
+    public static function of(Response $response): self
     {
         return new self($response);
     }

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\Response,
     Header\Date,
     Header\DateValue,
     Header\SetCookie,

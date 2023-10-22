@@ -6,10 +6,12 @@
 
 - Requires `innmind/filesystem:~7.0`
 - `Innmind\Http\Content\Multipart` now longer implements `Innmind\Filesystem\File\Content`, use `->asContent()`
+- `Innmind\Http\Message\Response\Response` as been moved to `Innmind\Http\Response`
 
 ### Removed
 
 - `Innmind\Http\File\Input`
+- `Innmind\Http\Message\Response`
 
 ## 6.4.0 - 2023-09-16
 

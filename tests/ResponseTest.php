@@ -1,14 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Response;
+namespace Tests\Innmind\Http;
 
 use Innmind\Http\{
-    Message,
+    Response,
     ProtocolVersion,
     Headers,
-    Message\Response\Response,
-    Message\Response as ResponseInterface,
     Message\StatusCode,
 };
 use Innmind\Filesystem\File\Content;
@@ -25,8 +23,6 @@ class ResponseTest extends TestCase
             $body = Content::none(),
         );
 
-        $this->assertInstanceOf(Message::class, $r);
-        $this->assertInstanceOf(ResponseInterface::class, $r);
         $this->assertSame($status, $r->statusCode());
         $this->assertSame($protocol, $r->protocolVersion());
         $this->assertSame($headers, $r->headers());

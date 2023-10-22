@@ -5,8 +5,7 @@ namespace Tests\Innmind\Http\Message\Response;
 
 use Innmind\Http\{
     Message\Response\Stringable,
-    Message\Response\Response,
-    Message\Response as ResponseInterface,
+    Response,
     Message\StatusCode,
     ProtocolVersion,
     Headers,
@@ -37,7 +36,6 @@ class StringableTest extends TestCase
         );
         $stringable = Stringable::of($response);
 
-        $this->assertInstanceOf(ResponseInterface::class, $stringable);
         $this->assertSame($response->statusCode(), $stringable->statusCode());
         $this->assertSame($response->protocolVersion(), $stringable->protocolVersion());
         $this->assertSame($response->headers(), $stringable->headers());

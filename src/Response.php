@@ -1,21 +1,18 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Message\Response;
+namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\Response as ResponseInterface,
     Message\ReasonPhrase,
     Message\StatusCode,
-    ProtocolVersion,
-    Headers,
 };
 use Innmind\Filesystem\File\Content;
 
 /**
  * @psalm-immutable
  */
-final class Response implements ResponseInterface
+final class Response
 {
     private ProtocolVersion $protocolVersion;
     private Headers $headers;
