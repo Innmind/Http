@@ -7,11 +7,16 @@
 - Requires `innmind/filesystem:~7.0`
 - `Innmind\Http\Content\Multipart` now longer implements `Innmind\Filesystem\File\Content`, use `->asContent()`
 - `Innmind\Http\Message\Response\Response` as been moved to `Innmind\Http\Response`
+- `Innmind\Http\Message\Request\Request` as been moved to `Innmind\Http\Request`
+- `Innmind\Http\Message\ServerRequest\ServerRequest` as been moved to `Innmind\Http\ServerRequest`
 
 ### Removed
 
 - `Innmind\Http\File\Input`
 - `Innmind\Http\Message\Response`
+- `Innmind\Http\Message\Request`
+- `Innmind\Http\Message\ServerRequest`
+- `Innmind\Http\Message`
 
 ## 6.4.0 - 2023-09-16
 

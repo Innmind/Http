@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Message\ServerRequest;
 
 use Innmind\Http\{
-    Message\ServerRequest as ServerRequestInterface,
+    ServerRequest,
     Message\Method,
     Message\Environment,
     Message\Cookies,
@@ -25,11 +25,11 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class Stringable implements ServerRequestInterface
+final class Stringable
 {
-    private ServerRequestInterface $request;
+    private ServerRequest $request;
 
-    public function __construct(ServerRequestInterface $request)
+    public function __construct(ServerRequest $request)
     {
         $this->request = $request;
     }
@@ -37,7 +37,7 @@ final class Stringable implements ServerRequestInterface
     /**
      * @psalm-pure
      */
-    public static function of(ServerRequestInterface $request): self
+    public static function of(ServerRequest $request): self
     {
         return new self($request);
     }

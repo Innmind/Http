@@ -1,15 +1,13 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\ServerRequest;
+namespace Tests\Innmind\Http;
 
 use Innmind\Http\{
-    Message,
+    ServerRequest,
     ProtocolVersion,
     Headers,
-    Message\ServerRequest\ServerRequest,
     Message\Request,
-    Message\ServerRequest as ServerRequestInterface,
     Message\Method,
     Message\Environment,
     Message\Cookies,
@@ -38,9 +36,6 @@ class ServerRequestTest extends TestCase
             $files = Files::of([]),
         );
 
-        $this->assertInstanceOf(Message::class, $r);
-        $this->assertInstanceOf(Request::class, $r);
-        $this->assertInstanceOf(ServerRequestInterface::class, $r);
         $this->assertSame($url, $r->url());
         $this->assertSame($method, $r->method());
         $this->assertSame($protocol, $r->protocolVersion());

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Message\Request;
 
 use Innmind\Http\{
-    Message\Request as RequestInterface,
+    Request,
     Message\Method,
     ProtocolVersion,
     Headers,
@@ -20,11 +20,11 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class Stringable implements RequestInterface
+final class Stringable
 {
-    private RequestInterface $request;
+    private Request $request;
 
-    public function __construct(RequestInterface $request)
+    public function __construct(Request $request)
     {
         $this->request = $request;
     }
@@ -32,7 +32,7 @@ final class Stringable implements RequestInterface
     /**
      * @psalm-pure
      */
-    public static function of(RequestInterface $request): self
+    public static function of(Request $request): self
     {
         return new self($request);
     }

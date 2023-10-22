@@ -1,10 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Message\Request;
+namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\Request as RequestInterface,
     Message\Method,
     ProtocolVersion,
     Headers,
@@ -15,7 +14,7 @@ use Innmind\Filesystem\File\Content;
 /**
  * @psalm-immutable
  */
-final class Request implements RequestInterface
+final class Request
 {
     private Url $url;
     private Method $method;

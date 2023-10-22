@@ -4,12 +4,10 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Message\Request;
 
 use Innmind\Http\{
-    Message,
+    Request,
     ProtocolVersion,
     Headers,
-    Message\Request\Request,
-    Message\Request as RequestInterface,
-    Message\Method
+    Message\Method,
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
@@ -27,8 +25,6 @@ class RequestTest extends TestCase
             $body = Content::none(),
         );
 
-        $this->assertInstanceOf(Message::class, $r);
-        $this->assertInstanceOf(RequestInterface::class, $r);
         $this->assertSame($url, $r->url());
         $this->assertSame($method, $r->method());
         $this->assertSame($protocol, $r->protocolVersion());

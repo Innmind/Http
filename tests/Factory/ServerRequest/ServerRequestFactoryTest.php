@@ -12,7 +12,7 @@ use Innmind\Http\{
     Factory\QueryFactory,
     Factory\FormFactory,
     Factory\FilesFactory,
-    Message\ServerRequest,
+    ServerRequest,
     Message\Query,
     Message\Form,
     Message\Files,

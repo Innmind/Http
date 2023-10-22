@@ -5,8 +5,7 @@ namespace Tests\Innmind\Http\Message\ServerRequest;
 
 use Innmind\Http\{
     Message\ServerRequest\Stringable,
-    Message\ServerRequest\ServerRequest,
-    Message\ServerRequest as ServerRequestInterface,
+    ServerRequest,
     Message\Method,
     Message\Query,
     Message\Form,
@@ -39,7 +38,6 @@ class StringableTest extends TestCase
         );
         $stringable = Stringable::of($request);
 
-        $this->assertInstanceOf(ServerRequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());
         $this->assertSame($request->method(), $stringable->method());
         $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
@@ -84,7 +82,6 @@ RAW;
         );
         $stringable = Stringable::of($request);
 
-        $this->assertInstanceOf(ServerRequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());
         $this->assertSame($request->method(), $stringable->method());
         $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
@@ -130,7 +127,6 @@ RAW;
         );
         $stringable = Stringable::of($request);
 
-        $this->assertInstanceOf(ServerRequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());
         $this->assertSame($request->method(), $stringable->method());
         $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());

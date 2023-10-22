@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory\ServerRequest;
 
 use Innmind\Http\{
     Factory\ServerRequestFactory as ServerRequestFactoryInterface,
-    Message\ServerRequest,
+    ServerRequest,
     Message\Method,
     ProtocolVersion,
     Factory\HeadersFactory,
@@ -97,7 +97,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         /**
          * @psalm-suppress ImpureFunctionCall
          */
-        return new ServerRequest\ServerRequest(
+        return new ServerRequest(
             Url::of(\sprintf(
                 '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',

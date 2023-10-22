@@ -1,10 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Message\ServerRequest;
+namespace Innmind\Http;
 
 use Innmind\Http\{
-    Message\ServerRequest as ServerRequestInterface,
     Message\Method,
     Message\Environment,
     Message\Cookies,
@@ -20,7 +19,7 @@ use Innmind\Filesystem\File\Content;
 /**
  * @psalm-immutable
  */
-final class ServerRequest implements ServerRequestInterface
+final class ServerRequest
 {
     private Url $url;
     private Method $method;

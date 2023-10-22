@@ -5,8 +5,7 @@ namespace Tests\Innmind\Http\Message\Request;
 
 use Innmind\Http\{
     Message\Request\Stringable,
-    Message\Request\Request,
-    Message\Request as RequestInterface,
+    Request,
     Message\Method,
     ProtocolVersion,
     Headers,
@@ -34,7 +33,6 @@ class StringableTest extends TestCase
         );
         $stringable = Stringable::of($request);
 
-        $this->assertInstanceOf(RequestInterface::class, $stringable);
         $this->assertSame($request->url(), $stringable->url());
         $this->assertSame($request->method(), $stringable->method());
         $this->assertSame($request->protocolVersion(), $stringable->protocolVersion());
