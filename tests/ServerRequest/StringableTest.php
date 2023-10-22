@@ -22,7 +22,7 @@ class StringableTest extends TestCase
 {
     public function testInterface()
     {
-        $request = new ServerRequest(
+        $request = ServerRequest::of(
             $url = Url::of('http://example.com/foo/bar'),
             Method::post,
             ProtocolVersion::v20,
@@ -49,7 +49,7 @@ RAW;
 
     public function testIntegrateQuery()
     {
-        $request = new ServerRequest(
+        $request = ServerRequest::of(
             $url = Url::of('http://example.com/foo/bar'),
             Method::post,
             ProtocolVersion::v20,
@@ -83,7 +83,7 @@ RAW;
 
     public function testIntegrateFormWhenNoBody()
     {
-        $request = new ServerRequest(
+        $request = ServerRequest::of(
             $url = Url::of('http://example.com/foo/bar'),
             Method::post,
             ProtocolVersion::v20,

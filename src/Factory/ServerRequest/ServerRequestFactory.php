@@ -97,7 +97,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         /**
          * @psalm-suppress ImpureFunctionCall
          */
-        return new ServerRequest(
+        return ServerRequest::of(
             Url::of(\sprintf(
                 '%s://%s%s%s',
                 $https === 'on' ? 'https' : 'http',

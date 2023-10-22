@@ -16,7 +16,7 @@ final class Response
     private Content $body;
     private StatusCode $statusCode;
 
-    public function __construct(
+    private function __construct(
         StatusCode $statusCode,
         ProtocolVersion $protocolVersion,
         Headers $headers = null,
@@ -26,6 +26,18 @@ final class Response
         $this->headers = $headers ?? Headers::of();
         $this->body = $body ?? Content::none();
         $this->statusCode = $statusCode;
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(
+        StatusCode $statusCode,
+        ProtocolVersion $protocolVersion,
+        Headers $headers = null,
+        Content $body = null,
+    ): self {
+        return new self($statusCode, $protocolVersion, $headers, $body);
     }
 
     public function protocolVersion(): ProtocolVersion

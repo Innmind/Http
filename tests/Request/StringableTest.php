@@ -20,7 +20,7 @@ class StringableTest extends TestCase
 {
     public function testInterface()
     {
-        $request = new Request(
+        $request = Request::of(
             $url = Url::of('http://example.com/foo/bar?query=string'),
             Method::post,
             ProtocolVersion::v20,

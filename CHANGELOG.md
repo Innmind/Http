@@ -23,6 +23,9 @@
 - `Innmind\Http\Message\Files` has been moved to `Innmind\Http\ServerRequest\Files`
 - `Innmind\Http\Message\Form` has been moved to `Innmind\Http\ServerRequest\Form`
 - `Innmind\Http\Message\Query` has been moved to `Innmind\Http\ServerRequest\Query`
+- `Innmind\Http\Request` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\ServerRequest` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\Response` constructor is now private, use `::of()` named constructor instead
 
 ### Removed
 

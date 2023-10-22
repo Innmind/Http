@@ -17,7 +17,7 @@ class RequestTest extends TestCase
 {
     public function testInterface()
     {
-        $r = new Request(
+        $r = Request::of(
             $url = Url::of('example.com'),
             $method = Method::get,
             $protocol = ProtocolVersion::v20,
@@ -34,7 +34,7 @@ class RequestTest extends TestCase
 
     public function testDefaultValues()
     {
-        $request = new Request(
+        $request = Request::of(
             Url::of('example.com'),
             Method::get,
             ProtocolVersion::v20,

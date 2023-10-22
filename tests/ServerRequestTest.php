@@ -22,7 +22,7 @@ class ServerRequestTest extends TestCase
 {
     public function testInterface()
     {
-        $r = new ServerRequest(
+        $r = ServerRequest::of(
             $url = Url::of('example.com'),
             $method = Method::get,
             $protocol = ProtocolVersion::v20,
@@ -49,7 +49,7 @@ class ServerRequestTest extends TestCase
 
     public function testDefaultValues()
     {
-        $request = new ServerRequest(
+        $request = ServerRequest::of(
             Url::of('example.com'),
             Method::get,
             ProtocolVersion::v11,

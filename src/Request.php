@@ -17,7 +17,7 @@ final class Request
     private Headers $headers;
     private Content $body;
 
-    public function __construct(
+    private function __construct(
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
@@ -29,6 +29,19 @@ final class Request
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? Headers::of();
         $this->body = $body ?? Content::none();
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(
+        Url $url,
+        Method $method,
+        ProtocolVersion $protocolVersion,
+        Headers $headers = null,
+        Content $body = null,
+    ): self {
+        return new self($url, $method, $protocolVersion, $headers, $body);
     }
 
     public function url(): Url

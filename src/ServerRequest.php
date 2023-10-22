@@ -29,7 +29,7 @@ final class ServerRequest
     private Form $form;
     private Files $files;
 
-    public function __construct(
+    private function __construct(
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
@@ -51,6 +51,35 @@ final class ServerRequest
         $this->query = $query ?? Query::of([]);
         $this->form = $form ?? Form::of([]);
         $this->files = $files ?? Files::of([]);
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(
+        Url $url,
+        Method $method,
+        ProtocolVersion $protocolVersion,
+        Headers $headers = null,
+        Content $body = null,
+        Environment $environment = null,
+        Cookies $cookies = null,
+        Query $query = null,
+        Form $form = null,
+        Files $files = null,
+    ): self {
+        return new self(
+            $url,
+            $method,
+            $protocolVersion,
+            $headers,
+            $body,
+            $environment,
+            $cookies,
+            $query,
+            $form,
+            $files,
+        );
     }
 
     public function protocolVersion(): ProtocolVersion

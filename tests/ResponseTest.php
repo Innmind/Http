@@ -16,7 +16,7 @@ class ResponseTest extends TestCase
 {
     public function testInterface()
     {
-        $r = new Response(
+        $r = Response::of(
             $status = StatusCode::ok,
             $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
@@ -31,7 +31,7 @@ class ResponseTest extends TestCase
 
     public function testDefaultValues()
     {
-        $response = new Response(
+        $response = Response::of(
             StatusCode::ok,
             ProtocolVersion::v20,
         );
