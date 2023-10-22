@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\Response;
+namespace Tests\Innmind\Http\Response;
 
 use Innmind\Http\{
-    Message\Response\Stringable,
+    Response\Stringable,
     Response,
     Message\StatusCode,
     ProtocolVersion,

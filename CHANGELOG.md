@@ -12,6 +12,9 @@
 - `Innmind\Http\Message\Request\Stringable` has be called like this now `Stringable::new()($request)`
 - `Innmind\Http\Message\Response\Stringable` has be called like this now `Stringable::new()($request)`
 - `Innmind\Http\Message\ServerRequest\Stringable` has be called like this now `Stringable::new()($request)`
+- `Innmind\Http\Message\Request\Stringable` has been moved to `Innmind\Http\Request\Stringable`
+- `Innmind\Http\Message\Response\Stringable` has been moved to `Innmind\Http\Response\Stringable`
+- `Innmind\Http\Message\ServerRequest\Stringable` has been moved to `Innmind\Http\ServerRequest\Stringable`
 
 ### Removed
 

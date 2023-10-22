@@ -1,10 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Tests\Innmind\Http\Message\ServerRequest;
+namespace Tests\Innmind\Http\ServerRequest;
 
 use Innmind\Http\{
-    Message\ServerRequest\Stringable,
+    ServerRequest\Stringable,
     ServerRequest,
     Message\Method,
     Message\Query,

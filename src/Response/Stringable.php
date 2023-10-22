@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Message\Response;
+namespace Innmind\Http\Response;
 
 use Innmind\Http\Response;
 use Innmind\Filesystem\File\Content;
