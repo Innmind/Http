@@ -34,7 +34,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
             $map = ($map)($name, $value);
         }
 
-        return new Environment($map);
+        return Environment::of($map);
     }
 
     public static function default(): self

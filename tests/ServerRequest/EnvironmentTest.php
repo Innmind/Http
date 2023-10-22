@@ -14,7 +14,7 @@ class EnvironmentTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Environment(Map::of(['foo', '42']));
+        $f = Environment::of(Map::of(['foo', '42']));
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
@@ -27,7 +27,7 @@ class EnvironmentTest extends TestCase
 
     public function testReturnNothingWhenAccessingUnknownVariable()
     {
-        $this->assertNull((new Environment)->get('foo')->match(
+        $this->assertNull(Environment::of()->get('foo')->match(
             static fn($foo) => $foo,
             static fn() => null,
         ));
@@ -35,7 +35,7 @@ class EnvironmentTest extends TestCase
 
     public function testForeach()
     {
-        $variables = new Environment(
+        $variables = Environment::of(
             Map::of()
                 ('foo', '42')
                 ('bar', 'baz'),
@@ -53,7 +53,7 @@ class EnvironmentTest extends TestCase
 
     public function testReduce()
     {
-        $variables = new Environment(
+        $variables = Environment::of(
             Map::of()
                 ('foo', '42')
                 ('bar', 'baz'),

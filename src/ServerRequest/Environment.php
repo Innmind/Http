@@ -20,12 +20,22 @@ final class Environment implements \Countable
     /**
      * @param Map<string, string>|null $variables
      */
-    public function __construct(Map $variables = null)
+    private function __construct(Map $variables = null)
     {
         /** @var Map<string, string> */
         $variables = $variables ?? Map::of();
 
         $this->variables = $variables;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @param Map<string, string>|null $variables
+     */
+    public static function of(Map $variables = null): self
+    {
+        return new self($variables);
     }
 
     /**

@@ -20,12 +20,22 @@ final class Cookies implements \Countable
     /**
      * @param Map<string, string>|null $cookies
      */
-    public function __construct(Map $cookies = null)
+    private function __construct(Map $cookies = null)
     {
         /** @var Map<string, string> */
         $cookies = $cookies ?? Map::of();
 
         $this->cookies = $cookies;
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @param Map<string, string>|null $cookies
+     */
+    public static function of(Map $cookies = null): self
+    {
+        return new self($cookies);
     }
 
     /**

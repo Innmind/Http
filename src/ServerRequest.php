@@ -46,8 +46,8 @@ final class ServerRequest
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? Headers::of();
         $this->body = $body ?? Content::none();
-        $this->environment = $environment ?? new Environment;
-        $this->cookies = $cookies ?? new Cookies;
+        $this->environment = $environment ?? Environment::of();
+        $this->cookies = $cookies ?? Cookies::of();
         $this->query = $query ?? Query::of([]);
         $this->form = $form ?? Form::of([]);
         $this->files = $files ?? Files::of([]);

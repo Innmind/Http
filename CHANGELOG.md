@@ -26,6 +26,8 @@
 - `Innmind\Http\Request` constructor is now private, use `::of()` named constructor instead
 - `Innmind\Http\ServerRequest` constructor is now private, use `::of()` named constructor instead
 - `Innmind\Http\Response` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\ServerRequest\Cookies` constructor is now private, use `::of()` named constructor instead
+- `Innmind\Http\ServerRequest\Environment` constructor is now private, use `::of()` named constructor instead
 
 ### Removed
 

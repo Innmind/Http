@@ -34,7 +34,7 @@ final class CookiesFactory implements CookiesFactoryInterface
             $map = ($map)($name, $value);
         }
 
-        return new Cookies($map);
+        return Cookies::of($map);
     }
 
     public static function default(): self

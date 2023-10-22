@@ -14,7 +14,7 @@ class CookiesTest extends TestCase
 {
     public function testInterface()
     {
-        $f = new Cookies(Map::of(['foo', '42']));
+        $f = Cookies::of(Map::of(['foo', '42']));
 
         $this->assertTrue($f->contains('foo'));
         $this->assertFalse($f->contains('bar'));
@@ -27,7 +27,7 @@ class CookiesTest extends TestCase
 
     public function testReturnNothingWhenAccessingUnknownCookie()
     {
-        $this->assertNull((new Cookies)->get('foo')->match(
+        $this->assertNull(Cookies::of()->get('foo')->match(
             static fn($foo) => $foo,
             static fn() => null,
         ));
@@ -35,7 +35,7 @@ class CookiesTest extends TestCase
 
     public function testForeach()
     {
-        $cookies = new Cookies(
+        $cookies = Cookies::of(
             Map::of()
                 ('foo', '42')
                 ('bar', 'baz'),
@@ -53,7 +53,7 @@ class CookiesTest extends TestCase
 
     public function testReduce()
     {
-        $cookies = new Cookies(
+        $cookies = Cookies::of(
             Map::of()
                 ('foo', '42')
                 ('bar', 'baz'),

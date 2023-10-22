@@ -61,11 +61,11 @@ class ServerRequestFactoryTest extends TestCase
         $cookies
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Cookies);
+            ->willReturn(Cookies::of());
         $env
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Environment);
+            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -111,11 +111,11 @@ class ServerRequestFactoryTest extends TestCase
         $cookies
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Cookies);
+            ->willReturn(Cookies::of());
         $environment
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Environment);
+            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -162,11 +162,11 @@ class ServerRequestFactoryTest extends TestCase
         $cookies
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Cookies);
+            ->willReturn(Cookies::of());
         $environment
             ->expects($this->once())
             ->method('__invoke')
-            ->willReturn(new Environment);
+            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
