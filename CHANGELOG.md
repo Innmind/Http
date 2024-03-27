@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Files used in `Innmind\Http\Content\Multipart` are no longer loaded in memory
+
 ## 7.0.0 - 2023-10-22
 
 ### Changed
