@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentEncoding,
     Header,
-    Header\Value,
     Header\ContentEncodingValue
 };
 use Innmind\Immutable\Set;

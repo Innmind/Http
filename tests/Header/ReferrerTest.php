@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Referrer,
     Header,
-    Header\Value,
     Header\ReferrerValue
 };
 use Innmind\Immutable\Set;

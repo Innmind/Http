@@ -8,7 +8,6 @@ use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
     Map,
-    Sequence,
     Maybe,
 };
 

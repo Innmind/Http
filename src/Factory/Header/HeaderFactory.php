@@ -7,10 +7,7 @@ use Innmind\Http\{
     Header,
     Header\Value,
 };
-use Innmind\Immutable\{
-    Str,
-    Maybe,
-};
+use Innmind\Immutable\Str;
 
 /**
  * @psalm-immutable

@@ -5,8 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\Factory\{
     Header\Factories,
-    Header\DelegationFactory,
-    HeaderFactory
+    Header\DelegationFactory
 };
 use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Map;

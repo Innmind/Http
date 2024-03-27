@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentLocation,
     Header,
-    Header\Value,
     Header\LocationValue
 };
 use Innmind\Immutable\Set;

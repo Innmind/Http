@@ -5,10 +5,7 @@ namespace Tests\Innmind\Http\Response;
 
 use Innmind\Http\Response\StatusCode;
 use PHPUnit\Framework\TestCase;
-use Innmind\BlackBox\{
-    PHPUnit\BlackBox,
-    Set,
-};
+use Innmind\BlackBox\PHPUnit\BlackBox;
 
 class StatusCodeTest extends TestCase
 {

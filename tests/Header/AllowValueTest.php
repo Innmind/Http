@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\Header\{
     AllowValue,
     Value,
-    Parameter\Quality,
 };
 use PHPUnit\Framework\TestCase;
 

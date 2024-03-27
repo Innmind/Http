@@ -6,8 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\WWWAuthenticate,
     Header\WWWAuthenticateValue,
-    Header,
-    Header\Value
+    Header
 };
 use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;

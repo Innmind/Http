@@ -6,14 +6,10 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentType,
     Header,
-    Header\Value,
     Header\ContentTypeValue,
     Header\Parameter
 };
-use Innmind\Immutable\{
-    Set,
-    Map,
-};
+use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class ContentTypeTest extends TestCase

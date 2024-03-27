@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Age,
     Header,
-    Header\Value,
     Header\AgeValue
 };
 use Innmind\Immutable\Set;

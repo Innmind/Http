@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Header,
-    Header\Value,
     Header\DateValue
 };
 use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;

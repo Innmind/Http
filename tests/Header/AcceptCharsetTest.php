@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptCharset,
     Header,
-    Header\Value,
     Header\AcceptCharsetValue,
     Header\Parameter\Quality
 };

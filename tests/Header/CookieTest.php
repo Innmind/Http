@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Cookie,
     Header,
-    Header\Value,
     Header\CookieValue,
     Header\Parameter\Parameter
 };

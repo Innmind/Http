@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\HeadersFactory as HeadersFactoryInterface,
     Factory\HeaderFactory as HeaderFactoryInterface,
     Headers,
-    Header,
 };
 use Innmind\Immutable\Str;
 

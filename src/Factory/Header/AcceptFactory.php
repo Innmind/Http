@@ -13,7 +13,6 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     Str,
     Maybe,
-    Sequence,
 };
 
 /**

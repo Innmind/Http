@@ -8,10 +8,7 @@ use Innmind\Http\{
     File\Status,
 };
 use Innmind\Filesystem\File;
-use Innmind\Immutable\{
-    Map,
-    Either,
-};
+use Innmind\Immutable\Either;
 use PHPUnit\Framework\TestCase;
 
 class FilesTest extends TestCase

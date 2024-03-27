@@ -11,10 +11,6 @@ use Innmind\Http\{
 };
 use Innmind\IO\IO;
 use Innmind\Stream\Streams;
-use Innmind\Immutable\{
-    Map,
-    MapInterface
-};
 use PHPUnit\Framework\TestCase;
 
 class FilesFactoryTest extends TestCase

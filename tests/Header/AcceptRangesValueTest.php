@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptRangesValue,
     Header\Value,
-    Header\Parameter\Quality,
     Exception\DomainException,
 };
 use PHPUnit\Framework\TestCase;

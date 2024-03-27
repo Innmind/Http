@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Header;
 
-use Innmind\Http\{
-    Factory\HeaderFactory,
-    Header,
-};
+use Innmind\Http\Factory\HeaderFactory;
 use Innmind\Immutable\{
     Map,
     Str,

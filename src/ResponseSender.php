@@ -5,7 +5,6 @@ namespace Innmind\Http;
 
 use Innmind\Http\{
     Header\Date,
-    Header\DateValue,
     Header\SetCookie,
     Header\CookieValue,
     Header\Parameter,
@@ -13,10 +12,6 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
-use Innmind\Immutable\{
-    Sequence,
-    Str,
-};
 
 final class ResponseSender implements Sender
 {
