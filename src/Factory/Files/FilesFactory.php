@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\FilesFactory as FilesFactoryInterface,
     ServerRequest\Files,
     File\Status,
-    Exception\LogicException,
 };
 use Innmind\MediaType\MediaType;
 use Innmind\Filesystem\{
@@ -17,10 +16,7 @@ use Innmind\Filesystem\{
 use Innmind\Url\Path;
 use Innmind\IO\IO;
 use Innmind\Stream\Capabilities;
-use Innmind\Immutable\{
-    Map,
-    Either,
-};
+use Innmind\Immutable\Either;
 
 /**
  * @psalm-immutable

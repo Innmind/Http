@@ -8,10 +8,6 @@ use Innmind\Http\{
     Header,
     Header\CacheControlValue\PublicCache
 };
-use Innmind\Immutable\{
-    Set,
-    Map
-};
 use PHPUnit\Framework\TestCase;
 
 class CacheControlTest extends TestCase

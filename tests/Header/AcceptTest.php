@@ -7,12 +7,7 @@ use Innmind\Http\{
     Header\Accept,
     Header,
     Header\AcceptValue,
-    Header\Parameter\Quality,
-    Header\Parameter
-};
-use Innmind\Immutable\{
-    Set,
-    Map
+    Header\Parameter\Quality
 };
 use PHPUnit\Framework\TestCase;
 

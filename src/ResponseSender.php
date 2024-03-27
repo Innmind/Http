@@ -5,7 +5,6 @@ namespace Innmind\Http;
 
 use Innmind\Http\{
     Header\Date,
-    Header\DateValue,
     Header\SetCookie,
     Header\CookieValue,
     Header\Parameter,
@@ -13,10 +12,6 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
-use Innmind\Immutable\{
-    Sequence,
-    Str,
-};
 
 final class ResponseSender implements Sender
 {
@@ -94,7 +89,10 @@ final class ResponseSender implements Sender
                             )->getTimestamp();
                             // MaxAge has precedence
                             /** @psalm-suppress MixedAssignment */
-                            $parameters['expire'] = ($parameters['expire'] ?? 0 !== 0) ? $parameters['expire'] : $timestamp;
+                            $parameters['expire'] = match ($parameters['expire'] ?? 0) {
+                                0 => $timestamp,
+                                default => $parameters['expire'] ?? 0,
+                            };
                             break;
 
                         case 'Max-Age':

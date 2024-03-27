@@ -10,10 +10,6 @@ use Innmind\Http\{
     Header\Parameter
 };
 use Innmind\Url\Url;
-use Innmind\Immutable\{
-    Set,
-    Map
-};
 use PHPUnit\Framework\TestCase;
 
 class LinkTest extends TestCase

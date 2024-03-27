@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\Allow,
     Header\ContentType,
     Header\ContentTypeValue,
-    Header\Parameter,
     Header\Value\Value,
 };
 use Innmind\Immutable\SideEffect;

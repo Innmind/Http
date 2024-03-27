@@ -61,7 +61,9 @@ final class File
     {
         $name = $this->file->name()->toString();
         $mediaType = $this->file->mediaType()->toString();
-        $headers = Sequence::of(
+        // Use a lazy Sequence here to prevent loading the whole file in memory
+        // when the the chunks are appended to the headers in self::chunks()
+        $headers = Sequence::lazyStartingWith(
             Str::of("Content-Disposition: form-data; name=\"{$this->name}\"; filename=\"$name\"\r\n"),
             Str::of("Content-Type: $mediaType\r\n"),
         );
