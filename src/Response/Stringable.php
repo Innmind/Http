@@ -32,13 +32,16 @@ final class Stringable
             ->map(static fn($header) => $header->toString())
             ->map(Str::of(...))
             ->map(static fn($header) => $header->append("\n"));
-        $body = $response->body()->chunks();
 
         return Content::ofChunks(
-            Sequence::lazyStartingWith($status)
-                ->append($headers)
-                ->add(Str::of("\n"))
-                ->append($body),
+            $response
+                ->body()
+                ->chunks()
+                ->prepend(
+                    Sequence::of($status)
+                        ->append($headers)
+                        ->add(Str::of("\n")),
+                ),
         );
     }
 
