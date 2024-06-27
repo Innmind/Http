@@ -35,10 +35,13 @@ final class Stringable
             ->map(static fn($header) => $header->append("\n"));
 
         return Content::ofChunks(
-            Sequence::lazyStartingWith($status)
-                ->append($headers)
-                ->add(Str::of("\n"))
-                ->append($this->bodyChunks($request)),
+            $this
+                ->bodyChunks($request)
+                ->prepend(
+                    Sequence::of($status)
+                        ->append($headers)
+                        ->add(Str::of("\n")),
+                ),
         );
     }
 

@@ -73,7 +73,7 @@ final class Multipart
     private function chunks(): Sequence
     {
         $boundary = $this->boundaryStr();
-        $boundaryLine = Sequence::lazyStartingWith($boundary->append("\r\n"));
+        $boundaryLine = Sequence::of($boundary->append("\r\n"));
 
         if ($this->parts->empty()) {
             return $boundaryLine->add($boundary->append('--'));
@@ -81,8 +81,9 @@ final class Multipart
 
         return $this
             ->parts
-            ->flatMap(static fn($part) => $boundaryLine
-                ->append($part->chunks())
+            ->flatMap(static fn($part) => $part
+                ->chunks()
+                ->prepend($boundaryLine)
                 ->add(Str::of("\r\n")),
             )
             ->add($boundary->append('--'));
