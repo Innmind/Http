@@ -1,5 +1,12 @@
 # Changelog
 
+## 7.1.0 - 2024-06-27
+
+### Changed
+
+- Requires `innmind/immutable:~5.7`
+- Derive bodies laziness from source bodies
+
 ## 7.0.1 - 2024-03-27
 
 ### Fixed
