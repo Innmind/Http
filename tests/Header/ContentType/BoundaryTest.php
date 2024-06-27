@@ -35,7 +35,9 @@ class BoundaryTest extends TestCase
     public function testThrowWhenRandomString()
     {
         $this
-            ->forAll(Set\Unicode::strings())
+            ->forAll(Set\Unicode::strings()->filter(
+                static fn($string) => !\preg_match('~^[a-zA-Z0-9 \'()+_,-./:=?]{1,70}$~', $string),
+            ))
             ->then(function($random) {
                 try {
                     Boundary::of($random);
