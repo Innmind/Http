@@ -13,7 +13,7 @@ use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HostTest extends TestCase
 {

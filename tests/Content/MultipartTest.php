@@ -16,9 +16,9 @@ use Innmind\Immutable\{
     Sequence,
 };
 use Symfony\Component\Process\Process;
-use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
     Set,
 };
 use Fixtures\Innmind\Filesystem\File as FFile;

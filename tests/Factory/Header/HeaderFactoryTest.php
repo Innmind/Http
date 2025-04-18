@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header
 };
 use Innmind\Immutable\Str;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HeaderFactoryTest extends TestCase
 {

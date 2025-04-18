@@ -10,7 +10,7 @@ use Innmind\Http\{
     Exception\DomainException,
 };
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LinkValueTest extends TestCase
 {

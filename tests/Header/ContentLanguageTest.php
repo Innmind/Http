@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\ContentLanguageValue
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentLanguageTest extends TestCase
 {

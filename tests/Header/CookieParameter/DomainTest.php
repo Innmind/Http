@@ -8,7 +8,7 @@ use Innmind\Http\Header\{
     Parameter
 };
 use Innmind\Url\Authority\Host;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DomainTest extends TestCase
 {

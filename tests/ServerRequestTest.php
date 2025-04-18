@@ -16,7 +16,7 @@ use Innmind\Http\{
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ServerRequestTest extends TestCase
 {

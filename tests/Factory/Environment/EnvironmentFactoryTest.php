@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\EnvironmentFactory as EnvironmentFactoryInterface,
     ServerRequest\Environment,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class EnvironmentFactoryTest extends TestCase
 {

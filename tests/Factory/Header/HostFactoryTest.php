@@ -9,13 +9,13 @@ use Innmind\Http\{
     Header\Host,
 };
 use Innmind\Immutable\Str;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class HostFactoryTest extends TestCase
 {
-    /**
-     * @dataProvider cases
-     */
+    #[DataProvider('cases')]
     public function testMake(string $host)
     {
         $f = new HostFactory;

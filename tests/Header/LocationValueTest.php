@@ -8,7 +8,7 @@ use Innmind\Http\Header\{
     Value
 };
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LocationValueTest extends TestCase
 {

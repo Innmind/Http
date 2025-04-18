@@ -11,7 +11,7 @@ use Innmind\Url\Authority\{
     Host,
     Port,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HostValueTest extends TestCase
 {

@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\Parameter\Quality,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AcceptCharsetValueTest extends TestCase
 {
@@ -36,9 +37,7 @@ class AcceptCharsetValueTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidAcceptCharsetValue($value)
     {
         $this->expectException(DomainException::class);

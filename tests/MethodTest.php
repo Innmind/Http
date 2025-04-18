@@ -4,9 +4,9 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http;
 
 use Innmind\Http\Method;
-use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
     Set,
 };
 

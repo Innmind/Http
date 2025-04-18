@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\RangeValue
 };
 use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class RangeTest extends TestCase
 {

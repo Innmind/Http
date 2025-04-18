@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentRange,
 };
 use Innmind\Immutable\Str;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentRangeFactoryTest extends TestCase
 {

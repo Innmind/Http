@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class QualityTest extends TestCase
 {
@@ -24,9 +25,7 @@ class QualityTest extends TestCase
         $this->assertSame('q=0', (new Quality(0))->toString());
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidQualityValue($v)
     {
         $this->expectException(DomainException::class);

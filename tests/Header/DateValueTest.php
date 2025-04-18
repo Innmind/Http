@@ -8,7 +8,7 @@ use Innmind\Http\Header\{
     Value
 };
 use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DateValueTest extends TestCase
 {

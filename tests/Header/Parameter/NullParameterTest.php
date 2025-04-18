@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     Parameter\NullParameter,
     Parameter
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class NullParameterTest extends TestCase
 {

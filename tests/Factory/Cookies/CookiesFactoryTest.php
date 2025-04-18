@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\CookiesFactory as CookiesFactoryInterface,
     ServerRequest\Cookies,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class CookiesFactoryTest extends TestCase
 {

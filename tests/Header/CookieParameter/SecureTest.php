@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CookieParameter\Secure,
     Parameter
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class SecureTest extends TestCase
 {

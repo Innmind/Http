@@ -37,10 +37,9 @@
     },
     "require-dev": {
         "psr/http-message": "^1.0",
-        "phpunit/phpunit": "~10.2",
         "vimeo/psalm": "~5.12",
         "nikic/php-parser": "^4.13.2",
-        "innmind/black-box": "~5.5",
+        "innmind/black-box": "~6.1",
         "innmind/coding-standard": "~2.0",
         "symfony/process": "^6.2"
     }
