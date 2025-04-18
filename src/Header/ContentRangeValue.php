@@ -23,7 +23,7 @@ final class ContentRangeValue implements Value
         string $unit,
         int $firstPosition,
         int $lastPosition,
-        int $length = null,
+        ?int $length = null,
     ) {
         if (
             !Str::of($unit)->matches('~^\w+$~') ||
@@ -51,7 +51,7 @@ final class ContentRangeValue implements Value
         string $unit,
         int $firstPosition,
         int $lastPosition,
-        int $length = null,
+        ?int $length = null,
     ): Maybe {
         try {
             return Maybe::just(new self($unit, $firstPosition, $lastPosition, $length));

@@ -22,7 +22,7 @@ final class TryFactory
     /**
      * @param ?callable(Str, Str): Header $fallback
      */
-    public function __construct(HeaderFactory $try, callable $fallback = null)
+    public function __construct(HeaderFactory $try, ?callable $fallback = null)
     {
         $default = new DefaultFactory;
         $this->try = $try;

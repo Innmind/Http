@@ -21,8 +21,8 @@ final class Request
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
+        ?Headers $headers = null,
+        ?Content $body = null,
     ) {
         $this->url = $url;
         $this->method = $method;
@@ -38,8 +38,8 @@ final class Request
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
+        ?Headers $headers = null,
+        ?Content $body = null,
     ): self {
         return new self($url, $method, $protocolVersion, $headers, $body);
     }
