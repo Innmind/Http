@@ -8,13 +8,11 @@ use Innmind\Http\{
     Factory\Header\AgeFactory,
     Factory\Header\AllowFactory,
     Factory\HeaderFactory,
-    Header,
     Header\Allow,
 };
 use Innmind\Immutable\{
     Map,
     Str,
-    Maybe,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 

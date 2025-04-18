@@ -7,15 +7,10 @@ use Innmind\Http\{
     Factory\Header\TryFactory,
     Factory\Header\AllowFactory,
     Factory\Header\AgeFactory,
-    Factory\HeaderFactory,
-    Header,
     Header\Allow,
     Header\Age,
 };
-use Innmind\Immutable\{
-    Str,
-    Maybe,
-};
+use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class TryFactoryTest extends TestCase
