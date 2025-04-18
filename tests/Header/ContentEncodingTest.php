@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentEncodingValue
 };
 use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentEncodingTest extends TestCase
 {

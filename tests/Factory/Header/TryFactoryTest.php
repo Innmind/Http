@@ -5,48 +5,37 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\TryFactory,
-    Factory\HeaderFactory,
-    Header
+    Factory\Header\AllowFactory,
+    Factory\Header\AgeFactory,
+    Header\Allow,
+    Header\Age,
 };
-use Innmind\Immutable\{
-    Str,
-    Maybe,
-};
-use PHPUnit\Framework\TestCase;
+use Innmind\Immutable\Str;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class TryFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $name = Str::of('foo');
-        $value = Str::of('bar');
-        $try = $this->createMock(HeaderFactory::class);
-        $try
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($name, $value)
-            ->willReturn(
-                Maybe::just($expected = $this->createMock(Header::class)),
-            );
-        $factory = new TryFactory($try);
+        $name = Str::of('Age');
+        $value = Str::of('42');
+        $factory = new TryFactory(new AgeFactory);
 
-        $this->assertEquals($expected, ($factory)($name, $value));
+        $this->assertInstanceOf(Age::class, ($factory)($name, $value));
     }
 
     public function testMakeViaFallback()
     {
-        $name = Str::of('foo');
-        $value = Str::of('bar');
-        $try = $this->createMock(HeaderFactory::class);
-        $try
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($name, $value)
-            ->willReturn(Maybe::nothing());
-        $expected = $this->createMock(Header::class);
-        $fallback = static fn() => $expected;
-        $factory = new TryFactory($try, $fallback);
+        $name = Str::of('Allow');
+        $value = Str::of('PUT');
+        $factory = new TryFactory(
+            new AgeFactory,
+            static fn($name, $value) => (new AllowFactory)($name, $value)->match(
+                static fn($header) => $header,
+                static fn() => null,
+            ),
+        );
 
-        $this->assertSame($expected, ($factory)($name, $value));
+        $this->assertInstanceOf(Allow::class, ($factory)($name, $value));
     }
 }

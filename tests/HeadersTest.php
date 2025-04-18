@@ -13,7 +13,7 @@ use Innmind\Http\{
     Header\Value\Value,
 };
 use Innmind\Immutable\SideEffect;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HeadersTest extends TestCase
 {

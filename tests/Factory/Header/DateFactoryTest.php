@@ -10,7 +10,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Str;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DateFactoryTest extends TestCase
 {

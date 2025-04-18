@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\CacheControlValue\MaxAge,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class MaxAgeTest extends TestCase
 {

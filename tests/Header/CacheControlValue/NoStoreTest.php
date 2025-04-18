@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CacheControlValue,
     CacheControlValue\NoStore
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class NoStoreTest extends TestCase
 {

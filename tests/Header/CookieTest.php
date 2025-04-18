@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\Parameter\Parameter
 };
 use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class CookieTest extends TestCase
 {

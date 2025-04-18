@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CacheControlValue,
     CacheControlValue\NoTransform
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class NoTransformTest extends TestCase
 {

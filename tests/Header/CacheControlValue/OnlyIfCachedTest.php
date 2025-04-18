@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CacheControlValue,
     CacheControlValue\OnlyIfCached
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class OnlyIfCachedTest extends TestCase
 {

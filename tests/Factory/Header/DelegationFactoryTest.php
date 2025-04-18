@@ -5,15 +5,16 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\DelegationFactory,
+    Factory\Header\AgeFactory,
+    Factory\Header\AllowFactory,
     Factory\HeaderFactory,
-    Header
+    Header\Allow,
 };
 use Innmind\Immutable\{
     Map,
     Str,
-    Maybe,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DelegationFactoryTest extends TestCase
 {
@@ -27,26 +28,19 @@ class DelegationFactoryTest extends TestCase
 
     public function testMake()
     {
-        $name = Str::of('X-Foo');
-        $value = Str::of('bar');
-        $mock = $this->createMock(HeaderFactory::class);
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($name, $value)
-            ->willReturn(
-                $expected = Maybe::just($this->createMock(Header::class)),
-            );
-        $neverToBeCalled = $this->createMock(HeaderFactory::class);
-        $neverToBeCalled
-            ->expects($this->never())
-            ->method('__invoke');
+        $name = Str::of('Allow');
+        $value = Str::of('put');
         $factory = new DelegationFactory(
             Map::of()
-                ->put('x-foo', $mock)
-                ->put('foo', $neverToBeCalled),
+                ->put('allow', new AllowFactory)
+                ->put('foo', new AgeFactory),
         );
 
-        $header = ($factory)($name, $value);
+        $header = ($factory)($name, $value)->match(
+            static fn($header) => $header,
+            static fn() => null,
+        );
+
+        $this->assertInstanceOf(Allow::class, $header);
     }
 }

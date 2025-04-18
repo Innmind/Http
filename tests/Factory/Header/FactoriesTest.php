@@ -9,7 +9,7 @@ use Innmind\Http\Factory\{
 };
 use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Immutable\Map;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FactoriesTest extends TestCase
 {

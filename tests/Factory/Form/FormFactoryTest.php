@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\FormFactory as FormFactoryInterface,
     ServerRequest\Form,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FormFactoryTest extends TestCase
 {

@@ -22,7 +22,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Earth\Clock;
 use Innmind\Filesystem\File\Content;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ServerRequestFactoryTest extends TestCase
 {
@@ -33,39 +33,45 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/index.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $f = new ServerRequestFactory(
-            $headers = $this->createMock(HeadersFactory::class),
+            new class implements HeadersFactory {
+                public function __invoke(): Headers
+                {
+                    return Headers::of();
+                }
+            },
             static fn() => Content::none(),
-            $env = $this->createMock(EnvironmentFactory::class),
-            $cookies = $this->createMock(CookiesFactory::class),
-            $query = $this->createMock(QueryFactory::class),
-            $form = $this->createMock(FormFactory::class),
-            $files = $this->createMock(FilesFactory::class),
+            new class implements EnvironmentFactory {
+                public function __invoke(): Environment
+                {
+                    return Environment::of();
+                }
+            },
+            new class implements CookiesFactory {
+                public function __invoke(): Cookies
+                {
+                    return Cookies::of();
+                }
+            },
+            new class implements QueryFactory {
+                public function __invoke(): Query
+                {
+                    return Query::of([]);
+                }
+            },
+            new class implements FormFactory {
+                public function __invoke(): Form
+                {
+                    return Form::of([]);
+                }
+            },
+            new class implements FilesFactory {
+                public function __invoke(): Files
+                {
+                    return Files::of([]);
+                }
+            },
             $_SERVER,
         );
-        $headers
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Headers::of());
-        $query
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Query::of([]));
-        $form
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Form::of([]));
-        $files
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Files::of([]));
-        $cookies
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Cookies::of());
-        $env
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
@@ -83,39 +89,45 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $factory = new ServerRequestFactory(
-            $headers = $this->createMock(HeadersFactory::class),
+            new class implements HeadersFactory {
+                public function __invoke(): Headers
+                {
+                    return Headers::of();
+                }
+            },
             static fn() => Content::none(),
-            $environment = $this->createMock(EnvironmentFactory::class),
-            $cookies = $this->createMock(CookiesFactory::class),
-            $query = $this->createMock(QueryFactory::class),
-            $form = $this->createMock(FormFactory::class),
-            $files = $this->createMock(FilesFactory::class),
+            new class implements EnvironmentFactory {
+                public function __invoke(): Environment
+                {
+                    return Environment::of();
+                }
+            },
+            new class implements CookiesFactory {
+                public function __invoke(): Cookies
+                {
+                    return Cookies::of();
+                }
+            },
+            new class implements QueryFactory {
+                public function __invoke(): Query
+                {
+                    return Query::of([]);
+                }
+            },
+            new class implements FormFactory {
+                public function __invoke(): Form
+                {
+                    return Form::of([]);
+                }
+            },
+            new class implements FilesFactory {
+                public function __invoke(): Files
+                {
+                    return Files::of([]);
+                }
+            },
             $_SERVER,
         );
-        $headers
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Headers::of());
-        $query
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Query::of([]));
-        $form
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Form::of([]));
-        $files
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Files::of([]));
-        $cookies
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Cookies::of());
-        $environment
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
@@ -134,39 +146,45 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $_SERVER['PHP_AUTH_PW'] = 'duh';
         $factory = new ServerRequestFactory(
-            $headers = $this->createMock(HeadersFactory::class),
+            new class implements HeadersFactory {
+                public function __invoke(): Headers
+                {
+                    return Headers::of();
+                }
+            },
             static fn() => Content::none(),
-            $environment = $this->createMock(EnvironmentFactory::class),
-            $cookies = $this->createMock(CookiesFactory::class),
-            $query = $this->createMock(QueryFactory::class),
-            $form = $this->createMock(FormFactory::class),
-            $files = $this->createMock(FilesFactory::class),
+            new class implements EnvironmentFactory {
+                public function __invoke(): Environment
+                {
+                    return Environment::of();
+                }
+            },
+            new class implements CookiesFactory {
+                public function __invoke(): Cookies
+                {
+                    return Cookies::of();
+                }
+            },
+            new class implements QueryFactory {
+                public function __invoke(): Query
+                {
+                    return Query::of([]);
+                }
+            },
+            new class implements FormFactory {
+                public function __invoke(): Form
+                {
+                    return Form::of([]);
+                }
+            },
+            new class implements FilesFactory {
+                public function __invoke(): Files
+                {
+                    return Files::of([]);
+                }
+            },
             $_SERVER,
         );
-        $headers
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Headers::of());
-        $query
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Query::of([]));
-        $form
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Form::of([]));
-        $files
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Files::of([]));
-        $cookies
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Cookies::of());
-        $environment
-            ->expects($this->once())
-            ->method('__invoke')
-            ->willReturn(Environment::of());
 
         $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 

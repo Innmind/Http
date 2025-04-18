@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\CacheControlValue\PublicCache
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class CacheControlTest extends TestCase
 {

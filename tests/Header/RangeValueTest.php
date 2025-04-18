@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Value,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class RangeValueTest extends TestCase
 {
@@ -23,9 +24,7 @@ class RangeValueTest extends TestCase
         $this->assertSame('resources=0-42', $h->toString());
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidRangeValue($unit, $first, $last)
     {
         $this->expectException(DomainException::class);

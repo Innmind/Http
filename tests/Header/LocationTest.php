@@ -10,7 +10,7 @@ use Innmind\Http\{
 };
 use Innmind\Immutable\Set;
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LocationTest extends TestCase
 {

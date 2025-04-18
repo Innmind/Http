@@ -8,7 +8,7 @@ use Innmind\Http\Header\{
     Parameter
 };
 use Innmind\Url\Path as UrlPath;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class PathTest extends TestCase
 {

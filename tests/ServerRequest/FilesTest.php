@@ -9,7 +9,7 @@ use Innmind\Http\{
 };
 use Innmind\Filesystem\File;
 use Innmind\Immutable\Either;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FilesTest extends TestCase
 {

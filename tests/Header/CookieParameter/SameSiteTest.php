@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CookieParameter\SameSite,
     Parameter
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class SameSiteTest extends TestCase
 {

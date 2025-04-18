@@ -10,7 +10,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
 use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DateTest extends TestCase
 {

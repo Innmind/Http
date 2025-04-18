@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentEncoding,
 };
 use Innmind\Immutable\Str;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentEncodingFactoryTest extends TestCase
 {

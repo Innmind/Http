@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CookieParameter\HttpOnly,
     Parameter
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HttpOnlyTest extends TestCase
 {

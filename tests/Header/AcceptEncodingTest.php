@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\AcceptEncodingValue,
     Header\Parameter\Quality
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AcceptEncodingTest extends TestCase
 {

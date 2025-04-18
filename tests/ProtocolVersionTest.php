@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http;
 
 use Innmind\Http\ProtocolVersion;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ProtocolVersionTest extends TestCase
 {

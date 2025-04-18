@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     Parameter\Parameter,
     Parameter as ParameterInterface
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ParameterTest extends TestCase
 {

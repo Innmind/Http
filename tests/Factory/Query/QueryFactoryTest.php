@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\QueryFactory as QueryFactoryInterface,
     ServerRequest\Query,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class QueryFactoryTest extends TestCase
 {

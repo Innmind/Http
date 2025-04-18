@@ -10,7 +10,8 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AcceptValueTest extends TestCase
 {
@@ -51,9 +52,7 @@ class AcceptValueTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidAcceptValue($type, $sub)
     {
         $this->expectException(DomainException::class);

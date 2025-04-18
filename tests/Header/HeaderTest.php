@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header,
     Header\Value
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HeaderTest extends TestCase
 {

@@ -7,7 +7,7 @@ use Innmind\Http\Header\{
     CacheControlValue,
     CacheControlValue\ProxyRevalidate
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ProxyRevalidateTest extends TestCase
 {
