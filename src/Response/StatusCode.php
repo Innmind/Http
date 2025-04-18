@@ -8,82 +8,82 @@ use Innmind\Immutable\Maybe;
 /**
  * @psalm-immutable
  */
-enum StatusCode
+enum StatusCode: int
 {
-    case continue;
-    case switchingProtocols;
-    case processing; // RFC2518
-    case ok;
-    case created;
-    case accepted;
-    case nonAuthoritativeInformation;
-    case noContent;
-    case resetContent;
-    case partialContent;
-    case multiStatus; // RFC4918
-    case alreadyReported; // RFC5842
-    case imUsed; // RFC3229
-    case multipleChoices;
-    case movedPermanently;
-    case found;
-    case seeOther;
-    case notModified;
-    case useProxy;
-    case switchProxy; // no longer used
-    case temporaryRedirect;
-    case permanentlyRedirect; // RFC7238
-    case badRequest;
-    case unauthorized;
-    case paymentRequired;
-    case forbidden;
-    case notFound;
-    case methodNotAllowed;
-    case notAcceptable;
-    case proxyAuthenticationRequired;
-    case requestTimeout;
-    case conflict;
-    case gone;
-    case lengthRequired;
-    case preconditionFailed;
-    case requestEntityTooLarge;
-    case requestUriTooLong;
-    case unsupportedMediaType;
-    case requestedRangeNotSatisfiable;
-    case expectationFailed;
-    case iAmATeapot; // RFC2324
-    case unprocessableEntity; // RFC4918
-    case locked; // RFC4918
-    case failedDependency; // RFC4918
-    case reservedForWebdavAdvancedCollectionsExpiredProposal; // RFC2817
-    case upgradeRequired; // RFC2817
-    case preconditionRequired; // RFC6585
-    case tooManyRequests; // RFC6585
-    case requestHeaderFieldsTooLarge; // RFC6585
-    case noResponse; // nginx
-    case unavailableForLegalReasons;
-    case sslCertificateError; // nginx
-    case sslCertificateRequired; // nginx
-    case httpRequestSentToHttpsPort; // nginx
-    case clientClosedRequest; // nginx
-    case internalServerError;
-    case notImplemented;
-    case badGateway;
-    case serviceUnavailable;
-    case gatewayTimeout;
-    case versionNotSupported;
-    case variantAlsoNegotiatesExperimental; // RFC2295
-    case insufficientStorage; // RFC4918
-    case loopDetected; // RFC5842
-    case notExtended; // RFC2774
-    case networkAuthenticationRequired;
-    case unknownError; // cloudflare
-    case webServerIsDown; // cloudflare
-    case connectionTimedOut; // cloudflare
-    case originIsUnreachable; // cloudflare
-    case aTimeoutOccured; // cloudflare
-    case sslHandshakeFailed; // cloudflare
-    case invalidSslCertificate; // cloudflare
-    case railgunError; // cloudflare
+    case continue = 100;
+    case switchingProtocols = 101;
+    case processing = 102; // RFC2518
+    case ok = 200;
+    case created = 201;
+    case accepted = 202;
+    case nonAuthoritativeInformation = 203;
+    case noContent = 204;
+    case resetContent = 205;
+    case partialContent = 206;
+    case multiStatus = 207; // RFC4918
+    case alreadyReported = 208; // RFC5842
+    case imUsed = 226; // RFC3229
+    case multipleChoices = 300;
+    case movedPermanently = 301;
+    case found = 302;
+    case seeOther = 303;
+    case notModified = 304;
+    case useProxy = 305;
+    case switchProxy = 306; // no longer used
+    case temporaryRedirect = 307;
+    case permanentlyRedirect = 308; // RFC7238
+    case badRequest = 400;
+    case unauthorized = 401;
+    case paymentRequired = 402;
+    case forbidden = 403;
+    case notFound = 404;
+    case methodNotAllowed = 405;
+    case notAcceptable = 406;
+    case proxyAuthenticationRequired = 407;
+    case requestTimeout = 408;
+    case conflict = 409;
+    case gone = 410;
+    case lengthRequired = 411;
+    case preconditionFailed = 412;
+    case requestEntityTooLarge = 413;
+    case requestUriTooLong = 414;
+    case unsupportedMediaType = 415;
+    case requestedRangeNotSatisfiable = 416;
+    case expectationFailed = 417;
+    case iAmATeapot = 418; // RFC2324
+    case unprocessableEntity = 422; // RFC4918
+    case locked = 423; // RFC4918
+    case failedDependency = 424; // RFC4918
+    case reservedForWebdavAdvancedCollectionsExpiredProposal = 425; // RFC2817
+    case upgradeRequired = 426; // RFC2817
+    case preconditionRequired = 428; // RFC6585
+    case tooManyRequests = 429; // RFC6585
+    case requestHeaderFieldsTooLarge = 431; // RFC6585
+    case noResponse = 444; // nginx
+    case unavailableForLegalReasons = 451;
+    case sslCertificateError = 495; // nginx
+    case sslCertificateRequired = 496; // nginx
+    case httpRequestSentToHttpsPort = 497; // nginx
+    case clientClosedRequest = 499; // nginx
+    case internalServerError = 500;
+    case notImplemented = 501;
+    case badGateway = 502;
+    case serviceUnavailable = 503;
+    case gatewayTimeout = 504;
+    case versionNotSupported = 505;
+    case variantAlsoNegotiatesExperimental = 506; // RFC2295
+    case insufficientStorage = 507; // RFC4918
+    case loopDetected = 508; // RFC5842
+    case notExtended = 510; // RFC2774
+    case networkAuthenticationRequired = 511;
+    case unknownError = 520; // cloudflare
+    case webServerIsDown = 521; // cloudflare
+    case connectionTimedOut = 522; // cloudflare
+    case originIsUnreachable = 523; // cloudflare
+    case aTimeoutOccured = 524; // cloudflare
+    case sslHandshakeFailed = 525; // cloudflare
+    case invalidSslCertificate = 526; // cloudflare
+    case railgunError = 527; // cloudflare
 
     /**
      * @psalm-pure
@@ -187,82 +187,7 @@ enum StatusCode
 
     public function toInt(): int
     {
-        return match ($this) {
-            self::continue => 100,
-            self::switchingProtocols => 101,
-            self::processing => 102,
-            self::ok => 200,
-            self::created => 201,
-            self::accepted => 202,
-            self::nonAuthoritativeInformation => 203,
-            self::noContent => 204,
-            self::resetContent => 205,
-            self::partialContent => 206,
-            self::multiStatus => 207,
-            self::alreadyReported => 208,
-            self::imUsed => 226,
-            self::multipleChoices => 300,
-            self::movedPermanently => 301,
-            self::found => 302,
-            self::seeOther => 303,
-            self::notModified => 304,
-            self::useProxy => 305,
-            self::switchProxy => 306,
-            self::temporaryRedirect => 307,
-            self::permanentlyRedirect => 308,
-            self::badRequest => 400,
-            self::unauthorized => 401,
-            self::paymentRequired => 402,
-            self::forbidden => 403,
-            self::notFound => 404,
-            self::methodNotAllowed => 405,
-            self::notAcceptable => 406,
-            self::proxyAuthenticationRequired => 407,
-            self::requestTimeout => 408,
-            self::conflict => 409,
-            self::gone => 410,
-            self::lengthRequired => 411,
-            self::preconditionFailed => 412,
-            self::requestEntityTooLarge => 413,
-            self::requestUriTooLong => 414,
-            self::unsupportedMediaType => 415,
-            self::requestedRangeNotSatisfiable => 416,
-            self::expectationFailed => 417,
-            self::iAmATeapot => 418,
-            self::unprocessableEntity => 422,
-            self::locked => 423,
-            self::failedDependency => 424,
-            self::reservedForWebdavAdvancedCollectionsExpiredProposal => 425,
-            self::upgradeRequired => 426,
-            self::preconditionRequired => 428,
-            self::tooManyRequests => 429,
-            self::requestHeaderFieldsTooLarge => 431,
-            self::noResponse => 444,
-            self::unavailableForLegalReasons => 451,
-            self::sslCertificateError => 495,
-            self::sslCertificateRequired => 496,
-            self::httpRequestSentToHttpsPort => 497,
-            self::clientClosedRequest => 499,
-            self::internalServerError => 500,
-            self::notImplemented => 501,
-            self::badGateway => 502,
-            self::serviceUnavailable => 503,
-            self::gatewayTimeout => 504,
-            self::versionNotSupported => 505,
-            self::variantAlsoNegotiatesExperimental => 506,
-            self::insufficientStorage => 507,
-            self::loopDetected => 508,
-            self::notExtended => 510,
-            self::networkAuthenticationRequired => 511,
-            self::unknownError => 520,
-            self::webServerIsDown => 521,
-            self::connectionTimedOut => 522,
-            self::originIsUnreachable => 523,
-            self::aTimeoutOccured => 524,
-            self::sslHandshakeFailed => 525,
-            self::invalidSslCertificate => 526,
-            self::railgunError => 527,
-        };
+        return $this->value;
     }
 
     /**
