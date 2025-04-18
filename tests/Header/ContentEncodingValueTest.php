@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Value,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ContentEncodingValueTest extends TestCase
 {
@@ -23,9 +24,7 @@ class ContentEncodingValueTest extends TestCase
         new ContentEncodingValue('x-compress');
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidContentEncodingValue($value)
     {
         $this->expectException(DomainException::class);

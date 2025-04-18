@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Value,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ContentLanguageValueTest extends TestCase
 {
@@ -24,9 +25,7 @@ class ContentLanguageValueTest extends TestCase
         new ContentLanguageValue('sgn-CH-DE');
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidContentLanguageValue($value)
     {
         $this->expectException(DomainException::class);

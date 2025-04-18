@@ -11,7 +11,7 @@ use Innmind\Http\{
 };
 use Innmind\IO\IO;
 use Innmind\Stream\Streams;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FilesFactoryTest extends TestCase
 {

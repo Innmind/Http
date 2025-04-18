@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\AcceptCharsetValue,
     Header\Parameter\Quality
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AcceptCharsetTest extends TestCase
 {

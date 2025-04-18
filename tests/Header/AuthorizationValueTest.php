@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Value,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AuthorizationValueTest extends TestCase
 {
@@ -26,9 +27,7 @@ class AuthorizationValueTest extends TestCase
         new AuthorizationValue('Foo', '');
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidAuthorizationValue($value)
     {
         $this->expectException(DomainException::class);

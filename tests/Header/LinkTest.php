@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\Parameter
 };
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LinkTest extends TestCase
 {

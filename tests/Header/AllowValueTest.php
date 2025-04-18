@@ -7,7 +7,8 @@ use Innmind\Http\Header\{
     AllowValue,
     Value,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AllowValueTest extends TestCase
 {
@@ -28,9 +29,7 @@ class AllowValueTest extends TestCase
         new AllowValue('PATCH');
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidAllowValue($value)
     {
         $this->expectException(\UnhandledMatchError::class);

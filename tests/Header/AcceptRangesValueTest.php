@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Value,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AcceptRangesValueTest extends TestCase
 {
@@ -23,9 +24,7 @@ class AcceptRangesValueTest extends TestCase
         new AcceptRangesValue('whatever');
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidAcceptRangeValue($value)
     {
         $this->expectException(DomainException::class);

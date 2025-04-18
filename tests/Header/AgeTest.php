@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\AgeValue
 };
 use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AgeTest extends TestCase
 {

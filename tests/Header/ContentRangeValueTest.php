@@ -8,7 +8,8 @@ use Innmind\Http\{
     Header\Value,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ContentRangeValueTest extends TestCase
 {
@@ -34,9 +35,7 @@ class ContentRangeValueTest extends TestCase
         $this->assertSame('bytes 0-499/1234', $h->toString());
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidContentRangeValue($unit, $first, $last, $length)
     {
         $this->expectException(DomainException::class);

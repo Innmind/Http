@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\Parameter\Quality,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class AcceptEncodingValueTest extends TestCase
 {
@@ -35,9 +36,7 @@ class AcceptEncodingValueTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidAcceptEncodingValue($value)
     {
         $this->expectException(DomainException::class);

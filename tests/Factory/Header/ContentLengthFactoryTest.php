@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentLength,
 };
 use Innmind\Immutable\Str;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentLengthFactoryTest extends TestCase
 {

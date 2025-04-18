@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\CacheControlValue\MaxStale,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class MaxStaleTest extends TestCase
 {

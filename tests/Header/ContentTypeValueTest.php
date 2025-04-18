@@ -9,7 +9,8 @@ use Innmind\Http\{
     Header\Parameter,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ContentTypeValueTest extends TestCase
 {
@@ -42,9 +43,7 @@ class ContentTypeValueTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider invalids
-     */
+    #[DataProvider('invalids')]
     public function testThrowWhenInvalidContentTypeValue($type, $sub)
     {
         $this->expectException(DomainException::class);

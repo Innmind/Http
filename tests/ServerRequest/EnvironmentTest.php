@@ -8,7 +8,7 @@ use Innmind\Immutable\{
     Map,
     SideEffect,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class EnvironmentTest extends TestCase
 {
