@@ -29,11 +29,13 @@ final class Expires implements HeaderInterface
         return new self(new DateValue($point));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -44,6 +46,7 @@ final class Expires implements HeaderInterface
         return $this->value->date();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

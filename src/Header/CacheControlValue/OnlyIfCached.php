@@ -10,6 +10,7 @@ use Innmind\Http\Header\CacheControlValue;
  */
 final class OnlyIfCached implements CacheControlValue
 {
+    #[\Override]
     public function toString(): string
     {
         return 'only-if-cached';

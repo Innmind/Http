@@ -11,6 +11,7 @@ use Innmind\Http\Header\CacheControlValue;
  */
 final class Immutable implements CacheControlValue
 {
+    #[\Override]
     public function toString(): string
     {
         return 'immutable';

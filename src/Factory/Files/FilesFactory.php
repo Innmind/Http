@@ -38,6 +38,7 @@ final class FilesFactory implements FilesFactoryInterface
         $this->files = $files;
     }
 
+    #[\Override]
     public function __invoke(): Files
     {
         $files = [];

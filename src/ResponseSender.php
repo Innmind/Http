@@ -22,6 +22,7 @@ final class ResponseSender implements Sender
         $this->clock = $clock;
     }
 
+    #[\Override]
     public function __invoke(Response $response): void
     {
         if (\headers_sent()) {

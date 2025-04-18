@@ -8,18 +8,21 @@ use Innmind\Http\Header\Parameter as ParameterInterface;
 /**
  * @psalm-immutable
  */
-class NullParameter implements ParameterInterface
+final class NullParameter implements ParameterInterface
 {
+    #[\Override]
     public function name(): string
     {
         return '';
     }
 
+    #[\Override]
     public function value(): string
     {
         return '';
     }
 
+    #[\Override]
     public function toString(): string
     {
         return '';

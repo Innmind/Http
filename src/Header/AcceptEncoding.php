@@ -21,16 +21,19 @@ final class AcceptEncoding implements HeaderInterface
         $this->header = new Header('Accept-Encoding', ...$values);
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

@@ -27,16 +27,19 @@ final class Header implements HeaderInterface
         $this->values = Set::of(...$values);
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->values;
     }
 
+    #[\Override]
     public function toString(): string
     {
         $values = $this->values->map(static fn($value) => $value->toString());

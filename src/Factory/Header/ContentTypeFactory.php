@@ -21,6 +21,7 @@ use Innmind\Immutable\{
  */
 final class ContentTypeFactory implements HeaderFactory
 {
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'content-type') {

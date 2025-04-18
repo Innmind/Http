@@ -45,6 +45,7 @@ final class MinimumFresh implements CacheControlValue
         return $this->age;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return \sprintf(

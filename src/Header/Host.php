@@ -32,11 +32,13 @@ final class Host implements HeaderInterface
         return new self(new HostValue($host, $port));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -52,6 +54,7 @@ final class Host implements HeaderInterface
         return $this->value->port();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

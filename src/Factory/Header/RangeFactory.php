@@ -21,6 +21,7 @@ final class RangeFactory implements HeaderFactory
 {
     private const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if (

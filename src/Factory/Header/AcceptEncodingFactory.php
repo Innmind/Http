@@ -22,6 +22,7 @@ final class AcceptEncodingFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept-encoding') {

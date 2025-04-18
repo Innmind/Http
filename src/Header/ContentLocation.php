@@ -29,11 +29,13 @@ final class ContentLocation implements HeaderInterface
         return new self(new LocationValue($location));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -44,6 +46,7 @@ final class ContentLocation implements HeaderInterface
         return $this->value->url();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

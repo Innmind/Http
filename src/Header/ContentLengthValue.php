@@ -46,6 +46,7 @@ final class ContentLengthValue implements Value
         return $this->length;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return (string) $this->length;

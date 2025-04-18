@@ -26,6 +26,7 @@ final class DateValue implements Value
         return $this->date;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->date->changeTimezone(new UTC)->format(new Http);

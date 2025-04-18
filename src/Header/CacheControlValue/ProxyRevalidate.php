@@ -10,6 +10,7 @@ use Innmind\Http\Header\CacheControlValue;
  */
 final class ProxyRevalidate implements CacheControlValue
 {
+    #[\Override]
     public function toString(): string
     {
         return 'proxy-revalidate';

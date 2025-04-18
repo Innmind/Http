@@ -26,6 +26,7 @@ final class DelegationFactory implements HeaderFactory
         $this->factories = $factories;
     }
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         return $this

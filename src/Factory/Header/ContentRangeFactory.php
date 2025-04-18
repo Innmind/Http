@@ -21,6 +21,7 @@ final class ContentRangeFactory implements HeaderFactory
 {
     private const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         $value = $value->trim();

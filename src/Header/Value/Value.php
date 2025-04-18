@@ -17,6 +17,7 @@ final class Value implements ValueInterface
         $this->value = $value;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->value;

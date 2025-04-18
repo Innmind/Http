@@ -40,6 +40,7 @@ final class ContentLanguageValue implements Value
         }
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->language;

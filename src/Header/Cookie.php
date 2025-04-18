@@ -32,11 +32,13 @@ final class Cookie implements HeaderInterface
         return new self(new CookieValue(...$parameters));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -50,6 +52,7 @@ final class Cookie implements HeaderInterface
         return $this->value->parameters();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

@@ -84,6 +84,7 @@ final class ContentRangeValue implements Value
         return Maybe::of($this->length);
     }
 
+    #[\Override]
     public function toString(): string
     {
         return \sprintf(

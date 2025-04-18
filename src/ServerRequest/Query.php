@@ -78,6 +78,7 @@ final class Query implements \Countable
         return $this->data;
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->data);

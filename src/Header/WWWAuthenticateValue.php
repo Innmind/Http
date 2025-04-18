@@ -36,6 +36,7 @@ final class WWWAuthenticateValue implements Value
         return $this->realm;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return Str::of($this->scheme)

@@ -70,6 +70,7 @@ final class RangeValue implements Value
         return $this->lastPosition;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return \sprintf(

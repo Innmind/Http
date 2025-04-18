@@ -36,16 +36,19 @@ final class Parameter implements ParameterInterface
         );
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function value(): string
     {
         return $this->value;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->string;

@@ -60,16 +60,19 @@ final class Boundary implements Parameter
         return self::of(Uuid::uuid4()->toString());
     }
 
+    #[\Override]
     public function name(): string
     {
         return 'boundary';
     }
 
+    #[\Override]
     public function value(): string
     {
         return $this->value;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return \sprintf(

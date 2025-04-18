@@ -52,6 +52,7 @@ final class AuthorizationValue implements Value
         return $this->parameter;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return Str::of($this->scheme)

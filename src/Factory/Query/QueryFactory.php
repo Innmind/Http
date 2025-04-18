@@ -24,6 +24,7 @@ final class QueryFactory implements QueryFactoryInterface
         $this->get = $get;
     }
 
+    #[\Override]
     public function __invoke(): Query
     {
         return Query::of($this->get);

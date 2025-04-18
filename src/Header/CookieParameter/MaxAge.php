@@ -32,16 +32,19 @@ final class MaxAge implements Parameter
         return new Parameter\Parameter('Max-Age', '-1');
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->parameter->name();
     }
 
+    #[\Override]
     public function value(): string
     {
         return $this->parameter->value();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->parameter->toString();

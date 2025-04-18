@@ -28,11 +28,13 @@ final class Authorization implements HeaderInterface
         return new self(new AuthorizationValue($scheme, $parameter));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -48,6 +50,7 @@ final class Authorization implements HeaderInterface
         return $this->value->parameter();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

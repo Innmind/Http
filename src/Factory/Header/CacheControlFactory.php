@@ -20,6 +20,7 @@ use Innmind\Immutable\{
  */
 final class CacheControlFactory implements HeaderFactory
 {
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'cache-control') {

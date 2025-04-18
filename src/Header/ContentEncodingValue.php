@@ -40,6 +40,7 @@ final class ContentEncodingValue implements Value
         }
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->coding;

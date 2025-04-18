@@ -10,6 +10,7 @@ use Innmind\Http\Header\CacheControlValue;
  */
 final class MustRevalidate implements CacheControlValue
 {
+    #[\Override]
     public function toString(): string
     {
         return 'must-revalidate';

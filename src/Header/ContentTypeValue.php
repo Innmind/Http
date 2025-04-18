@@ -80,6 +80,7 @@ final class ContentTypeValue implements Value
         return $this->parameters;
     }
 
+    #[\Override]
     public function toString(): string
     {
         $parameters = $this->parameters->values()->map(

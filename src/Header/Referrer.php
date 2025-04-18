@@ -29,11 +29,13 @@ final class Referrer implements HeaderInterface
         return new self(new ReferrerValue($referrer));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -44,6 +46,7 @@ final class Referrer implements HeaderInterface
         return $this->referrer->url();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();
