@@ -21,6 +21,7 @@ final class AuthorizationFactory implements HeaderFactory
 {
     private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if (

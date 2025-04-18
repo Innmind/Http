@@ -24,6 +24,7 @@ final class FormFactory implements FormFactoryInterface
         $this->post = $post;
     }
 
+    #[\Override]
     public function __invoke(): Form
     {
         return Form::of($this->post);

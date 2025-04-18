@@ -73,6 +73,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         $this->server = $server;
     }
 
+    #[\Override]
     public function __invoke(): ServerRequest
     {
         /** @psalm-suppress MixedArgument */
@@ -141,6 +142,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
         /** @var array<string, string> */
         $server = $_SERVER;
 
+        /** @psalm-suppress PossiblyFalseArgument */
         return new self(
             Factory\Header\HeadersFactory::default(
                 Factories::default($clock),

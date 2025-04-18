@@ -48,6 +48,7 @@ final class PrivateCache implements CacheControlValue
         return $this->field;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return \sprintf(

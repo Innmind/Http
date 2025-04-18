@@ -32,6 +32,7 @@ final class HostValue implements Value
         return $this->port;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->host->toString().$this->port->format();

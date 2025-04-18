@@ -25,6 +25,7 @@ final class CookiesFactory implements CookiesFactoryInterface
         $this->cookies = $cookies;
     }
 
+    #[\Override]
     public function __invoke(): Cookies
     {
         /** @var Map<string, string> */

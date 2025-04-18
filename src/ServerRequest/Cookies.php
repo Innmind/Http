@@ -72,6 +72,7 @@ final class Cookies implements \Countable
         return $this->cookies->reduce($carry, $reducer);
     }
 
+    #[\Override]
     public function count(): int
     {
         return $this->cookies->size();

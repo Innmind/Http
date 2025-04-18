@@ -22,6 +22,7 @@ final class AcceptFactory implements HeaderFactory
 {
     private const PATTERN = '~(?<type>[\w*]+)/(?<subType>[\w*]+)(?<params>(; ?\w+=\"?[\w\-.]+\"?)+)?~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'accept') {

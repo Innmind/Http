@@ -24,6 +24,7 @@ final class LinkFactory implements HeaderFactory
 {
     private const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'link') {

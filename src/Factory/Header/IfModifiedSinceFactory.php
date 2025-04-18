@@ -27,6 +27,7 @@ final class IfModifiedSinceFactory implements HeaderFactory
         $this->clock = $clock;
     }
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'if-modified-since') {

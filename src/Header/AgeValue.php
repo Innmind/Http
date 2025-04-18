@@ -47,6 +47,7 @@ final class AgeValue implements Value
         return $this->age;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return (string) $this->age;

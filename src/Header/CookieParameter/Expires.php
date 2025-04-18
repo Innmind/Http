@@ -27,16 +27,19 @@ final class Expires implements Parameter
         );
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->parameter->name();
     }
 
+    #[\Override]
     public function value(): string
     {
         return $this->parameter->value();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->parameter->toString();

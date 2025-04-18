@@ -19,6 +19,7 @@ use Innmind\Immutable\{
  */
 final class AgeFactory implements HeaderFactory
 {
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'age') {

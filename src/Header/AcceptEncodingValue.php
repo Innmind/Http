@@ -56,6 +56,7 @@ final class AcceptEncodingValue implements Value
         return $this->quality;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this

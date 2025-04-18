@@ -31,6 +31,7 @@ final class HeadersFactory implements HeadersFactoryInterface
         $this->server = $server;
     }
 
+    #[\Override]
     public function __invoke(): Headers
     {
         $headers = [];

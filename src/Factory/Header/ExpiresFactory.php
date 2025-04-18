@@ -27,6 +27,7 @@ final class ExpiresFactory implements HeaderFactory
         $this->clock = $clock;
     }
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if ($name->toLower()->toString() !== 'expires') {

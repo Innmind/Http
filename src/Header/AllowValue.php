@@ -30,6 +30,7 @@ final class AllowValue implements Value
         );
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->value;

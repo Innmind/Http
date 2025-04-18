@@ -22,6 +22,7 @@ final class ReferrerValue implements Value
         return $this->url;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->url->toString();

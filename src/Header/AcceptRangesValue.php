@@ -40,6 +40,7 @@ final class AcceptRangesValue implements Value
         }
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->range;

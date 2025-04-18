@@ -45,6 +45,7 @@ final class MaxAge implements CacheControlValue
         return $this->age;
     }
 
+    #[\Override]
     public function toString(): string
     {
         return \sprintf(

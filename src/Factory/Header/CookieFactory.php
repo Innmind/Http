@@ -22,6 +22,7 @@ final class CookieFactory implements HeaderFactory
 {
     private const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
 
+    #[\Override]
     public function __invoke(Str $name, Str $value): Maybe
     {
         if (

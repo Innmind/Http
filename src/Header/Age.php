@@ -28,11 +28,13 @@ final class Age implements HeaderInterface
         return new self(new AgeValue($age));
     }
 
+    #[\Override]
     public function name(): string
     {
         return $this->header->name();
     }
 
+    #[\Override]
     public function values(): Set
     {
         return $this->header->values();
@@ -46,6 +48,7 @@ final class Age implements HeaderInterface
         return $this->value->age();
     }
 
+    #[\Override]
     public function toString(): string
     {
         return $this->header->toString();

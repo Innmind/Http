@@ -25,6 +25,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
         $this->env = $env;
     }
 
+    #[\Override]
     public function __invoke(): Environment
     {
         /** @var Map<string, string> */
