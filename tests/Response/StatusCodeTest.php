@@ -22,7 +22,7 @@ class StatusCodeTest extends TestCase
     public function testThrowWhenInvalidStatusCode()
     {
         $this->expectException(\UnhandledMatchError::class);
-        $this->expectExceptionMessage('42');
+        $this->expectExceptionMessage('Unhandled match case');
 
         StatusCode::of(42); //sadly
     }
