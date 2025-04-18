@@ -20,7 +20,7 @@ final class Cookies implements \Countable
     /**
      * @param Map<string, string>|null $cookies
      */
-    private function __construct(Map $cookies = null)
+    private function __construct(?Map $cookies = null)
     {
         /** @var Map<string, string> */
         $cookies = $cookies ?? Map::of();
@@ -33,7 +33,7 @@ final class Cookies implements \Countable
      *
      * @param Map<string, string>|null $cookies
      */
-    public static function of(Map $cookies = null): self
+    public static function of(?Map $cookies = null): self
     {
         return new self($cookies);
     }

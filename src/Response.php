@@ -19,8 +19,8 @@ final class Response
     private function __construct(
         StatusCode $statusCode,
         ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
+        ?Headers $headers = null,
+        ?Content $body = null,
     ) {
         $this->protocolVersion = $protocolVersion;
         $this->headers = $headers ?? Headers::of();
@@ -34,8 +34,8 @@ final class Response
     public static function of(
         StatusCode $statusCode,
         ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
+        ?Headers $headers = null,
+        ?Content $body = null,
     ): self {
         return new self($statusCode, $protocolVersion, $headers, $body);
     }

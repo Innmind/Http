@@ -130,8 +130,8 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     public static function default(
         Clock $clock,
-        Capabilities $capabilities = null,
-        IO $io = null,
+        ?Capabilities $capabilities = null,
+        ?IO $io = null,
     ): self {
         $capabilities ??= Streams::fromAmbientAuthority();
         $io ??= IO::of(static fn(?ElapsedPeriod $timeout) => match ($timeout) {

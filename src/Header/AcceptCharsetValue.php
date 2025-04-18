@@ -20,7 +20,7 @@ final class AcceptCharsetValue implements Value
     private Str $charset;
     private Quality $quality;
 
-    public function __construct(string $charset, Quality $quality = null)
+    public function __construct(string $charset, ?Quality $quality = null)
     {
         $charset = Str::of($charset);
         $quality = $quality ?? new Quality(1);
@@ -41,7 +41,7 @@ final class AcceptCharsetValue implements Value
      *
      * @return Maybe<self>
      */
-    public static function of(string $charset, Quality $quality = null): Maybe
+    public static function of(string $charset, ?Quality $quality = null): Maybe
     {
         try {
             return Maybe::just(new self($charset, $quality));

@@ -23,7 +23,7 @@ final class LinkValue implements Value
 
     public function __construct(
         Url $url,
-        string $rel = null,
+        ?string $rel = null,
         Parameter ...$parameters,
     ) {
         $rel = $rel ?? 'related';
@@ -52,7 +52,7 @@ final class LinkValue implements Value
      */
     public static function of(
         Url $url,
-        string $rel = null,
+        ?string $rel = null,
         Parameter ...$parameters,
     ): Maybe {
         try {

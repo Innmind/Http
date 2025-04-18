@@ -20,7 +20,7 @@ final class AcceptLanguageValue implements Value
     private Str $language;
     private Quality $quality;
 
-    public function __construct(string $language, Quality $quality = null)
+    public function __construct(string $language, ?Quality $quality = null)
     {
         $language = Str::of($language);
         $quality = $quality ?? new Quality(1);
@@ -41,7 +41,7 @@ final class AcceptLanguageValue implements Value
      *
      * @return Maybe<self>
      */
-    public static function of(string $language, Quality $quality = null): Maybe
+    public static function of(string $language, ?Quality $quality = null): Maybe
     {
         try {
             return Maybe::just(new self($language, $quality));

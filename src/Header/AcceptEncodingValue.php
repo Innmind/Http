@@ -20,7 +20,7 @@ final class AcceptEncodingValue implements Value
     private Str $coding;
     private Quality $quality;
 
-    public function __construct(string $coding, Quality $quality = null)
+    public function __construct(string $coding, ?Quality $quality = null)
     {
         $coding = Str::of($coding);
         $quality = $quality ?? new Quality(1);
@@ -41,7 +41,7 @@ final class AcceptEncodingValue implements Value
      *
      * @return Maybe<self>
      */
-    public static function of(string $coding, Quality $quality = null): Maybe
+    public static function of(string $coding, ?Quality $quality = null): Maybe
     {
         try {
             return Maybe::just(new self($coding, $quality));

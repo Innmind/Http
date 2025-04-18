@@ -20,7 +20,7 @@ final class Environment implements \Countable
     /**
      * @param Map<string, string>|null $variables
      */
-    private function __construct(Map $variables = null)
+    private function __construct(?Map $variables = null)
     {
         /** @var Map<string, string> */
         $variables = $variables ?? Map::of();
@@ -33,7 +33,7 @@ final class Environment implements \Countable
      *
      * @param Map<string, string>|null $variables
      */
-    public static function of(Map $variables = null): self
+    public static function of(?Map $variables = null): self
     {
         return new self($variables);
     }
