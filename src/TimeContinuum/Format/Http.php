@@ -5,14 +5,13 @@ namespace Innmind\Http\TimeContinuum\Format;
 
 use Innmind\TimeContinuum\Format;
 
-/**
- * @psalm-immutable
- */
-final class Http implements Format
+final class Http
 {
-    #[\Override]
-    public function toString(): string
+    /**
+     * @psalm-pure
+     */
+    public static function new(): Format
     {
-        return 'D, d M Y H:i:s \G\M\T';
+        return Format::of('D, d M Y H:i:s \G\M\T');
     }
 }

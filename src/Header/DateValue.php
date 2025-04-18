@@ -6,7 +6,7 @@ namespace Innmind\Http\Header;
 use Innmind\Http\TimeContinuum\Format\Http;
 use Innmind\TimeContinuum\{
     PointInTime,
-    Earth\Timezone\UTC,
+    Offset,
 };
 
 /**
@@ -29,6 +29,6 @@ final class DateValue implements Value
     #[\Override]
     public function toString(): string
     {
-        return $this->date->changeTimezone(new UTC)->format(new Http);
+        return $this->date->changeOffset(Offset::utc())->format(Http::new());
     }
 }

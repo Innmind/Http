@@ -85,7 +85,7 @@ final class ResponseSender implements Sender
                         case 'Expires':
                             /** @psalm-suppress PossiblyFalseReference Expires object uses a valid date */
                             $timestamp = \DateTimeImmutable::createFromFormat(
-                                (new Http)->toString(),
+                                Http::new()->toString(),
                                 \substr($parameter->value(), 1, -1), // remove double quotes
                             )->getTimestamp();
                             // MaxAge has precedence

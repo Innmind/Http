@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header\IfUnmodifiedSince,
 };
-use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new IfUnmodifiedSinceFactory(new Clock);
+        $f = new IfUnmodifiedSinceFactory(Clock::live());
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
@@ -37,7 +37,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->assertNull((new IfUnmodifiedSinceFactory(new Clock))(
+        $this->assertNull((new IfUnmodifiedSinceFactory(Clock::live()))(
             Str::of('foo'),
             Str::of(''),
         )->match(
@@ -48,7 +48,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotOfExpectedFormat()
     {
-        $this->assertNull((new IfUnmodifiedSinceFactory(new Clock))(
+        $this->assertNull((new IfUnmodifiedSinceFactory(Clock::live()))(
             Str::of('If-Unmodified-Since'),
             Str::of('2020-01-01'),
         )->match(

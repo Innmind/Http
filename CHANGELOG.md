@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Requires `innmind/filesystem:~8.0`
+- Requires `innmind/time-continuum:~4.1`
+- Requires `innmind/io:~3.0`
+
 ### Fixed
 
 - PHP `8.4` deprecations

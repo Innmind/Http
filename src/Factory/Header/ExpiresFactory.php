@@ -10,6 +10,7 @@ use Innmind\Http\{
     TimeContinuum\Format\Http,
 };
 use Innmind\TimeContinuum\Clock;
+use Innmind\Validation\Is;
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -35,10 +36,9 @@ final class ExpiresFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
-        return $this
-            ->clock
-            ->at($value->toString(), new Http)
+        return Is::string()->nonEmpty()($value->toString())
+            ->maybe()
+            ->flatMap(fn($value) => $this->clock->at($value, Http::new()))
             ->map(static fn($point) => Expires::of($point));
     }
 }
