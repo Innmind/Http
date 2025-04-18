@@ -9,7 +9,7 @@ use Innmind\Http\{
 };
 use Innmind\TimeContinuum\{
     PointInTime,
-    Earth\Timezone\UTC,
+    Offset,
 };
 
 /**
@@ -23,7 +23,7 @@ final class Expires implements Parameter
     {
         $this->parameter = new Parameter\Parameter(
             'Expires',
-            $date->changeTimezone(new UTC)->format(new Http),
+            $date->changeOffset(Offset::utc())->format(Http::new()),
         );
     }
 

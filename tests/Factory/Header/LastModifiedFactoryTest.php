@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header\LastModified,
 };
-use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -18,13 +18,13 @@ class LastModifiedFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new LastModifiedFactory(new Clock),
+            new LastModifiedFactory(Clock::live()),
         );
     }
 
     public function testMake()
     {
-        $header = (new LastModifiedFactory(new Clock))(
+        $header = (new LastModifiedFactory(Clock::live()))(
             Str::of('Last-Modified'),
             Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         )->match(
@@ -41,7 +41,7 @@ class LastModifiedFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->assertNull((new LastModifiedFactory(new Clock))(
+        $this->assertNull((new LastModifiedFactory(Clock::live()))(
             Str::of('foo'),
             Str::of(''),
         )->match(
@@ -52,7 +52,7 @@ class LastModifiedFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotOfExpectedFormat()
     {
-        $this->assertNull((new LastModifiedFactory(new Clock))(
+        $this->assertNull((new LastModifiedFactory(Clock::live()))(
             Str::of('Last-Modified'),
             Str::of('2020-01-01'),
         )->match(

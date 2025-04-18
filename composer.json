@@ -18,11 +18,11 @@
         "php": "~8.2",
         "innmind/url": "~4.0",
         "innmind/immutable": "~5.7",
-        "innmind/filesystem": "~7.0",
-        "innmind/io": "~2.2",
-        "innmind/time-continuum": "~3.0",
-        "innmind/stream": "~4.0",
+        "innmind/filesystem": "~8.0",
+        "innmind/io": "^3.0.1",
+        "innmind/time-continuum": "~4.1",
         "innmind/media-type": "^2.0.1",
+        "innmind/validation": "~2.0",
         "ramsey/uuid": "~4.7"
     },
     "autoload": {

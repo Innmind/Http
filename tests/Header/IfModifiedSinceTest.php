@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\DateValue
 };
-use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
+use Innmind\TimeContinuum\PointInTime;
 use Innmind\Immutable\Set;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -17,7 +17,9 @@ class IfModifiedSinceTest extends TestCase
     public function testInterface()
     {
         $h = new IfModifiedSince(
-            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200')),
+            $d = new DateValue(PointInTime::at(
+                new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
+            )),
         );
 
         $this->assertInstanceOf(Header::class, $h);
@@ -34,7 +36,9 @@ class IfModifiedSinceTest extends TestCase
 
     public function testOf()
     {
-        $header = IfModifiedSince::of(new PointInTime('2016-01-01 12:12:12+0200'));
+        $header = IfModifiedSince::of(PointInTime::at(
+            new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
+        ));
 
         $this->assertInstanceOf(IfModifiedSince::class, $header);
         $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());

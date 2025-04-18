@@ -15,7 +15,6 @@ use Innmind\Filesystem\{
 };
 use Innmind\Url\Path;
 use Innmind\IO\IO;
-use Innmind\Stream\Capabilities;
 use Innmind\Immutable\Either;
 
 /**
@@ -27,13 +26,11 @@ use Innmind\Immutable\Either;
  */
 final class FilesFactory implements FilesFactoryInterface
 {
-    private Capabilities $capabilities;
     private IO $io;
     private array $files;
 
-    public function __construct(Capabilities $capabilities, IO $io, array $files)
+    public function __construct(IO $io, array $files)
     {
-        $this->capabilities = $capabilities;
         $this->io = $io;
         $this->files = $files;
     }
@@ -51,9 +48,9 @@ final class FilesFactory implements FilesFactoryInterface
         return Files::of($files);
     }
 
-    public static function default(Capabilities $capabilities, IO $io): self
+    public static function default(IO $io): self
     {
-        return new self($capabilities, $io, $_FILES);
+        return new self($io, $_FILES);
     }
 
     private function map(array $content): array|Either
@@ -115,8 +112,7 @@ final class FilesFactory implements FilesFactoryInterface
         return Either::right(File::named(
             $name,
             Content::atPath(
-                $this->capabilities->readable(),
-                $this->io->readable(),
+                $this->io,
                 Path::of($path),
             ),
             MediaType::maybe($media)->match(

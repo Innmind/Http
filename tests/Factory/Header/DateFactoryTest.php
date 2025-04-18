@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header\Date,
 };
-use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -16,7 +16,7 @@ class DateFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new DateFactory(new Clock);
+        $f = new DateFactory(Clock::live());
 
         $this->assertInstanceOf(HeaderFactory::class, $f);
 
@@ -37,7 +37,7 @@ class DateFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->assertNull((new DateFactory(new Clock))(
+        $this->assertNull((new DateFactory(Clock::live()))(
             Str::of('foo'),
             Str::of(''),
         )->match(
@@ -48,7 +48,7 @@ class DateFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotOFExpectedFormat()
     {
-        $this->assertNull((new DateFactory(new Clock))(
+        $this->assertNull((new DateFactory(Clock::live()))(
             Str::of('Date'),
             Str::of('2020-01-01'),
         )->match(

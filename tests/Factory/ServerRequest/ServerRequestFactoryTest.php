@@ -20,7 +20,7 @@ use Innmind\Http\{
     ServerRequest\Cookies,
     Headers,
 };
-use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Filesystem\File\Content;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -198,7 +198,7 @@ class ServerRequestFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             ServerRequestFactoryInterface::class,
-            ServerRequestFactory::default(new Clock),
+            ServerRequestFactory::default(Clock::live()),
         );
     }
 }

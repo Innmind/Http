@@ -17,17 +17,10 @@ use Innmind\Http\{
     Factory\FilesFactory,
     Factory,
 };
-use Innmind\TimeContinuum\{
-    Clock,
-    ElapsedPeriod,
-};
+use Innmind\TimeContinuum\Clock;
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use Innmind\IO\IO;
-use Innmind\Stream\{
-    Capabilities,
-    Streams,
-};
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -131,14 +124,9 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     public static function default(
         Clock $clock,
-        ?Capabilities $capabilities = null,
         ?IO $io = null,
     ): self {
-        $capabilities ??= Streams::fromAmbientAuthority();
-        $io ??= IO::of(static fn(?ElapsedPeriod $timeout) => match ($timeout) {
-            null => $capabilities->watch()->waitForever(),
-            default => $capabilities->watch()->timeoutAfter($timeout),
-        });
+        $io ??= IO::fromAmbientAuthority();
         /** @var array<string, string> */
         $server = $_SERVER;
 
@@ -148,15 +136,15 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                 Factories::default($clock),
             ),
             static fn() => Content::oneShot(
-                $io->readable()->wrap(
-                    $capabilities->readable()->acquire(\fopen('php://input', 'r')),
-                ),
+                $io
+                    ->streams()
+                    ->acquire(\fopen('php://input', 'r')),
             ),
             Factory\Environment\EnvironmentFactory::default(),
             Factory\Cookies\CookiesFactory::default(),
             Factory\Query\QueryFactory::default(),
             Factory\Form\FormFactory::default(),
-            Factory\Files\FilesFactory::default($capabilities, $io),
+            Factory\Files\FilesFactory::default($io),
             $server,
         );
     }

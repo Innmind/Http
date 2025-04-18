@@ -8,7 +8,7 @@ use Innmind\Http\{
     Factory\HeaderFactory,
     Header\Expires,
 };
-use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -18,13 +18,13 @@ class ExpiresFactoryTest extends TestCase
     {
         $this->assertInstanceOf(
             HeaderFactory::class,
-            new ExpiresFactory(new Clock),
+            new ExpiresFactory(Clock::live()),
         );
     }
 
     public function testMake()
     {
-        $header = (new ExpiresFactory(new Clock))(
+        $header = (new ExpiresFactory(Clock::live()))(
             Str::of('Expires'),
             Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
         )->match(
@@ -41,7 +41,7 @@ class ExpiresFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotExpectedHeader()
     {
-        $this->assertNull((new ExpiresFactory(new Clock))(
+        $this->assertNull((new ExpiresFactory(Clock::live()))(
             Str::of('foo'),
             Str::of(''),
         )->match(
@@ -52,7 +52,7 @@ class ExpiresFactoryTest extends TestCase
 
     public function testReturnNothingWhenNotOfExpectedFormat()
     {
-        $this->assertNull((new ExpiresFactory(new Clock))(
+        $this->assertNull((new ExpiresFactory(Clock::live()))(
             Str::of('Expires'),
             Str::of('2020-01-01'),
         )->match(

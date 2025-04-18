@@ -10,7 +10,6 @@ use Innmind\Http\{
     File\Status,
 };
 use Innmind\IO\IO;
-use Innmind\Stream\Streams;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FilesFactoryTest extends TestCase
@@ -63,8 +62,7 @@ class FilesFactoryTest extends TestCase
             ],
         ];
         $factory = FilesFactory::default(
-            $streams = Streams::fromAmbientAuthority(),
-            IO::of($streams->watch()->waitForever(...)),
+            IO::fromAmbientAuthority(),
         );
 
         $this->assertInstanceOf(FilesFactoryInterface::class, $factory);
