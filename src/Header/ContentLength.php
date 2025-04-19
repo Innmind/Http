@@ -3,16 +3,12 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\{
-    Sequence,
-    Maybe,
-};
+use Innmind\Immutable\Maybe;
 
 /**
  * @psalm-immutable
  */
-final class ContentLength implements HeaderInterface
+final class ContentLength implements Provider
 {
     /**
      * @param int<0, max> $length
@@ -45,18 +41,6 @@ final class ContentLength implements HeaderInterface
         });
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header()->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header()->values();
-    }
-
     /**
      * @return int<0, max>
      */
@@ -66,13 +50,11 @@ final class ContentLength implements HeaderInterface
     }
 
     #[\Override]
-    public function toString(): string
+    public function toHeader(): Header
     {
-        return $this->header()->toString();
-    }
-
-    private function header(): Header
-    {
-        return new Header('Content-Length', new Value\Value((string) $this->length));
+        return new Header(
+            'Content-Length',
+            new Value\Value((string) $this->length),
+        );
     }
 }

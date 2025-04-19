@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\TimeContinuum\PointInTime;
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class IfUnmodifiedSinceTest extends TestCase
@@ -21,11 +20,8 @@ class IfUnmodifiedSinceTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('If-Unmodified-Since', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toHeader()->toString());
     }
 
     public function testOf()
@@ -35,6 +31,6 @@ class IfUnmodifiedSinceTest extends TestCase
         ));
 
         $this->assertInstanceOf(IfUnmodifiedSince::class, $header);
-        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());
+        $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->toHeader()->toString());
     }
 }

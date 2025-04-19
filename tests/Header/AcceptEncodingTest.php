@@ -19,14 +19,12 @@ class AcceptEncodingTest extends TestCase
             $v = new AcceptEncodingValue('compress', new Quality(1)),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Accept-Encoding', $h->name());
-        $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept-Encoding: compress;q=1', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Accept-Encoding: compress;q=1', $h->toHeader()->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Accept-Encoding: ', (new AcceptEncoding)->toString());
+        $this->assertSame('Accept-Encoding: ', (new AcceptEncoding)->toHeader()->toString());
     }
 }

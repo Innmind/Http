@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header\Age,
     Header,
 };
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AgeTest extends TestCase
@@ -17,11 +16,8 @@ class AgeTest extends TestCase
         $header = Age::of(42);
 
         $this->assertInstanceOf(Age::class, $header);
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('Age', $header->name());
-        $values = $header->values();
-        $this->assertInstanceOf(Sequence::class, $values);
-        $this->assertSame('Age: 42', $header->toString());
+        $this->assertInstanceOf(Header\Provider::class, $header);
+        $this->assertSame('Age: 42', $header->toHeader()->toString());
     }
 
     public function testReturnNothingWhenInvalidAgeValue()

@@ -26,7 +26,7 @@ class IfModifiedSinceFactoryTest extends TestCase
         $this->assertInstanceOf(IfModifiedSince::class, $h);
         $this->assertSame(
             'If-Modified-Since: Tue, 15 Nov 1994 08:12:31 GMT',
-            $h->toString(),
+            $h->toHeader()->toString(),
         );
     }
 

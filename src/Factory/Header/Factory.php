@@ -21,7 +21,7 @@ final class Factory
     ) {
     }
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header|Header\Provider
     {
         $factory = Factories::of($name);
 

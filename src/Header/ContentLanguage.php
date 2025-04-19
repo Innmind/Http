@@ -3,13 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Sequence;
-
 /**
  * @psalm-immutable
  */
-final class ContentLanguage implements HeaderInterface
+final class ContentLanguage implements Provider
 {
     private Header $header;
 
@@ -34,20 +31,8 @@ final class ContentLanguage implements HeaderInterface
     }
 
     #[\Override]
-    public function name(): string
+    public function toHeader(): Header
     {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
-    }
-
-    #[\Override]
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return $this->header;
     }
 }

@@ -3,12 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header as HeaderInterface,
-    Exception\DomainException,
-};
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
-    Sequence,
     Maybe,
     Str,
 };
@@ -16,7 +12,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class ContentEncoding implements HeaderInterface
+final class ContentEncoding implements Provider
 {
     private function __construct(
         private string $encoding,
@@ -50,20 +46,11 @@ final class ContentEncoding implements HeaderInterface
     }
 
     #[\Override]
-    public function name(): string
+    public function toHeader(): Header
     {
-        return 'Content-Encoding';
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return Sequence::of(new Value\Value($this->encoding));
-    }
-
-    #[\Override]
-    public function toString(): string
-    {
-        return (new Header($this->name(), ...$this->values()->toList()))->toString();
+        return new Header(
+            'Content-Encoding',
+            new Value\Value($this->encoding),
+        );
     }
 }

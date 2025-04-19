@@ -21,6 +21,6 @@ class ContentLengthFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentLength::class, $header);
-        $this->assertSame('Content-Length: 42', $header->toString());
+        $this->assertSame('Content-Length: 42', $header->toHeader()->toString());
     }
 }

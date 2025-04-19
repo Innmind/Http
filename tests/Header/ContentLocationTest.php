@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header\ContentLocation,
     Header,
 };
-use Innmind\Immutable\Sequence;
 use Innmind\Url\Url;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -17,11 +16,8 @@ class ContentLocationTest extends TestCase
     {
         $h = ContentLocation::of(Url::of('/foo/bar'));
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Content-Location', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame('Content-Location: /foo/bar', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Content-Location: /foo/bar', $h->toHeader()->toString());
         $this->assertSame('/foo/bar', $h->url()->toString());
     }
 
@@ -30,6 +26,6 @@ class ContentLocationTest extends TestCase
         $header = ContentLocation::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(ContentLocation::class, $header);
-        $this->assertSame('Content-Location: /foo/bar', $header->toString());
+        $this->assertSame('Content-Location: /foo/bar', $header->toHeader()->toString());
     }
 }

@@ -26,7 +26,7 @@ class AcceptLanguageFactoryTest extends TestCase
         $this->assertInstanceOf(AcceptLanguage::class, $h);
         $this->assertSame(
             'Accept-Language: da;q=1, en-gb;q=0.8, en;q=0.7',
-            $h->toString(),
+            $h->toHeader()->toString(),
         );
     }
 

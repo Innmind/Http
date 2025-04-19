@@ -18,10 +18,8 @@ class ContentLanguageTest extends TestCase
             $v = new ContentLanguageValue('fr'),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Content-Language', $h->name());
-        $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Content-Language: fr', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Content-Language: fr', $h->toHeader()->toString());
     }
 
     public function test()
@@ -29,11 +27,11 @@ class ContentLanguageTest extends TestCase
         $header = ContentLanguage::of('fr');
 
         $this->assertInstanceOf(ContentLanguage::class, $header);
-        $this->assertSame('Content-Language: fr', $header->toString());
+        $this->assertSame('Content-Language: fr', $header->toHeader()->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Content-Language: ', (new ContentLanguage)->toString());
+        $this->assertSame('Content-Language: ', (new ContentLanguage)->toHeader()->toString());
     }
 }

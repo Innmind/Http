@@ -24,17 +24,15 @@ class LinkTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Link', $h->name());
-        $this->assertTrue($h->values()->contains($v));
+        $this->assertInstanceOf(Header\Provider::class, $h);
         $this->assertSame(
             'Link: </some/resource>; rel="some relation";title=Foo',
-            $h->toString(),
+            $h->toHeader()->toString(),
         );
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Link: ', (new Link)->toString());
+        $this->assertSame('Link: ', (new Link)->toHeader()->toString());
     }
 }

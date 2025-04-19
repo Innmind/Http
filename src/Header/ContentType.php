@@ -3,17 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
 use Innmind\MediaType\MediaType;
-use Innmind\Immutable\{
-    Sequence,
-    Str,
-};
+use Innmind\Immutable\Str;
 
 /**
  * @psalm-immutable
  */
-final class ContentType implements HeaderInterface
+final class ContentType implements Provider
 {
     private function __construct(
         private MediaType $content,
@@ -28,30 +24,13 @@ final class ContentType implements HeaderInterface
         return new self($content);
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header()->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header()->values();
-    }
-
     public function content(): MediaType
     {
         return $this->content;
     }
 
     #[\Override]
-    public function toString(): string
-    {
-        return $this->header()->toString();
-    }
-
-    private function header(): Header
+    public function toHeader(): Header
     {
         $mediaType = new MediaType(
             $this->content->topLevel(),

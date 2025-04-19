@@ -26,7 +26,7 @@ class RangeFactoryTest extends TestCase
         $this->assertInstanceOf(Range::class, $h);
         $this->assertSame(
             'Range: bytes=0-42',
-            $h->toString(),
+            $h->toHeader()->toString(),
         );
     }
 

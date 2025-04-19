@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header\Location,
     Header,
 };
-use Innmind\Immutable\Sequence;
 use Innmind\Url\Url;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -19,11 +18,8 @@ class LocationTest extends TestCase
             Url::of('/foo/bar'),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Location', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame('Location: /foo/bar', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Location: /foo/bar', $h->toHeader()->toString());
     }
 
     public function testOf()
@@ -31,6 +27,6 @@ class LocationTest extends TestCase
         $header = Location::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location: /foo/bar', $header->toString());
+        $this->assertSame('Location: /foo/bar', $header->toHeader()->toString());
     }
 }

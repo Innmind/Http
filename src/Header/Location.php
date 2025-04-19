@@ -3,14 +3,12 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
 use Innmind\Url\Url;
-use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class Location implements HeaderInterface
+final class Location implements Provider
 {
     private function __construct(
         private Url $location,
@@ -25,30 +23,13 @@ final class Location implements HeaderInterface
         return new self($location);
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header()->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header()->values();
-    }
-
     public function url(): Url
     {
         return $this->location;
     }
 
     #[\Override]
-    public function toString(): string
-    {
-        return $this->header()->toString();
-    }
-
-    private function header(): Header
+    public function toHeader(): Header
     {
         return new Header(
             'Location',

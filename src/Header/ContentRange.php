@@ -3,12 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header as HeaderInterface,
-    Exception\DomainException,
-};
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
-    Sequence,
     Str,
     Maybe,
 };
@@ -16,7 +12,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class ContentRange implements HeaderInterface
+final class ContentRange implements Provider
 {
     /**
      * @param int<0, max> $firstPosition
@@ -77,18 +73,6 @@ final class ContentRange implements HeaderInterface
         ));
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header()->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header()->values();
-    }
-
     public function unit(): string
     {
         return $this->unit;
@@ -119,12 +103,7 @@ final class ContentRange implements HeaderInterface
     }
 
     #[\Override]
-    public function toString(): string
-    {
-        return $this->header()->toString();
-    }
-
-    private function header(): Header
+    public function toHeader(): Header
     {
         return new Header(
             'Content-Range',

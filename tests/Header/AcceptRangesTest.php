@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header\AcceptRanges,
     Header,
 };
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -18,11 +17,8 @@ class AcceptRangesTest extends TestCase
         $header = AcceptRanges::of('bytes');
 
         $this->assertInstanceOf(AcceptRanges::class, $header);
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('Accept-Ranges', $header->name());
-        $values = $header->values();
-        $this->assertInstanceOf(Sequence::class, $values);
-        $this->assertSame('Accept-Ranges: bytes', $header->toString());
+        $this->assertInstanceOf(Header\Provider::class, $header);
+        $this->assertSame('Accept-Ranges: bytes', $header->toHeader()->toString());
     }
 
     public function testValid()

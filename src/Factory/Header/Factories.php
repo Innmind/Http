@@ -37,6 +37,7 @@ use Innmind\Http\{
     Header\Link,
     Header\LinkValue,
     Header\Location,
+    Header\Provider,
     Header\Range,
     Header\Referrer,
     Header\Parameter,
@@ -127,7 +128,7 @@ enum Factories
     }
 
     /**
-     * @return Maybe<Header>
+     * @return Maybe<Header|Provider>
      */
     public function try(Clock $clock, Str $value): Maybe
     {

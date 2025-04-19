@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header\WWWAuthenticateValue,
     Header
 };
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class WWWAuthenticateTest extends TestCase
@@ -19,13 +18,7 @@ class WWWAuthenticateTest extends TestCase
             $value = new WWWAuthenticateValue('Bearer', 'some value'),
         );
 
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertInstanceOf(Sequence::class, $header->values());
-        $this->assertCount(1, $header->values());
-        $this->assertSame($value, $header->values()->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->toString());
+        $this->assertInstanceOf(Header\Provider::class, $header);
+        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->toHeader()->toString());
     }
 }

@@ -18,9 +18,7 @@ class CacheControlTest extends TestCase
             $v = new PublicCache,
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Cache-Control', $h->name());
-        $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Cache-Control: public', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Cache-Control: public', $h->toHeader()->toString());
     }
 }

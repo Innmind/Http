@@ -3,12 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header as HeaderInterface,
-    Exception\DomainException,
-};
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
-    Sequence,
     Str,
     Maybe,
 };
@@ -16,7 +12,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class AcceptRanges implements HeaderInterface
+final class AcceptRanges implements Provider
 {
     private function __construct(
         private string $ranges,
@@ -50,20 +46,11 @@ final class AcceptRanges implements HeaderInterface
     }
 
     #[\Override]
-    public function name(): string
+    public function toHeader(): Header
     {
-        return 'Accept-Ranges';
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return Sequence::of(new Value\Value($this->ranges));
-    }
-
-    #[\Override]
-    public function toString(): string
-    {
-        return (new Header($this->name(), ...$this->values()->toList()))->toString();
+        return new Header(
+            'Accept-Ranges',
+            new Value\Value($this->ranges),
+        );
     }
 }

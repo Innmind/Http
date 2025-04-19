@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\MediaType\MediaType;
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -20,12 +19,8 @@ class ContentTypeTest extends TestCase
             $ct = MediaType::of('text/html; charset="UTF-8"'),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Content-Type', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame($ct, $h->content());
-        $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toHeader()->toString());
         $this->assertSame('text/html; charset=UTF-8', $h->content()->toString());
     }
 

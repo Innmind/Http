@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header\Host,
     Header,
 };
-use Innmind\Immutable\Sequence;
 use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
@@ -23,11 +22,8 @@ class HostTest extends TestCase
             Port::of(8080),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Host', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame('Host: example.com:8080', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Host: example.com:8080', $h->toHeader()->toString());
     }
 
     public function testOf()
@@ -35,6 +31,6 @@ class HostTest extends TestCase
         $header = Host::of(UrlHost::of('example.com'), Port::none());
 
         $this->assertInstanceOf(Host::class, $header);
-        $this->assertSame('Host: example.com', $header->toString());
+        $this->assertSame('Host: example.com', $header->toHeader()->toString());
     }
 }

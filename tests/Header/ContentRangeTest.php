@@ -17,19 +17,19 @@ class ContentRangeTest extends TestCase
         $header = ContentRange::of('bytes', 0, 42);
 
         $this->assertInstanceOf(ContentRange::class, $header);
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('Content-Range: bytes 0-42/*', $header->toString());
+        $this->assertInstanceOf(Header\Provider::class, $header);
+        $this->assertSame('Content-Range: bytes 0-42/*', $header->toHeader()->toString());
     }
 
     public function testValids()
     {
         $this->assertSame(
             'Content-Range: resources 0-42/*',
-            ContentRange::of('resources', 0, 42)->toString(),
+            ContentRange::of('resources', 0, 42)->toHeader()->toString(),
         );
         $this->assertSame(
             'Content-Range: resources 0-499/1234',
-            ContentRange::of('resources', 0, 499, 1234)->toString(),
+            ContentRange::of('resources', 0, 499, 1234)->toHeader()->toString(),
         );
     }
 

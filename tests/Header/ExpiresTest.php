@@ -8,7 +8,6 @@ use Innmind\Http\{
     Header,
 };
 use Innmind\TimeContinuum\PointInTime;
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ExpiresTest extends TestCase
@@ -21,11 +20,8 @@ class ExpiresTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Expires', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->toHeader()->toString());
     }
 
     public function testOf()
@@ -34,7 +30,7 @@ class ExpiresTest extends TestCase
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());
+        $this->assertInstanceOf(Header\Provider::class, $header);
+        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $header->toHeader()->toString());
     }
 }

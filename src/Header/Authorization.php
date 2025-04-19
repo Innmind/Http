@@ -3,12 +3,8 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header as HeaderInterface,
-    Exception\DomainException,
-};
+use Innmind\Http\Exception\DomainException;
 use Innmind\Immutable\{
-    Sequence,
     Str,
     Maybe,
 };
@@ -16,7 +12,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class Authorization implements HeaderInterface
+final class Authorization implements Provider
 {
     public function __construct(
         private string $scheme,
@@ -48,18 +44,6 @@ final class Authorization implements HeaderInterface
             ->map(static fn() => new self($scheme, $parameter));
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header()->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header()->values();
-    }
-
     public function scheme(): string
     {
         return $this->scheme;
@@ -71,12 +55,7 @@ final class Authorization implements HeaderInterface
     }
 
     #[\Override]
-    public function toString(): string
-    {
-        return $this->header()->toString();
-    }
-
-    private function header(): Header
+    public function toHeader(): Header
     {
         return new Header(
             'Authorization',

@@ -24,7 +24,7 @@ class LastModifiedFactoryTest extends TestCase
         $this->assertInstanceOf(LastModified::class, $header);
         $this->assertSame(
             'Last-Modified: Tue, 15 Nov 1994 08:12:31 GMT',
-            $header->toString(),
+            $header->toHeader()->toString(),
         );
     }
 

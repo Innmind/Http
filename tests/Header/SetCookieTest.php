@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\Parameter\Parameter,
     Header\CookieParameter\Secure
 };
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class SetCookieTest extends TestCase
@@ -27,15 +26,8 @@ class SetCookieTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header::class, $cookie);
-        $this->assertSame('Set-Cookie', $cookie->name());
-        $values = $cookie->values();
-        $this->assertInstanceOf(Sequence::class, $values);
-        $this->assertSame($value, $values->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toString());
+        $this->assertInstanceOf(Header\Provider::class, $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toHeader()->toString());
     }
 
     public function testOf()
@@ -46,6 +38,6 @@ class SetCookieTest extends TestCase
         );
 
         $this->assertInstanceOf(SetCookie::class, $cookie);
-        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->toString());
+        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->toHeader()->toString());
     }
 }

@@ -16,8 +16,8 @@ class ContentLengthTest extends TestCase
         $header = ContentLength::of(42);
 
         $this->assertInstanceOf(ContentLength::class, $header);
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('Content-Length: 42', $header->toString());
+        $this->assertInstanceOf(Header\Provider::class, $header);
+        $this->assertSame('Content-Length: 42', $header->toHeader()->toString());
     }
 
     public function testReturnNothingWhenInvalidContentLengthValue()

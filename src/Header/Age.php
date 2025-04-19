@@ -3,16 +3,12 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\{
-    Sequence,
-    Maybe,
-};
+use Innmind\Immutable\Maybe;
 
 /**
  * @psalm-immutable
  */
-final class Age implements HeaderInterface
+final class Age implements Provider
 {
     /**
      * @param int<0, max> $age
@@ -45,18 +41,6 @@ final class Age implements HeaderInterface
         });
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header()->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header()->values();
-    }
-
     /**
      * @return int<0, max>
      */
@@ -66,12 +50,7 @@ final class Age implements HeaderInterface
     }
 
     #[\Override]
-    public function toString(): string
-    {
-        return $this->header()->toString();
-    }
-
-    private function header(): Header
+    public function toHeader(): Header
     {
         return new Header('Age', new Value\Value((string) $this->age));
     }

@@ -19,14 +19,12 @@ class AcceptLanguageTest extends TestCase
             $v = new AcceptLanguageValue('fr', new Quality(0.8)),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Accept-Language', $h->name());
-        $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept-Language: fr;q=0.8', $h->toString());
+        $this->assertInstanceOf(Header\Provider::class, $h);
+        $this->assertSame('Accept-Language: fr;q=0.8', $h->toHeader()->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Accept-Language: ', (new AcceptLanguage)->toString());
+        $this->assertSame('Accept-Language: ', (new AcceptLanguage)->toHeader()->toString());
     }
 }

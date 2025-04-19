@@ -30,11 +30,11 @@ class HeadersTest extends TestCase
         $this->assertTrue($hs->contains('content-type'));
         $this->assertTrue($hs->contains('Content-Type'));
         $this->assertFalse($hs->contains('content_type'));
-        $this->assertSame($ct, $hs->get('content-type')->match(
+        $this->assertEquals($ct->toHeader(), $hs->get('content-type')->match(
             static fn($header) => $header,
             static fn() => null,
         ));
-        $this->assertSame($ct, $hs->get('Content-Type')->match(
+        $this->assertEquals($ct->toHeader(), $hs->get('Content-Type')->match(
             static fn($header) => $header,
             static fn() => null,
         ));
@@ -71,7 +71,7 @@ class HeadersTest extends TestCase
         ));
         $headers3 = ($headers2)($header = ContentType::of(
             MediaType::of('application/json'),
-        ));
+        )->toHeader());
 
         $this->assertNotSame($headers1, $headers2);
         $this->assertInstanceOf(Headers::class, $headers2);
@@ -170,7 +170,7 @@ class HeadersTest extends TestCase
         );
         $this->assertCount(
             1,
-            $headers->filter(static fn($header) => $header instanceof ContentType),
+            $headers->filter(static fn($header) => $header->name() === 'Content-Type'),
         );
     }
 
@@ -183,8 +183,8 @@ class HeadersTest extends TestCase
             $foo = new Header('x-foo'),
         );
 
-        $this->assertSame(
-            [$contentType, $foo],
+        $this->assertEquals(
+            [$contentType->toHeader(), $foo],
             $headers->all()->toList(),
         );
     }

@@ -24,7 +24,7 @@ class AcceptFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Accept::class, $h);
-        $this->assertSame('Accept: audio/*;q=0.2;level=1, audio/basic', $h->toString());
+        $this->assertSame('Accept: audio/*;q=0.2;level=1, audio/basic', $h->toHeader()->toString());
     }
 
     public function testReturnNothingWhenNotValid()
