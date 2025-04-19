@@ -13,6 +13,8 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     Str,
     Maybe,
+    Sequence,
+    Predicate\Instance,
 };
 
 /**
@@ -30,7 +32,10 @@ final class AcceptFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $values = $value
+        /** @var Sequence<AcceptValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
@@ -51,21 +56,14 @@ final class AcceptFactory implements HeaderFactory
                     $subType->toString(),
                     ...$params,
                 ));
-            });
-
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(AcceptValue ...$values) => new Accept(...$values),
-        );
+            })
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => $values->match(
+                static fn($first, $rest) => new Accept($first, ...$rest->toList()),
+                static fn() => null,
+            ))
+            ->keep(Instance::of(Accept::class));
     }
 
     /**

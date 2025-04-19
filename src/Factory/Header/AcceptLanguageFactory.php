@@ -13,6 +13,7 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     Str,
     Maybe,
+    Sequence,
 };
 
 /**
@@ -30,7 +31,10 @@ final class AcceptLanguageFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $values = $value
+        /** @var Sequence<AcceptLanguageValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
@@ -38,28 +42,17 @@ final class AcceptLanguageFactory implements HeaderFactory
                     ->get('quality')
                     ->map(static fn($quality) => (float) $quality->toString())
                     ->otherwise(static fn() => Maybe::just(1))
-                    ->flatMap(static fn($quality) => Quality::of($quality));
+                    ->flatMap(Quality::of(...));
+                $lang = $matches
+                    ->get('lang')
+                    ->map(static fn($lang) => $lang->toString());
 
-                return Maybe::all($matches->get('lang'), $quality)->flatMap(
-                    static fn(Str $lang, Quality $quality) => AcceptLanguageValue::of(
-                        $lang->toString(),
-                        $quality,
-                    ),
+                return Maybe::all($lang, $quality)->flatMap(
+                    AcceptLanguageValue::of(...),
                 );
-            });
-
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::just(new AcceptLanguage);
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(AcceptLanguageValue ...$values) => new AcceptLanguage(...$values),
-        );
+            })
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => new AcceptLanguage(...$values->toList()));
     }
 }

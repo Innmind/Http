@@ -41,7 +41,6 @@ final class AuthorizationFactory implements HeaderFactory
                 static fn() => '',
             );
 
-        /** @var Maybe<Header> */
         return $matches
             ->get('scheme')
             ->map(static fn($scheme) => $scheme->toString())

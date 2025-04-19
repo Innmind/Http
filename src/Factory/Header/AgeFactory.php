@@ -27,11 +27,10 @@ final class AgeFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return Maybe::just($value->toString())
-            ->filter(static fn($age) => \is_numeric($age))
+            ->filter(\is_numeric(...))
             ->map(static fn($age) => (int) $age)
-            ->flatMap(static fn($age) => AgeValue::of($age))
+            ->flatMap(AgeValue::of(...))
             ->map(static fn($value) => new Age($value));
     }
 }

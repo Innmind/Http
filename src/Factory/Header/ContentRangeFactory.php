@@ -45,7 +45,6 @@ final class ContentRangeFactory implements HeaderFactory
                 static fn() => null,
             );
 
-        /** @var Maybe<Header> */
         return Maybe::all($matches->get('unit'), $matches->get('first'), $matches->get('last'))
             ->flatMap(static fn(Str $unit, Str $first, Str $last) => ContentRangeValue::of(
                 $unit->toString(),

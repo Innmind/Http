@@ -27,7 +27,6 @@ final class ContentEncodingFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return ContentEncodingValue::of($value->toString())->map(
             static fn($value) => new ContentEncoding($value),
         );

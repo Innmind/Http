@@ -36,11 +36,10 @@ final class RangeFactory implements HeaderFactory
             ->capture(self::PATTERN)
             ->map(static fn($_, $match) => $match->toString());
 
-        /** @var Maybe<Header> */
         return Maybe::all(
             $matches->get('unit'),
-            $matches->get('first')->filter(static fn($first) => \is_numeric($first)),
-            $matches->get('last')->filter(static fn($last) => \is_numeric($last)),
+            $matches->get('first')->filter(\is_numeric(...)),
+            $matches->get('last')->filter(\is_numeric(...)),
         )
             ->flatMap(static fn(string $unit, string $first, string $last) => RangeValue::of(
                 $unit,

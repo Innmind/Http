@@ -33,21 +33,14 @@ final class CookieFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $values = $this->buildParams($value);
+        /** @var Sequence<Parameter> */
+        $params = Sequence::of();
 
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::just(Cookie::of());
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(Parameter ...$params) => Cookie::of(...$params),
-        );
+        return $this
+            ->buildParams($value)
+            ->sink($params)
+            ->maybe(static fn($params, $param) => $param->map($params))
+            ->map(static fn($params) => Cookie::of(...$params->toList()));
     }
 
     /**

@@ -37,6 +37,6 @@ final class LastModifiedFactory implements HeaderFactory
         return Is::string()->nonEmpty()($value->toString())
             ->maybe()
             ->flatMap(fn($value) => $this->clock->at($value, Http::new()))
-            ->map(static fn($point) => LastModified::of($point));
+            ->map(LastModified::of(...));
     }
 }

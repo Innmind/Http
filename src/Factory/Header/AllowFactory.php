@@ -12,6 +12,7 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     Str,
     Maybe,
+    Sequence,
 };
 
 /**
@@ -27,23 +28,15 @@ final class AllowFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $values = $value
+        /** @var Sequence<AllowValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(static fn($allow) => $allow->trim()->toUpper()->toString())
-            ->map(static fn($allow) => AllowValue::of($allow));
-
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::just(new Allow);
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(AllowValue ...$values) => new Allow(...$values),
-        );
+            ->map(AllowValue::of(...))
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => new Allow(...$values->toList()));
     }
 }

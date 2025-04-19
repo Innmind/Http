@@ -29,7 +29,6 @@ final class ContentTypeFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return MediaType::maybe($value->toString())
             ->flatMap(static fn($mediaType) => ContentTypeValue::of(
                 $mediaType->topLevel(),

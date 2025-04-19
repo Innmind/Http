@@ -27,11 +27,10 @@ final class ContentLengthFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return Maybe::just($value->toString())
-            ->filter(static fn($length) => \is_numeric($length))
+            ->filter(\is_numeric(...))
             ->map(static fn($length) => (int) $length)
-            ->flatMap(static fn($length) => ContentLengthValue::of($length))
+            ->flatMap(ContentLengthValue::of(...))
             ->map(static fn($value) => new ContentLength($value));
     }
 }

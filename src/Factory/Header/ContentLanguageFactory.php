@@ -12,6 +12,7 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     Str,
     Maybe,
+    Sequence,
 };
 
 /**
@@ -27,23 +28,15 @@ final class ContentLanguageFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $values = $value
+        /** @var Sequence<ContentLanguageValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(static fn($language) => $language->trim()->toString())
-            ->map(static fn($language) => ContentLanguageValue::of($language));
-
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::just(new ContentLanguage);
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(ContentLanguageValue ...$values) => new ContentLanguage(...$values),
-        );
+            ->map(ContentLanguageValue::of(...))
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => new ContentLanguage(...$values->toList()));
     }
 }

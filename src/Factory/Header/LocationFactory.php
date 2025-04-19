@@ -27,9 +27,8 @@ final class LocationFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return Url::maybe($value->toString())->map(
-            static fn($url) => Location::of($url),
+            Location::of(...),
         );
     }
 }

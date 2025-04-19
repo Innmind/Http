@@ -27,7 +27,6 @@ final class AcceptRangesFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return AcceptRangesValue::of($value->toString())->map(
             static fn($value) => new AcceptRanges($value),
         );

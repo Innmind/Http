@@ -37,6 +37,6 @@ final class DateFactory implements HeaderFactory
         return Is::string()->nonEmpty()($value->toString())
             ->maybe()
             ->flatMap(fn($value) => $this->clock->at($value, Http::new()))
-            ->map(static fn($point) => Date::of($point));
+            ->map(Date::of(...));
     }
 }

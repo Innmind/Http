@@ -27,7 +27,6 @@ final class HostFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return Url::maybe('http://'.$value->toString())->map(static fn($url) => Host::of(
             $url->authority()->host(),
             $url->authority()->port(),

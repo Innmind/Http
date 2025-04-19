@@ -13,6 +13,7 @@ use Innmind\Http\{
 use Innmind\Immutable\{
     Str,
     Maybe,
+    Sequence,
 };
 
 /**
@@ -30,7 +31,10 @@ final class AcceptEncodingFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $values = $value
+        /** @var Sequence<AcceptEncodingValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(static function(Str $accept) {
                 $matches = $accept->capture(self::PATTERN);
@@ -38,28 +42,17 @@ final class AcceptEncodingFactory implements HeaderFactory
                     ->get('quality')
                     ->map(static fn($quality) => (float) $quality->toString())
                     ->otherwise(static fn() => Maybe::just(1))
-                    ->flatMap(static fn($quality) => Quality::of($quality));
+                    ->flatMap(Quality::of(...));
+                $coding = $matches
+                    ->get('coding')
+                    ->map(static fn($coding) => $coding->toString());
 
-                return Maybe::all($matches->get('coding'), $quality)->flatMap(
-                    static fn(Str $coding, Quality $quality) => AcceptEncodingValue::of(
-                        $coding->toString(),
-                        $quality,
-                    ),
+                return Maybe::all($coding, $quality)->flatMap(
+                    AcceptEncodingValue::of(...),
                 );
-            });
-
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::just(new AcceptEncoding);
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(AcceptEncodingValue ...$values) => new AcceptEncoding(...$values),
-        );
+            })
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => new AcceptEncoding(...$values->toList()));
     }
 }

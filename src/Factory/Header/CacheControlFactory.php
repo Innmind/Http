@@ -13,6 +13,7 @@ use Innmind\Immutable\{
     Str,
     Maybe,
     Sequence,
+    Predicate\Instance,
 };
 
 /**
@@ -28,33 +29,35 @@ final class CacheControlFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Sequence<Maybe<CacheControlValue>> */
-        $values = $value
+        /** @var Sequence<CacheControlValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(static fn($split) => $split->trim())
             ->map(static fn($split) => match (true) {
                 $split->matches('~^max-age=\d+$~') => Maybe::just($split->substring(8)->toString())
-                    ->filter(static fn($age) => \is_numeric($age))
+                    ->filter(\is_numeric(...))
                     ->map(static fn($age) => (int) $age)
                     ->flatMap(static fn($age) => CacheControlValue\MaxAge::of($age)),
                 $split->matches('~^max-stale(=\d+)?$~') => Maybe::just($split)
                     ->filter(static fn($split) => $split->length() > 10)
                     ->map(static fn($split) => $split->substring(10)->toString())
-                    ->filter(static fn($age) => \is_numeric($age))
+                    ->filter(\is_numeric(...))
                     ->map(static fn($age) => (int) $age)
                     ->otherwise(static fn() => Maybe::just(0))
-                    ->flatMap(static fn($age) => CacheControlValue\MaxStale::of($age)),
+                    ->flatMap(CacheControlValue\MaxStale::of(...)),
                 $split->matches('~^min-fresh=\d+$~') => Maybe::just($split->substring(10)->toString())
-                    ->filter(static fn($age) => \is_numeric($age))
+                    ->filter(\is_numeric(...))
                     ->map(static fn($age) => (int) $age)
-                    ->flatMap(static fn($age) => CacheControlValue\MinimumFresh::of($age)),
+                    ->flatMap(CacheControlValue\MinimumFresh::of(...)),
                 $split->toString() === 'must-revalidate' => Maybe::just(new CacheControlValue\MustRevalidate),
                 $split->matches('~^no-cache(="?\w+"?)?$~') => $split
                     ->capture('~^no-cache(="?(?<field>\w+)"?)?$~')
                     ->get('field')
                     ->map(static fn($field) => $field->toString())
                     ->otherwise(static fn() => Maybe::just(''))
-                    ->flatMap(static fn($field) => CacheControlValue\NoCache::of($field)),
+                    ->flatMap(CacheControlValue\NoCache::of(...)),
                 $split->toString() === 'no-store' => Maybe::just(new CacheControlValue\NoStore),
                 $split->toString() === 'immutable' => Maybe::just(new CacheControlValue\Immutable),
                 $split->toString() === 'no-transform' => Maybe::just(new CacheControlValue\NoTransform),
@@ -64,28 +67,22 @@ final class CacheControlFactory implements HeaderFactory
                     ->get('field')
                     ->map(static fn($field) => $field->toString())
                     ->otherwise(static fn() => Maybe::just(''))
-                    ->flatMap(static fn($field) => CacheControlValue\PrivateCache::of($field)),
+                    ->flatMap(CacheControlValue\PrivateCache::of(...)),
                 $split->toString() === 'proxy-revalidate' => Maybe::just(new CacheControlValue\ProxyRevalidate),
                 $split->toString() === 'public' => Maybe::just(new CacheControlValue\PublicCache),
                 $split->matches('~^s-maxage=\d+$~') => Maybe::just($split->substring(9)->toString())
-                    ->filter(static fn($age) => \is_numeric($age))
+                    ->filter(\is_numeric(...))
                     ->map(static fn($age) => (int) $age)
-                    ->flatMap(static fn($age) => CacheControlValue\SharedMaxAge::of($age)),
+                    ->flatMap(CacheControlValue\SharedMaxAge::of(...)),
                 default => null,
             })
-            ->filter(static fn($value) => $value instanceof Maybe);
-
-        if ($values->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
-        /**
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$values->toList())->map(
-            static fn(CacheControlValue ...$values) => new CacheControl(...$values),
-        );
+            ->keep(Instance::of(Maybe::class))
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => $values->match(
+                static fn($first, $rest) => new CacheControl($first, ...$rest->toList()),
+                static fn() => null,
+            ))
+            ->keep(Instance::of(CacheControl::class));
     }
 }

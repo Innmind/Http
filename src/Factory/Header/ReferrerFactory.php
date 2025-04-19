@@ -27,9 +27,8 @@ final class ReferrerFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        /** @var Maybe<Header> */
         return Url::maybe($value->toString())->map(
-            static fn($url) => Referrer::of($url),
+            Referrer::of(...),
         );
     }
 }

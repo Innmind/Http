@@ -15,6 +15,7 @@ use Innmind\Immutable\{
     Str,
     Map,
     Maybe,
+    Sequence,
 };
 
 /**
@@ -32,7 +33,10 @@ final class LinkFactory implements HeaderFactory
             return Maybe::nothing();
         }
 
-        $links = $value
+        /** @var Sequence<LinkValue> */
+        $values = Sequence::of();
+
+        return $value
             ->split(',')
             ->map(static fn($link) => $link->trim())
             ->map(function(Str $link) {
@@ -64,21 +68,10 @@ final class LinkFactory implements HeaderFactory
                             ->toList(),
                     ),
                 );
-            });
-
-        if ($links->empty()) {
-            /** @var Maybe<Header> */
-            return Maybe::just(new Link);
-        }
-
-        /**
-         * @psalm-suppress NamedArgumentNotAllowed
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Header>
-         */
-        return Maybe::all(...$links->toList())->map(
-            static fn(LinkValue ...$links) => new Link(...$links),
-        );
+            })
+            ->sink($values)
+            ->maybe(static fn($values, $value) => $value->map($values))
+            ->map(static fn($values) => new Link(...$values->toList()));
     }
 
     /**

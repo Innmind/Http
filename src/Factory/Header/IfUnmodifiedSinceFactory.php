@@ -37,6 +37,6 @@ final class IfUnmodifiedSinceFactory implements HeaderFactory
         return Is::string()->nonEmpty()($value->toString())
             ->maybe()
             ->flatMap(fn($value) => $this->clock->at($value, Http::new()))
-            ->map(static fn($point) => IfUnmodifiedSince::of($point));
+            ->map(IfUnmodifiedSince::of(...));
     }
 }
