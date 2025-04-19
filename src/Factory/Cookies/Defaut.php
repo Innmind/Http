@@ -4,15 +4,15 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Cookies;
 
 use Innmind\Http\{
-    Factory\CookiesFactory as CookiesFactoryInterface,
     ServerRequest\Cookies,
 };
 use Innmind\Immutable\Map;
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class CookiesFactory implements CookiesFactoryInterface
+final class Defaut
 {
     /**
      * @param array<string, string> $cookies
@@ -22,7 +22,6 @@ final class CookiesFactory implements CookiesFactoryInterface
     ) {
     }
 
-    #[\Override]
     public function __invoke(): Cookies
     {
         /** @var Map<string, string> */
@@ -35,7 +34,7 @@ final class CookiesFactory implements CookiesFactoryInterface
         return Cookies::of($map);
     }
 
-    public static function default(): self
+    public static function new(): self
     {
         /** @var array<string, string> */
         $cookies = $_COOKIE;

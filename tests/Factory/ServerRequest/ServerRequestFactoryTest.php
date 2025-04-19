@@ -46,12 +46,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Environment::of();
                 }
             },
-            new class implements CookiesFactory {
-                public function __invoke(): Cookies
-                {
-                    return Cookies::of();
-                }
-            },
+            CookiesFactory::of(static fn() => Cookies::of()),
             new class implements QueryFactory {
                 public function __invoke(): Query
                 {
@@ -102,12 +97,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Environment::of();
                 }
             },
-            new class implements CookiesFactory {
-                public function __invoke(): Cookies
-                {
-                    return Cookies::of();
-                }
-            },
+            CookiesFactory::of(static fn() => Cookies::of()),
             new class implements QueryFactory {
                 public function __invoke(): Query
                 {
@@ -159,12 +149,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Environment::of();
                 }
             },
-            new class implements CookiesFactory {
-                public function __invoke(): Cookies
-                {
-                    return Cookies::of();
-                }
-            },
+            CookiesFactory::of(static fn() => Cookies::of()),
             new class implements QueryFactory {
                 public function __invoke(): Query
                 {

@@ -122,7 +122,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
                     ->acquire(\fopen('php://input', 'r')),
             ),
             Factory\Environment\EnvironmentFactory::default(),
-            Factory\Cookies\CookiesFactory::default(),
+            CookiesFactory::default(),
             Factory\Query\QueryFactory::default(),
             Factory\Form\FormFactory::default(),
             Factory\Files\FilesFactory::default($io),
