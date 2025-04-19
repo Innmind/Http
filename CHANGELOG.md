@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- `Innmind\Http\Header\Provider`
+
 ### Changed
 
 - Requires `innmind/filesystem:~8.0`

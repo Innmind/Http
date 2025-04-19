@@ -7,6 +7,7 @@ use Innmind\Immutable\{
     Str,
     SideEffect,
     Maybe,
+    Map,
     Sequence,
     Predicate\Instance,
 };
@@ -17,33 +18,31 @@ use Innmind\Immutable\{
 final class Headers implements \Countable
 {
     /**
-     * @param Sequence<Header> $headers
+     * @param Map<string, Header|Header\Provider> $headers
      */
     private function __construct(
-        private Sequence $headers,
+        private Map $headers,
     ) {
     }
 
-    public function __invoke(Header $header): self
+    public function __invoke(Header|Header\Provider $header): self
     {
-        $name = self::normalize($header->name());
+        $name = self::normalize(match (true) {
+            $header instanceof Header => $header->name(),
+            default => $header->toHeader()->name(),
+        });
 
-        return new self(
-            $this
-                ->headers
-                ->filter(static fn($header) => self::normalize($header->name()) !== $name)
-                ->add($header),
-        );
+        return new self(($this->headers)($name, $header));
     }
 
     /**
      * @no-named-arguments
      * @psalm-pure
      */
-    public static function of(Header ...$headers): self
+    public static function of(Header|Header\Provider ...$headers): self
     {
         return Sequence::of(...$headers)->reduce(
-            new self(Sequence::of()),
+            new self(Map::of()),
             static fn(self $headers, $header) => ($headers)($header),
         );
     }
@@ -57,11 +56,17 @@ final class Headers implements \Countable
     {
         $normalized = self::normalize($name);
 
-        return $this->headers->find(static fn($header) => self::normalize($header->name()) === $normalized);
+        return $this
+            ->headers
+            ->get($normalized)
+            ->map(static fn($header) => match (true) {
+                $header instanceof Header => $header,
+                default => $header->toHeader(),
+            });
     }
 
     /**
-     * @template T of Header
+     * @template T of Header\Provider
      *
      * @param class-string<T> $type
      *
@@ -71,6 +76,7 @@ final class Headers implements \Countable
     {
         return $this
             ->headers
+            ->values()
             ->keep(Instance::of($type))
             ->first();
     }
@@ -93,7 +99,10 @@ final class Headers implements \Countable
      */
     public function filter(callable $filter): self
     {
-        return new self($this->headers->filter($filter));
+        return new self($this->headers->filter(static fn($_, $header) => match (true) {
+            $header instanceof Header => $filter($header),
+            default => $filter($header->toHeader()),
+        }));
     }
 
     /**
@@ -101,7 +110,7 @@ final class Headers implements \Countable
      */
     public function foreach(callable $function): SideEffect
     {
-        return $this->headers->foreach($function);
+        return $this->all()->foreach($function);
     }
 
     /**
@@ -114,7 +123,7 @@ final class Headers implements \Countable
      */
     public function reduce($carry, callable $reducer)
     {
-        return $this->headers->reduce($carry, $reducer);
+        return $this->all()->reduce($carry, $reducer);
     }
 
     #[\Override]
@@ -128,7 +137,10 @@ final class Headers implements \Countable
      */
     public function all(): Sequence
     {
-        return $this->headers;
+        return $this->headers->values()->map(static fn($header) => match (true) {
+            $header instanceof Header => $header,
+            default => $header->toHeader(),
+        });
     }
 
     /**
