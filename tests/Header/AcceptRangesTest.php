@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\AcceptRangesValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AcceptRangesTest extends TestCase
@@ -22,7 +22,7 @@ class AcceptRangesTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Accept-Ranges', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($ar, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,
@@ -37,7 +37,7 @@ class AcceptRangesTest extends TestCase
         $this->assertInstanceOf(AcceptRanges::class, $header);
         $this->assertSame('Accept-Ranges', $header->name());
         $values = $header->values();
-        $this->assertInstanceOf(Set::class, $values);
+        $this->assertInstanceOf(Sequence::class, $values);
         $this->assertSame('Accept-Ranges: bytes', $header->toString());
     }
 }

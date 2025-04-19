@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
@@ -33,7 +33,7 @@ final class ContentEncoding implements HeaderInterface
     }
 
     #[\Override]
-    public function values(): Set
+    public function values(): Sequence
     {
         return $this->header->values();
     }

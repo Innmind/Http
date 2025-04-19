@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\DateValue
 };
 use Innmind\TimeContinuum\PointInTime;
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class IfModifiedSinceTest extends TestCase
@@ -25,7 +25,7 @@ class IfModifiedSinceTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('If-Modified-Since', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($d, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

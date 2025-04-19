@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\HostValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
@@ -26,7 +26,7 @@ class HostTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Host', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($av, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

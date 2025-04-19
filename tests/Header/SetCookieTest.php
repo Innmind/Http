@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\Parameter\Parameter,
     Header\CookieParameter\Secure
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class SetCookieTest extends TestCase
@@ -30,7 +30,7 @@ class SetCookieTest extends TestCase
         $this->assertInstanceOf(Header::class, $cookie);
         $this->assertSame('Set-Cookie', $cookie->name());
         $values = $cookie->values();
-        $this->assertInstanceOf(Set::class, $values);
+        $this->assertInstanceOf(Sequence::class, $values);
         $this->assertSame($value, $values->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

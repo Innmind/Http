@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header\WWWAuthenticateValue,
     Header
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class WWWAuthenticateTest extends TestCase
@@ -20,7 +20,7 @@ class WWWAuthenticateTest extends TestCase
         );
 
         $this->assertInstanceOf(Header::class, $header);
-        $this->assertInstanceOf(Set::class, $header->values());
+        $this->assertInstanceOf(Sequence::class, $header->values());
         $this->assertCount(1, $header->values());
         $this->assertSame($value, $header->values()->find(static fn() => true)->match(
             static fn($first) => $first,

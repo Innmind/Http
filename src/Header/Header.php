@@ -5,7 +5,7 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
 use Innmind\Immutable\{
-    Set,
+    Sequence,
     Str,
 };
 
@@ -15,8 +15,8 @@ use Innmind\Immutable\{
 final class Header implements HeaderInterface
 {
     private string $name;
-    /** @var Set<Value> */
-    private Set $values;
+    /** @var Sequence<Value> */
+    private Sequence $values;
 
     /**
      * @no-named-arguments
@@ -24,7 +24,7 @@ final class Header implements HeaderInterface
     public function __construct(string $name, Value ...$values)
     {
         $this->name = $name;
-        $this->values = Set::of(...$values);
+        $this->values = Sequence::of(...$values);
     }
 
     #[\Override]
@@ -34,7 +34,7 @@ final class Header implements HeaderInterface
     }
 
     #[\Override]
-    public function values(): Set
+    public function values(): Sequence
     {
         return $this->values;
     }

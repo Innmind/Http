@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\ReferrerValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\Url\Url;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,7 @@ class ReferrerTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Referer', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($av, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

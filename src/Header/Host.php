@@ -8,7 +8,7 @@ use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
@@ -39,7 +39,7 @@ final class Host implements HeaderInterface
     }
 
     #[\Override]
-    public function values(): Set
+    public function values(): Sequence
     {
         return $this->header->values();
     }
