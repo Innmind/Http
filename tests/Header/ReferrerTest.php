@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Referrer,
     Header,
-    Header\ReferrerValue
 };
 use Innmind\Immutable\Sequence;
 use Innmind\Url\Url;
@@ -16,18 +15,14 @@ class ReferrerTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Referrer(
-            $av = new ReferrerValue(Url::of('/foo/bar')),
+        $h = Referrer::of(
+            Url::of('/foo/bar'),
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Referer', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame($av, $v->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
         $this->assertSame('Referer: /foo/bar', $h->toString());
         $this->assertSame('/foo/bar', $h->referrer()->toString());
     }

@@ -12,8 +12,8 @@ use Innmind\Immutable\Sequence;
  */
 final class Referrer implements HeaderInterface
 {
-    public function __construct(
-        private ReferrerValue $referrer,
+    private function __construct(
+        private Url $referrer,
     ) {
     }
 
@@ -22,7 +22,7 @@ final class Referrer implements HeaderInterface
      */
     public static function of(Url $referrer): self
     {
-        return new self(new ReferrerValue($referrer));
+        return new self($referrer);
     }
 
     #[\Override]
@@ -39,7 +39,7 @@ final class Referrer implements HeaderInterface
 
     public function referrer(): Url
     {
-        return $this->referrer->url();
+        return $this->referrer;
     }
 
     #[\Override]
@@ -50,6 +50,9 @@ final class Referrer implements HeaderInterface
 
     private function header(): Header
     {
-        return new Header('Referer', $this->referrer);
+        return new Header(
+            'Referer',
+            new Value\Value($this->referrer->toString()),
+        );
     }
 }
