@@ -3,31 +3,28 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Query;
 
-use Innmind\Http\{
-    Factory\QueryFactory as QueryFactoryInterface,
-    ServerRequest\Query,
-};
+use Innmind\Http\ServerRequest\Query;
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class QueryFactory implements QueryFactoryInterface
+final class Defaut
 {
     /**
      * @param array<string, string|array> $get
      */
-    public function __construct(
+    private function __construct(
         private array $get,
     ) {
     }
 
-    #[\Override]
     public function __invoke(): Query
     {
         return Query::of($this->get);
     }
 
-    public static function default(): self
+    public static function new(): self
     {
         /** @var array<string, string|array> */
         $get = $_GET;

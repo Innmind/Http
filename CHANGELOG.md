@@ -12,6 +12,7 @@
 - `Innmind\Http\Factory\EnvironmentFactory` is now a final class
 - `Innmind\Http\Factory\FilesFactory` is now a final class
 - `Innmind\Http\Factory\FormFactory` is now a final class
+- `Innmind\Http\Factory\QueryFactory` is now a final class
 
 ### Removed
 
@@ -19,6 +20,7 @@
 - `Innmind\Http\Factory\Environment\EnvironmentFactory`
 - `Innmind\Http\Factory\Files\FilesFactory`
 - `Innmind\Http\Factory\Form\FormFactory`
+- `Innmind\Http\Factory\Query\QueryFactory`
 
 ### Fixed
 

@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Query;
 
 use Innmind\Http\{
-    Factory\Query\QueryFactory,
-    Factory\QueryFactory as QueryFactoryInterface,
+    Factory\QueryFactory,
     ServerRequest\Query,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
@@ -19,8 +18,6 @@ class QueryFactoryTest extends TestCase
             'baz' => 'foo',
         ];
         $f = QueryFactory::default();
-
-        $this->assertInstanceOf(QueryFactoryInterface::class, $f);
 
         $q = ($f)();
 

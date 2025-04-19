@@ -42,12 +42,7 @@ class ServerRequestFactoryTest extends TestCase
             static fn() => Content::none(),
             EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
-            new class implements QueryFactory {
-                public function __invoke(): Query
-                {
-                    return Query::of([]);
-                }
-            },
+            QueryFactory::of(static fn() => Query::of([])),
             FormFactory::of(static fn() => Form::of([])),
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
@@ -78,12 +73,7 @@ class ServerRequestFactoryTest extends TestCase
             static fn() => Content::none(),
             EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
-            new class implements QueryFactory {
-                public function __invoke(): Query
-                {
-                    return Query::of([]);
-                }
-            },
+            QueryFactory::of(static fn() => Query::of([])),
             FormFactory::of(static fn() => Form::of([])),
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
@@ -115,12 +105,7 @@ class ServerRequestFactoryTest extends TestCase
             static fn() => Content::none(),
             EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
-            new class implements QueryFactory {
-                public function __invoke(): Query
-                {
-                    return Query::of([]);
-                }
-            },
+            QueryFactory::of(static fn() => Query::of([])),
             FormFactory::of(static fn() => Form::of([])),
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,

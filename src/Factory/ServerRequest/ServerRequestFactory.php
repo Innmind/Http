@@ -123,7 +123,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             ),
             EnvironmentFactory::default(),
             CookiesFactory::default(),
-            Factory\Query\QueryFactory::default(),
+            QueryFactory::default(),
             FormFactory::default(),
             FilesFactory::default($io),
             $server,
