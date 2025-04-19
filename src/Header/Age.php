@@ -11,13 +11,9 @@ use Innmind\Immutable\Sequence;
  */
 final class Age implements HeaderInterface
 {
-    private Header $header;
-    private AgeValue $value;
-
-    public function __construct(AgeValue $age)
-    {
-        $this->header = new Header('Age', $age);
-        $this->value = $age;
+    public function __construct(
+        private AgeValue $value,
+    ) {
     }
 
     /**
@@ -31,13 +27,13 @@ final class Age implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     /**
@@ -51,6 +47,11 @@ final class Age implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Age', $this->value);
     }
 }

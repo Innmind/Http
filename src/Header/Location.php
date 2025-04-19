@@ -12,13 +12,9 @@ use Innmind\Immutable\Sequence;
  */
 final class Location implements HeaderInterface
 {
-    private Header $header;
-    private Url $url;
-
-    public function __construct(LocationValue $location)
-    {
-        $this->header = new Header('Location', $location);
-        $this->url = $location->url();
+    public function __construct(
+        private LocationValue $location,
+    ) {
     }
 
     /**
@@ -32,23 +28,28 @@ final class Location implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function url(): Url
     {
-        return $this->url;
+        return $this->location->url();
     }
 
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Location', $this->location);
     }
 }

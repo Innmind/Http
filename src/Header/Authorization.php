@@ -11,13 +11,9 @@ use Innmind\Immutable\Sequence;
  */
 final class Authorization implements HeaderInterface
 {
-    private Header $header;
-    private AuthorizationValue $value;
-
-    public function __construct(AuthorizationValue $authorization)
-    {
-        $this->header = new Header('Authorization', $authorization);
-        $this->value = $authorization;
+    public function __construct(
+        private AuthorizationValue $value,
+    ) {
     }
 
     /**
@@ -31,13 +27,13 @@ final class Authorization implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function scheme(): string
@@ -53,6 +49,11 @@ final class Authorization implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Authorization', $this->value);
     }
 }

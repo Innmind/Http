@@ -12,13 +12,9 @@ use Innmind\Immutable\Sequence;
  */
 final class LastModified implements HeaderInterface
 {
-    private Header $header;
-    private DateValue $value;
-
-    public function __construct(DateValue $date)
-    {
-        $this->header = new Header('Last-Modified', $date);
-        $this->value = $date;
+    public function __construct(
+        private DateValue $value,
+    ) {
     }
 
     /**
@@ -32,13 +28,13 @@ final class LastModified implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function date(): PointInTime
@@ -49,6 +45,11 @@ final class LastModified implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Last-Modified', $this->value);
     }
 }

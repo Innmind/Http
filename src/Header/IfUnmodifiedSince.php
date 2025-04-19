@@ -12,13 +12,9 @@ use Innmind\Immutable\Sequence;
  */
 final class IfUnmodifiedSince implements HeaderInterface
 {
-    private Header $header;
-    private DateValue $value;
-
-    public function __construct(DateValue $date)
-    {
-        $this->header = new Header('If-Unmodified-Since', $date);
-        $this->value = $date;
+    public function __construct(
+        private DateValue $value,
+    ) {
     }
 
     /**
@@ -32,13 +28,13 @@ final class IfUnmodifiedSince implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function date(): PointInTime
@@ -49,6 +45,11 @@ final class IfUnmodifiedSince implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('If-Unmodified-Since', $this->value);
     }
 }

@@ -14,13 +14,9 @@ use Innmind\Immutable\{
  */
 final class Cookie implements HeaderInterface
 {
-    private Header $header;
-    private CookieValue $value;
-
-    public function __construct(CookieValue $value)
-    {
-        $this->header = new Header('Cookie', $value);
-        $this->value = $value;
+    public function __construct(
+        private CookieValue $value,
+    ) {
     }
 
     /**
@@ -35,13 +31,13 @@ final class Cookie implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     /**
@@ -55,6 +51,11 @@ final class Cookie implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Cookie', $this->value);
     }
 }

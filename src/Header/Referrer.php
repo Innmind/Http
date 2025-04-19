@@ -12,13 +12,9 @@ use Innmind\Immutable\Sequence;
  */
 final class Referrer implements HeaderInterface
 {
-    private Header $header;
-    private ReferrerValue $referrer;
-
-    public function __construct(ReferrerValue $referrer)
-    {
-        $this->header = new Header('Referer', $referrer);
-        $this->referrer = $referrer;
+    public function __construct(
+        private ReferrerValue $referrer,
+    ) {
     }
 
     /**
@@ -32,13 +28,13 @@ final class Referrer implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function referrer(): Url
@@ -49,6 +45,11 @@ final class Referrer implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Referer', $this->referrer);
     }
 }

@@ -11,7 +11,6 @@ use Innmind\Immutable\Sequence;
  */
 final class SetCookie implements HeaderInterface
 {
-    private Header $header;
     /** @var Sequence<CookieValue> */
     private Sequence $cookies;
 
@@ -20,7 +19,6 @@ final class SetCookie implements HeaderInterface
      */
     public function __construct(CookieValue ...$values)
     {
-        $this->header = new Header('Set-Cookie', ...$values);
         $this->cookies = Sequence::of(...$values);
     }
 
@@ -36,13 +34,13 @@ final class SetCookie implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     /**
@@ -56,6 +54,11 @@ final class SetCookie implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Set-Cookie', ...$this->cookies->toList());
     }
 }

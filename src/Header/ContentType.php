@@ -11,13 +11,9 @@ use Innmind\Immutable\Sequence;
  */
 final class ContentType implements HeaderInterface
 {
-    private Header $header;
-    private ContentTypeValue $content;
-
-    public function __construct(ContentTypeValue $content)
-    {
-        $this->header = new Header('Content-Type', $content);
-        $this->content = $content;
+    public function __construct(
+        private ContentTypeValue $content,
+    ) {
     }
 
     /**
@@ -38,13 +34,13 @@ final class ContentType implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function content(): ContentTypeValue
@@ -55,6 +51,11 @@ final class ContentType implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Content-Type', $this->content);
     }
 }

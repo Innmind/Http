@@ -11,13 +11,9 @@ use Innmind\Immutable\Sequence;
  */
 final class ContentRange implements HeaderInterface
 {
-    private Header $header;
-    private ContentRangeValue $range;
-
-    public function __construct(ContentRangeValue $range)
-    {
-        $this->header = new Header('Content-Range', $range);
-        $this->range = $range;
+    public function __construct(
+        private ContentRangeValue $range,
+    ) {
     }
 
     /**
@@ -40,13 +36,13 @@ final class ContentRange implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function range(): ContentRangeValue
@@ -57,6 +53,11 @@ final class ContentRange implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Content-Range', $this->range);
     }
 }

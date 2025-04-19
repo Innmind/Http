@@ -11,13 +11,9 @@ use Innmind\Immutable\Sequence;
  */
 final class ContentLength implements HeaderInterface
 {
-    private Header $header;
-    private ContentLengthValue $value;
-
-    public function __construct(ContentLengthValue $length)
-    {
-        $this->header = new Header('Content-Length', $length);
-        $this->value = $length;
+    public function __construct(
+        private ContentLengthValue $value,
+    ) {
     }
 
     /**
@@ -31,13 +27,13 @@ final class ContentLength implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     /**
@@ -51,6 +47,11 @@ final class ContentLength implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Content-Length', $this->value);
     }
 }

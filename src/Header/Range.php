@@ -11,13 +11,9 @@ use Innmind\Immutable\Sequence;
  */
 final class Range implements HeaderInterface
 {
-    private Header $header;
-    private RangeValue $range;
-
-    public function __construct(RangeValue $range)
-    {
-        $this->header = new Header('Range', $range);
-        $this->range = $range;
+    public function __construct(
+        private RangeValue $range,
+    ) {
     }
 
     /**
@@ -38,13 +34,13 @@ final class Range implements HeaderInterface
     #[\Override]
     public function name(): string
     {
-        return $this->header->name();
+        return $this->header()->name();
     }
 
     #[\Override]
     public function values(): Sequence
     {
-        return $this->header->values();
+        return $this->header()->values();
     }
 
     public function range(): RangeValue
@@ -55,6 +51,11 @@ final class Range implements HeaderInterface
     #[\Override]
     public function toString(): string
     {
-        return $this->header->toString();
+        return $this->header()->toString();
+    }
+
+    private function header(): Header
+    {
+        return new Header('Range', $this->range);
     }
 }
