@@ -9,7 +9,7 @@ use Innmind\Http\ServerRequest\Form;
  * @internal
  * @psalm-immutable
  */
-final class Defaut
+final class Native
 {
     /**
      * @param array<string, string|array> $post

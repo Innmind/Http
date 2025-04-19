@@ -94,7 +94,7 @@ final class ServerRequestFactory
     /**
      * Return a fully configured factory
      */
-    public static function default(
+    public static function native(
         Clock $clock,
         ?IO $io = null,
     ): self {
@@ -104,17 +104,17 @@ final class ServerRequestFactory
 
         /** @psalm-suppress PossiblyFalseArgument */
         return new self(
-            HeadersFactory::default($clock),
+            HeadersFactory::native($clock),
             static fn() => Content::oneShot(
                 $io
                     ->streams()
                     ->acquire(\fopen('php://input', 'r')),
             ),
-            EnvironmentFactory::default(),
-            CookiesFactory::default(),
-            QueryFactory::default(),
-            FormFactory::default(),
-            FilesFactory::default($io),
+            EnvironmentFactory::native(),
+            CookiesFactory::native(),
+            QueryFactory::native(),
+            FormFactory::native(),
+            FilesFactory::native($io),
             $server,
         );
     }

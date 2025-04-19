@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory;
 
 use Innmind\Http\{
     ServerRequest\Cookies,
-    Factory\Cookies\Defaut,
+    Factory\Cookies\Native,
 };
 
 /**
@@ -14,10 +14,10 @@ use Innmind\Http\{
 final class CookiesFactory
 {
     /**
-     * @param Defaut|pure-Closure(): Cookies $implementation
+     * @param Native|pure-Closure(): Cookies $implementation
      */
     private function __construct(
-        private Defaut|\Closure $implementation,
+        private Native|\Closure $implementation,
     ) {
     }
 
@@ -26,9 +26,9 @@ final class CookiesFactory
         return ($this->implementation)();
     }
 
-    public static function default(): self
+    public static function native(): self
     {
-        return new self(Defaut::new());
+        return new self(Native::new());
     }
 
     /**

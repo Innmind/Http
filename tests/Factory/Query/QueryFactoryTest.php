@@ -17,7 +17,7 @@ class QueryFactoryTest extends TestCase
             'foo' => 'bar',
             'baz' => 'foo',
         ];
-        $f = QueryFactory::default();
+        $f = QueryFactory::native();
 
         $q = ($f)();
 

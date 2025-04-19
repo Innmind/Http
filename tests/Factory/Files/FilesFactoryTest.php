@@ -60,7 +60,7 @@ class FilesFactoryTest extends TestCase
                 ],
             ],
         ];
-        $factory = FilesFactory::default(
+        $factory = FilesFactory::native(
             IO::fromAmbientAuthority(),
         );
 

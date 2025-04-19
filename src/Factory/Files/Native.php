@@ -24,7 +24,7 @@ use Innmind\Immutable\Either;
  * a bunch of annotations to suppress Psalm errors because it can't understand
  * the data being passed around
  */
-final class Defaut
+final class Native
 {
     public function __construct(
         private IO $io,

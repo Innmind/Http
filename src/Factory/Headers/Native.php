@@ -16,7 +16,7 @@ use Innmind\Immutable\Str;
  * @internal
  * @psalm-immutable
  */
-final class Defaut
+final class Native
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
     private TryFactory $headerFactory;

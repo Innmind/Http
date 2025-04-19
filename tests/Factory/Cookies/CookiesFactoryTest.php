@@ -13,7 +13,7 @@ class CookiesFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = CookiesFactory::default();
+        $f = CookiesFactory::native();
 
         $c = ($f)();
 

@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory;
 
 use Innmind\Http\{
     ServerRequest\Files,
-    Factory\Files\Defaut,
+    Factory\Files\Native,
 };
 use Innmind\IO\IO;
 
@@ -15,10 +15,10 @@ use Innmind\IO\IO;
 final class FilesFactory
 {
     /**
-     * @param Defaut|pure-Closure(): Files $implementation
+     * @param Native|pure-Closure(): Files $implementation
      */
     private function __construct(
-        private Defaut|\Closure $implementation,
+        private Native|\Closure $implementation,
     ) {
     }
 
@@ -27,9 +27,9 @@ final class FilesFactory
         return ($this->implementation)();
     }
 
-    public static function default(IO $io): self
+    public static function native(IO $io): self
     {
-        return new self(Defaut::new($io));
+        return new self(Native::new($io));
     }
 
     /**

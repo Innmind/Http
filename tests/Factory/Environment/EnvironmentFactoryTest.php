@@ -13,7 +13,7 @@ class EnvironmentFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = EnvironmentFactory::default();
+        $f = EnvironmentFactory::native();
 
         $e = ($f)();
 

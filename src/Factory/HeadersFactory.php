@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory;
 
 use Innmind\Http\{
     Headers,
-    Factory\Headers\Defaut,
+    Factory\Headers\Native,
 };
 use Innmind\TimeContinuum\Clock;
 
@@ -15,10 +15,10 @@ use Innmind\TimeContinuum\Clock;
 final class HeadersFactory
 {
     /**
-     * @param Defaut|pure-Closure(): Headers $implementation
+     * @param Native|pure-Closure(): Headers $implementation
      */
     private function __construct(
-        private Defaut|\Closure $implementation,
+        private Native|\Closure $implementation,
     ) {
     }
 
@@ -27,9 +27,9 @@ final class HeadersFactory
         return ($this->implementation)();
     }
 
-    public static function default(Clock $clock): self
+    public static function native(Clock $clock): self
     {
-        return new self(Defaut::new($clock));
+        return new self(Native::new($clock));
     }
 
     /**

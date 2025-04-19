@@ -5,7 +5,7 @@ namespace Innmind\Http\Factory;
 
 use Innmind\Http\{
     ServerRequest\Environment,
-    Factory\Environment\Defaut,
+    Factory\Environment\Native,
 };
 
 /**
@@ -14,10 +14,10 @@ use Innmind\Http\{
 final class EnvironmentFactory
 {
     /**
-     * @param Defaut|pure-Closure(): Environment $implementation
+     * @param Native|pure-Closure(): Environment $implementation
      */
     private function __construct(
-        private Defaut|\Closure $implementation,
+        private Native|\Closure $implementation,
     ) {
     }
 
@@ -26,9 +26,9 @@ final class EnvironmentFactory
         return ($this->implementation)();
     }
 
-    public static function default(): self
+    public static function native(): self
     {
-        return new self(Defaut::new());
+        return new self(Native::new());
     }
 
     /**

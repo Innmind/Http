@@ -21,7 +21,7 @@ class FormFactoryTest extends TestCase
             ],
             'another' => 'value',
         ];
-        $f = FormFactory::default();
+        $f = FormFactory::native();
 
         $f = ($f)();
 

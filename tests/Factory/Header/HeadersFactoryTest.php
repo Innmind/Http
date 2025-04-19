@@ -19,7 +19,7 @@ class HeadersFactoryTest extends TestCase
         $_SERVER['CONTENT_MD5'] = '0';
         $_SERVER['CONTENT_TYPE'] = 'text/plain';
 
-        $f = HeadersFactory::default(Clock::live());
+        $f = HeadersFactory::native(Clock::live());
 
         $this->assertInstanceOf(Headers::class, ($f)());
         $this->assertTrue(($f)()->contains('authorization'));
