@@ -24,7 +24,6 @@ use Innmind\Http\{
     Header\ContentLanguage,
     Header\ContentLanguageValue,
     Header\ContentLength,
-    Header\ContentLengthValue,
     Header\ContentLocation,
     Header\ContentRange,
     Header\ContentRangeValue,
@@ -320,8 +319,7 @@ enum Factories
             self::contentLength => Maybe::just($value->toString())
                 ->filter(\is_numeric(...))
                 ->map(static fn($length) => (int) $length)
-                ->flatMap(ContentLengthValue::of(...))
-                ->map(static fn($value) => new ContentLength($value)),
+                ->flatMap(ContentLength::maybe(...)),
 
             self::contentLocation => Url::maybe($value->toString())->map(
                 ContentLocation::of(...),
