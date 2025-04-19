@@ -8,6 +8,11 @@
 - Requires `innmind/time-continuum:~4.1`
 - Requires `innmind/io:~3.0`
 - `Innmind\Http\Sender::__invoke()` now returns `Innmind\Immutable\Attempt<Innmind\Immutable\SideEffect>`
+- `Innmind\Http\Factory\CookiesFactory` is now a final class
+
+### Removed
+
+- `Innmind\Http\Factory\Cookies\CookiesFactory`
 
 ### Fixed
 
