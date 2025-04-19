@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Cookies;
 
-use Innmind\Http\{
-    ServerRequest\Cookies,
-};
+use Innmind\Http\ServerRequest\Cookies;
 use Innmind\Immutable\Map;
 
 /**
