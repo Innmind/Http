@@ -4,9 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Headers;
 
 use Innmind\Http\{
-    Factory\Header\Implementation,
-    Factory\Header\Factories,
-    Factory\Header\TryFactory,
+    Factory\Header\Factory,
     Headers,
 };
 use Innmind\TimeContinuum\Clock;
@@ -19,19 +17,14 @@ use Innmind\Immutable\Str;
 final class Native
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
-    private TryFactory $headerFactory;
-    /** @var array<string, string> */
-    private array $server;
 
     /**
      * @param array<string, string> $server
      */
     public function __construct(
-        Implementation $headerFactory,
-        array $server,
+        private Factory $headerFactory,
+        private array $server,
     ) {
-        $this->headerFactory = new TryFactory($headerFactory);
-        $this->server = $server;
     }
 
     public function __invoke(): Headers
@@ -53,7 +46,10 @@ final class Native
         /** @var array<string, string> */
         $server = $_SERVER;
 
-        return new self(Factories::default($clock), $server);
+        return new self(
+            Factory::new($clock),
+            $server,
+        );
     }
 
     /**
