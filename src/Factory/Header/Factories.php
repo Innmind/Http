@@ -18,7 +18,6 @@ use Innmind\Http\{
     Header\Allow,
     Header\AllowValue,
     Header\Authorization,
-    Header\AuthorizationValue,
     Header\CacheControl,
     Header\CacheControlValue,
     Header\ContentEncoding,
@@ -598,7 +597,6 @@ enum Factories
         return $matches
             ->get('scheme')
             ->map(static fn($scheme) => $scheme->toString())
-            ->flatMap(static fn($scheme) => AuthorizationValue::of($scheme, $param))
-            ->map(static fn($value) => new Authorization($value));
+            ->flatMap(static fn($scheme) => Authorization::maybe($scheme, $param));
     }
 }

@@ -3,8 +3,15 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Sequence;
+use Innmind\Http\{
+    Header as HeaderInterface,
+    Exception\DomainException,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
@@ -12,7 +19,8 @@ use Innmind\Immutable\Sequence;
 final class Authorization implements HeaderInterface
 {
     public function __construct(
-        private AuthorizationValue $value,
+        private string $scheme,
+        private string $parameter,
     ) {
     }
 
@@ -21,7 +29,23 @@ final class Authorization implements HeaderInterface
      */
     public static function of(string $scheme, string $parameter): self
     {
-        return new self(new AuthorizationValue($scheme, $parameter));
+        return self::maybe($scheme, $parameter)->match(
+            static fn($self) => $self,
+            static fn() => throw new DomainException($scheme),
+        );
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(string $scheme, string $parameter): Maybe
+    {
+        return Maybe::just($scheme)
+            ->map(Str::of(...))
+            ->filter(static fn($scheme) => $scheme->matches('~^\w+$~'))
+            ->map(static fn() => new self($scheme, $parameter));
     }
 
     #[\Override]
@@ -38,12 +62,12 @@ final class Authorization implements HeaderInterface
 
     public function scheme(): string
     {
-        return $this->value->scheme();
+        return $this->scheme;
     }
 
     public function parameter(): string
     {
-        return $this->value->parameter();
+        return $this->parameter;
     }
 
     #[\Override]
@@ -54,6 +78,15 @@ final class Authorization implements HeaderInterface
 
     private function header(): Header
     {
-        return new Header('Authorization', $this->value);
+        return new Header(
+            'Authorization',
+            new Value\Value(
+                Str::of($this->scheme)
+                    ->append(' ')
+                    ->append($this->parameter)
+                    ->trim()
+                    ->toString(),
+            ),
+        );
     }
 }
