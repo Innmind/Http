@@ -3,16 +3,31 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Sequence;
+use Innmind\Http\{
+    Header as HeaderInterface,
+    Exception\DomainException,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
  */
 final class ContentRange implements HeaderInterface
 {
-    public function __construct(
-        private ContentRangeValue $range,
+    /**
+     * @param int<0, max> $firstPosition
+     * @param int<0, max> $lastPosition
+     * @param ?int<0, max> $length
+     */
+    private function __construct(
+        private string $unit,
+        private int $firstPosition,
+        private int $lastPosition,
+        private ?int $length,
     ) {
     }
 
@@ -25,7 +40,36 @@ final class ContentRange implements HeaderInterface
         int $lastPosition,
         ?int $length = null,
     ): self {
-        return new self(new ContentRangeValue(
+        return self::maybe($unit, $firstPosition, $lastPosition, $length)->match(
+            static fn($self) => $self,
+            static fn() => throw new DomainException($unit),
+        );
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(
+        string $unit,
+        int $firstPosition,
+        int $lastPosition,
+        ?int $length = null,
+    ): Maybe {
+        if (
+            !Str::of($unit)->matches('~^\w+$~') ||
+            $firstPosition < 0 ||
+            $lastPosition < 0 ||
+            ($length !== null && $length < 0) ||
+            $firstPosition > $lastPosition ||
+            ($length !== null && $lastPosition > $length)
+        ) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
+
+        return Maybe::just(new self(
             $unit,
             $firstPosition,
             $lastPosition,
@@ -45,9 +89,33 @@ final class ContentRange implements HeaderInterface
         return $this->header()->values();
     }
 
-    public function range(): ContentRangeValue
+    public function unit(): string
     {
-        return $this->range;
+        return $this->unit;
+    }
+
+    /**
+     * @return int<0, max>
+     */
+    public function firstPosition(): int
+    {
+        return $this->firstPosition;
+    }
+
+    /**
+     * @return int<0, max>
+     */
+    public function lastPosition(): int
+    {
+        return $this->lastPosition;
+    }
+
+    /**
+     * @return Maybe<int<0, max>>
+     */
+    public function length(): Maybe
+    {
+        return Maybe::of($this->length);
     }
 
     #[\Override]
@@ -58,6 +126,15 @@ final class ContentRange implements HeaderInterface
 
     private function header(): Header
     {
-        return new Header('Content-Range', $this->range);
+        return new Header(
+            'Content-Range',
+            new Value\Value(\sprintf(
+                '%s %s-%s/%s',
+                $this->unit,
+                $this->firstPosition,
+                $this->lastPosition,
+                $this->length ?? '*',
+            )),
+        );
     }
 }

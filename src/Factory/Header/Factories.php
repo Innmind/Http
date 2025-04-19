@@ -26,7 +26,6 @@ use Innmind\Http\{
     Header\ContentLength,
     Header\ContentLocation,
     Header\ContentRange,
-    Header\ContentRangeValue,
     Header\ContentType,
     Header\ContentTypeValue,
     Header\Cookie,
@@ -562,13 +561,12 @@ enum Factories
             );
 
         return Maybe::all($matches->get('unit'), $matches->get('first'), $matches->get('last'))
-            ->flatMap(static fn(Str $unit, Str $first, Str $last) => ContentRangeValue::of(
+            ->flatMap(static fn(Str $unit, Str $first, Str $last) => ContentRange::maybe(
                 $unit->toString(),
                 (int) $first->toString(),
                 (int) $last->toString(),
                 $length,
-            ))
-            ->map(static fn($value) => new ContentRange($value));
+            ));
     }
 
     /**
