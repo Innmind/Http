@@ -38,7 +38,6 @@ use Innmind\Http\{
     Header\LinkValue,
     Header\Location,
     Header\Range,
-    Header\RangeValue,
     Header\Referrer,
     Header\Parameter,
     Header\Parameter\Quality,
@@ -521,12 +520,11 @@ enum Factories
             $matches->get('first')->filter(\is_numeric(...)),
             $matches->get('last')->filter(\is_numeric(...)),
         )
-            ->flatMap(static fn(string $unit, string $first, string $last) => RangeValue::of(
+            ->flatMap(static fn(string $unit, string $first, string $last) => Range::maybe(
                 $unit,
                 (int) $first,
                 (int) $last,
-            ))
-            ->map(static fn($value) => new Range($value));
+            ));
     }
 
     /**

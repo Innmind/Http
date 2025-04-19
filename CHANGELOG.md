@@ -32,6 +32,7 @@
 - `Innmind\Http\Header\IfUnmodifiedSince` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\LastModified` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Location` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Range` constructor is now private, use `::of()` or `::maybe()` named constructors
 
 ### Removed
 
@@ -53,6 +54,7 @@
 - `Innmind\Http\Header\HostValue`
 - `Innmind\Http\Header\DateValue`
 - `Innmind\Http\Header\LocationValue`
+- `Innmind\Http\Header\RangeValue`
 
 ### Fixed
 
