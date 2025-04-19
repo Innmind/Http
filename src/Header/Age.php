@@ -40,9 +40,9 @@ final class Age implements HeaderInterface
     public static function maybe(int $age): Maybe
     {
         return Maybe::of(match (true) {
-            $age >= 0 => $age,
+            $age >= 0 => new self($age),
             default => null,
-        })->map(static fn($age) => new self($age));
+        });
     }
 
     #[\Override]
