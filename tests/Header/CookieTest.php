@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\CookieValue,
     Header\Parameter\Parameter
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class CookieTest extends TestCase
@@ -23,7 +23,7 @@ class CookieTest extends TestCase
         $this->assertInstanceOf(Header::class, $cookie);
         $this->assertSame('Cookie', $cookie->name());
         $values = $cookie->values();
-        $this->assertInstanceOf(Set::class, $values);
+        $this->assertInstanceOf(Sequence::class, $values);
         $this->assertSame($value, $values->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

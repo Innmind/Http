@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\LocationValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\Url\Url;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,7 @@ class LocationTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Location', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($av, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

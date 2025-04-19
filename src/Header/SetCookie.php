@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
@@ -12,8 +12,8 @@ use Innmind\Immutable\Set;
 final class SetCookie implements HeaderInterface
 {
     private Header $header;
-    /** @var Set<CookieValue> */
-    private Set $cookies;
+    /** @var Sequence<CookieValue> */
+    private Sequence $cookies;
 
     /**
      * @no-named-arguments
@@ -21,7 +21,7 @@ final class SetCookie implements HeaderInterface
     public function __construct(CookieValue ...$values)
     {
         $this->header = new Header('Set-Cookie', ...$values);
-        $this->cookies = Set::of(...$values);
+        $this->cookies = Sequence::of(...$values);
     }
 
     /**
@@ -40,15 +40,15 @@ final class SetCookie implements HeaderInterface
     }
 
     #[\Override]
-    public function values(): Set
+    public function values(): Sequence
     {
         return $this->header->values();
     }
 
     /**
-     * @return Set<CookieValue>
+     * @return Sequence<CookieValue>
      */
-    public function cookies(): Set
+    public function cookies(): Sequence
     {
         return $this->cookies;
     }

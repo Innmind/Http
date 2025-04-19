@@ -16,6 +16,7 @@
 - `Innmind\Http\Factory\ServerRequestFactory` is now a final class
 - `Innmind\Http\Factory\HeadersFactory` is now a final class
 - Classes in `Innmind\Http\Factory\Header\` are now internal
+- `Innmind\Http\Header::values()` now returns an `Innmind\Immutable\Sequence` to allow for ordered values
 
 ### Removed
 

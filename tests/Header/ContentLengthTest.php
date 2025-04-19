@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\ContentLengthValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentLengthTest extends TestCase
@@ -22,7 +22,7 @@ class ContentLengthTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Length', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($av, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

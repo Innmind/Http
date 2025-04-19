@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\RangeValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class RangeTest extends TestCase
@@ -22,7 +22,7 @@ class RangeTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Range', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($cr, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

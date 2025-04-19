@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\ContentTypeValue,
     Header\Parameter
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentTypeTest extends TestCase
@@ -27,7 +27,7 @@ class ContentTypeTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Content-Type', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($ct, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,

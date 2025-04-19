@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http;
 
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
@@ -13,8 +13,8 @@ interface Header
     public function name(): string;
 
     /**
-     * @return Set<Header\Value>
+     * @return Sequence<Header\Value>
      */
-    public function values(): Set;
+    public function values(): Sequence;
     public function toString(): string;
 }

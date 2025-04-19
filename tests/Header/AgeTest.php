@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\AgeValue
 };
-use Innmind\Immutable\Set;
+use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AgeTest extends TestCase
@@ -22,7 +22,7 @@ class AgeTest extends TestCase
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('Age', $h->name());
         $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
+        $this->assertInstanceOf(Sequence::class, $v);
         $this->assertSame($av, $v->find(static fn() => true)->match(
             static fn($first) => $first,
             static fn() => null,
@@ -38,7 +38,7 @@ class AgeTest extends TestCase
         $this->assertInstanceOf(Age::class, $header);
         $this->assertSame('Age', $header->name());
         $values = $header->values();
-        $this->assertInstanceOf(Set::class, $values);
+        $this->assertInstanceOf(Sequence::class, $values);
         $this->assertSame('Age: 42', $header->toString());
     }
 }
