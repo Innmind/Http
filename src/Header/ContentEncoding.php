@@ -3,7 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Exception\DomainException;
+use Innmind\Http\{
+    Header,
+    Exception\DomainException,
+};
 use Innmind\Immutable\{
     Maybe,
     Str,

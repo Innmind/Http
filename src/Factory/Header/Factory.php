@@ -53,7 +53,7 @@ final class Factory
             ->map(static fn($value) => new Value\Value($value->toString()))
             ->toList();
 
-        return new Header\Header(
+        return new Header(
             $name->toString(),
             ...$values,
         );

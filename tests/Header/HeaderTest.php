@@ -13,7 +13,7 @@ class HeaderTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Header\Header(
+        $h = new Header(
             'Accept',
             $v1 = new Value\Value('application/json'),
             $v2 = new Value\Value('*/*'),
@@ -28,6 +28,6 @@ class HeaderTest extends TestCase
 
     public function testWithoutValues()
     {
-        $this->assertSame('X-Foo: ', (new Header\Header('X-Foo'))->toString());
+        $this->assertSame('X-Foo: ', (new Header('X-Foo'))->toString());
     }
 }

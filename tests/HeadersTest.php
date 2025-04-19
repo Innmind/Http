@@ -5,8 +5,7 @@ namespace Tests\Innmind\Http;
 
 use Innmind\Http\{
     Headers,
-    Header as HeaderInterface,
-    Header\Header,
+    Header,
     Header\Allow,
     Header\ContentType,
     Header\Value\Value,
@@ -95,7 +94,7 @@ class HeadersTest extends TestCase
         $called = 0;
         $this->assertInstanceOf(
             SideEffect::class,
-            $headers->foreach(static function(HeaderInterface $header) use (&$called) {
+            $headers->foreach(static function($header) use (&$called) {
                 ++$called;
             }),
         );

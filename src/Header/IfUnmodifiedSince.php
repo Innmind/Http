@@ -3,7 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\TimeContinuum\Format\Http;
+use Innmind\Http\{
+    Header,
+    TimeContinuum\Format\Http,
+};
 use Innmind\TimeContinuum\{
     PointInTime,
     Offset,

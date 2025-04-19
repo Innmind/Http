@@ -50,7 +50,7 @@ final class ResponseSender implements Sender
                 fn() => ($headers)(Date::of($this->clock->now())),
             );
 
-        $_ = $headers->foreach(function(Header $header): void {
+        $_ = $headers->foreach(function($header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
 

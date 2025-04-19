@@ -39,6 +39,7 @@
 - `Innmind\Http\Header\Range` constructor is now private, use `::of()` or `::maybe()` named constructors
 - `Innmind\Http\Header\Referrer` constructor is now private, use `::of()` named constructor
 - All custom headers now implements `Innmind\Http\Header\Provider`
+- `Innmind\Http\Header` is now a final class
 
 ### Removed
 
