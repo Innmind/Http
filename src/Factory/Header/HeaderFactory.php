@@ -10,6 +10,7 @@ use Innmind\Http\{
 use Innmind\Immutable\Str;
 
 /**
+ * @internal
  * @psalm-immutable
  */
 final class HeaderFactory

@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Header;
 
-use Innmind\Http\Factory\HeaderFactory;
 use Innmind\Immutable\{
     Map,
     Str,
@@ -11,12 +10,13 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class DelegationFactory implements HeaderFactory
+final class DelegationFactory implements Implementation
 {
     /**
-     * @param Map<string, HeaderFactory> $factories
+     * @param Map<string, Implementation> $factories
      */
     public function __construct(
         private Map $factories,

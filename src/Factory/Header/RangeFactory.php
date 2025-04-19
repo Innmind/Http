@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header,
     Header\Range,
     Header\RangeValue,
@@ -15,9 +14,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class RangeFactory implements HeaderFactory
+final class RangeFactory implements Implementation
 {
     private const PATTERN = '~^(?<unit>\w+)=(?<first>\d+)-(?<last>\d+)$~';
 

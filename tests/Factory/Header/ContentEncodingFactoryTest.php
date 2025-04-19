@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Factory\Header\ContentEncodingFactory,
     Header\ContentEncoding,
 };
@@ -13,14 +12,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentEncodingFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new ContentEncodingFactory,
-        );
-    }
-
     public function testMake()
     {
         $header = (new ContentEncodingFactory)(

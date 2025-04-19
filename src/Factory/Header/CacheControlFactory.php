@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header,
     Header\CacheControlValue,
     Header\CacheControl,
@@ -17,9 +16,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class CacheControlFactory implements HeaderFactory
+final class CacheControlFactory implements Implementation
 {
     #[\Override]
     public function __invoke(Str $name, Str $value): Maybe

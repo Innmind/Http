@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\ExpiresFactory,
-    Factory\HeaderFactory,
     Header\Expires,
 };
 use Innmind\TimeContinuum\Clock;
@@ -14,14 +13,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ExpiresFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new ExpiresFactory(Clock::live()),
-        );
-    }
-
     public function testMake()
     {
         $header = (new ExpiresFactory(Clock::live()))(

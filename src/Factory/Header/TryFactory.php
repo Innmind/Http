@@ -4,25 +4,25 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Factory\Header\HeaderFactory as DefaultFactory,
     Header,
 };
 use Innmind\Immutable\Str;
 
 /**
+ * @internal
  * @psalm-immutable
  */
 final class TryFactory
 {
-    private HeaderFactory $try;
+    private Implementation $try;
     /** @var callable(Str, Str): Header */
     private $fallback;
 
     /**
      * @param ?callable(Str, Str): Header $fallback
      */
-    public function __construct(HeaderFactory $try, ?callable $fallback = null)
+    public function __construct(Implementation $try, ?callable $fallback = null)
     {
         $default = new DefaultFactory;
         $this->try = $try;

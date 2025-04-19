@@ -3,18 +3,20 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Header;
 
-use Innmind\Http\Factory\HeaderFactory as HeaderFactoryInterface;
 use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Map;
 
+/**
+ * @internal
+ */
 final class Factories
 {
     /**
-     * @return Map<string, HeaderFactoryInterface>
+     * @return Map<string, Implementation>
      */
     public static function all(Clock $clock): Map
     {
-        /** @var Map<string, HeaderFactoryInterface> */
+        /** @var Map<string, Implementation> */
         return Map::of(
             ['accept-charset', new AcceptCharsetFactory],
             ['accept-encoding', new AcceptEncodingFactory],
@@ -45,7 +47,7 @@ final class Factories
         );
     }
 
-    public static function default(Clock $clock): HeaderFactoryInterface
+    public static function default(Clock $clock): DelegationFactory
     {
         return new DelegationFactory(self::all($clock));
     }

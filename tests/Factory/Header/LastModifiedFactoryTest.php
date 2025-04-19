@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\LastModifiedFactory,
-    Factory\HeaderFactory,
     Header\LastModified,
 };
 use Innmind\TimeContinuum\Clock;
@@ -14,14 +13,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LastModifiedFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new LastModifiedFactory(Clock::live()),
-        );
-    }
-
     public function testMake()
     {
         $header = (new LastModifiedFactory(Clock::live()))(

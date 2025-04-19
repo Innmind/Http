@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\HostFactory,
-    Factory\HeaderFactory,
     Header\Host,
 };
 use Innmind\Immutable\Str;
@@ -19,8 +18,6 @@ class HostFactoryTest extends TestCase
     public function testMake(string $host)
     {
         $f = new HostFactory;
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('Host'),

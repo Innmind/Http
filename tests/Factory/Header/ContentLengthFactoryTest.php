@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Factory\Header\ContentLengthFactory,
     Header\ContentLength,
 };
@@ -13,14 +12,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ContentLengthFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new ContentLengthFactory,
-        );
-    }
-
     public function testMake()
     {
         $header = (new ContentLengthFactory)(

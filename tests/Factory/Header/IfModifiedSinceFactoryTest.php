@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\IfModifiedSinceFactory,
-    Factory\HeaderFactory,
     Header\IfModifiedSince,
 };
 use Innmind\TimeContinuum\Clock;
@@ -17,8 +16,6 @@ class IfModifiedSinceFactoryTest extends TestCase
     public function testMake()
     {
         $f = new IfModifiedSinceFactory(Clock::live());
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('If-Modified-Since'),

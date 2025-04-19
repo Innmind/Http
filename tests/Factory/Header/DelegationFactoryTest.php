@@ -7,7 +7,6 @@ use Innmind\Http\{
     Factory\Header\DelegationFactory,
     Factory\Header\AgeFactory,
     Factory\Header\AllowFactory,
-    Factory\HeaderFactory,
     Header\Allow,
 };
 use Innmind\Immutable\{
@@ -18,14 +17,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DelegationFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new DelegationFactory(Map::of()),
-        );
-    }
-
     public function testMake()
     {
         $name = Str::of('Allow');

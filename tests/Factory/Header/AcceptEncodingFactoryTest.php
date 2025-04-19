@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AcceptEncodingFactory,
-    Factory\HeaderFactory,
     Header\AcceptEncoding,
 };
 use Innmind\Immutable\Str;
@@ -16,8 +15,6 @@ class AcceptEncodingFactoryTest extends TestCase
     public function testMake()
     {
         $f = new AcceptEncodingFactory;
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('Accept-Encoding'),

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Test\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Factory\Header\LocationFactory,
     Header\Location,
 };
@@ -13,14 +12,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LocationFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new LocationFactory,
-        );
-    }
-
     public function testMake()
     {
         $header = (new LocationFactory)(

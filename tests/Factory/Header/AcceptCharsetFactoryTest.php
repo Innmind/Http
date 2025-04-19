@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AcceptCharsetFactory,
-    Factory\HeaderFactory,
     Header\AcceptCharset,
 };
 use Innmind\Immutable\Str;
@@ -16,8 +15,6 @@ class AcceptCharsetFactoryTest extends TestCase
     public function testMake()
     {
         $f = new AcceptCharsetFactory;
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('Accept-Charset'),

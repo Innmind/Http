@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header,
     Header\ContentType,
     Header\ContentTypeValue,
@@ -17,9 +16,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class ContentTypeFactory implements HeaderFactory
+final class ContentTypeFactory implements Implementation
 {
     #[\Override]
     public function __invoke(Str $name, Str $value): Maybe

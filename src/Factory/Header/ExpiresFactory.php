@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header,
     Header\Expires,
     TimeContinuum\Format\Http,
@@ -17,9 +16,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class ExpiresFactory implements HeaderFactory
+final class ExpiresFactory implements Implementation
 {
     public function __construct(
         private Clock $clock,

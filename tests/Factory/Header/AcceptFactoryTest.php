@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\AcceptFactory,
-    Factory\HeaderFactory,
     Header\Accept,
 };
 use Innmind\Immutable\Str;
@@ -16,8 +15,6 @@ class AcceptFactoryTest extends TestCase
     public function testMake()
     {
         $f = new AcceptFactory;
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('Accept'),

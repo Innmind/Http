@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header,
     Header\IfUnmodifiedSince,
     TimeContinuum\Format\Http,
@@ -17,9 +16,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class IfUnmodifiedSinceFactory implements HeaderFactory
+final class IfUnmodifiedSinceFactory implements Implementation
 {
     public function __construct(
         private Clock $clock,

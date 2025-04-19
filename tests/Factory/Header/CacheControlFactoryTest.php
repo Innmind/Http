@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\CacheControlFactory,
-    Factory\HeaderFactory,
     Header\CacheControl,
 };
 use Innmind\Immutable\Str;
@@ -16,8 +15,6 @@ class CacheControlFactoryTest extends TestCase
     public function testMake()
     {
         $f = new CacheControlFactory;
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('Cache-Control'),

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Headers;
 
 use Innmind\Http\{
-    Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\Header\Implementation,
     Factory\Header\Factories,
     Factory\Header\TryFactory,
     Headers,
@@ -27,7 +27,7 @@ final class Native
      * @param array<string, string> $server
      */
     public function __construct(
-        HeaderFactoryInterface $headerFactory,
+        Implementation $headerFactory,
         array $server,
     ) {
         $this->headerFactory = new TryFactory($headerFactory);

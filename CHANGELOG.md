@@ -15,6 +15,7 @@
 - `Innmind\Http\Factory\QueryFactory` is now a final class
 - `Innmind\Http\Factory\ServerRequestFactory` is now a final class
 - `Innmind\Http\Factory\HeadersFactory` is now a final class
+- Classes in `Innmind\Http\Factory\Header\` are now internal
 
 ### Removed
 
@@ -25,6 +26,7 @@
 - `Innmind\Http\Factory\Query\QueryFactory`
 - `Innmind\Http\Factory\ServerRequest\ServerRequestFactory`
 - `Innmind\Http\Factory\Header\HeadersFactory`
+- `Innmind\Http\Factory\HeaderFactory`
 
 ### Fixed
 

@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\IfUnmodifiedSinceFactory,
-    Factory\HeaderFactory,
     Header\IfUnmodifiedSince,
 };
 use Innmind\TimeContinuum\Clock;
@@ -17,8 +16,6 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
     public function testMake()
     {
         $f = new IfUnmodifiedSinceFactory(Clock::live());
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('If-Unmodified-Since'),

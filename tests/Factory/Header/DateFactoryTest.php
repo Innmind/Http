@@ -5,7 +5,6 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\DateFactory,
-    Factory\HeaderFactory,
     Header\Date,
 };
 use Innmind\TimeContinuum\Clock;
@@ -17,8 +16,6 @@ class DateFactoryTest extends TestCase
     public function testMake()
     {
         $f = new DateFactory(Clock::live());
-
-        $this->assertInstanceOf(HeaderFactory::class, $f);
 
         $h = ($f)(
             Str::of('Date'),

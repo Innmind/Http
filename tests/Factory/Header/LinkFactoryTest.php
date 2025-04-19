@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Factory\Header\LinkFactory,
     Header\Link,
 };
@@ -13,14 +12,6 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LinkFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new LinkFactory,
-        );
-    }
-
     public function testMake()
     {
         $header = (new LinkFactory)(

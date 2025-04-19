@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Factory;
+namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\Header;
 use Innmind\Immutable\{
@@ -10,9 +10,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-interface HeaderFactory
+interface Implementation
 {
     /**
      * @return Maybe<Header>

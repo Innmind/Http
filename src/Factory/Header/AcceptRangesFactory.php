@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header\AcceptRanges,
     Header\AcceptRangesValue,
     Header,
@@ -15,9 +14,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class AcceptRangesFactory implements HeaderFactory
+final class AcceptRangesFactory implements Implementation
 {
     #[\Override]
     public function __invoke(Str $name, Str $value): Maybe

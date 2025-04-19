@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
     Header,
     Header\Authorization,
     Header\AuthorizationValue,
@@ -15,9 +14,10 @@ use Innmind\Immutable\{
 };
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class AuthorizationFactory implements HeaderFactory
+final class AuthorizationFactory implements Implementation
 {
     private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
