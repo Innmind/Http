@@ -22,6 +22,7 @@
 - `Innmind\Http\Header\Authorization` constructor is now private, use `::of()` or `::maybe()` named constructors
 - `Innmind\Http\Header\ContentEncoding` constructor is now private, use `::of()` or `::maybe()` named constructors
 - `Innmind\Http\Header\ContentLength` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\ContentLocation` constructor is now private, use `::of()` or `::maybe()` named constructors
 
 ### Removed
 

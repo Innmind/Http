@@ -12,8 +12,8 @@ use Innmind\Immutable\Sequence;
  */
 final class ContentLocation implements HeaderInterface
 {
-    public function __construct(
-        private LocationValue $value,
+    private function __construct(
+        private Url $url,
     ) {
     }
 
@@ -22,7 +22,7 @@ final class ContentLocation implements HeaderInterface
      */
     public static function of(Url $location): self
     {
-        return new self(new LocationValue($location));
+        return new self($location);
     }
 
     #[\Override]
@@ -39,7 +39,7 @@ final class ContentLocation implements HeaderInterface
 
     public function url(): Url
     {
-        return $this->value->url();
+        return $this->url;
     }
 
     #[\Override]
@@ -50,6 +50,6 @@ final class ContentLocation implements HeaderInterface
 
     private function header(): Header
     {
-        return new Header('Content-Location', $this->value);
+        return new Header('Content-Location', new Value\Value($this->url->toString()));
     }
 }
