@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\ServerRequest;
 
 use Innmind\Http\{
-    Factory\ServerRequest\ServerRequestFactory,
-    Factory\ServerRequestFactory as ServerRequestFactoryInterface,
+    Factory\ServerRequestFactory,
     Factory\HeadersFactory,
     Factory\EnvironmentFactory,
     Factory\CookiesFactory,
@@ -32,7 +31,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost:8080';
         $_SERVER['REQUEST_URI'] = '/index.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $f = new ServerRequestFactory(
+        $f = ServerRequestFactory::of(
             new class implements HeadersFactory {
                 public function __invoke(): Headers
                 {
@@ -47,8 +46,6 @@ class ServerRequestFactoryTest extends TestCase
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
-
-        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
         $r = ($f)();
 
@@ -63,7 +60,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/index.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['PHP_AUTH_USER'] = 'john';
-        $factory = new ServerRequestFactory(
+        $factory = ServerRequestFactory::of(
             new class implements HeadersFactory {
                 public function __invoke(): Headers
                 {
@@ -78,8 +75,6 @@ class ServerRequestFactoryTest extends TestCase
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
-
-        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
         $request = ($factory)();
 
@@ -95,7 +90,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $_SERVER['PHP_AUTH_PW'] = 'duh';
-        $factory = new ServerRequestFactory(
+        $factory = ServerRequestFactory::of(
             new class implements HeadersFactory {
                 public function __invoke(): Headers
                 {
@@ -111,8 +106,6 @@ class ServerRequestFactoryTest extends TestCase
             $_SERVER,
         );
 
-        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
-
         $request = ($factory)();
 
         $this->assertInstanceOf(ServerRequest::class, $request);
@@ -122,7 +115,7 @@ class ServerRequestFactoryTest extends TestCase
     public function testDefault()
     {
         $this->assertInstanceOf(
-            ServerRequestFactoryInterface::class,
+            ServerRequestFactory::class,
             ServerRequestFactory::default(Clock::live()),
         );
     }
