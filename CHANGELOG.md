@@ -11,12 +11,14 @@
 - `Innmind\Http\Factory\CookiesFactory` is now a final class
 - `Innmind\Http\Factory\EnvironmentFactory` is now a final class
 - `Innmind\Http\Factory\FilesFactory` is now a final class
+- `Innmind\Http\Factory\FormFactory` is now a final class
 
 ### Removed
 
 - `Innmind\Http\Factory\Cookies\CookiesFactory`
 - `Innmind\Http\Factory\Environment\EnvironmentFactory`
 - `Innmind\Http\Factory\Files\FilesFactory`
+- `Innmind\Http\Factory\Form\FormFactory`
 
 ### Fixed
 

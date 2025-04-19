@@ -3,15 +3,13 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Form;
 
-use Innmind\Http\{
-    Factory\FormFactory as FormFactoryInterface,
-    ServerRequest\Form,
-};
+use Innmind\Http\ServerRequest\Form;
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class FormFactory implements FormFactoryInterface
+final class Defaut
 {
     /**
      * @param array<string, string|array> $post
@@ -21,13 +19,12 @@ final class FormFactory implements FormFactoryInterface
     ) {
     }
 
-    #[\Override]
     public function __invoke(): Form
     {
         return Form::of($this->post);
     }
 
-    public static function default(): self
+    public static function new(): self
     {
         /** @var array<string, string|array> */
         $post = $_POST;

@@ -48,12 +48,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Query::of([]);
                 }
             },
-            new class implements FormFactory {
-                public function __invoke(): Form
-                {
-                    return Form::of([]);
-                }
-            },
+            FormFactory::of(static fn() => Form::of([])),
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
@@ -89,12 +84,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Query::of([]);
                 }
             },
-            new class implements FormFactory {
-                public function __invoke(): Form
-                {
-                    return Form::of([]);
-                }
-            },
+            FormFactory::of(static fn() => Form::of([])),
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
@@ -131,12 +121,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Query::of([]);
                 }
             },
-            new class implements FormFactory {
-                public function __invoke(): Form
-                {
-                    return Form::of([]);
-                }
-            },
+            FormFactory::of(static fn() => Form::of([])),
             FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
