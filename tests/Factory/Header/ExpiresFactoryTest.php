@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\ExpiresFactory,
-    Factory\HeaderFactory,
+    Factory\Header\Factory,
+    Header,
     Header\Expires,
 };
 use Innmind\TimeContinuum\Clock;
@@ -14,22 +14,11 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ExpiresFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new ExpiresFactory(Clock::live()),
-        );
-    }
-
     public function testMake()
     {
-        $header = (new ExpiresFactory(Clock::live()))(
+        $header = Factory::new(Clock::live())(
             Str::of('Expires'),
             Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(Expires::class, $header);
@@ -39,25 +28,14 @@ class ExpiresFactoryTest extends TestCase
         );
     }
 
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new ExpiresFactory(Clock::live()))(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
-    }
-
     public function testReturnNothingWhenNotOfExpectedFormat()
     {
-        $this->assertNull((new ExpiresFactory(Clock::live()))(
-            Str::of('Expires'),
-            Str::of('2020-01-01'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
+        $this->assertInstanceOf(
+            Header::class,
+            Factory::new(Clock::live())(
+                Str::of('Expires'),
+                Str::of('2020-01-01'),
+            ),
+        );
     }
 }

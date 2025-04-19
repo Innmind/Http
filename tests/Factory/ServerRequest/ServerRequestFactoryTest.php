@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\ServerRequest;
 
 use Innmind\Http\{
-    Factory\ServerRequest\ServerRequestFactory,
-    Factory\ServerRequestFactory as ServerRequestFactoryInterface,
+    Factory\ServerRequestFactory,
     Factory\HeadersFactory,
     Factory\EnvironmentFactory,
     Factory\CookiesFactory,
@@ -32,48 +31,16 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost:8080';
         $_SERVER['REQUEST_URI'] = '/index.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $f = new ServerRequestFactory(
-            new class implements HeadersFactory {
-                public function __invoke(): Headers
-                {
-                    return Headers::of();
-                }
-            },
+        $f = ServerRequestFactory::of(
+            HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
-            new class implements EnvironmentFactory {
-                public function __invoke(): Environment
-                {
-                    return Environment::of();
-                }
-            },
-            new class implements CookiesFactory {
-                public function __invoke(): Cookies
-                {
-                    return Cookies::of();
-                }
-            },
-            new class implements QueryFactory {
-                public function __invoke(): Query
-                {
-                    return Query::of([]);
-                }
-            },
-            new class implements FormFactory {
-                public function __invoke(): Form
-                {
-                    return Form::of([]);
-                }
-            },
-            new class implements FilesFactory {
-                public function __invoke(): Files
-                {
-                    return Files::of([]);
-                }
-            },
+            EnvironmentFactory::of(static fn() => Environment::of()),
+            CookiesFactory::of(static fn() => Cookies::of()),
+            QueryFactory::of(static fn() => Query::of([])),
+            FormFactory::of(static fn() => Form::of([])),
+            FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
-
-        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $f);
 
         $r = ($f)();
 
@@ -88,48 +55,16 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/index.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['PHP_AUTH_USER'] = 'john';
-        $factory = new ServerRequestFactory(
-            new class implements HeadersFactory {
-                public function __invoke(): Headers
-                {
-                    return Headers::of();
-                }
-            },
+        $factory = ServerRequestFactory::of(
+            HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
-            new class implements EnvironmentFactory {
-                public function __invoke(): Environment
-                {
-                    return Environment::of();
-                }
-            },
-            new class implements CookiesFactory {
-                public function __invoke(): Cookies
-                {
-                    return Cookies::of();
-                }
-            },
-            new class implements QueryFactory {
-                public function __invoke(): Query
-                {
-                    return Query::of([]);
-                }
-            },
-            new class implements FormFactory {
-                public function __invoke(): Form
-                {
-                    return Form::of([]);
-                }
-            },
-            new class implements FilesFactory {
-                public function __invoke(): Files
-                {
-                    return Files::of([]);
-                }
-            },
+            EnvironmentFactory::of(static fn() => Environment::of()),
+            CookiesFactory::of(static fn() => Cookies::of()),
+            QueryFactory::of(static fn() => Query::of([])),
+            FormFactory::of(static fn() => Form::of([])),
+            FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
-
-        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
         $request = ($factory)();
 
@@ -145,48 +80,16 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $_SERVER['PHP_AUTH_PW'] = 'duh';
-        $factory = new ServerRequestFactory(
-            new class implements HeadersFactory {
-                public function __invoke(): Headers
-                {
-                    return Headers::of();
-                }
-            },
+        $factory = ServerRequestFactory::of(
+            HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
-            new class implements EnvironmentFactory {
-                public function __invoke(): Environment
-                {
-                    return Environment::of();
-                }
-            },
-            new class implements CookiesFactory {
-                public function __invoke(): Cookies
-                {
-                    return Cookies::of();
-                }
-            },
-            new class implements QueryFactory {
-                public function __invoke(): Query
-                {
-                    return Query::of([]);
-                }
-            },
-            new class implements FormFactory {
-                public function __invoke(): Form
-                {
-                    return Form::of([]);
-                }
-            },
-            new class implements FilesFactory {
-                public function __invoke(): Files
-                {
-                    return Files::of([]);
-                }
-            },
+            EnvironmentFactory::of(static fn() => Environment::of()),
+            CookiesFactory::of(static fn() => Cookies::of()),
+            QueryFactory::of(static fn() => Query::of([])),
+            FormFactory::of(static fn() => Form::of([])),
+            FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
-
-        $this->assertInstanceOf(ServerRequestFactoryInterface::class, $factory);
 
         $request = ($factory)();
 
@@ -197,8 +100,8 @@ class ServerRequestFactoryTest extends TestCase
     public function testDefault()
     {
         $this->assertInstanceOf(
-            ServerRequestFactoryInterface::class,
-            ServerRequestFactory::default(Clock::live()),
+            ServerRequestFactory::class,
+            ServerRequestFactory::native(Clock::live()),
         );
     }
 }

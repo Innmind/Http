@@ -4,12 +4,12 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\TryFactory,
-    Factory\Header\AllowFactory,
-    Factory\Header\AgeFactory,
+    Factory\Header\Factory,
+    Header,
     Header\Allow,
     Header\Age,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ class TryFactoryTest extends TestCase
     {
         $name = Str::of('Age');
         $value = Str::of('42');
-        $factory = new TryFactory(new AgeFactory);
+        $factory = Factory::new(Clock::live());
 
         $this->assertInstanceOf(Age::class, ($factory)($name, $value));
     }
@@ -28,14 +28,19 @@ class TryFactoryTest extends TestCase
     {
         $name = Str::of('Allow');
         $value = Str::of('PUT');
-        $factory = new TryFactory(
-            new AgeFactory,
-            static fn($name, $value) => (new AllowFactory)($name, $value)->match(
-                static fn($header) => $header,
-                static fn() => null,
-            ),
-        );
+        $factory = Factory::new(Clock::live());
 
         $this->assertInstanceOf(Allow::class, ($factory)($name, $value));
+    }
+
+    public function testUnknownHeader()
+    {
+        $header = Factory::new(Clock::live())(
+            Str::of('X-Foo'),
+            Str::of('bar'),
+        );
+
+        $this->assertInstanceOf(Header::class, $header);
+        $this->assertSame('X-Foo: bar', $header->toString());
     }
 }

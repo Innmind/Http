@@ -8,6 +8,25 @@
 - Requires `innmind/time-continuum:~4.1`
 - Requires `innmind/io:~3.0`
 - `Innmind\Http\Sender::__invoke()` now returns `Innmind\Immutable\Attempt<Innmind\Immutable\SideEffect>`
+- `Innmind\Http\Factory\CookiesFactory` is now a final class
+- `Innmind\Http\Factory\EnvironmentFactory` is now a final class
+- `Innmind\Http\Factory\FilesFactory` is now a final class
+- `Innmind\Http\Factory\FormFactory` is now a final class
+- `Innmind\Http\Factory\QueryFactory` is now a final class
+- `Innmind\Http\Factory\ServerRequestFactory` is now a final class
+- `Innmind\Http\Factory\HeadersFactory` is now a final class
+- Classes in `Innmind\Http\Factory\Header\` are now internal
+
+### Removed
+
+- `Innmind\Http\Factory\Cookies\CookiesFactory`
+- `Innmind\Http\Factory\Environment\EnvironmentFactory`
+- `Innmind\Http\Factory\Files\FilesFactory`
+- `Innmind\Http\Factory\Form\FormFactory`
+- `Innmind\Http\Factory\Query\QueryFactory`
+- `Innmind\Http\Factory\ServerRequest\ServerRequestFactory`
+- `Innmind\Http\Factory\Header\HeadersFactory`
+- `Innmind\Http\Factory\HeaderFactory`
 
 ### Fixed
 

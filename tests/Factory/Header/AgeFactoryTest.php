@@ -4,45 +4,23 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\HeaderFactory,
-    Factory\Header\AgeFactory,
+    Factory\Header\Factory,
     Header\Age,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class AgeFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new AgeFactory,
-        );
-    }
-
     public function testMake()
     {
-        $header = (new AgeFactory)(
+        $header = Factory::new(Clock::live())(
             Str::of('Age'),
             Str::of('42'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(Age::class, $header);
         $this->assertSame('Age: 42', $header->toString());
-    }
-
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new AgeFactory)(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
     }
 }

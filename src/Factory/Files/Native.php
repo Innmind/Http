@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Files;
 
 use Innmind\Http\{
-    Factory\FilesFactory as FilesFactoryInterface,
     ServerRequest\Files,
     File\Status,
 };
@@ -18,13 +17,14 @@ use Innmind\IO\IO;
 use Innmind\Immutable\Either;
 
 /**
+ * @internal
  * @psalm-immutable
  *
  * The structure of $_FILES is way too weird to describe it as type, so there is
  * a bunch of annotations to suppress Psalm errors because it can't understand
  * the data being passed around
  */
-final class FilesFactory implements FilesFactoryInterface
+final class Native
 {
     public function __construct(
         private IO $io,
@@ -32,7 +32,6 @@ final class FilesFactory implements FilesFactoryInterface
     ) {
     }
 
-    #[\Override]
     public function __invoke(): Files
     {
         $files = [];
@@ -45,7 +44,7 @@ final class FilesFactory implements FilesFactoryInterface
         return Files::of($files);
     }
 
-    public static function default(IO $io): self
+    public static function new(IO $io): self
     {
         return new self($io, $_FILES);
     }

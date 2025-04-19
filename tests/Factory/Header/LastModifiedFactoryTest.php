@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\LastModifiedFactory,
-    Factory\HeaderFactory,
+    Factory\Header\Factory,
+    Header,
     Header\LastModified,
 };
 use Innmind\TimeContinuum\Clock;
@@ -14,22 +14,11 @@ use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LastModifiedFactoryTest extends TestCase
 {
-    public function testInterface()
-    {
-        $this->assertInstanceOf(
-            HeaderFactory::class,
-            new LastModifiedFactory(Clock::live()),
-        );
-    }
-
     public function testMake()
     {
-        $header = (new LastModifiedFactory(Clock::live()))(
+        $header = Factory::new(Clock::live())(
             Str::of('Last-Modified'),
             Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(LastModified::class, $header);
@@ -39,25 +28,14 @@ class LastModifiedFactoryTest extends TestCase
         );
     }
 
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new LastModifiedFactory(Clock::live()))(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
-    }
-
     public function testReturnNothingWhenNotOfExpectedFormat()
     {
-        $this->assertNull((new LastModifiedFactory(Clock::live()))(
-            Str::of('Last-Modified'),
-            Str::of('2020-01-01'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
+        $this->assertInstanceOf(
+            Header::class,
+            Factory::new(Clock::live())(
+                Str::of('Last-Modified'),
+                Str::of('2020-01-01'),
+            ),
+        );
     }
 }

@@ -3,16 +3,14 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Environment;
 
-use Innmind\Http\{
-    Factory\EnvironmentFactory as EnvironmentFactoryInterface,
-    ServerRequest\Environment,
-};
+use Innmind\Http\ServerRequest\Environment;
 use Innmind\Immutable\Map;
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class EnvironmentFactory implements EnvironmentFactoryInterface
+final class Native
 {
     /**
      * @param array<string, string> $env
@@ -22,7 +20,6 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
     ) {
     }
 
-    #[\Override]
     public function __invoke(): Environment
     {
         /** @var Map<string, string> */
@@ -35,7 +32,7 @@ final class EnvironmentFactory implements EnvironmentFactoryInterface
         return Environment::of($map);
     }
 
-    public static function default(): self
+    public static function new(): self
     {
         return new self(\getenv());
     }
