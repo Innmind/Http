@@ -3,8 +3,14 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\TimeContinuum\PointInTime;
+use Innmind\Http\{
+    Header as HeaderInterface,
+    TimeContinuum\Format\Http,
+};
+use Innmind\TimeContinuum\{
+    PointInTime,
+    Offset,
+};
 use Innmind\Immutable\Sequence;
 
 /**
@@ -12,8 +18,8 @@ use Innmind\Immutable\Sequence;
  */
 final class Expires implements HeaderInterface
 {
-    public function __construct(
-        private DateValue $value,
+    private function __construct(
+        private PointInTime $point,
     ) {
     }
 
@@ -22,7 +28,7 @@ final class Expires implements HeaderInterface
      */
     public static function of(PointInTime $point): self
     {
-        return new self(new DateValue($point));
+        return new self($point);
     }
 
     #[\Override]
@@ -39,7 +45,7 @@ final class Expires implements HeaderInterface
 
     public function date(): PointInTime
     {
-        return $this->value->date();
+        return $this->point;
     }
 
     #[\Override]
@@ -50,6 +56,14 @@ final class Expires implements HeaderInterface
 
     private function header(): Header
     {
-        return new Header('Expires', $this->value);
+        return new Header(
+            'Expires',
+            new Value\Value(
+                $this
+                    ->point
+                    ->changeOffset(Offset::utc())
+                    ->format(Http::new()),
+            ),
+        );
     }
 }

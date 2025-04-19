@@ -26,6 +26,7 @@
 - `Innmind\Http\Header\ContentRange` constructor is now private, use `::of()` or `::maybe()` named constructors
 - `Innmind\Http\Header\ContentType` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Date` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Expires` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
