@@ -15,11 +15,9 @@ use Innmind\TimeContinuum\Clock;
 
 final class ResponseSender implements Sender
 {
-    private Clock $clock;
-
-    public function __construct(Clock $clock)
-    {
-        $this->clock = $clock;
+    public function __construct(
+        private Clock $clock,
+    ) {
     }
 
     #[\Override]

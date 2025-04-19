@@ -16,13 +16,10 @@ use Innmind\Immutable\{
  */
 final class File
 {
-    private string $name;
-    private Binary $file;
-
-    public function __construct(string $name, Binary $file)
-    {
-        $this->name = $name;
-        $this->file = $file;
+    public function __construct(
+        private string $name,
+        private Binary $file,
+    ) {
     }
 
     /**

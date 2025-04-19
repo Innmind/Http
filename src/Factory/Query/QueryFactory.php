@@ -13,15 +13,12 @@ use Innmind\Http\{
  */
 final class QueryFactory implements QueryFactoryInterface
 {
-    /** @var array<string, string|array> */
-    private array $get;
-
     /**
      * @param array<string, string|array> $get
      */
-    public function __construct(array $get)
-    {
-        $this->get = $get;
+    public function __construct(
+        private array $get,
+    ) {
     }
 
     #[\Override]

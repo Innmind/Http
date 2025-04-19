@@ -14,15 +14,12 @@ use Innmind\Immutable\Map;
  */
 final class EnvironmentFactory implements EnvironmentFactoryInterface
 {
-    /** @var array<string, string> */
-    private array $env;
-
     /**
      * @param array<string, string> $env
      */
-    public function __construct(array $env)
-    {
-        $this->env = $env;
+    public function __construct(
+        private array $env,
+    ) {
     }
 
     #[\Override]

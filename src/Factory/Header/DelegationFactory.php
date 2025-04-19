@@ -15,15 +15,12 @@ use Innmind\Immutable\{
  */
 final class DelegationFactory implements HeaderFactory
 {
-    /** @var Map<string, HeaderFactory> */
-    private Map $factories;
-
     /**
      * @param Map<string, HeaderFactory> $factories
      */
-    public function __construct(Map $factories)
-    {
-        $this->factories = $factories;
+    public function __construct(
+        private Map $factories,
+    ) {
     }
 
     #[\Override]

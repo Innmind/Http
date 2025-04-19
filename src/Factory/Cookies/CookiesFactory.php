@@ -14,15 +14,12 @@ use Innmind\Immutable\Map;
  */
 final class CookiesFactory implements CookiesFactoryInterface
 {
-    /** @var array<string, string> */
-    private array $cookies;
-
     /**
      * @param array<string, string> $cookies
      */
-    public function __construct(array $cookies)
-    {
-        $this->cookies = $cookies;
+    public function __construct(
+        private array $cookies,
+    ) {
     }
 
     #[\Override]

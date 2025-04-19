@@ -21,11 +21,9 @@ use Innmind\Immutable\{
  */
 final class LastModifiedFactory implements HeaderFactory
 {
-    private Clock $clock;
-
-    public function __construct(Clock $clock)
-    {
-        $this->clock = $clock;
+    public function __construct(
+        private Clock $clock,
+    ) {
     }
 
     #[\Override]

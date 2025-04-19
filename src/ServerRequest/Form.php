@@ -10,11 +10,9 @@ use Innmind\Immutable\Maybe;
  */
 final class Form implements \Countable
 {
-    private array $data;
-
-    private function __construct(array $data)
-    {
-        $this->data = $data;
+    private function __construct(
+        private array $data,
+    ) {
     }
 
     /**
