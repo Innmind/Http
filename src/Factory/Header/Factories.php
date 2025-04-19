@@ -465,7 +465,7 @@ enum Factories
      */
     private static function buildAcceptParams(Str $params): Maybe
     {
-        $params = $params
+        return $params
             ->split(';')
             ->filter(static fn($value) => !$value->trim()->empty())
             ->map(static function(Str $value) {
@@ -476,20 +476,10 @@ enum Factories
                         $key->toString(),
                         $value->toString(),
                     ));
-            });
-
-        if ($params->empty()) {
-            /** @var Maybe<list<Parameter>> */
-            return Maybe::just([]);
-        }
-
-        /**
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<list<Parameter>>
-         */
-        return Maybe::all(...$params->toList())->map(
-            static fn(Parameter ...$params) => $params,
-        );
+            })
+            ->sink(self::values(Parameter::class))
+            ->maybe(static fn($params, $param) => $param->map($params))
+            ->map(static fn($params) => $params->toList());
     }
 
     /**
@@ -497,7 +487,10 @@ enum Factories
      */
     private static function buildLinkParams(Str $params): Maybe
     {
-        $params = $params
+        /** @var Sequence<array{string, Parameter\Parameter}> */
+        $values = Sequence::of();
+
+        return $params
             ->split(';')
             ->filter(static fn(Str $value) => !$value->trim()->empty())
             ->map(static function(Str $value) {
@@ -509,21 +502,10 @@ enum Factories
                         $value->toString(),
                     ))
                     ->map(static fn($parameter) => [$parameter->name(), $parameter]);
-            });
-
-        if ($params->empty()) {
-            /** @var Maybe<Map<string, Parameter\Parameter>> */
-            return Maybe::just(Map::of());
-        }
-
-        /**
-         * @psalm-suppress MixedArgumentTypeCoercion
-         * @psalm-suppress InvalidArgument
-         * @var Maybe<Map<string, Parameter\Parameter>>
-         */
-        return Maybe::all(...$params->toList())->map(
-            static fn(array ...$params) => Map::of(...$params),
-        );
+            })
+            ->sink($values)
+            ->maybe(static fn($params, $param) => $param->map($params))
+            ->map(static fn($params) => Map::of(...$params->toList()));
     }
 
     /**
