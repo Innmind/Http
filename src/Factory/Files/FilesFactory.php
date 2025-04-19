@@ -26,13 +26,10 @@ use Innmind\Immutable\Either;
  */
 final class FilesFactory implements FilesFactoryInterface
 {
-    private IO $io;
-    private array $files;
-
-    public function __construct(IO $io, array $files)
-    {
-        $this->io = $io;
-        $this->files = $files;
+    public function __construct(
+        private IO $io,
+        private array $files,
+    ) {
     }
 
     #[\Override]

@@ -10,10 +10,9 @@ use Innmind\Immutable\Maybe;
  */
 final class Query implements \Countable
 {
-    private array $data;
-
-    private function __construct(array $data)
-    {
+    private function __construct(
+        private array $data,
+    ) {
         $this->data = $data;
     }
 

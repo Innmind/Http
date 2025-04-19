@@ -16,15 +16,12 @@ use Innmind\Immutable\{
  */
 final class Headers implements \Countable
 {
-    /** @var Sequence<Header> */
-    private Sequence $headers;
-
     /**
      * @param Sequence<Header> $headers
      */
-    private function __construct(Sequence $headers)
-    {
-        $this->headers = $headers;
+    private function __construct(
+        private Sequence $headers,
+    ) {
     }
 
     public function __invoke(Header $header): self

@@ -11,21 +11,12 @@ use Innmind\Filesystem\File\Content;
  */
 final class Response
 {
-    private ProtocolVersion $protocolVersion;
-    private Headers $headers;
-    private Content $body;
-    private StatusCode $statusCode;
-
     private function __construct(
-        StatusCode $statusCode,
-        ProtocolVersion $protocolVersion,
-        ?Headers $headers = null,
-        ?Content $body = null,
+        private StatusCode $statusCode,
+        private ProtocolVersion $protocolVersion,
+        private Headers $headers,
+        private Content $body,
     ) {
-        $this->protocolVersion = $protocolVersion;
-        $this->headers = $headers ?? Headers::of();
-        $this->body = $body ?? Content::none();
-        $this->statusCode = $statusCode;
     }
 
     /**
@@ -37,7 +28,12 @@ final class Response
         ?Headers $headers = null,
         ?Content $body = null,
     ): self {
-        return new self($statusCode, $protocolVersion, $headers, $body);
+        return new self(
+            $statusCode,
+            $protocolVersion,
+            $headers ?? Headers::of(),
+            $body ?? Content::none(),
+        );
     }
 
     public function protocolVersion(): ProtocolVersion

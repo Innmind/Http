@@ -18,11 +18,9 @@ use Ramsey\Uuid\Uuid;
  */
 final class Boundary implements Parameter
 {
-    private string $value;
-
-    private function __construct(string $value)
-    {
-        $this->value = $value;
+    private function __construct(
+        private string $value,
+    ) {
     }
 
     /**

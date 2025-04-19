@@ -10,11 +10,9 @@ use Innmind\Http\Header\Value as ValueInterface;
  */
 final class Value implements ValueInterface
 {
-    private string $value;
-
-    public function __construct(string $value)
-    {
-        $this->value = $value;
+    public function __construct(
+        private string $value,
+    ) {
     }
 
     #[\Override]

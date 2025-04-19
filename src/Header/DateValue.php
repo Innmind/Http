@@ -14,11 +14,9 @@ use Innmind\TimeContinuum\{
  */
 final class DateValue implements Value
 {
-    private PointInTime $date;
-
-    public function __construct(PointInTime $date)
-    {
-        $this->date = $date;
+    public function __construct(
+        private PointInTime $date,
+    ) {
     }
 
     public function date(): PointInTime

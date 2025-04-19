@@ -31,39 +31,20 @@ use Innmind\Immutable\{
  */
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
-    private HeadersFactory $headersFactory;
-    /** @var callable(): Content */
-    private $bodyFactory;
-    private EnvironmentFactory $environmentFactory;
-    private CookiesFactory $cookiesFactory;
-    private QueryFactory $queryFactory;
-    private FormFactory $formFactory;
-    private FilesFactory $filesFactory;
-    /** @var array<string, string> */
-    private array $server;
-
     /**
-     * @param callable(): Content $bodyFactory
+     * @param \Closure(): Content $bodyFactory
      * @param array<string, string> $server
      */
     public function __construct(
-        HeadersFactory $headersFactory,
-        callable $bodyFactory,
-        EnvironmentFactory $environmentFactory,
-        CookiesFactory $cookiesFactory,
-        QueryFactory $queryFactory,
-        FormFactory $formFactory,
-        FilesFactory $filesFactory,
-        array $server,
+        private HeadersFactory $headersFactory,
+        private \Closure $bodyFactory,
+        private EnvironmentFactory $environmentFactory,
+        private CookiesFactory $cookiesFactory,
+        private QueryFactory $queryFactory,
+        private FormFactory $formFactory,
+        private FilesFactory $filesFactory,
+        private array $server,
     ) {
-        $this->headersFactory = $headersFactory;
-        $this->bodyFactory = $bodyFactory;
-        $this->environmentFactory = $environmentFactory;
-        $this->cookiesFactory = $cookiesFactory;
-        $this->queryFactory = $queryFactory;
-        $this->formFactory = $formFactory;
-        $this->filesFactory = $filesFactory;
-        $this->server = $server;
     }
 
     #[\Override]

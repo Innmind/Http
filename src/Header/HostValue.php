@@ -13,13 +13,10 @@ use Innmind\Url\Authority\{
  */
 final class HostValue implements Value
 {
-    private UrlHost $host;
-    private Port $port;
-
-    public function __construct(UrlHost $host, Port $port)
-    {
-        $this->host = $host;
-        $this->port = $port;
+    public function __construct(
+        private UrlHost $host,
+        private Port $port,
+    ) {
     }
 
     public function host(): UrlHost

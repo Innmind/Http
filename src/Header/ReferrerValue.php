@@ -10,11 +10,9 @@ use Innmind\Url\Url;
  */
 final class ReferrerValue implements Value
 {
-    private Url $url;
-
-    public function __construct(Url $url)
-    {
-        $this->url = $url;
+    public function __construct(
+        private Url $url,
+    ) {
     }
 
     public function url(): Url

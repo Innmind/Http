@@ -13,15 +13,12 @@ use Innmind\Http\{
  */
 final class FormFactory implements FormFactoryInterface
 {
-    /** @var array<string, string|array> */
-    private array $post;
-
     /**
      * @param array<string, string|array> $post
      */
-    public function __construct(array $post)
-    {
-        $this->post = $post;
+    public function __construct(
+        private array $post,
+    ) {
     }
 
     #[\Override]
