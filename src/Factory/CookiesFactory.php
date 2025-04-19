@@ -3,7 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory;
 
-use Innmind\Http\ServerRequest\Cookies;
+use Innmind\Http\{
+    ServerRequest\Cookies,
+    Factory\Cookies\Defaut,
+};
 
 /**
  * @psalm-immutable
@@ -11,10 +14,10 @@ use Innmind\Http\ServerRequest\Cookies;
 final class CookiesFactory
 {
     /**
-     * @param namespace\Cookies\Defaut|pure-Closure(): Cookies $implementation
+     * @param Defaut|pure-Closure(): Cookies $implementation
      */
     private function __construct(
-        private namespace\Cookies\Defaut|\Closure $implementation,
+        private Defaut|\Closure $implementation,
     ) {
     }
 
@@ -25,7 +28,7 @@ final class CookiesFactory
 
     public static function default(): self
     {
-        return new self(namespace\Cookies\Defaut::new());
+        return new self(Defaut::new());
     }
 
     /**
