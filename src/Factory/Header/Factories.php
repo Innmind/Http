@@ -21,7 +21,6 @@ use Innmind\Http\{
     Header\CacheControl,
     Header\CacheControlValue,
     Header\ContentEncoding,
-    Header\ContentEncodingValue,
     Header\ContentLanguage,
     Header\ContentLanguageValue,
     Header\ContentLength,
@@ -308,9 +307,7 @@ enum Factories
                 ))
                 ->keep(Instance::of(CacheControl::class)),
 
-            self::contentEncoding => ContentEncodingValue::of($value->toString())->map(
-                static fn($value) => new ContentEncoding($value),
-            ),
+            self::contentEncoding => ContentEncoding::maybe($value->toString()),
 
             self::contentLanguage => $value
                 ->split(',')
