@@ -32,12 +32,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_URI'] = '/index.php';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $f = ServerRequestFactory::of(
-            new class implements HeadersFactory {
-                public function __invoke(): Headers
-                {
-                    return Headers::of();
-                }
-            },
+            HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
             EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
@@ -61,12 +56,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $factory = ServerRequestFactory::of(
-            new class implements HeadersFactory {
-                public function __invoke(): Headers
-                {
-                    return Headers::of();
-                }
-            },
+            HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
             EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
@@ -91,12 +81,7 @@ class ServerRequestFactoryTest extends TestCase
         $_SERVER['PHP_AUTH_USER'] = 'john';
         $_SERVER['PHP_AUTH_PW'] = 'duh';
         $factory = ServerRequestFactory::of(
-            new class implements HeadersFactory {
-                public function __invoke(): Headers
-                {
-                    return Headers::of();
-                }
-            },
+            HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
             EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),

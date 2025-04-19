@@ -14,6 +14,7 @@
 - `Innmind\Http\Factory\FormFactory` is now a final class
 - `Innmind\Http\Factory\QueryFactory` is now a final class
 - `Innmind\Http\Factory\ServerRequestFactory` is now a final class
+- `Innmind\Http\Factory\HeadersFactory` is now a final class
 
 ### Removed
 
@@ -23,6 +24,7 @@
 - `Innmind\Http\Factory\Form\FormFactory`
 - `Innmind\Http\Factory\Query\QueryFactory`
 - `Innmind\Http\Factory\ServerRequest\ServerRequestFactory`
+- `Innmind\Http\Factory\Header\HeadersFactory`
 
 ### Fixed
 

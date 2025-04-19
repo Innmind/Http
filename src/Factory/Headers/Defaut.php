@@ -1,19 +1,22 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Factory\Header;
+namespace Innmind\Http\Factory\Headers;
 
 use Innmind\Http\{
-    Factory\HeadersFactory as HeadersFactoryInterface,
     Factory\HeaderFactory as HeaderFactoryInterface,
+    Factory\Header\Factories,
+    Factory\Header\TryFactory,
     Headers,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 
 /**
+ * @internal
  * @psalm-immutable
  */
-final class HeadersFactory implements HeadersFactoryInterface
+final class Defaut
 {
     private const FORMAT = '~^(HTTP_|CONTENT_LENGTH|CONTENT_MD5|CONTENT_TYPE)~';
     private TryFactory $headerFactory;
@@ -31,7 +34,6 @@ final class HeadersFactory implements HeadersFactoryInterface
         $this->server = $server;
     }
 
-    #[\Override]
     public function __invoke(): Headers
     {
         $headers = [];
@@ -46,12 +48,12 @@ final class HeadersFactory implements HeadersFactoryInterface
         return Headers::of(...$headers);
     }
 
-    public static function default(HeaderFactoryInterface $headerFactory): self
+    public static function new(Clock $clock): self
     {
         /** @var array<string, string> */
         $server = $_SERVER;
 
-        return new self($headerFactory, $server);
+        return new self(Factories::default($clock), $server);
     }
 
     /**

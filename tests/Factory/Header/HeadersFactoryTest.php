@@ -4,15 +4,10 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\HeadersFactory,
-    Factory\HeaderFactory,
-    Factory\HeadersFactory as HeadersFactoryInterface,
-    Headers
+    Factory\HeadersFactory,
+    Headers,
 };
-use Innmind\Immutable\{
-    Maybe,
-    Str,
-};
+use Innmind\TimeContinuum\Clock;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HeadersFactoryTest extends TestCase
@@ -24,16 +19,8 @@ class HeadersFactoryTest extends TestCase
         $_SERVER['CONTENT_MD5'] = '0';
         $_SERVER['CONTENT_TYPE'] = 'text/plain';
 
-        $f = HeadersFactory::default(
-            new class implements HeaderFactory {
-                public function __invoke(Str $name, Str $value): Maybe
-                {
-                    return Maybe::nothing();
-                }
-            },
-        );
+        $f = HeadersFactory::default(Clock::live());
 
-        $this->assertInstanceOf(HeadersFactoryInterface::class, $f);
         $this->assertInstanceOf(Headers::class, ($f)());
         $this->assertTrue(($f)()->contains('authorization'));
         $this->assertTrue(($f)()->contains('content-length'));

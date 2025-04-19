@@ -7,7 +7,6 @@ use Innmind\Http\{
     ServerRequest,
     Method,
     ProtocolVersion,
-    Factory\Header\Factories,
     Factory,
 };
 use Innmind\TimeContinuum\Clock;
@@ -105,9 +104,7 @@ final class ServerRequestFactory
 
         /** @psalm-suppress PossiblyFalseArgument */
         return new self(
-            Header\HeadersFactory::default(
-                Factories::default($clock),
-            ),
+            HeadersFactory::default($clock),
             static fn() => Content::oneShot(
                 $io
                     ->streams()
