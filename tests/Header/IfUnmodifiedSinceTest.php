@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Header,
-    Header\DateValue
 };
 use Innmind\TimeContinuum\PointInTime;
 use Innmind\Immutable\Sequence;
@@ -16,22 +15,17 @@ class IfUnmodifiedSinceTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new IfUnmodifiedSince(
-            $d = new DateValue(PointInTime::at(
+        $h = IfUnmodifiedSince::of(
+            PointInTime::at(
                 new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
-            )),
+            ),
         );
 
         $this->assertInstanceOf(Header::class, $h);
         $this->assertSame('If-Unmodified-Since', $h->name());
         $v = $h->values();
         $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame($d, $v->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
         $this->assertSame('If-Unmodified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
-        $this->assertSame($d->date(), $h->date());
     }
 
     public function testOf()

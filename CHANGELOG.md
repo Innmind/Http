@@ -29,6 +29,7 @@
 - `Innmind\Http\Header\Expires` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Host` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\IfModifiedSince` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\IfUnmodifiedSince` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
