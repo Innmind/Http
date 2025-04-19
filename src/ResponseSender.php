@@ -57,6 +57,10 @@ final class ResponseSender implements Sender
                 return;
             }
 
+            if ($header instanceof Header\Provider) {
+                $header = $header->toHeader();
+            }
+
             \header($header->toString(), false);
         });
 

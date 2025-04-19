@@ -106,11 +106,11 @@ final class Headers implements \Countable
     }
 
     /**
-     * @param callable(Header): void $function
+     * @param callable(Header|Header\Provider): void $function
      */
     public function foreach(callable $function): SideEffect
     {
-        return $this->all()->foreach($function);
+        return $this->headers->values()->foreach($function);
     }
 
     /**
