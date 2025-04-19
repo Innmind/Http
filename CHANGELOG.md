@@ -24,6 +24,7 @@
 - `Innmind\Http\Header\ContentLength` constructor is now private, use `::of()` or `::maybe()` named constructors
 - `Innmind\Http\Header\ContentLocation` constructor is now private, use `::of()` or `::maybe()` named constructors
 - `Innmind\Http\Header\ContentRange` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\ContentType` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -41,6 +42,7 @@
 - `Innmind\Http\Header\ContentEncodingValue`
 - `Innmind\Http\Header\ContentLengthValue`
 - `Innmind\Http\Header\ContentRangeValue`
+- `Innmind\Http\Header\ContentTypeValue`
 
 ### Fixed
 

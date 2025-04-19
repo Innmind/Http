@@ -10,11 +10,11 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header\ContentType,
-    Header\ContentTypeValue,
     Header\Allow,
     Header\AllowValue
 };
 use Innmind\Filesystem\File\Content;
+use Innmind\MediaType\MediaType;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
@@ -25,8 +25,8 @@ class StringableTest extends TestCase
             $code = StatusCode::ok,
             ProtocolVersion::v20,
             Headers::of(
-                new ContentType(
-                    new ContentTypeValue('text', 'plain'),
+                ContentType::of(
+                    MediaType::of('text/plain'),
                 ),
                 new Allow(
                     new AllowValue('GET'),

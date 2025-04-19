@@ -9,9 +9,9 @@ use Innmind\Http\{
     Header\Header,
     Header\Allow,
     Header\ContentType,
-    Header\ContentTypeValue,
     Header\Value\Value,
 };
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\SideEffect;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -20,10 +20,9 @@ class HeadersTest extends TestCase
     public function testInterface()
     {
         $hs = Headers::of(
-            $ct = new ContentType(
-                new ContentTypeValue(
-                    'application',
-                    'json',
+            $ct = ContentType::of(
+                MediaType::of(
+                    'application/json',
                 ),
             ),
         );
@@ -45,10 +44,9 @@ class HeadersTest extends TestCase
     public function testOf()
     {
         $headers = Headers::of(
-            new ContentType(
-                new ContentTypeValue(
-                    'application',
-                    'json',
+            ContentType::of(
+                MediaType::of(
+                    'application/json',
                 ),
             ),
         );
@@ -68,8 +66,12 @@ class HeadersTest extends TestCase
     public function testAdd()
     {
         $headers1 = Headers::of();
-        $headers2 = ($headers1)(ContentType::of('application', 'json'));
-        $headers3 = ($headers2)($header = ContentType::of('application', 'json'));
+        $headers2 = ($headers1)(ContentType::of(
+            MediaType::of('application/json'),
+        ));
+        $headers3 = ($headers2)($header = ContentType::of(
+            MediaType::of('application/json'),
+        ));
 
         $this->assertNotSame($headers1, $headers2);
         $this->assertInstanceOf(Headers::class, $headers2);
@@ -84,7 +86,9 @@ class HeadersTest extends TestCase
     public function testForeach()
     {
         $headers = Headers::of(
-            ContentType::of('application', 'json'),
+            ContentType::of(
+                MediaType::of('application/json'),
+            ),
             new Header('x-foo'),
         );
 
@@ -101,7 +105,9 @@ class HeadersTest extends TestCase
     public function testReduce()
     {
         $headers = Headers::of(
-            ContentType::of('application', 'json'),
+            ContentType::of(
+                MediaType::of('application/json'),
+            ),
             new Header('x-foo'),
         );
 
@@ -120,7 +126,9 @@ class HeadersTest extends TestCase
     public function testFind()
     {
         $headers = Headers::of(
-            ContentType::of('application', 'json'),
+            ContentType::of(
+                MediaType::of('application/json'),
+            ),
             new Header('Allow'),
         );
 
@@ -146,7 +154,9 @@ class HeadersTest extends TestCase
     public function testFilter()
     {
         $headers = Headers::of(
-            ContentType::of('application', 'json'),
+            ContentType::of(
+                MediaType::of('application/json'),
+            ),
             new Header('x-foo'),
         );
 
@@ -167,7 +177,9 @@ class HeadersTest extends TestCase
     public function testAll()
     {
         $headers = Headers::of(
-            $contentType = ContentType::of('application', 'json'),
+            $contentType = ContentType::of(
+                MediaType::of('application/json'),
+            ),
             $foo = new Header('x-foo'),
         );
 

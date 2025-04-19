@@ -27,7 +27,6 @@ use Innmind\Http\{
     Header\ContentLocation,
     Header\ContentRange,
     Header\ContentType,
-    Header\ContentTypeValue,
     Header\Cookie,
     Header\Date,
     Header\Expires,
@@ -326,19 +325,9 @@ enum Factories
 
             self::contentRange => self::contentRange($value->trim()),
 
-            self::contentType => MediaType::maybe($value->toString())
-                ->flatMap(static fn($mediaType) => ContentTypeValue::of(
-                    $mediaType->topLevel(),
-                    $mediaType->subType(),
-                    ...$mediaType
-                        ->parameters()
-                        ->map(static fn($param) => new Parameter\Parameter(
-                            $param->name(),
-                            $param->value(),
-                        ))
-                        ->toList(),
-                ))
-                ->map(static fn($value) => new ContentType($value)),
+            self::contentType => MediaType::maybe($value->toString())->map(
+                ContentType::of(...),
+            ),
 
             self::cookie => Maybe::just($value)
                 ->filter(static fn($value) => $value->matches(
