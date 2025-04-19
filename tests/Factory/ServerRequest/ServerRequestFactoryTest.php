@@ -54,12 +54,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Form::of([]);
                 }
             },
-            new class implements FilesFactory {
-                public function __invoke(): Files
-                {
-                    return Files::of([]);
-                }
-            },
+            FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
 
@@ -100,12 +95,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Form::of([]);
                 }
             },
-            new class implements FilesFactory {
-                public function __invoke(): Files
-                {
-                    return Files::of([]);
-                }
-            },
+            FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
 
@@ -147,12 +137,7 @@ class ServerRequestFactoryTest extends TestCase
                     return Form::of([]);
                 }
             },
-            new class implements FilesFactory {
-                public function __invoke(): Files
-                {
-                    return Files::of([]);
-                }
-            },
+            FilesFactory::of(static fn() => Files::of([])),
             $_SERVER,
         );
 

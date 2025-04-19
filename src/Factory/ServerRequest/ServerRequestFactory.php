@@ -125,7 +125,7 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             CookiesFactory::default(),
             Factory\Query\QueryFactory::default(),
             Factory\Form\FormFactory::default(),
-            Factory\Files\FilesFactory::default($io),
+            FilesFactory::default($io),
             $server,
         );
     }

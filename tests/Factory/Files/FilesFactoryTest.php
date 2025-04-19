@@ -4,8 +4,7 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Files;
 
 use Innmind\Http\{
-    Factory\Files\FilesFactory,
-    Factory\FilesFactory as FilesFactoryInterface,
+    Factory\FilesFactory,
     ServerRequest\Files,
     File\Status,
 };
@@ -64,8 +63,6 @@ class FilesFactoryTest extends TestCase
         $factory = FilesFactory::default(
             IO::fromAmbientAuthority(),
         );
-
-        $this->assertInstanceOf(FilesFactoryInterface::class, $factory);
 
         \file_put_contents('/tmp/foo.txt', 'foo');
         $files = ($factory)();
