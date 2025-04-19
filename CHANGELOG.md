@@ -50,6 +50,7 @@
 - `Innmind\Http\Header\ContentRangeValue`
 - `Innmind\Http\Header\ContentTypeValue`
 - `Innmind\Http\Header\HostValue`
+- `Innmind\Http\Header\DateValue`
 
 ### Fixed
 
