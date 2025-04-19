@@ -15,8 +15,9 @@ use Innmind\Immutable\Sequence;
  */
 final class Host implements HeaderInterface
 {
-    public function __construct(
-        private HostValue $value,
+    private function __construct(
+        private UrlHost $host,
+        private Port $port,
     ) {
     }
 
@@ -25,7 +26,7 @@ final class Host implements HeaderInterface
      */
     public static function of(UrlHost $host, Port $port): self
     {
-        return new self(new HostValue($host, $port));
+        return new self($host, $port);
     }
 
     #[\Override]
@@ -42,12 +43,12 @@ final class Host implements HeaderInterface
 
     public function host(): UrlHost
     {
-        return $this->value->host();
+        return $this->host;
     }
 
     public function port(): Port
     {
-        return $this->value->port();
+        return $this->port;
     }
 
     #[\Override]
@@ -58,6 +59,11 @@ final class Host implements HeaderInterface
 
     private function header(): Header
     {
-        return new Header('Host', $this->value);
+        return new Header(
+            'Host',
+            new Value\Value(
+                $this->host->toString().$this->port->format(),
+            ),
+        );
     }
 }

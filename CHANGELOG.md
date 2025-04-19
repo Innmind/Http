@@ -27,6 +27,7 @@
 - `Innmind\Http\Header\ContentType` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Date` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Expires` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Host` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -45,6 +46,7 @@
 - `Innmind\Http\Header\ContentLengthValue`
 - `Innmind\Http\Header\ContentRangeValue`
 - `Innmind\Http\Header\ContentTypeValue`
+- `Innmind\Http\Header\HostValue`
 
 ### Fixed
 
