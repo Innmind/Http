@@ -14,7 +14,6 @@ use Innmind\Http\{
     Header\AcceptLanguage,
     Header\AcceptLanguageValue,
     Header\AcceptRanges,
-    Header\AcceptRangesValue,
     Header\Age,
     Header\AgeValue,
     Header\Allow,
@@ -241,9 +240,7 @@ enum Factories
                 ->maybe(static fn($values, $value) => $value->map($values))
                 ->map(static fn($values) => new AcceptLanguage(...$values->toList())),
 
-            self::acceptRanges => AcceptRangesValue::of($value->toString())->map(
-                static fn($value) => new AcceptRanges($value),
-            ),
+            self::acceptRanges => AcceptRanges::maybe($value->toString()),
 
             self::age => Maybe::just($value->toString())
                 ->filter(\is_numeric(...))
