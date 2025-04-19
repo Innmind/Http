@@ -15,7 +15,6 @@ use Innmind\Http\{
     Header\AcceptLanguageValue,
     Header\AcceptRanges,
     Header\Age,
-    Header\AgeValue,
     Header\Allow,
     Header\AllowValue,
     Header\Authorization,
@@ -245,8 +244,7 @@ enum Factories
             self::age => Maybe::just($value->toString())
                 ->filter(\is_numeric(...))
                 ->map(static fn($age) => (int) $age)
-                ->flatMap(AgeValue::of(...))
-                ->map(static fn($value) => new Age($value)),
+                ->flatMap(Age::maybe(...)),
 
             self::allow => $value
                 ->split(',')

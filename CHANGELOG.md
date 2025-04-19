@@ -18,6 +18,7 @@
 - Classes in `Innmind\Http\Factory\Header\` are now internal
 - `Innmind\Http\Header::values()` now returns an `Innmind\Immutable\Sequence` to allow for ordered values
 - `Innmind\Http\Header\AcceptRanges` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\Age` constructor is now private, use `::of()` or `::maybe()` named constructors
 
 ### Removed
 
@@ -30,6 +31,7 @@
 - `Innmind\Http\Factory\Header\HeadersFactory`
 - `Innmind\Http\Factory\HeaderFactory`
 - `Innmind\Http\Header\AcceptRangesValue`
+- `Innmind\Http\Header\AgeValue`
 
 ### Fixed
 
