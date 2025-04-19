@@ -5,6 +5,7 @@ namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
     Factory\Header\Factory,
+    Header,
     Header\Allow,
     Header\Age,
 };
@@ -30,5 +31,16 @@ class TryFactoryTest extends TestCase
         $factory = Factory::new(Clock::live());
 
         $this->assertInstanceOf(Allow::class, ($factory)($name, $value));
+    }
+
+    public function testUnknownHeader()
+    {
+        $header = Factory::new(Clock::live())(
+            Str::of('X-Foo'),
+            Str::of('bar'),
+        );
+
+        $this->assertInstanceOf(Header::class, $header);
+        $this->assertSame('X-Foo: bar', $header->toString());
     }
 }

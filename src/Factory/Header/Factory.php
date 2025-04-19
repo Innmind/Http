@@ -3,7 +3,10 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Header;
 
-use Innmind\Http\Header;
+use Innmind\Http\{
+    Header,
+    Header\Value,
+};
 use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 
@@ -13,13 +16,9 @@ use Innmind\Immutable\Str;
  */
 final class Factory
 {
-    private Clock $clock;
-    private HeaderFactory $fallback;
-
-    private function __construct(Clock $clock)
-    {
-        $this->clock = $clock;
-        $this->fallback = new HeaderFactory;
+    private function __construct(
+        private Clock $clock,
+    ) {
     }
 
     public function __invoke(Str $name, Str $value): Header
@@ -31,15 +30,32 @@ final class Factory
                 ->try($this->clock, $value)
                 ->match(
                     static fn($header) => $header,
-                    fn() => ($this->fallback)($name, $value),
+                    static fn() => self::default($name, $value),
                 );
         }
 
-        return ($this->fallback)($name, $value);
+        return self::default($name, $value);
     }
 
     public static function new(Clock $clock): self
     {
         return new self($clock);
+    }
+
+    /**
+     * @psalm-pure
+     */
+    private static function default(Str $name, Str $value): Header
+    {
+        $values = $value
+            ->split(',')
+            ->map(static fn($value) => $value->trim())
+            ->map(static fn($value) => new Value\Value($value->toString()))
+            ->toList();
+
+        return new Header\Header(
+            $name->toString(),
+            ...$values,
+        );
     }
 }
