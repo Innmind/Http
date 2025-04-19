@@ -55,7 +55,7 @@ final class Factory
         $normalized = $name->toLower()->toString();
 
         if (\array_key_exists($normalized, $this->factories)) {
-            return $this->factories[$normalized]($name, $value)->match(
+            return $this->factories[$normalized]($value)->match(
                 static fn($header) => $header,
                 fn() => ($this->fallback)($name, $value),
             );

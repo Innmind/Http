@@ -22,12 +22,9 @@ final class AuthorizationFactory implements Implementation
     private const PATTERN = '~^"?(?<scheme>\w+)"? ?(?<param>.+)?$~';
 
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if (
-            $name->toLower()->toString() !== 'authorization' ||
-            !$value->matches(self::PATTERN)
-        ) {
+        if (!$value->matches(self::PATTERN)) {
             /** @var Maybe<Header> */
             return Maybe::nothing();
         }

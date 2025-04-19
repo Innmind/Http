@@ -4,7 +4,8 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\IfModifiedSinceFactory,
+    Factory\Header\Factory,
+    Header,
     Header\IfModifiedSince,
 };
 use Innmind\TimeContinuum\Clock;
@@ -15,14 +16,11 @@ class IfModifiedSinceFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new IfModifiedSinceFactory(Clock::live());
+        $f = Factory::new(Clock::live());
 
         $h = ($f)(
             Str::of('If-Modified-Since'),
             Str::of('Tue, 15 Nov 1994 08:12:31 GMT'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(IfModifiedSince::class, $h);
@@ -32,25 +30,14 @@ class IfModifiedSinceFactoryTest extends TestCase
         );
     }
 
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new IfModifiedSinceFactory(Clock::live()))(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
-    }
-
     public function testReturnNothingWhenNotOfExpectedFormat()
     {
-        $this->assertNull((new IfModifiedSinceFactory(Clock::live()))(
-            Str::of('If-Modified-Since'),
-            Str::of('2020-01-01'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
+        $this->assertInstanceOf(
+            Header::class,
+            Factory::new(Clock::live())(
+                Str::of('If-Modified-Since'),
+                Str::of('2020-01-01'),
+            ),
+        );
     }
 }

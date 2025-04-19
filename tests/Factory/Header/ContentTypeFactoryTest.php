@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\ContentTypeFactory,
+    Factory\Header\Factory,
+    Header,
     Header\ContentType,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,12 +16,9 @@ class ContentTypeFactoryTest extends TestCase
 {
     public function testMakeWithoutParameters()
     {
-        $header = (new ContentTypeFactory)(
+        $header = Factory::new(Clock::live())(
             Str::of('Content-Type'),
             Str::of('image/gif'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
@@ -28,48 +27,31 @@ class ContentTypeFactoryTest extends TestCase
 
     public function testMakeWithParameters()
     {
-        $header = (new ContentTypeFactory)(
+        $header = Factory::new(Clock::live())(
             Str::of('Content-Type'),
             Str::of('image/gif; foo="bar"; q=0.5'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
         $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->toString());
     }
 
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new ContentTypeFactory)(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
-    }
-
     public function testReturnNothingWhenNotValid()
     {
-        $this->assertNull((new ContentTypeFactory)(
-            Str::of('Content-Type'),
-            Str::of('foo'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
+        $this->assertInstanceOf(
+            Header::class,
+            Factory::new(Clock::live())(
+                Str::of('Content-Type'),
+                Str::of('foo'),
+            ),
+        );
     }
 
     public function testFormEncoded()
     {
-        $header = (new ContentTypeFactory)(
+        $header = Factory::new(Clock::live())(
             Str::of('Content-Type'),
             Str::of('application/x-www-form-urlencoded'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(ContentType::class, $header);

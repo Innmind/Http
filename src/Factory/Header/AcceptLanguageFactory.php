@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Header,
     Header\AcceptLanguageValue,
     Header\AcceptLanguage,
     Header\Parameter\Quality,
@@ -24,13 +23,8 @@ final class AcceptLanguageFactory implements Implementation
     private const PATTERN = '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'accept-language') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         /** @var Sequence<AcceptLanguageValue> */
         $values = Sequence::of();
 

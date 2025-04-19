@@ -18,5 +18,5 @@ interface Implementation
     /**
      * @return Maybe<Header>
      */
-    public function __invoke(Str $name, Str $value): Maybe;
+    public function __invoke(Str $value): Maybe;
 }

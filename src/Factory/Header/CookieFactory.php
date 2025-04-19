@@ -23,12 +23,9 @@ final class CookieFactory implements Implementation
     private const PATTERN = '~^(\w+=\"?[\w\-.]*\"?)?(; ?\w+=\"?[\w\-.]*\"?)*$~';
 
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if (
-            $name->toLower()->toString() !== 'cookie' ||
-            !$value->matches(self::PATTERN)
-        ) {
+        if (!$value->matches(self::PATTERN)) {
             /** @var Maybe<Header> */
             return Maybe::nothing();
         }

@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\AcceptLanguageFactory,
+    Factory\Header\Factory,
+    Header,
     Header\AcceptLanguage,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,14 +16,11 @@ class AcceptLanguageFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new AcceptLanguageFactory;
+        $f = Factory::new(Clock::live());
 
         $h = ($f)(
             Str::of('Accept-Language'),
             Str::of('da, en-gb;q=0.8, en;q=0.7'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(AcceptLanguage::class, $h);
@@ -31,25 +30,14 @@ class AcceptLanguageFactoryTest extends TestCase
         );
     }
 
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new AcceptLanguageFactory)(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
-    }
-
     public function testReturnNothingWhenNotValid()
     {
-        $this->assertNull((new AcceptLanguageFactory)(
-            Str::of('Accept-Language'),
-            Str::of('@'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
+        $this->assertInstanceOf(
+            Header::class,
+            Factory::new(Clock::live())(
+                Str::of('Accept-Language'),
+                Str::of('@'),
+            ),
+        );
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Header,
     Header\LinkValue,
     Header\Link,
     Header\Parameter,
@@ -26,13 +25,8 @@ final class LinkFactory implements Implementation
     private const PATTERN = '~^<(?<url>\S+)>(?<params>(; ?\w+=\"?[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+\"?)+)?$~';
 
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'link') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         /** @var Sequence<LinkValue> */
         $values = Sequence::of();
 

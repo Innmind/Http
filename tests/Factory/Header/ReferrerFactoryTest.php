@@ -4,9 +4,10 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\ReferrerFactory,
+    Factory\Header\Factory,
     Header\Referrer,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,14 +15,11 @@ class ReferrerFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new ReferrerFactory;
+        $f = Factory::new(Clock::live());
 
         $h = ($f)(
             Str::of('Referer'),
             Str::of('http://www.w3.org/hypertext/DataSources/Overview.html'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(Referrer::class, $h);
@@ -29,13 +27,5 @@ class ReferrerFactoryTest extends TestCase
             'Referer: http://www.w3.org/hypertext/DataSources/Overview.html',
             $h->toString(),
         );
-    }
-
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new ReferrerFactory)(Str::of('foo'), Str::of(''))->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Header,
     Header\CacheControlValue,
     Header\CacheControl,
 };
@@ -22,13 +21,8 @@ use Innmind\Immutable\{
 final class CacheControlFactory implements Implementation
 {
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'cache-control') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         /** @var Sequence<CacheControlValue> */
         $values = Sequence::of();
 

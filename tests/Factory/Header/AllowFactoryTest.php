@@ -4,9 +4,10 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\AllowFactory,
+    Factory\Header\Factory,
     Header\Allow,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,26 +15,12 @@ class AllowFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $header = (new AllowFactory)(
+        $header = Factory::new(Clock::live())(
             Str::of('Allow'),
             Str::of('get, post'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(Allow::class, $header);
         $this->assertSame('Allow: GET, POST', $header->toString());
-    }
-
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new AllowFactory)(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
     }
 }

@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Factory\Header;
 
-use Innmind\Http\{
-    Header,
-    Header\Host,
-};
+use Innmind\Http\Header\Host;
 use Innmind\Url\Url;
 use Innmind\Immutable\{
     Str,
@@ -20,13 +17,8 @@ use Innmind\Immutable\{
 final class HostFactory implements Implementation
 {
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'host') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         return Url::maybe('http://'.$value->toString())->map(static fn($url) => Host::of(
             $url->authority()->host(),
             $url->authority()->port(),

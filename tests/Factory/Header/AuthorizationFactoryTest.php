@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Factory\Header\AuthorizationFactory,
+    Factory\Header\Factory,
+    Header,
     Header\Authorization,
 };
+use Innmind\TimeContinuum\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,14 +16,11 @@ class AuthorizationFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = new AuthorizationFactory;
+        $f = Factory::new(Clock::live());
 
         $h = ($f)(
             Str::of('Authorization'),
             Str::of('Basic realm="WallyWorld"'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
         );
 
         $this->assertInstanceOf(Authorization::class, $h);
@@ -31,25 +30,14 @@ class AuthorizationFactoryTest extends TestCase
         );
     }
 
-    public function testReturnNothingWhenNotExpectedHeader()
-    {
-        $this->assertNull((new AuthorizationFactory)(
-            Str::of('foo'),
-            Str::of(''),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
-    }
-
     public function testReturnNothingWhenNotValid()
     {
-        $this->assertNull((new AuthorizationFactory)(
-            Str::of('Authorization'),
-            Str::of('@'),
-        )->match(
-            static fn($header) => $header,
-            static fn() => null,
-        ));
+        $this->assertInstanceOf(
+            Header::class,
+            Factory::new(Clock::live())(
+                Str::of('Authorization'),
+                Str::of('@'),
+            ),
+        );
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Header,
     Header\AcceptEncodingValue,
     Header\AcceptEncoding,
     Header\Parameter\Quality,
@@ -24,13 +23,8 @@ final class AcceptEncodingFactory implements Implementation
     private const PATTERN = '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~';
 
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'accept-encoding') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         /** @var Sequence<AcceptEncodingValue> */
         $values = Sequence::of();
 

@@ -6,7 +6,6 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Header\AcceptRanges,
     Header\AcceptRangesValue,
-    Header,
 };
 use Innmind\Immutable\{
     Str,
@@ -20,13 +19,8 @@ use Innmind\Immutable\{
 final class AcceptRangesFactory implements Implementation
 {
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'accept-ranges') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         return AcceptRangesValue::of($value->toString())->map(
             static fn($value) => new AcceptRanges($value),
         );

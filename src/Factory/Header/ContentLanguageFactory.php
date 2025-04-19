@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http\Factory\Header;
 
 use Innmind\Http\{
-    Header,
     Header\ContentLanguage,
     Header\ContentLanguageValue,
 };
@@ -21,13 +20,8 @@ use Innmind\Immutable\{
 final class ContentLanguageFactory implements Implementation
 {
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
-        if ($name->toLower()->toString() !== 'content-language') {
-            /** @var Maybe<Header> */
-            return Maybe::nothing();
-        }
-
         /** @var Sequence<ContentLanguageValue> */
         $values = Sequence::of();
 

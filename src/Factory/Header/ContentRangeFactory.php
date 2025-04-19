@@ -22,14 +22,11 @@ final class ContentRangeFactory implements Implementation
     private const PATTERN = '~^(?<unit>\w+) (?<first>\d+)-(?<last>\d+)/(?<length>\d+|\*)$~';
 
     #[\Override]
-    public function __invoke(Str $name, Str $value): Maybe
+    public function __invoke(Str $value): Maybe
     {
         $value = $value->trim();
 
-        if (
-            $name->toLower()->toString() !== 'content-range' ||
-            !$value->matches(self::PATTERN)
-        ) {
+        if (!$value->matches(self::PATTERN)) {
             /** @var Maybe<Header> */
             return Maybe::nothing();
         }
