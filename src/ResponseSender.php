@@ -12,6 +12,10 @@ use Innmind\Http\{
     Exception\LogicException,
 };
 use Innmind\TimeContinuum\Clock;
+use Innmind\Immutable\{
+    Attempt,
+    SideEffect,
+};
 
 final class ResponseSender implements Sender
 {
@@ -23,10 +27,10 @@ final class ResponseSender implements Sender
     }
 
     #[\Override]
-    public function __invoke(Response $response): void
+    public function __invoke(Response $response): Attempt
     {
         if (\headers_sent()) {
-            throw new LogicException('Headers already sent');
+            return Attempt::error(new LogicException('Headers already sent'));
         }
 
         \header(
@@ -69,6 +73,8 @@ final class ResponseSender implements Sender
         if (\function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
         }
+
+        return Attempt::result(SideEffect::identity());
     }
 
     private function sendCookie(SetCookie $cookie): void

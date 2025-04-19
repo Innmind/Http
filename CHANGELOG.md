@@ -7,6 +7,7 @@
 - Requires `innmind/filesystem:~8.0`
 - Requires `innmind/time-continuum:~4.1`
 - Requires `innmind/io:~3.0`
+- `Innmind\Http\Sender::__invoke()` now returns `Innmind\Immutable\Attempt<Innmind\Immutable\SideEffect>`
 
 ### Fixed
 
