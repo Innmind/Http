@@ -6,7 +6,6 @@ namespace Innmind\Http;
 use Innmind\Http\{
     Header\Date,
     Header\SetCookie,
-    Header\CookieValue,
     Header\Parameter,
     TimeContinuum\Format\Http,
     Exception\LogicException,
@@ -81,8 +80,8 @@ final class ResponseSender implements Sender
 
     private function sendCookie(SetCookie $cookie): void
     {
-        $_ = $cookie->cookies()->foreach(static function(CookieValue $value): void {
-            $parameters = $value->parameters()->values()->reduce(
+        $_ = $cookie->cookies()->foreach(static function(SetCookie $cookie): void {
+            $parameters = $cookie->parameters()->reduce(
                 [],
                 static function(array $parameters, Parameter $parameter): array {
                     switch ($parameter->name()) {
@@ -123,11 +122,6 @@ final class ResponseSender implements Sender
                         case 'SameSite':
                             $parameters['samesite'] = $parameter->value();
                             break;
-
-                        default:
-                            $parameters['key'] = $parameter->name();
-                            $parameters['value'] = $parameter->value();
-                            break;
                     }
 
                     return $parameters;
@@ -152,8 +146,8 @@ final class ResponseSender implements Sender
              * @psalm-suppress InvalidCast
              */
             \setcookie(
-                $parameters['key'] ?? '',
-                $parameters['value'] ?? '',
+                $cookie->name(),
+                $cookie->value(),
                 $parameters['expire'] ?? 0,
                 $options,
             );

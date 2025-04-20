@@ -64,6 +64,7 @@
 - `Innmind\Http\Header\WWWAuthenticate` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\CacheControl` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Cookie` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\SetCookie` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -102,6 +103,7 @@
 - `Innmind\Http\Header\CacheControlValue\NoCache`
 - `Innmind\Http\Header\CacheControlValue\PrivateCache`
 - `Innmind\Http\Header\CacheControlValue\SharedMaxAge`
+- `Innmind\Http\Header\CookieValue`
 
 ### Fixed
 

@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\SetCookie,
     Header,
-    Header\CookieValue,
     Header\Parameter\Parameter,
     Header\CookieParameter\Secure
 };
@@ -16,15 +15,11 @@ class SetCookieTest extends TestCase
 {
     public function testInterface()
     {
-        $cookie = new SetCookie(
-            $value = new CookieValue(
-                new Parameter('foo', 'bar'),
-                new Secure,
-            ),
-            new CookieValue(
-                new Parameter('bar', 'baz'),
-            ),
-        );
+        $cookie = SetCookie::of(
+            'foo',
+            'bar',
+            new Secure,
+        )->and(SetCookie::of('bar', 'baz'));
 
         $this->assertInstanceOf(Header\Custom::class, $cookie);
         $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->normalize()->toString());
@@ -33,7 +28,8 @@ class SetCookieTest extends TestCase
     public function testOf()
     {
         $cookie = SetCookie::of(
-            new Parameter('foo', 'bar'),
+            'foo',
+            'bar',
             new Parameter('bar', 'baz'),
         );
 
