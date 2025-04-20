@@ -16,7 +16,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * @psalm-immutable
  */
-final class Boundary implements Parameter
+final class Boundary
 {
     private function __construct(
         private string $value,
@@ -58,24 +58,13 @@ final class Boundary implements Parameter
         return self::of(Uuid::uuid4()->toString());
     }
 
-    #[\Override]
-    public function name(): string
-    {
-        return 'boundary';
-    }
-
-    #[\Override]
     public function value(): string
     {
         return $this->value;
     }
 
-    #[\Override]
-    public function toString(): string
+    public function toParameter(): Parameter
     {
-        return \sprintf(
-            'boundary="%s"',
-            $this->value,
-        );
+        return new Parameter\Parameter('boundary', $this->value);
     }
 }
