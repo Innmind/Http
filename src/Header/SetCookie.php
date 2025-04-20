@@ -3,7 +3,14 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header;
+use Innmind\Http\{
+    Header,
+    Header\SetCookie\Directive,
+    Header\SetCookie\Domain,
+    Header\SetCookie\Expires,
+    Header\SetCookie\MaxAge,
+    Header\SetCookie\Path,
+};
 use Innmind\Immutable\{
     Sequence,
     Str,
@@ -15,7 +22,7 @@ use Innmind\Immutable\{
 final class SetCookie implements Custom
 {
     /**
-     * @param Sequence<Parameter> $parameters
+     * @param Sequence<Directive|Domain|Expires|MaxAge|Path> $parameters
      * @param Sequence<self> $others
      */
     private function __construct(
@@ -32,7 +39,7 @@ final class SetCookie implements Custom
     public static function of(
         string $name,
         string $value,
-        Parameter ...$parameters,
+        Directive|Domain|Expires|MaxAge|Path ...$parameters,
     ): self {
         return new self(
             new Parameter\Parameter($name, $value),
@@ -61,7 +68,7 @@ final class SetCookie implements Custom
     }
 
     /**
-     * @return Sequence<Parameter>
+     * @return Sequence<Directive|Domain|Expires|MaxAge|Path>
      */
     public function parameters(): Sequence
     {
@@ -87,7 +94,9 @@ final class SetCookie implements Custom
                     Str::of('; ')
                         ->join(
                             Sequence::of($self->value)
-                                ->append($self->parameters)
+                                ->append($self->parameters->map(
+                                    static fn($parameter) => $parameter->toParameter(),
+                                ))
                                 ->map(static fn($parameter) => $parameter->toString()),
                         )
                         ->toString(),

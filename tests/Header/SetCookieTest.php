@@ -6,8 +6,8 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\SetCookie,
     Header,
-    Header\Parameter\Parameter,
-    Header\CookieParameter\Secure
+    Header\SetCookie\Directive,
+    Header\SetCookie\MaxAge,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ class SetCookieTest extends TestCase
         $cookie = SetCookie::of(
             'foo',
             'bar',
-            new Secure,
+            Directive::secure,
         )->and(SetCookie::of('bar', 'baz'));
 
         $this->assertInstanceOf(Header\Custom::class, $cookie);
@@ -30,10 +30,10 @@ class SetCookieTest extends TestCase
         $cookie = SetCookie::of(
             'foo',
             'bar',
-            new Parameter('bar', 'baz'),
+            MaxAge::expire(),
         );
 
         $this->assertInstanceOf(SetCookie::class, $cookie);
-        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->normalize()->toString());
+        $this->assertSame('Set-Cookie: foo=bar; Max-Age=-1', $cookie->normalize()->toString());
     }
 }

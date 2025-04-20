@@ -3,19 +3,15 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CookieParameter;
 
-use Innmind\Http\Header\{
-    CookieParameter\Secure,
-    Parameter
-};
+use Innmind\Http\Header\SetCookie\Directive;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class SecureTest extends TestCase
 {
     public function testInterface()
     {
-        $secure = new Secure;
+        $secure = Directive::secure;
 
-        $this->assertInstanceOf(Parameter::class, $secure);
-        $this->assertSame('Secure', $secure->toString());
+        $this->assertSame('Secure', $secure->toParameter()->toString());
     }
 }

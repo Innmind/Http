@@ -19,6 +19,11 @@
 - `Innmind\Http\Header\CacheControl\NoCache`
 - `Innmind\Http\Header\CacheControl\PrivateCache`
 - `Innmind\Http\Header\CacheControl\SharedMaxAge`
+- `Innmind\Http\Header\SetCookie\Directive`
+- `Innmind\Http\Header\SetCookie\Domain`
+- `Innmind\Http\Header\SetCookie\Expires`
+- `Innmind\Http\Header\SetCookie\MaxAge`
+- `Innmind\Http\Header\SetCookie\Path`
 
 ### Changed
 
@@ -105,6 +110,13 @@
 - `Innmind\Http\Header\CacheControlValue\PrivateCache`
 - `Innmind\Http\Header\CacheControlValue\SharedMaxAge`
 - `Innmind\Http\Header\CookieValue`
+- `Innmind\Http\Header\CookieParameter\Domain`
+- `Innmind\Http\Header\CookieParameter\Expires`
+- `Innmind\Http\Header\CookieParameter\HttpOnly`
+- `Innmind\Http\Header\CookieParameter\MaxAge`
+- `Innmind\Http\Header\CookieParameter\Path`
+- `Innmind\Http\Header\CookieParameter\SameSite`
+- `Innmind\Http\Header\CookieParameter\Secure`
 
 ### Fixed
 
