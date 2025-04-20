@@ -12,7 +12,6 @@ final class Parameter
 {
     private string $name;
     private string $value;
-    private string $string;
 
     private function __construct(string $name, string $value)
     {
@@ -27,12 +26,6 @@ final class Parameter
 
         $this->name = $name;
         $this->value = $value->toString();
-        $this->string = \sprintf(
-            '%s%s%s',
-            $this->name,
-            \strlen($this->value) > 0 ? '=' : '',
-            \strlen($this->value) > 0 ? $this->value : '',
-        );
     }
 
     /**
@@ -55,6 +48,11 @@ final class Parameter
 
     public function toString(): string
     {
-        return $this->string;
+        return \sprintf(
+            '%s%s%s',
+            $this->name,
+            \strlen($this->value) > 0 ? '=' : '',
+            \strlen($this->value) > 0 ? $this->value : '',
+        );
     }
 }
