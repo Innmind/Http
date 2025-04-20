@@ -6,7 +6,15 @@ namespace Innmind\Http\Header;
 /**
  * @psalm-immutable
  */
-interface Value
+final class Value
 {
-    public function toString(): string;
+    public function __construct(
+        private string $value,
+    ) {
+    }
+
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }

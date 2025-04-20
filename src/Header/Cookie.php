@@ -60,7 +60,7 @@ final class Cookie implements Custom
 
         return new Header(
             'Cookie',
-            new Value\Value($value),
+            new Value($value),
         );
     }
 }

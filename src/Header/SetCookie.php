@@ -83,7 +83,7 @@ final class SetCookie implements Custom
             'Set-Cookie',
             ...$this
                 ->cookies()
-                ->map(static fn($self) => new Value\Value(
+                ->map(static fn($self) => new Value(
                     Str::of('; ')
                         ->join(
                             Sequence::of($self->value)

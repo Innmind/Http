@@ -15,8 +15,8 @@ class HeaderTest extends TestCase
     {
         $h = new Header(
             'Accept',
-            $v1 = new Value\Value('application/json'),
-            $v2 = new Value\Value('*/*'),
+            $v1 = new Value('application/json'),
+            $v2 = new Value('*/*'),
         );
 
         $this->assertInstanceOf(Header::class, $h);

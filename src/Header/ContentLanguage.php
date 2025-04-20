@@ -38,7 +38,7 @@ final class ContentLanguage implements Custom
             'Content-Language',
             ...$this
                 ->languages
-                ->map(static fn($language) => new Value\Value($language->toString()))
+                ->map(static fn($language) => new Value($language->toString()))
                 ->toList(),
         );
     }

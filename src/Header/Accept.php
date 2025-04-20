@@ -37,7 +37,7 @@ final class Accept implements Custom
             'Accept',
             ...$this
                 ->values
-                ->map(static fn($value) => new Value\Value($value->toString()))
+                ->map(static fn($value) => new Value($value->toString()))
                 ->toList(),
         );
     }

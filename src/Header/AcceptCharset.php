@@ -38,7 +38,7 @@ final class AcceptCharset implements Custom
             'Accept-Charset',
             ...$this
                 ->charsets
-                ->map(static fn($value) => new Value\Value($value->toString()))
+                ->map(static fn($value) => new Value($value->toString()))
                 ->toList(),
         );
     }

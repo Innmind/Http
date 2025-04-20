@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\Allow,
     Header\ContentType,
-    Header\Value\Value,
+    Header\Value,
 };
 use Innmind\MediaType\MediaType;
 use Innmind\Immutable\SideEffect;

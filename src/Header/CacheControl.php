@@ -46,7 +46,7 @@ final class CacheControl implements Custom
             'Cache-Control',
             ...$this
                 ->directives
-                ->map(static fn($directive) => new Value\Value($directive->toString()))
+                ->map(static fn($directive) => new Value($directive->toString()))
                 ->toList(),
         );
     }

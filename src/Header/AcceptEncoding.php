@@ -38,7 +38,7 @@ final class AcceptEncoding implements Custom
             'Accept-Encoding',
             ...$this
                 ->encodings
-                ->map(static fn($value) => new Value\Value($value->toString()))
+                ->map(static fn($value) => new Value($value->toString()))
                 ->toList(),
         );
     }

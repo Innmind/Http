@@ -110,7 +110,7 @@ final class ContentRange implements Custom
     {
         return new Header(
             'Content-Range',
-            new Value\Value(\sprintf(
+            new Value(\sprintf(
                 '%s %s-%s/%s',
                 $this->unit,
                 $this->firstPosition,

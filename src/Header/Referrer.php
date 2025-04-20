@@ -34,7 +34,7 @@ final class Referrer implements Custom
     {
         return new Header(
             'Referer',
-            new Value\Value($this->referrer->toString()),
+            new Value($this->referrer->toString()),
         );
     }
 }

@@ -55,7 +55,7 @@ final class ContentLength implements Custom
     {
         return new Header(
             'Content-Length',
-            new Value\Value((string) $this->length),
+            new Value((string) $this->length),
         );
     }
 }

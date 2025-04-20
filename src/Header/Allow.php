@@ -38,7 +38,7 @@ final class Allow implements Custom
             'Allow',
             ...$this
                 ->methods
-                ->map(static fn($method) => new Value\Value($method->toString()))
+                ->map(static fn($method) => new Value($method->toString()))
                 ->toList(),
         );
     }

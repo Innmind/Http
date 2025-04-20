@@ -43,7 +43,7 @@ final class Host implements Custom
     {
         return new Header(
             'Host',
-            new Value\Value(
+            new Value(
                 $this->host->toString().$this->port->format(),
             ),
         );

@@ -53,7 +53,7 @@ final class ContentEncoding implements Custom
     {
         return new Header(
             'Content-Encoding',
-            new Value\Value($this->encoding),
+            new Value($this->encoding),
         );
     }
 }

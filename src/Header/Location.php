@@ -34,7 +34,7 @@ final class Location implements Custom
     {
         return new Header(
             'Location',
-            new Value\Value($this->location->toString()),
+            new Value($this->location->toString()),
         );
     }
 }

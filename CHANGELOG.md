@@ -54,6 +54,7 @@
 - `Innmind\Http\Header\Referrer` constructor is now private, use `::of()` named constructor
 - All custom headers now implements `Innmind\Http\Header\Custom`
 - `Innmind\Http\Header` is now a final class
+- `Innmind\Http\Header\Value` is now a final class
 - `Innmind\Http\Header\Accept` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\AcceptCharset` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\AcceptEncoding` constructor is now private, use `::of()` named constructor

@@ -40,7 +40,7 @@ final class Expires implements Custom
     {
         return new Header(
             'Expires',
-            new Value\Value(
+            new Value(
                 $this
                     ->point
                     ->changeOffset(Offset::utc())

@@ -34,7 +34,7 @@ final class ContentLocation implements Custom
     {
         return new Header(
             'Content-Location',
-            new Value\Value($this->url->toString()),
+            new Value($this->url->toString()),
         );
     }
 }

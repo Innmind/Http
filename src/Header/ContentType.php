@@ -59,7 +59,7 @@ final class ContentType implements Custom
 
         return new Header(
             'Content-Type',
-            new Value\Value($content),
+            new Value($content),
         );
     }
 }

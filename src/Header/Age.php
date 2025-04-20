@@ -53,6 +53,6 @@ final class Age implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header('Age', new Value\Value((string) $this->age));
+        return new Header('Age', new Value((string) $this->age));
     }
 }

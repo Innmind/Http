@@ -40,7 +40,7 @@ final class IfUnmodifiedSince implements Custom
     {
         return new Header(
             'If-Unmodified-Since',
-            new Value\Value(
+            new Value(
                 $this
                     ->point
                     ->changeOffset(Offset::utc())

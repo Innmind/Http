@@ -50,7 +50,7 @@ final class Factory
         $values = $value
             ->split(',')
             ->map(static fn($value) => $value->trim())
-            ->map(static fn($value) => new Value\Value($value->toString()))
+            ->map(static fn($value) => new Value($value->toString()))
             ->toList();
 
         return new Header(

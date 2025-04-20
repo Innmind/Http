@@ -40,7 +40,7 @@ final class LastModified implements Custom
     {
         return new Header(
             'Last-Modified',
-            new Value\Value(
+            new Value(
                 $this
                     ->point
                     ->changeOffset(Offset::utc())
