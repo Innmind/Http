@@ -294,7 +294,7 @@ enum Factories
                 ->sink(self::values(CacheControlValue::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
                 ->map(static fn($values) => $values->match(
-                    static fn($first, $rest) => new CacheControl($first, ...$rest->toList()),
+                    static fn($first, $rest) => CacheControl::of($first, ...$rest->toList()),
                     static fn() => null,
                 ))
                 ->keep(Instance::of(CacheControl::class)),

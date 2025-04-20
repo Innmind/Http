@@ -14,7 +14,7 @@ class CacheControlTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new CacheControl(
+        $h = CacheControl::of(
             $v = new PublicCache,
         );
 

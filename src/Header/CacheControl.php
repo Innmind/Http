@@ -4,22 +4,41 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header;
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
 final class CacheControl implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<CacheControlValue> $directives
+     */
+    private function __construct(
+        private Sequence $directives,
+    ) {
+    }
 
-    public function __construct(CacheControlValue $first, CacheControlValue ...$values)
-    {
-        $this->header = new Header('Cache-Control', $first, ...$values);
+    /**
+     * @psalm-pure
+     * @no-named-arguments
+     */
+    public static function of(
+        CacheControlValue $first,
+        CacheControlValue ...$values,
+    ): self {
+        return new self(Sequence::of($first, ...$values));
     }
 
     #[\Override]
     public function normalize(): Header
     {
-        return $this->header;
+        return new Header(
+            'Cache-Control',
+            ...$this
+                ->directives
+                ->map(static fn($directive) => new Value\Value($directive->toString()))
+                ->toList(),
+        );
     }
 }
