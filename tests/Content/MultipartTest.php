@@ -135,7 +135,7 @@ class MultipartTest extends TestCase
                 \curl_setopt($handle, \CURLOPT_HEADER, false);
                 \curl_setopt($handle, \CURLOPT_RETURNTRANSFER, true);
                 \curl_setopt($handle, \CURLOPT_HTTPHEADER, [
-                    'Content-Type: multipart/form-data; '.$boundary->toParameter()->toString(),
+                    $boundary->toHeader()->normalize()->toString(),
                 ]);
                 \curl_setopt($handle, \CURLOPT_CUSTOMREQUEST, 'POST');
                 \curl_setopt($handle, \CURLOPT_UPLOAD, true);

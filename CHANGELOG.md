@@ -24,6 +24,7 @@
 - `Innmind\Http\Header\SetCookie\Expires`
 - `Innmind\Http\Header\SetCookie\MaxAge`
 - `Innmind\Http\Header\SetCookie\Path`
+- `Innmind\Http\Header\ContentType\Boundary::toHeader()`
 
 ### Changed
 
