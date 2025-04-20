@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CookieParameter;
 
-use Innmind\Http\Header\{
-    CookieParameter\Domain,
-    Parameter
-};
+use Innmind\Http\Header\SetCookie\Domain;
 use Innmind\Url\Authority\Host;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,9 +11,8 @@ class DomainTest extends TestCase
 {
     public function testInterface()
     {
-        $domain = new Domain(Host::of('localhost'));
+        $domain = Domain::of(Host::of('localhost'));
 
-        $this->assertInstanceOf(Parameter::class, $domain);
-        $this->assertSame('Domain=localhost', $domain->toString());
+        $this->assertSame('Domain=localhost', $domain->toParameter()->toString());
     }
 }

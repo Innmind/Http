@@ -3,22 +3,23 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\TimeContinuum\PointInTime;
-use Innmind\Immutable\Sequence;
+use Innmind\Http\{
+    Header,
+    TimeContinuum\Format\Http,
+};
+use Innmind\TimeContinuum\{
+    PointInTime,
+    Offset,
+};
 
 /**
  * @psalm-immutable
  */
-final class LastModified implements HeaderInterface
+final class LastModified implements Custom
 {
-    private Header $header;
-    private DateValue $value;
-
-    public function __construct(DateValue $date)
-    {
-        $this->header = new Header('Last-Modified', $date);
-        $this->value = $date;
+    private function __construct(
+        private PointInTime $point,
+    ) {
     }
 
     /**
@@ -26,29 +27,25 @@ final class LastModified implements HeaderInterface
      */
     public static function of(PointInTime $point): self
     {
-        return new self(new DateValue($point));
-    }
-
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
+        return new self($point);
     }
 
     public function date(): PointInTime
     {
-        return $this->value->date();
+        return $this->point;
     }
 
     #[\Override]
-    public function toString(): string
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        return Header::of(
+            'Last-Modified',
+            Value::of(
+                $this
+                    ->point
+                    ->changeOffset(Offset::utc())
+                    ->format(Http::new()),
+            ),
+        );
     }
 }

@@ -6,35 +6,53 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\ContentEncoding,
     Header,
-    Header\ContentEncodingValue
 };
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ContentEncodingTest extends TestCase
 {
-    public function testInterface()
-    {
-        $h = new ContentEncoding(
-            $ce = new ContentEncodingValue('compress'),
-        );
-
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Content-Encoding', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame($ce, $v->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('Content-Encoding: compress', $h->toString());
-    }
-
     public function testOf()
     {
         $header = ContentEncoding::of('compress');
 
         $this->assertInstanceOf(ContentEncoding::class, $header);
-        $this->assertSame('Content-Encoding: compress', $header->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Content-Encoding: compress', $header->normalize()->toString());
+    }
+
+    public function testValids()
+    {
+        $this->assertInstanceOf(
+            ContentEncoding::class,
+            ContentEncoding::of('compress'),
+        );
+        $this->assertInstanceOf(
+            ContentEncoding::class,
+            ContentEncoding::of('x-compress'),
+        );
+        $this->assertInstanceOf(
+            ContentEncoding::class,
+            ContentEncoding::of('identity'),
+        );
+    }
+
+    #[DataProvider('invalids')]
+    public function testReturnNothingWhenInvalidContentEncodingValue($value)
+    {
+        $this->assertNull(ContentEncoding::maybe($value)->match(
+            static fn($header) => $header,
+            static fn() => null,
+        ));
+    }
+
+    public static function invalids(): array
+    {
+        return [
+            ['*'],
+            ['@'],
+            ['bar+suffix'],
+            ['foo/bar'],
+        ];
     }
 }

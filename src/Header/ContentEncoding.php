@@ -3,44 +3,57 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Sequence;
+use Innmind\Http\{
+    Header,
+    Exception\DomainException,
+};
+use Innmind\Immutable\{
+    Maybe,
+    Str,
+};
 
 /**
  * @psalm-immutable
  */
-final class ContentEncoding implements HeaderInterface
+final class ContentEncoding implements Custom
 {
-    private Header $header;
-
-    public function __construct(ContentEncodingValue $encoding)
-    {
-        $this->header = new Header('Content-Encoding', $encoding);
+    private function __construct(
+        private string $encoding,
+    ) {
     }
 
     /**
      * @psalm-pure
+     *
+     * @throws DomainException
      */
-    public static function of(string $coding): self
+    public static function of(string $encoding): self
     {
-        return new self(new ContentEncodingValue($coding));
+        return self::maybe($encoding)->match(
+            static fn($self) => $self,
+            static fn() => throw new DomainException($encoding),
+        );
+    }
+
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(string $encoding): Maybe
+    {
+        return Maybe::just($encoding)
+            ->map(Str::of(...))
+            ->filter(static fn($encoding) => $encoding->matches('~^[\w\-]+$~'))
+            ->map(static fn() => new self($encoding));
     }
 
     #[\Override]
-    public function name(): string
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
-    }
-
-    #[\Override]
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'Content-Encoding',
+            Value::of($this->encoding),
+        );
     }
 }

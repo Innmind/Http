@@ -5,27 +5,22 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\{
     Header\WWWAuthenticate,
-    Header\WWWAuthenticateValue,
-    Header
+    Header,
 };
-use Innmind\Immutable\Sequence;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class WWWAuthenticateTest extends TestCase
 {
     public function testInterface()
     {
-        $header = new WWWAuthenticate(
-            $value = new WWWAuthenticateValue('Bearer', 'some value'),
-        );
+        $header = WWWAuthenticate\Challenge::maybe('Bearer', 'some value')
+            ->map(WWWAuthenticate::of(...))
+            ->match(
+                static fn($header) => $header,
+                static fn() => null,
+            );
 
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertInstanceOf(Sequence::class, $header->values());
-        $this->assertCount(1, $header->values());
-        $this->assertSame($value, $header->values()->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->normalize()->toString());
     }
 }

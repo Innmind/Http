@@ -3,36 +3,51 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
+use Innmind\Http\{
+    Header,
+    Header\CacheControl\Directive,
+    Header\CacheControl\MaxAge,
+    Header\CacheControl\MaxStale,
+    Header\CacheControl\MinimumFresh,
+    Header\CacheControl\NoCache,
+    Header\CacheControl\PrivateCache,
+    Header\CacheControl\SharedMaxAge,
+};
 use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class CacheControl implements HeaderInterface
+final class CacheControl implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<Directive|MaxAge|MaxStale|MinimumFresh|NoCache|PrivateCache|SharedMaxAge> $directives
+     */
+    private function __construct(
+        private Sequence $directives,
+    ) {
+    }
 
-    public function __construct(CacheControlValue $first, CacheControlValue ...$values)
-    {
-        $this->header = new Header('Cache-Control', $first, ...$values);
+    /**
+     * @psalm-pure
+     * @no-named-arguments
+     */
+    public static function of(
+        Directive|MaxAge|MaxStale|MinimumFresh|NoCache|PrivateCache|SharedMaxAge $first,
+        Directive|MaxAge|MaxStale|MinimumFresh|NoCache|PrivateCache|SharedMaxAge ...$values,
+    ): self {
+        return new self(Sequence::of($first, ...$values));
     }
 
     #[\Override]
-    public function name(): string
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
-    }
-
-    #[\Override]
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'Cache-Control',
+            ...$this
+                ->directives
+                ->map(static fn($directive) => Value::of($directive->toString()))
+                ->toList(),
+        );
     }
 }

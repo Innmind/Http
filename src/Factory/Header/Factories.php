@@ -6,34 +6,21 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Header,
     Header\AcceptCharset,
-    Header\AcceptCharsetValue,
     Header\AcceptEncoding,
-    Header\AcceptEncodingValue,
     Header\Accept,
-    Header\AcceptValue,
     Header\AcceptLanguage,
-    Header\AcceptLanguageValue,
     Header\AcceptRanges,
-    Header\AcceptRangesValue,
     Header\Age,
-    Header\AgeValue,
     Header\Allow,
-    Header\AllowValue,
     Header\Authorization,
-    Header\AuthorizationValue,
     Header\CacheControl,
-    Header\CacheControlValue,
+    Header\Content,
     Header\ContentEncoding,
-    Header\ContentEncodingValue,
     Header\ContentLanguage,
-    Header\ContentLanguageValue,
     Header\ContentLength,
-    Header\ContentLengthValue,
     Header\ContentLocation,
     Header\ContentRange,
-    Header\ContentRangeValue,
     Header\ContentType,
-    Header\ContentTypeValue,
     Header\Cookie,
     Header\Date,
     Header\Expires,
@@ -42,14 +29,14 @@ use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Header\LastModified,
     Header\Link,
-    Header\LinkValue,
     Header\Location,
+    Header\Custom,
     Header\Range,
-    Header\RangeValue,
     Header\Referrer,
     Header\Parameter,
     Header\Parameter\Quality,
     TimeContinuum\Format\Http,
+    Method,
 };
 use Innmind\TimeContinuum\Clock;
 use Innmind\Validation\Is;
@@ -60,6 +47,7 @@ use Innmind\Immutable\{
     Maybe,
     Sequence,
     Map,
+    Predicate,
     Predicate\Instance,
 };
 
@@ -135,7 +123,7 @@ enum Factories
     }
 
     /**
-     * @return Maybe<Header>
+     * @return Maybe<Header|Custom>
      */
     public function try(Clock $clock, Str $value): Maybe
     {
@@ -146,22 +134,28 @@ enum Factories
                     $matches = $accept->capture(
                         '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~',
                     );
+                    /** @var Predicate<int<0, 100>> */
+                    $range = Is::int()
+                        ->range(0, 100)
+                        ->asPredicate();
                     $quality = $matches
                         ->get('quality')
                         ->map(static fn($quality) => (float) $quality->toString())
-                        ->otherwise(static fn() => Maybe::just(1))
-                        ->flatMap(Quality::of(...));
+                        ->map(static fn($quality) => (int) ($quality * 100.0))
+                        ->otherwise(static fn() => Maybe::just(100))
+                        ->keep($range)
+                        ->map(Quality::of(...));
                     $charset = $matches
                         ->get('charset')
                         ->map(static fn($charset) => $charset->toString());
 
                     return Maybe::all($charset, $quality)->flatMap(
-                        AcceptCharsetValue::of(...),
+                        Accept\Charset::maybe(...),
                     );
                 })
-                ->sink(self::values(AcceptCharsetValue::class))
+                ->sink(self::values(Accept\Charset::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new AcceptCharset(...$values->toList())),
+                ->map(static fn($values) => AcceptCharset::of(...$values->toList())),
 
             self::acceptEncoding => $value
                 ->split(',')
@@ -169,22 +163,28 @@ enum Factories
                     $matches = $accept->capture(
                         '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~',
                     );
+                    /** @var Predicate<int<0, 100>> */
+                    $range = Is::int()
+                        ->range(0, 100)
+                        ->asPredicate();
                     $quality = $matches
                         ->get('quality')
                         ->map(static fn($quality) => (float) $quality->toString())
-                        ->otherwise(static fn() => Maybe::just(1))
-                        ->flatMap(Quality::of(...));
+                        ->map(static fn($quality) => (int) ($quality * 100.0))
+                        ->otherwise(static fn() => Maybe::just(100))
+                        ->keep($range)
+                        ->map(Quality::of(...));
                     $coding = $matches
                         ->get('coding')
                         ->map(static fn($coding) => $coding->toString());
 
                     return Maybe::all($coding, $quality)->flatMap(
-                        AcceptEncodingValue::of(...),
+                        Accept\Encoding::maybe(...),
                     );
                 })
-                ->sink(self::values(AcceptEncodingValue::class))
+                ->sink(self::values(Accept\Encoding::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new AcceptEncoding(...$values->toList())),
+                ->map(static fn($values) => AcceptEncoding::of(...$values->toList())),
 
             self::accept => $value
                 ->split(',')
@@ -204,16 +204,16 @@ enum Factories
                         $matches->get('type'),
                         $matches->get('subType'),
                         $params,
-                    )->flatMap(static fn(Str $type, Str $subType, array $params) => AcceptValue::of(
+                    )->flatMap(static fn(Str $type, Str $subType, array $params) => Accept\MediaType::maybe(
                         $type->toString(),
                         $subType->toString(),
                         ...$params,
                     ));
                 })
-                ->sink(self::values(AcceptValue::class))
+                ->sink(self::values(Accept\MediaType::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
                 ->map(static fn($values) => $values->match(
-                    static fn($first, $rest) => new Accept($first, ...$rest->toList()),
+                    static fn($first, $rest) => Accept::of($first, ...$rest->toList()),
                     static fn() => null,
                 ))
                 ->keep(Instance::of(Accept::class)),
@@ -224,40 +224,43 @@ enum Factories
                     $matches = $accept->capture(
                         '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~',
                     );
+                    /** @var Predicate<int<0, 100>> */
+                    $range = Is::int()
+                        ->range(0, 100)
+                        ->asPredicate();
                     $quality = $matches
                         ->get('quality')
                         ->map(static fn($quality) => (float) $quality->toString())
-                        ->otherwise(static fn() => Maybe::just(1))
-                        ->flatMap(Quality::of(...));
+                        ->map(static fn($quality) => (int) ($quality * 100.0))
+                        ->otherwise(static fn() => Maybe::just(100))
+                        ->keep($range)
+                        ->map(Quality::of(...));
                     $lang = $matches
                         ->get('lang')
                         ->map(static fn($lang) => $lang->toString());
 
                     return Maybe::all($lang, $quality)->flatMap(
-                        AcceptLanguageValue::of(...),
+                        Accept\Language::maybe(...),
                     );
                 })
-                ->sink(self::values(AcceptLanguageValue::class))
+                ->sink(self::values(Accept\Language::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new AcceptLanguage(...$values->toList())),
+                ->map(static fn($values) => AcceptLanguage::of(...$values->toList())),
 
-            self::acceptRanges => AcceptRangesValue::of($value->toString())->map(
-                static fn($value) => new AcceptRanges($value),
-            ),
+            self::acceptRanges => AcceptRanges::maybe($value->toString()),
 
             self::age => Maybe::just($value->toString())
                 ->filter(\is_numeric(...))
                 ->map(static fn($age) => (int) $age)
-                ->flatMap(AgeValue::of(...))
-                ->map(static fn($value) => new Age($value)),
+                ->flatMap(Age::maybe(...)),
 
             self::allow => $value
                 ->split(',')
                 ->map(static fn($allow) => $allow->trim()->toUpper()->toString())
-                ->map(AllowValue::of(...))
-                ->sink(self::values(AllowValue::class))
+                ->map(Method::maybe(...))
+                ->sink(self::values(Method::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new Allow(...$values->toList())),
+                ->map(static fn($values) => Allow::of(...$values->toList())),
 
             self::authorization => self::authorization($value),
 
@@ -268,69 +271,92 @@ enum Factories
                     $split->matches('~^max-age=\d+$~') => Maybe::just($split->substring(8)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
-                        ->flatMap(static fn($age) => CacheControlValue\MaxAge::of($age)),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\MaxAge::of(...)),
                     $split->matches('~^max-stale(=\d+)?$~') => Maybe::just($split)
                         ->filter(static fn($split) => $split->length() > 10)
                         ->map(static fn($split) => $split->substring(10)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
                         ->otherwise(static fn() => Maybe::just(0))
-                        ->flatMap(CacheControlValue\MaxStale::of(...)),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\MaxStale::of(...)),
                     $split->matches('~^min-fresh=\d+$~') => Maybe::just($split->substring(10)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
-                        ->flatMap(CacheControlValue\MinimumFresh::of(...)),
-                    $split->toString() === 'must-revalidate' => Maybe::just(new CacheControlValue\MustRevalidate),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\MinimumFresh::of(...)),
+                    $split->toString() === 'must-revalidate' => Maybe::just(CacheControl\Directive::mustRevalidate),
                     $split->matches('~^no-cache(="?\w+"?)?$~') => $split
                         ->capture('~^no-cache(="?(?<field>\w+)"?)?$~')
                         ->get('field')
                         ->map(static fn($field) => $field->toString())
                         ->otherwise(static fn() => Maybe::just(''))
-                        ->flatMap(CacheControlValue\NoCache::of(...)),
-                    $split->toString() === 'no-store' => Maybe::just(new CacheControlValue\NoStore),
-                    $split->toString() === 'immutable' => Maybe::just(new CacheControlValue\Immutable),
-                    $split->toString() === 'no-transform' => Maybe::just(new CacheControlValue\NoTransform),
-                    $split->toString() === 'only-if-cached' => Maybe::just(new CacheControlValue\OnlyIfCached),
+                        ->flatMap(CacheControl\NoCache::maybe(...)),
+                    $split->toString() === 'no-store' => Maybe::just(CacheControl\Directive::noStore),
+                    $split->toString() === 'immutable' => Maybe::just(CacheControl\Directive::immutable),
+                    $split->toString() === 'no-transform' => Maybe::just(CacheControl\Directive::noTransform),
+                    $split->toString() === 'only-if-cached' => Maybe::just(CacheControl\Directive::onlyIfCached),
                     $split->matches('~^private(="?\w+"?)?$~') => $split
                         ->capture('~^private(="?(?<field>\w+)"?)?$~')
                         ->get('field')
                         ->map(static fn($field) => $field->toString())
                         ->otherwise(static fn() => Maybe::just(''))
-                        ->flatMap(CacheControlValue\PrivateCache::of(...)),
-                    $split->toString() === 'proxy-revalidate' => Maybe::just(new CacheControlValue\ProxyRevalidate),
-                    $split->toString() === 'public' => Maybe::just(new CacheControlValue\PublicCache),
+                        ->flatMap(CacheControl\PrivateCache::maybe(...)),
+                    $split->toString() === 'proxy-revalidate' => Maybe::just(CacheControl\Directive::proxyRevalidate),
+                    $split->toString() === 'public' => Maybe::just(CacheControl\Directive::public),
                     $split->matches('~^s-maxage=\d+$~') => Maybe::just($split->substring(9)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
-                        ->flatMap(CacheControlValue\SharedMaxAge::of(...)),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\SharedMaxAge::of(...)),
                     default => null,
                 })
                 ->keep(Instance::of(Maybe::class))
-                ->sink(self::values(CacheControlValue::class))
+                // this is the wrong type but it would be too complex to express
+                // the correct one, and it doesn't affect the runtime
+                ->sink(self::values(CacheControl\Directive::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
                 ->map(static fn($values) => $values->match(
-                    static fn($first, $rest) => new CacheControl($first, ...$rest->toList()),
+                    static fn($first, $rest) => CacheControl::of($first, ...$rest->toList()),
                     static fn() => null,
                 ))
                 ->keep(Instance::of(CacheControl::class)),
 
-            self::contentEncoding => ContentEncodingValue::of($value->toString())->map(
-                static fn($value) => new ContentEncoding($value),
-            ),
+            self::contentEncoding => ContentEncoding::maybe($value->toString()),
 
             self::contentLanguage => $value
                 ->split(',')
                 ->map(static fn($language) => $language->trim()->toString())
-                ->map(ContentLanguageValue::of(...))
-                ->sink(self::values(ContentLanguageValue::class))
+                ->map(Content\Language::maybe(...))
+                ->sink(self::values(Content\Language::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new ContentLanguage(...$values->toList())),
+                ->map(static fn($values) => ContentLanguage::of(...$values->toList())),
 
             self::contentLength => Maybe::just($value->toString())
                 ->filter(\is_numeric(...))
                 ->map(static fn($length) => (int) $length)
-                ->flatMap(ContentLengthValue::of(...))
-                ->map(static fn($value) => new ContentLength($value)),
+                ->flatMap(ContentLength::maybe(...)),
 
             self::contentLocation => Url::maybe($value->toString())->map(
                 ContentLocation::of(...),
@@ -338,19 +364,9 @@ enum Factories
 
             self::contentRange => self::contentRange($value->trim()),
 
-            self::contentType => MediaType::maybe($value->toString())
-                ->flatMap(static fn($mediaType) => ContentTypeValue::of(
-                    $mediaType->topLevel(),
-                    $mediaType->subType(),
-                    ...$mediaType
-                        ->parameters()
-                        ->map(static fn($param) => new Parameter\Parameter(
-                            $param->name(),
-                            $param->value(),
-                        ))
-                        ->toList(),
-                ))
-                ->map(static fn($value) => new ContentType($value)),
+            self::contentType => MediaType::maybe($value->toString())->map(
+                ContentType::of(...),
+            ),
 
             self::cookie => Maybe::just($value)
                 ->filter(static fn($value) => $value->matches(
@@ -410,27 +426,32 @@ enum Factories
                         ->get('url')
                         ->flatMap(static fn($url) => Url::maybe($url->toString()));
 
-                    /**
-                     * @psalm-suppress MixedArgumentTypeCoercion
-                     * @psalm-suppress MixedArgument
-                     */
-                    return Maybe::all($url, $params)->flatMap(
-                        static fn(Url $url, Map $params) => LinkValue::of(
-                            $url,
-                            $params->get('rel')->match(
-                                static fn(Parameter $rel) => $rel->value(),
-                                static fn() => null,
+                    return $params->flatMap(
+                        static fn($params) => $params
+                            ->get('rel')
+                            ->otherwise(static fn() => Maybe::just(Parameter::of(
+                                'rel',
+                                'related',
+                            )))
+                            ->map(static fn($rel) => $rel->value())
+                            ->keep(Is::string()->nonEmpty()->asPredicate())
+                            ->flatMap(
+                                static fn($rel) => $url->map(
+                                    static fn($url) => Link\Relationship::of(
+                                        $url,
+                                        $rel,
+                                        ...$params
+                                            ->remove('rel')
+                                            ->values()
+                                            ->toList(),
+                                    ),
+                                ),
                             ),
-                            ...$params
-                                ->remove('rel')
-                                ->values()
-                                ->toList(),
-                        ),
                     );
                 })
-                ->sink(self::values(LinkValue::class))
+                ->sink(self::values(Link\Relationship::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new Link(...$values->toList())),
+                ->map(static fn($values) => Link::of(...$values->toList())),
 
             self::location => Url::maybe($value->toString())->map(
                 Location::of(...),
@@ -472,7 +493,7 @@ enum Factories
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                    ->map(static fn(Str $key, Str $value) => Parameter::of(
                         $key->toString(),
                         $value->toString(),
                     ));
@@ -483,11 +504,11 @@ enum Factories
     }
 
     /**
-     * @return Maybe<Map<string, Parameter\Parameter>>
+     * @return Maybe<Map<string, Parameter>>
      */
     private static function buildLinkParams(Str $params): Maybe
     {
-        /** @var Sequence<array{string, Parameter\Parameter}> */
+        /** @var Sequence<array{string, Parameter}> */
         $values = Sequence::of();
 
         return $params
@@ -497,7 +518,7 @@ enum Factories
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                    ->map(static fn(Str $key, Str $value) => Parameter::of(
                         $key->toString(),
                         $value->toString(),
                     ))
@@ -521,7 +542,7 @@ enum Factories
                 $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                    ->map(static fn(Str $key, Str $value) => Parameter::of(
                         $key->toString(),
                         $value->toString(),
                     ));
@@ -544,12 +565,11 @@ enum Factories
             $matches->get('first')->filter(\is_numeric(...)),
             $matches->get('last')->filter(\is_numeric(...)),
         )
-            ->flatMap(static fn(string $unit, string $first, string $last) => RangeValue::of(
+            ->flatMap(static fn(string $unit, string $first, string $last) => Range::maybe(
                 $unit,
                 (int) $first,
                 (int) $last,
-            ))
-            ->map(static fn($value) => new Range($value));
+            ));
     }
 
     /**
@@ -573,13 +593,12 @@ enum Factories
             );
 
         return Maybe::all($matches->get('unit'), $matches->get('first'), $matches->get('last'))
-            ->flatMap(static fn(Str $unit, Str $first, Str $last) => ContentRangeValue::of(
+            ->flatMap(static fn(Str $unit, Str $first, Str $last) => ContentRange::maybe(
                 $unit->toString(),
                 (int) $first->toString(),
                 (int) $last->toString(),
                 $length,
-            ))
-            ->map(static fn($value) => new ContentRange($value));
+            ));
     }
 
     /**
@@ -603,7 +622,6 @@ enum Factories
         return $matches
             ->get('scheme')
             ->map(static fn($scheme) => $scheme->toString())
-            ->flatMap(static fn($scheme) => AuthorizationValue::of($scheme, $param))
-            ->map(static fn($value) => new Authorization($value));
+            ->flatMap(static fn($scheme) => Authorization::maybe($scheme, $param));
     }
 }

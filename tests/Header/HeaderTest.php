@@ -13,10 +13,10 @@ class HeaderTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Header\Header(
+        $h = Header::of(
             'Accept',
-            $v1 = new Value\Value('application/json'),
-            $v2 = new Value\Value('*/*'),
+            $v1 = Value::of('application/json'),
+            $v2 = Value::of('*/*'),
         );
 
         $this->assertInstanceOf(Header::class, $h);
@@ -28,6 +28,6 @@ class HeaderTest extends TestCase
 
     public function testWithoutValues()
     {
-        $this->assertSame('X-Foo: ', (new Header\Header('X-Foo'))->toString());
+        $this->assertSame('X-Foo: ', Header::of('X-Foo')->toString());
     }
 }

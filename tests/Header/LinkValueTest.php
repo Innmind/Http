@@ -3,11 +3,9 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header\LinkValue,
-    Header\Value,
-    Header\Parameter,
-    Exception\DomainException,
+use Innmind\Http\Header\{
+    Link\Relationship,
+    Parameter,
 };
 use Innmind\Url\Url;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
@@ -16,15 +14,15 @@ class LinkValueTest extends TestCase
 {
     public function testInterface()
     {
-        $l = new LinkValue(
+        $l = Relationship::of(
             $url = Url::of('/some/resource'),
             'relationship',
-            $p = new Parameter\Parameter('title', 'Foo'),
+            $p = Parameter::of('title', 'Foo'),
         );
 
-        $this->assertInstanceOf(Value::class, $l);
+        $this->assertInstanceOf(Relationship::class, $l);
         $this->assertSame($url, $l->url());
-        $this->assertSame('relationship', $l->relationship());
+        $this->assertSame('relationship', $l->kind());
         $this->assertSame($p, $l->parameters()->get('title')->match(
             static fn($title) => $title,
             static fn() => null,
@@ -39,17 +37,7 @@ class LinkValueTest extends TestCase
     {
         $this->assertSame(
             'related',
-            (new LinkValue(Url::of('/')))->relationship(),
-        );
-    }
-
-    public function testThrowWhenInvalidLinkValue()
-    {
-        $this->expectException(DomainException::class);
-
-        new LinkValue(
-            Url::of('/foo'),
-            '',
+            Relationship::of(Url::of('/'))->kind(),
         );
     }
 }

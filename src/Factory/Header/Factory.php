@@ -21,7 +21,7 @@ final class Factory
     ) {
     }
 
-    public function __invoke(Str $name, Str $value): Header
+    public function __invoke(Str $name, Str $value): Header|Header\Custom
     {
         $factory = Factories::of($name);
 
@@ -50,10 +50,10 @@ final class Factory
         $values = $value
             ->split(',')
             ->map(static fn($value) => $value->trim())
-            ->map(static fn($value) => new Value\Value($value->toString()))
+            ->map(static fn($value) => Value::of($value->toString()))
             ->toList();
 
-        return new Header\Header(
+        return Header::of(
             $name->toString(),
             ...$values,
         );

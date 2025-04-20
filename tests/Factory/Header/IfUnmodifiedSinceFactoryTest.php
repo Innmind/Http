@@ -26,7 +26,7 @@ class IfUnmodifiedSinceFactoryTest extends TestCase
         $this->assertInstanceOf(IfUnmodifiedSince::class, $h);
         $this->assertSame(
             'If-Unmodified-Since: Tue, 15 Nov 1994 08:12:31 GMT',
-            $h->toString(),
+            $h->normalize()->toString(),
         );
     }
 

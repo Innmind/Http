@@ -3,22 +3,17 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
+use Innmind\Http\Header;
 use Innmind\Url\Url;
-use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class Referrer implements HeaderInterface
+final class Referrer implements Custom
 {
-    private Header $header;
-    private ReferrerValue $referrer;
-
-    public function __construct(ReferrerValue $referrer)
-    {
-        $this->header = new Header('Referer', $referrer);
-        $this->referrer = $referrer;
+    private function __construct(
+        private Url $referrer,
+    ) {
     }
 
     /**
@@ -26,29 +21,20 @@ final class Referrer implements HeaderInterface
      */
     public static function of(Url $referrer): self
     {
-        return new self(new ReferrerValue($referrer));
-    }
-
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
+        return new self($referrer);
     }
 
     public function referrer(): Url
     {
-        return $this->referrer->url();
+        return $this->referrer;
     }
 
     #[\Override]
-    public function toString(): string
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        return Header::of(
+            'Referer',
+            Value::of($this->referrer->toString()),
+        );
     }
 }

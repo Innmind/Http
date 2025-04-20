@@ -3,58 +3,63 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Sequence;
+use Innmind\Http\Header;
+use Innmind\MediaType\MediaType;
+use Innmind\Immutable\Str;
 
 /**
  * @psalm-immutable
  */
-final class ContentType implements HeaderInterface
+final class ContentType implements Custom
 {
-    private Header $header;
-    private ContentTypeValue $content;
-
-    public function __construct(ContentTypeValue $content)
-    {
-        $this->header = new Header('Content-Type', $content);
-        $this->content = $content;
+    private function __construct(
+        private MediaType $content,
+    ) {
     }
 
     /**
      * @psalm-pure
      */
-    public static function of(
-        string $type,
-        string $subType,
-        Parameter ...$parameters,
-    ): self {
-        return new self(new ContentTypeValue(
-            $type,
-            $subType,
-            ...$parameters,
-        ));
-    }
-
-    #[\Override]
-    public function name(): string
+    public static function of(MediaType $content): self
     {
-        return $this->header->name();
+        return new self($content);
     }
 
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
-    }
-
-    public function content(): ContentTypeValue
+    public function content(): MediaType
     {
         return $this->content;
     }
 
     #[\Override]
-    public function toString(): string
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        $mediaType = new MediaType(
+            $this->content->topLevel(),
+            $this->content->subType(),
+            $this->content->suffix(),
+        );
+        $parameters = Str::of(';')->join(
+            $this
+                ->content
+                ->parameters()
+                ->map(static fn($parameter) => Parameter::of( // to make sure it's of the HTTP format
+                    $parameter->name(),
+                    $parameter->value(),
+                ))
+                ->map(static fn($parameter) => $parameter->toString()),
+        );
+
+        $content = $mediaType->toString();
+
+        if (!$parameters->empty()) {
+            $content .= ';';
+        }
+
+        $content .= $parameters->toString();
+
+        return Header::of(
+            'Content-Type',
+            Value::of($content),
+        );
     }
 }

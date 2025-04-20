@@ -3,54 +3,56 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Sequence;
+use Innmind\Http\Header;
+use Innmind\Immutable\Maybe;
 
 /**
  * @psalm-immutable
  */
-final class Age implements HeaderInterface
+final class Age implements Custom
 {
-    private Header $header;
-    private AgeValue $value;
-
-    public function __construct(AgeValue $age)
-    {
-        $this->header = new Header('Age', $age);
-        $this->value = $age;
+    /**
+     * @param int<0, max> $age
+     */
+    private function __construct(
+        private int $age,
+    ) {
     }
 
     /**
      * @psalm-pure
+     *
+     * @param int<0, max> $age
      */
     public static function of(int $age): self
     {
-        return new self(new AgeValue($age));
-    }
-
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
+        return new self($age);
     }
 
     /**
-     * @return 0|positive-int
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(int $age): Maybe
+    {
+        return Maybe::of(match (true) {
+            $age >= 0 => new self($age),
+            default => null,
+        });
+    }
+
+    /**
+     * @return int<0, max>
      */
     public function age(): int
     {
-        return $this->value->age();
+        return $this->age;
     }
 
     #[\Override]
-    public function toString(): string
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        return Header::of('Age', Value::of((string) $this->age));
     }
 }

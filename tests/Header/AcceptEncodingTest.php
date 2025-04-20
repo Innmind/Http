@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\AcceptEncoding,
     Header,
-    Header\AcceptEncodingValue,
+    Header\Accept\Encoding,
     Header\Parameter\Quality
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
@@ -15,18 +15,19 @@ class AcceptEncodingTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new AcceptEncoding(
-            $v = new AcceptEncodingValue('compress', new Quality(1)),
-        );
+        $h = Encoding::maybe('compress', Quality::max())
+            ->map(AcceptEncoding::of(...))
+            ->match(
+                static fn($header) => $header,
+                static fn() => null,
+            );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Accept-Encoding', $h->name());
-        $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept-Encoding: compress;q=1', $h->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Accept-Encoding: compress;q=1', $h->normalize()->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Accept-Encoding: ', (new AcceptEncoding)->toString());
+        $this->assertSame('Accept-Encoding: ', AcceptEncoding::of()->normalize()->toString());
     }
 }

@@ -12,7 +12,6 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header\Host,
-    Header\HostValue
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
@@ -27,11 +26,9 @@ class StringableTest extends TestCase
             Method::post,
             ProtocolVersion::v20,
             Headers::of(
-                new Host(
-                    new HostValue(
-                        $url->authority()->host(),
-                        $url->authority()->port(),
-                    ),
+                Host::of(
+                    $url->authority()->host(),
+                    $url->authority()->port(),
                 ),
             ),
             Content::ofString('some body'),
@@ -54,11 +51,9 @@ RAW;
             Method::post,
             ProtocolVersion::v20,
             Headers::of(
-                new Host(
-                    new HostValue(
-                        $url->authority()->host(),
-                        $url->authority()->port(),
-                    ),
+                Host::of(
+                    $url->authority()->host(),
+                    $url->authority()->port(),
                 ),
             ),
             Content::ofString('some body'),
@@ -88,11 +83,9 @@ RAW;
             Method::post,
             ProtocolVersion::v20,
             Headers::of(
-                new Host(
-                    new HostValue(
-                        $url->authority()->host(),
-                        $url->authority()->port(),
-                    ),
+                Host::of(
+                    $url->authority()->host(),
+                    $url->authority()->port(),
                 ),
             ),
             null,

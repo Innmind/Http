@@ -6,9 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Referrer,
     Header,
-    Header\ReferrerValue
 };
-use Innmind\Immutable\Sequence;
 use Innmind\Url\Url;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -16,19 +14,12 @@ class ReferrerTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Referrer(
-            $av = new ReferrerValue(Url::of('/foo/bar')),
+        $h = Referrer::of(
+            Url::of('/foo/bar'),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Referer', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Sequence::class, $v);
-        $this->assertSame($av, $v->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('Referer: /foo/bar', $h->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Referer: /foo/bar', $h->normalize()->toString());
         $this->assertSame('/foo/bar', $h->referrer()->toString());
     }
 
@@ -37,6 +28,6 @@ class ReferrerTest extends TestCase
         $header = Referrer::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Referrer::class, $header);
-        $this->assertSame('Referer: /foo/bar', $header->toString());
+        $this->assertSame('Referer: /foo/bar', $header->normalize()->toString());
     }
 }

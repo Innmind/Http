@@ -4,10 +4,8 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\{
-    Header\AcceptEncodingValue,
-    Header\Value,
+    Header\Accept\Encoding,
     Header\Parameter\Quality,
-    Exception\DomainException,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -16,33 +14,55 @@ class AcceptEncodingValueTest extends TestCase
 {
     public function testInterface()
     {
-        $a = new AcceptEncodingValue('compress', $q = new Quality(1));
+        $a = Encoding::maybe('compress', $q = Quality::max())->match(
+            static fn($encoding) => $encoding,
+            static fn() => null,
+        );
 
-        $this->assertInstanceOf(Value::class, $a);
+        $this->assertInstanceOf(Encoding::class, $a);
         $this->assertSame($q, $a->quality());
         $this->assertSame('compress;q=1', $a->toString());
 
-        new AcceptEncodingValue('*', new Quality(1));
-        new AcceptEncodingValue('compress', new Quality(0.5));
-        new AcceptEncodingValue('identity', new Quality(0.5));
-        new AcceptEncodingValue('*', new Quality(0));
+        Encoding::maybe('*', Quality::max())->match(
+            static fn($encoding) => $encoding,
+            static fn() => throw new \Exception,
+        );
+        Encoding::maybe('compress', Quality::of(50))->match(
+            static fn($encoding) => $encoding,
+            static fn() => throw new \Exception,
+        );
+        Encoding::maybe('identity', Quality::of(50))->match(
+            static fn($encoding) => $encoding,
+            static fn() => throw new \Exception,
+        );
+        Encoding::maybe('*', Quality::of(0))->match(
+            static fn($encoding) => $encoding,
+            static fn() => throw new \Exception,
+        );
     }
 
     public function testDefaultQuality()
     {
         $this->assertSame(
             '1',
-            (new AcceptEncodingValue('*'))->quality()->value(),
+            Encoding::maybe('*')
+                ->match(
+                    static fn($encoding) => $encoding,
+                    static fn() => null,
+                )
+                ?->quality()
+                ?->toParameter()
+                ?->value(),
         );
     }
 
     #[DataProvider('invalids')]
-    public function testThrowWhenInvalidAcceptEncodingValue($value)
+    public function testReturnNothingWhenInvalidAcceptEncodingValue($value)
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage($value);
-
-        new AcceptEncodingValue($value, new Quality(1));
+        $this->assertNull(Encoding::maybe($value, Quality::max())->match(
+            static fn($encoding) => $encoding,
+            static fn() => null,
+        ));
     }
 
     public static function invalids(): array

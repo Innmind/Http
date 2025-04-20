@@ -21,6 +21,6 @@ class LocationFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location: http://example.com/', $header->toString());
+        $this->assertSame('Location: http://example.com/', $header->normalize()->toString());
     }
 }

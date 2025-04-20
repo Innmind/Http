@@ -6,13 +6,14 @@ namespace Innmind\Http;
 use Innmind\Http\{
     Header\Date,
     Header\SetCookie,
-    Header\CookieValue,
-    Header\Parameter,
-    TimeContinuum\Format\Http,
     Exception\LogicException,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\TimeContinuum\{
+    Clock,
+    Format,
+};
 use Innmind\Immutable\{
+    Map,
     Attempt,
     SideEffect,
 };
@@ -50,11 +51,15 @@ final class ResponseSender implements Sender
                 fn() => ($headers)(Date::of($this->clock->now())),
             );
 
-        $_ = $headers->foreach(function(Header $header): void {
+        $_ = $headers->foreach(function($header): void {
             if ($header instanceof SetCookie) {
                 $this->sendCookie($header);
 
                 return;
+            }
+
+            if ($header instanceof Header\Custom) {
+                $header = $header->normalize();
             }
 
             \header($header->toString(), false);
@@ -77,80 +82,41 @@ final class ResponseSender implements Sender
 
     private function sendCookie(SetCookie $cookie): void
     {
-        $_ = $cookie->cookies()->foreach(static function(CookieValue $value): void {
-            $parameters = $value->parameters()->values()->reduce(
-                [],
-                static function(array $parameters, Parameter $parameter): array {
-                    switch ($parameter->name()) {
-                        case 'Domain':
-                            $parameters['domain'] = $parameter->value();
-                            break;
-
-                        case 'Expires':
-                            /** @psalm-suppress PossiblyFalseReference Expires object uses a valid date */
-                            $timestamp = \DateTimeImmutable::createFromFormat(
-                                Http::new()->toString(),
-                                \substr($parameter->value(), 1, -1), // remove double quotes
-                            )->getTimestamp();
-                            // MaxAge has precedence
-                            /** @psalm-suppress MixedAssignment */
-                            $parameters['expire'] = match ($parameters['expire'] ?? 0) {
-                                0 => $timestamp,
-                                default => $parameters['expire'] ?? 0,
-                            };
-                            break;
-
-                        case 'Max-Age':
-                            $parameters['expire'] = (int) $parameter->value();
-                            break;
-
-                        case 'HttpOnly':
-                            $parameters['httponly'] = true;
-                            break;
-
-                        case 'Path':
-                            $parameters['path'] = $parameter->value();
-                            break;
-
-                        case 'Secure':
-                            $parameters['secure'] = true;
-                            break;
-
-                        case 'SameSite':
-                            $parameters['samesite'] = $parameter->value();
-                            break;
-
-                        default:
-                            $parameters['key'] = $parameter->name();
-                            $parameters['value'] = $parameter->value();
-                            break;
-                    }
-
-                    return $parameters;
+        $_ = $cookie->cookies()->foreach(static function(SetCookie $cookie): void {
+            $parameters = $cookie->parameters()->map(
+                static fn($parameter) => match (true) {
+                    $parameter === SetCookie\Directive::httpOnly => ['httponly', true],
+                    $parameter === SetCookie\Directive::secure => ['secure', true],
+                    $parameter === SetCookie\Directive::laxSameSite => ['samesite', 'Lax'],
+                    $parameter === SetCookie\Directive::strictSameSite => ['samesite', 'Strict'],
+                    $parameter instanceof SetCookie\Domain => ['domain', $parameter->host()->toString()],
+                    $parameter instanceof SetCookie\Expires => [
+                        'expires',
+                        (int) $parameter->date()->format(Format::of('U')),
+                    ],
+                    $parameter instanceof SetCookie\MaxAge => ['max-age', $parameter->toInt()],
+                    $parameter instanceof SetCookie\Path => ['path', $parameter->path()->toString()],
                 },
             );
 
-            $options = [
-                'path' => $parameters['path'] ?? '',
-                'domain' => $parameters['domain'] ?? '',
-                'secure' => $parameters['secure'] ?? false,
-                'httponly' => $parameters['httponly'] ?? false,
-            ];
+            $parameters = Map::of(...$parameters->toList());
+            // Max age has precedence over expire
+            $parameters = $parameters->get('max-age')->match(
+                static fn($value) => ($parameters)('expires', $value),
+                static fn() => $parameters,
+            );
+            $options = $parameters->reduce(
+                [],
+                static function(array $options, $key, $value) {
+                    $options[$key] = $value;
 
-            if (isset($parameters['samesite'])) {
-                /** @psalm-suppress MixedAssignment */
-                $options['samesite'] = $parameters['samesite'];
-            }
+                    return $options;
+                },
+            );
 
-            /**
-             * @psalm-suppress MixedArgument
-             * @psalm-suppress InvalidArgument
-             * @psalm-suppress InvalidCast
-             */
             \setcookie(
-                $parameters['key'] ?? '',
-                $parameters['value'] ?? '',
-                $parameters['expire'] ?? 0,
+                $cookie->name(),
+                $cookie->value(),
                 $options,
             );
         });

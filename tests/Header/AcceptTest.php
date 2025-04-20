@@ -6,8 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Accept,
     Header,
-    Header\AcceptValue,
-    Header\Parameter\Quality
+    Header\Parameter\Quality,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -15,17 +14,18 @@ class AcceptTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Accept(
-            $v = new AcceptValue(
-                'text',
-                'html',
-                new Quality(0.8),
-            ),
-        );
+        $h = Accept\MediaType::maybe(
+            'text',
+            'html',
+            Quality::of(80)->toParameter(),
+        )
+            ->map(Accept::of(...))
+            ->match(
+                static fn($header) => $header,
+                static fn() => null,
+            );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Accept', $h->name());
-        $this->assertTrue($h->values()->contains($v));
-        $this->assertSame('Accept: text/html;q=0.8', $h->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Accept: text/html;q=0.8', $h->normalize()->toString());
     }
 }

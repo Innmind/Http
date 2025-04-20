@@ -3,24 +3,23 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
+use Innmind\Http\Header;
 use Innmind\Immutable\{
-    Sequence,
     Map,
+    Str,
 };
 
 /**
  * @psalm-immutable
  */
-final class Cookie implements HeaderInterface
+final class Cookie implements Custom
 {
-    private Header $header;
-    private CookieValue $value;
-
-    public function __construct(CookieValue $value)
-    {
-        $this->header = new Header('Cookie', $value);
-        $this->value = $value;
+    /**
+     * @param Map<string, Parameter> $parameters
+     */
+    private function __construct(
+        private Map $parameters,
+    ) {
     }
 
     /**
@@ -29,19 +28,17 @@ final class Cookie implements HeaderInterface
      */
     public static function of(Parameter ...$parameters): self
     {
-        return new self(new CookieValue(...$parameters));
-    }
+        /** @var Map<string, Parameter> */
+        $map = Map::of();
 
-    #[\Override]
-    public function name(): string
-    {
-        return $this->header->name();
-    }
+        foreach ($parameters as $paramater) {
+            $map = ($map)(
+                $paramater->name(),
+                $paramater,
+            );
+        }
 
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
+        return new self($map);
     }
 
     /**
@@ -49,12 +46,21 @@ final class Cookie implements HeaderInterface
      */
     public function parameters(): Map
     {
-        return $this->value->parameters();
+        return $this->parameters;
     }
 
     #[\Override]
-    public function toString(): string
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+
+        $value = Str::of('; ')->join($parameters)->toString();
+
+        return Header::of(
+            'Cookie',
+            Value::of($value),
+        );
     }
 }

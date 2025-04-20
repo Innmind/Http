@@ -4,11 +4,9 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\{
-    Header\AcceptValue,
-    Header\Value,
+    Header\Accept\MediaType,
     Header\Parameter\Quality,
     Header\Parameter,
-    Exception\DomainException,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -17,13 +15,16 @@ class AcceptValueTest extends TestCase
 {
     public function testInterface()
     {
-        $a = new AcceptValue(
+        $a = MediaType::maybe(
             'text',
             'x-c',
-            $q = new Quality(0.8),
+            $q = Quality::of(80)->toParameter(),
+        )->match(
+            static fn($mediaType) => $mediaType,
+            static fn() => null,
         );
 
-        $this->assertInstanceOf(Value::class, $a);
+        $this->assertInstanceOf(MediaType::class, $a);
         $this->assertSame('text', $a->type());
         $this->assertSame('x-c', $a->subType());
         $this->assertSame($q, $a->parameters()->get('q')->match(
@@ -32,33 +33,45 @@ class AcceptValueTest extends TestCase
         ));
         $this->assertSame('text/x-c;q=0.8', $a->toString());
 
-        new AcceptValue(
+        MediaType::maybe(
             '*',
             '*',
+        )->match(
+            static fn($mediaType) => $mediaType,
+            static fn() => throw new \Exception,
         );
-        new AcceptValue(
+        MediaType::maybe(
             'application',
             '*',
+        )->match(
+            static fn($mediaType) => $mediaType,
+            static fn() => throw new \Exception,
         );
-        new AcceptValue(
+        MediaType::maybe(
             'application',
             'octet-stream',
+        )->match(
+            static fn($mediaType) => $mediaType,
+            static fn() => throw new \Exception,
         );
-        new AcceptValue(
+        MediaType::maybe(
             'application',
             'octet-stream',
-            new Quality(0.4),
-            new Parameter\Parameter('level', '1'),
+            Quality::of(40)->toParameter(),
+            Parameter::of('level', '1'),
+        )->match(
+            static fn($mediaType) => $mediaType,
+            static fn() => throw new \Exception,
         );
     }
 
     #[DataProvider('invalids')]
-    public function testThrowWhenInvalidAcceptValue($type, $sub)
+    public function testReturnNothingWhenInvalidAcceptValue($type, $sub)
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage("$type/$sub");
-
-        new AcceptValue($type, $sub);
+        $this->assertNull(MediaType::maybe($type, $sub)->match(
+            static fn($mediaType) => $mediaType,
+            static fn() => null,
+        ));
     }
 
     public static function invalids(): array

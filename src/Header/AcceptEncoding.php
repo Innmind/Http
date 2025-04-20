@@ -3,39 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
+use Innmind\Http\{
+    Header,
+    Header\Accept\Encoding,
+};
 use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class AcceptEncoding implements HeaderInterface
+final class AcceptEncoding implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<Encoding> $encodings
+     */
+    private function __construct(
+        private Sequence $encodings,
+    ) {
+    }
 
     /**
+     * @psalm-pure
      * @no-named-arguments
      */
-    public function __construct(AcceptEncodingValue ...$values)
+    public static function of(Encoding ...$encodings): self
     {
-        $this->header = new Header('Accept-Encoding', ...$values);
+        return new self(Sequence::of(...$encodings));
     }
 
     #[\Override]
-    public function name(): string
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    #[\Override]
-    public function values(): Sequence
-    {
-        return $this->header->values();
-    }
-
-    #[\Override]
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'Accept-Encoding',
+            ...$this
+                ->encodings
+                ->map(static fn($value) => Value::of($value->toString()))
+                ->toList(),
+        );
     }
 }

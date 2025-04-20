@@ -21,6 +21,6 @@ class AllowFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Allow::class, $header);
-        $this->assertSame('Allow: GET, POST', $header->toString());
+        $this->assertSame('Allow: GET, POST', $header->normalize()->toString());
     }
 }
