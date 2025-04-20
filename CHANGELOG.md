@@ -12,6 +12,13 @@
 - `Innmind\Http\Header\Content\Language`
 - `Innmind\Http\Header\Link\Relationship`
 - `Innmind\Http\Header\WWWAuthenticate\Challenge`
+- `Innmind\Http\Header\CacheControl\Directive`
+- `Innmind\Http\Header\CacheControl\MaxAge`
+- `Innmind\Http\Header\CacheControl\MaxStale`
+- `Innmind\Http\Header\CacheControl\MinimumFresh`
+- `Innmind\Http\Header\CacheControl\NoCache`
+- `Innmind\Http\Header\CacheControl\PrivateCache`
+- `Innmind\Http\Header\CacheControl\SharedMaxAge`
 
 ### Changed
 
@@ -87,6 +94,13 @@
 - `Innmind\Http\Header\ContentLanguageValue`
 - `Innmind\Http\Header\LinkValue`
 - `Innmind\Http\Header\WWWAuthenticateValue`
+- `Innmind\Http\Header\CacheControlValue`
+- `Innmind\Http\Header\CacheControlValue\MaxAge`
+- `Innmind\Http\Header\CacheControlValue\MaxStale`
+- `Innmind\Http\Header\CacheControlValue\MinimumFresh`
+- `Innmind\Http\Header\CacheControlValue\NoCache`
+- `Innmind\Http\Header\CacheControlValue\PrivateCache`
+- `Innmind\Http\Header\CacheControlValue\SharedMaxAge`
 
 ### Fixed
 

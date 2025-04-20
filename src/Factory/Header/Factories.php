@@ -14,7 +14,6 @@ use Innmind\Http\{
     Header\Allow,
     Header\Authorization,
     Header\CacheControl,
-    Header\CacheControlValue,
     Header\Content,
     Header\ContentEncoding,
     Header\ContentLanguage,
@@ -253,45 +252,71 @@ enum Factories
                     $split->matches('~^max-age=\d+$~') => Maybe::just($split->substring(8)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
-                        ->flatMap(static fn($age) => CacheControlValue\MaxAge::of($age)),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\MaxAge::of(...)),
                     $split->matches('~^max-stale(=\d+)?$~') => Maybe::just($split)
                         ->filter(static fn($split) => $split->length() > 10)
                         ->map(static fn($split) => $split->substring(10)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
                         ->otherwise(static fn() => Maybe::just(0))
-                        ->flatMap(CacheControlValue\MaxStale::of(...)),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\MaxStale::of(...)),
                     $split->matches('~^min-fresh=\d+$~') => Maybe::just($split->substring(10)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
-                        ->flatMap(CacheControlValue\MinimumFresh::of(...)),
-                    $split->toString() === 'must-revalidate' => Maybe::just(new CacheControlValue\MustRevalidate),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\MinimumFresh::of(...)),
+                    $split->toString() === 'must-revalidate' => Maybe::just(CacheControl\Directive::mustRevalidate),
                     $split->matches('~^no-cache(="?\w+"?)?$~') => $split
                         ->capture('~^no-cache(="?(?<field>\w+)"?)?$~')
                         ->get('field')
                         ->map(static fn($field) => $field->toString())
                         ->otherwise(static fn() => Maybe::just(''))
-                        ->flatMap(CacheControlValue\NoCache::of(...)),
-                    $split->toString() === 'no-store' => Maybe::just(new CacheControlValue\NoStore),
-                    $split->toString() === 'immutable' => Maybe::just(new CacheControlValue\Immutable),
-                    $split->toString() === 'no-transform' => Maybe::just(new CacheControlValue\NoTransform),
-                    $split->toString() === 'only-if-cached' => Maybe::just(new CacheControlValue\OnlyIfCached),
+                        ->flatMap(CacheControl\NoCache::maybe(...)),
+                    $split->toString() === 'no-store' => Maybe::just(CacheControl\Directive::noStore),
+                    $split->toString() === 'immutable' => Maybe::just(CacheControl\Directive::immutable),
+                    $split->toString() === 'no-transform' => Maybe::just(CacheControl\Directive::noTransform),
+                    $split->toString() === 'only-if-cached' => Maybe::just(CacheControl\Directive::onlyIfCached),
                     $split->matches('~^private(="?\w+"?)?$~') => $split
                         ->capture('~^private(="?(?<field>\w+)"?)?$~')
                         ->get('field')
                         ->map(static fn($field) => $field->toString())
                         ->otherwise(static fn() => Maybe::just(''))
-                        ->flatMap(CacheControlValue\PrivateCache::of(...)),
-                    $split->toString() === 'proxy-revalidate' => Maybe::just(new CacheControlValue\ProxyRevalidate),
-                    $split->toString() === 'public' => Maybe::just(new CacheControlValue\PublicCache),
+                        ->flatMap(CacheControl\PrivateCache::maybe(...)),
+                    $split->toString() === 'proxy-revalidate' => Maybe::just(CacheControl\Directive::proxyRevalidate),
+                    $split->toString() === 'public' => Maybe::just(CacheControl\Directive::public),
                     $split->matches('~^s-maxage=\d+$~') => Maybe::just($split->substring(9)->toString())
                         ->filter(\is_numeric(...))
                         ->map(static fn($age) => (int) $age)
-                        ->flatMap(CacheControlValue\SharedMaxAge::of(...)),
+                        ->keep(
+                            Is::int()
+                                ->positive()
+                                ->or(Is::value(0))
+                                ->asPredicate(),
+                        )
+                        ->map(CacheControl\SharedMaxAge::of(...)),
                     default => null,
                 })
                 ->keep(Instance::of(Maybe::class))
-                ->sink(self::values(CacheControlValue::class))
+                // this is the wrong type but it would be too complex to express
+                // the correct one, and it doesn't affect the runtime
+                ->sink(self::values(CacheControl\Directive::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
                 ->map(static fn($values) => $values->match(
                     static fn($first, $rest) => CacheControl::of($first, ...$rest->toList()),

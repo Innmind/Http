@@ -3,19 +3,13 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\Header\{
-    CacheControlValue,
-    CacheControlValue\NoTransform
-};
+use Innmind\Http\Header\CacheControl\Directive;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class NoTransformTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new NoTransform;
-
-        $this->assertInstanceOf(CacheControlValue::class, $h);
-        $this->assertSame('no-transform', $h->toString());
+        $this->assertSame('no-transform', Directive::noTransform->toString());
     }
 }
