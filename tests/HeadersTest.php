@@ -141,7 +141,7 @@ class HeadersTest extends TestCase
         ));
 
         $headers = Headers::of(
-            Header::of('Content-Type', new Value('application/json')),
+            Header::of('Content-Type', Value::of('application/json')),
         );
 
         $this->assertFalse($headers->find(ContentType::class)->match(

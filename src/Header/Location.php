@@ -34,7 +34,7 @@ final class Location implements Custom
     {
         return Header::of(
             'Location',
-            new Value($this->location->toString()),
+            Value::of($this->location->toString()),
         );
     }
 }

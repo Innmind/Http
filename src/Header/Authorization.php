@@ -62,7 +62,7 @@ final class Authorization implements Custom
     {
         return Header::of(
             'Authorization',
-            new Value(
+            Value::of(
                 Str::of($this->scheme)
                     ->append(' ')
                     ->append($this->parameter)

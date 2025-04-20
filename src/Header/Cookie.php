@@ -60,7 +60,7 @@ final class Cookie implements Custom
 
         return Header::of(
             'Cookie',
-            new Value($value),
+            Value::of($value),
         );
     }
 }

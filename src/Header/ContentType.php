@@ -59,7 +59,7 @@ final class ContentType implements Custom
 
         return Header::of(
             'Content-Type',
-            new Value($content),
+            Value::of($content),
         );
     }
 }

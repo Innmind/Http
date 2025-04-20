@@ -53,7 +53,7 @@ final class AcceptRanges implements Custom
     {
         return Header::of(
             'Accept-Ranges',
-            new Value($this->ranges),
+            Value::of($this->ranges),
         );
     }
 }

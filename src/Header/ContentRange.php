@@ -110,7 +110,7 @@ final class ContentRange implements Custom
     {
         return Header::of(
             'Content-Range',
-            new Value(\sprintf(
+            Value::of(\sprintf(
                 '%s %s-%s/%s',
                 $this->unit,
                 $this->firstPosition,

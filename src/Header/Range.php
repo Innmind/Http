@@ -93,7 +93,7 @@ final class Range implements Custom
     {
         return Header::of(
             'Range',
-            new Value(\sprintf(
+            Value::of(\sprintf(
                 '%s=%s-%s',
                 $this->unit,
                 $this->firstPosition,

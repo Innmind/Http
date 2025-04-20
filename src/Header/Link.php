@@ -38,7 +38,7 @@ final class Link implements Custom
             'Link',
             ...$this
                 ->relationships
-                ->map(static fn($relationship) => new Value($relationship->toString()))
+                ->map(static fn($relationship) => Value::of($relationship->toString()))
                 ->toList(),
         );
     }

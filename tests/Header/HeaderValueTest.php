@@ -10,7 +10,7 @@ class HeaderValueTest extends TestCase
 {
     public function testInterface()
     {
-        $hv = new Value('foo');
+        $hv = Value::of('foo');
 
         $this->assertInstanceOf(Value::class, $hv);
         $this->assertSame('foo', $hv->toString());

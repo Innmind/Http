@@ -77,6 +77,7 @@
 - `Innmind\Http\Header\ContentType\Boundary` no longer implements `Innmind\Http\Header\Parameter`
 - `Innmind\Http\Header\Parameter` is now a final class
 - `Innmind\Http\Header` constructor is now private, use `::of` named constructor
+- `Innmind\Http\Header\Value` constructor is now private, use `::of` named constructor
 
 ### Removed
 

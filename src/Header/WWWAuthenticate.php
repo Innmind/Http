@@ -38,7 +38,7 @@ final class WWWAuthenticate implements Custom
             'WWW-Authenticate',
             ...$this
                 ->challenges
-                ->map(static fn($challenge) => new Value($challenge->toString()))
+                ->map(static fn($challenge) => Value::of($challenge->toString()))
                 ->toList(),
         );
     }

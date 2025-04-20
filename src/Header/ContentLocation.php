@@ -34,7 +34,7 @@ final class ContentLocation implements Custom
     {
         return Header::of(
             'Content-Location',
-            new Value($this->url->toString()),
+            Value::of($this->url->toString()),
         );
     }
 }

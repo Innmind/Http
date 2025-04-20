@@ -38,7 +38,7 @@ final class AcceptLanguage implements Custom
             'Accept-Language',
             ...$this
                 ->languages
-                ->map(static fn($value) => new Value($value->toString()))
+                ->map(static fn($value) => Value::of($value->toString()))
                 ->toList(),
         );
     }

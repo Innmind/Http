@@ -40,7 +40,7 @@ final class IfModifiedSince implements Custom
     {
         return Header::of(
             'If-Modified-Since',
-            new Value(
+            Value::of(
                 $this
                     ->point
                     ->changeOffset(Offset::utc())

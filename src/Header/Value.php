@@ -8,9 +8,17 @@ namespace Innmind\Http\Header;
  */
 final class Value
 {
-    public function __construct(
+    private function __construct(
         private string $value,
     ) {
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(string $value): self
+    {
+        return new self($value);
     }
 
     public function toString(): string

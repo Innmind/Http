@@ -34,7 +34,7 @@ final class Referrer implements Custom
     {
         return Header::of(
             'Referer',
-            new Value($this->referrer->toString()),
+            Value::of($this->referrer->toString()),
         );
     }
 }

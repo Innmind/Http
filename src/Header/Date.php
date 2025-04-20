@@ -40,7 +40,7 @@ final class Date implements Custom
     {
         return Header::of(
             'Date',
-            new Value(
+            Value::of(
                 $this
                     ->point
                     ->changeOffset(Offset::utc())
