@@ -7,7 +7,6 @@ use Innmind\Http\{
     Header,
     Header\AcceptCharset,
     Header\AcceptEncoding,
-    Header\AcceptEncodingValue,
     Header\Accept,
     Header\AcceptLanguage,
     Header\AcceptLanguageValue,
@@ -170,12 +169,12 @@ enum Factories
                         ->map(static fn($coding) => $coding->toString());
 
                     return Maybe::all($coding, $quality)->flatMap(
-                        AcceptEncodingValue::of(...),
+                        Accept\Encoding::maybe(...),
                     );
                 })
-                ->sink(self::values(AcceptEncodingValue::class))
+                ->sink(self::values(Accept\Encoding::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new AcceptEncoding(...$values->toList())),
+                ->map(static fn($values) => AcceptEncoding::of(...$values->toList())),
 
             self::accept => $value
                 ->split(',')
