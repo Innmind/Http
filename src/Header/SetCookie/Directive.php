@@ -18,10 +18,10 @@ enum Directive
     public function toParameter(): Parameter
     {
         return match ($this) {
-            self::laxSameSite => new Parameter\Parameter('SameSite', 'Lax'),
-            self::strictSameSite => new Parameter\Parameter('SameSite', 'Strict'),
-            self::secure => new Parameter\Parameter('Secure', ''),
-            self::httpOnly => new Parameter\Parameter('HttpOnly', ''),
+            self::laxSameSite => new Parameter('SameSite', 'Lax'),
+            self::strictSameSite => new Parameter('SameSite', 'Strict'),
+            self::secure => new Parameter('Secure', ''),
+            self::httpOnly => new Parameter('HttpOnly', ''),
         };
     }
 }

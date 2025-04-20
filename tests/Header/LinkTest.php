@@ -19,7 +19,7 @@ class LinkTest extends TestCase
             Link\Relationship::of(
                 Url::of('/some/resource'),
                 'some relation',
-                new Parameter\Parameter('title', 'Foo'),
+                new Parameter('title', 'Foo'),
             ),
         );
 

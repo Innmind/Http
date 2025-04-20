@@ -31,6 +31,6 @@ final class Path
 
     public function toParameter(): Parameter
     {
-        return new Parameter\Parameter('Path', $this->path->toString());
+        return new Parameter('Path', $this->path->toString());
     }
 }

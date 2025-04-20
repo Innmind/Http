@@ -429,7 +429,7 @@ enum Factories
                     return $params->flatMap(
                         static fn($params) => $params
                             ->get('rel')
-                            ->otherwise(static fn() => Maybe::just(new Parameter\Parameter(
+                            ->otherwise(static fn() => Maybe::just(new Parameter(
                                 'rel',
                                 'related',
                             )))
@@ -493,7 +493,7 @@ enum Factories
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                    ->map(static fn(Str $key, Str $value) => new Parameter(
                         $key->toString(),
                         $value->toString(),
                     ));
@@ -504,11 +504,11 @@ enum Factories
     }
 
     /**
-     * @return Maybe<Map<string, Parameter\Parameter>>
+     * @return Maybe<Map<string, Parameter>>
      */
     private static function buildLinkParams(Str $params): Maybe
     {
-        /** @var Sequence<array{string, Parameter\Parameter}> */
+        /** @var Sequence<array{string, Parameter}> */
         $values = Sequence::of();
 
         return $params
@@ -518,7 +518,7 @@ enum Factories
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                    ->map(static fn(Str $key, Str $value) => new Parameter(
                         $key->toString(),
                         $value->toString(),
                     ))
@@ -542,7 +542,7 @@ enum Factories
                 $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter\Parameter(
+                    ->map(static fn(Str $key, Str $value) => new Parameter(
                         $key->toString(),
                         $value->toString(),
                     ));

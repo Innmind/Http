@@ -31,6 +31,6 @@ final class Domain
 
     public function toParameter(): Parameter
     {
-        return new Parameter\Parameter('Domain', $this->host->toString());
+        return new Parameter('Domain', $this->host->toString());
     }
 }

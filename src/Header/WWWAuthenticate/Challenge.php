@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\WWWAuthenticate;
 
-use Innmind\Http\Header\Parameter\Parameter;
+use Innmind\Http\Header\Parameter;
 use Innmind\Immutable\{
     Str,
     Maybe,

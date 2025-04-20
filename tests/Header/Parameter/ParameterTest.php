@@ -3,10 +3,7 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\Parameter;
 
-use Innmind\Http\Header\{
-    Parameter\Parameter,
-    Parameter as ParameterInterface
-};
+use Innmind\Http\Header\Parameter;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ParameterTest extends TestCase
@@ -15,7 +12,6 @@ class ParameterTest extends TestCase
     {
         $p = new Parameter('q', 'foo');
 
-        $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('foo', $p->value());
         $this->assertSame('q=foo', $p->toString());

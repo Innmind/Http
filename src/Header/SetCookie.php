@@ -42,7 +42,7 @@ final class SetCookie implements Custom
         Directive|Domain|Expires|MaxAge|Path ...$parameters,
     ): self {
         return new self(
-            new Parameter\Parameter($name, $value),
+            new Parameter($name, $value),
             Sequence::of(...$parameters),
             Sequence::of(),
         );

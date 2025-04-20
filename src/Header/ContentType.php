@@ -42,7 +42,7 @@ final class ContentType implements Custom
             $this
                 ->content
                 ->parameters()
-                ->map(static fn($parameter) => new Parameter\Parameter( // to make sure it's of the HTTP format
+                ->map(static fn($parameter) => new Parameter( // to make sure it's of the HTTP format
                     $parameter->name(),
                     $parameter->value(),
                 ))

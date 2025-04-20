@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Cookie,
     Header,
-    Header\Parameter\Parameter,
+    Header\Parameter,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
