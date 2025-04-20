@@ -10,7 +10,6 @@ use Innmind\Http\{
     Header\AcceptEncoding,
     Header\AcceptEncodingValue,
     Header\Accept,
-    Header\AcceptValue,
     Header\AcceptLanguage,
     Header\AcceptLanguageValue,
     Header\AcceptRanges,
@@ -197,16 +196,16 @@ enum Factories
                         $matches->get('type'),
                         $matches->get('subType'),
                         $params,
-                    )->flatMap(static fn(Str $type, Str $subType, array $params) => AcceptValue::of(
+                    )->flatMap(static fn(Str $type, Str $subType, array $params) => Accept\MediaType::maybe(
                         $type->toString(),
                         $subType->toString(),
                         ...$params,
                     ));
                 })
-                ->sink(self::values(AcceptValue::class))
+                ->sink(self::values(Accept\MediaType::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
                 ->map(static fn($values) => $values->match(
-                    static fn($first, $rest) => new Accept($first, ...$rest->toList()),
+                    static fn($first, $rest) => Accept::of($first, ...$rest->toList()),
                     static fn() => null,
                 ))
                 ->keep(Instance::of(Accept::class)),

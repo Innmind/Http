@@ -1,9 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\Header;
+namespace Innmind\Http\Header\Accept;
 
-use Innmind\Http\Exception\DomainException;
+use Innmind\Http\{
+    Header\Parameter,
+};
 use Innmind\Immutable\{
     Str,
     Map,
@@ -13,39 +15,14 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class AcceptValue implements Value
+final class MediaType
 {
-    private string $type;
-    private string $subType;
-    /** @var Map<string, Parameter> */
-    private Map $parameters;
-
-    public function __construct(
-        string $type,
-        string $subType,
-        Parameter ...$parameters,
-    ) {
-        $media = Str::of('%s/%s')->sprintf($type, $subType);
+    private function __construct(
+        private string $type,
+        private string $subType,
         /** @var Map<string, Parameter> */
-        $this->parameters = Map::of();
-
-        if (
-            !$media->matches('~^\*/\*$~') &&
-            !$media->matches('~^[\w\-.]+/\*$~') &&
-            !$media->matches('~^[\w\-.]+/[\w\-.]+$~')
-        ) {
-            throw new DomainException($media->toString());
-        }
-
-        foreach ($parameters as $parameter) {
-            $this->parameters = ($this->parameters)(
-                $parameter->name(),
-                $parameter,
-            );
-        }
-
-        $this->type = $type;
-        $this->subType = $subType;
+        private Map $parameters,
+    ) {
     }
 
     /**
@@ -53,17 +30,33 @@ final class AcceptValue implements Value
      *
      * @return Maybe<self>
      */
-    public static function of(
+    public static function maybe(
         string $type,
         string $subType,
         Parameter ...$parameters,
     ): Maybe {
-        try {
-            return Maybe::just(new self($type, $subType, ...$parameters));
-        } catch (DomainException $e) {
+        $media = Str::of('%s/%s')->sprintf($type, $subType);
+
+        if (
+            !$media->matches('~^\*/\*$~') &&
+            !$media->matches('~^[\w\-.]+/\*$~') &&
+            !$media->matches('~^[\w\-.]+/[\w\-.]+$~')
+        ) {
             /** @var Maybe<self> */
             return Maybe::nothing();
         }
+
+        /** @var Map<string, Parameter> */
+        $map = Map::of();
+
+        foreach ($parameters as $parameter) {
+            $map = ($map)(
+                $parameter->name(),
+                $parameter,
+            );
+        }
+
+        return Maybe::just(new self($type, $subType, $map));
     }
 
     public function type(): string
@@ -84,7 +77,6 @@ final class AcceptValue implements Value
         return $this->parameters;
     }
 
-    #[\Override]
     public function toString(): string
     {
         $parameters = $this->parameters->values()->map(

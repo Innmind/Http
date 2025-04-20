@@ -3,23 +3,42 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header;
+use Innmind\Http\{
+    Header,
+    Header\Accept\MediaType,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
 final class Accept implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<MediaType> $values
+     */
+    private function __construct(
+        private Sequence $values,
+    ) {
+    }
 
-    public function __construct(AcceptValue $first, AcceptValue ...$values)
+    /**
+     * @psalm-pure
+     */
+    public static function of(MediaType $first, MediaType ...$values): self
     {
-        $this->header = new Header('Accept', $first, ...$values);
+        return new self(Sequence::of($first, ...$values));
     }
 
     #[\Override]
     public function normalize(): Header
     {
-        return $this->header;
+        return new Header(
+            'Accept',
+            ...$this
+                ->values
+                ->map(static fn($value) => new Value\Value($value->toString()))
+                ->toList(),
+        );
     }
 }
