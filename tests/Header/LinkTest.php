@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Link,
     Header,
-    Header\LinkValue,
     Header\Parameter
 };
 use Innmind\Url\Url;
@@ -16,8 +15,8 @@ class LinkTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Link(
-            $v = new LinkValue(
+        $h = Link::of(
+            Link\Relationship::of(
                 Url::of('/some/resource'),
                 'some relation',
                 new Parameter\Parameter('title', 'Foo'),
@@ -33,6 +32,6 @@ class LinkTest extends TestCase
 
     public function testWithoutValues()
     {
-        $this->assertSame('Link: ', (new Link)->normalize()->toString());
+        $this->assertSame('Link: ', Link::of()->normalize()->toString());
     }
 }

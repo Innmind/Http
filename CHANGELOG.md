@@ -10,6 +10,7 @@
 - `Innmind\Http\Header\Accept\Encoding`
 - `Innmind\Http\Header\Accept\Language`
 - `Innmind\Http\Header\Content\Language`
+- `Innmind\Http\Header\Link\Relationship`
 
 ### Changed
 
@@ -51,6 +52,7 @@
 - `Innmind\Http\Header\Allow` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Allow::of()` now expects `Innmind\Http\Method` values
 - `Innmind\Http\Header\ContentLanguage` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Link` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -80,6 +82,7 @@
 - `Innmind\Http\Header\AcceptLanguageValue`
 - `Innmind\Http\Header\AllowValue`
 - `Innmind\Http\Header\ContentLanguageValue`
+- `Innmind\Http\Header\LinkValue`
 
 ### Fixed
 

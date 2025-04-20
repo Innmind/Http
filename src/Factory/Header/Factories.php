@@ -30,7 +30,6 @@ use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Header\LastModified,
     Header\Link,
-    Header\LinkValue,
     Header\Location,
     Header\Custom,
     Header\Range,
@@ -383,27 +382,32 @@ enum Factories
                         ->get('url')
                         ->flatMap(static fn($url) => Url::maybe($url->toString()));
 
-                    /**
-                     * @psalm-suppress MixedArgumentTypeCoercion
-                     * @psalm-suppress MixedArgument
-                     */
-                    return Maybe::all($url, $params)->flatMap(
-                        static fn(Url $url, Map $params) => LinkValue::of(
-                            $url,
-                            $params->get('rel')->match(
-                                static fn(Parameter $rel) => $rel->value(),
-                                static fn() => null,
+                    return $params->flatMap(
+                        static fn($params) => $params
+                            ->get('rel')
+                            ->otherwise(static fn() => Maybe::just(new Parameter\Parameter(
+                                'rel',
+                                'related',
+                            )))
+                            ->map(static fn($rel) => $rel->value())
+                            ->keep(Is::string()->nonEmpty()->asPredicate())
+                            ->flatMap(
+                                static fn($rel) => $url->map(
+                                    static fn($url) => Link\Relationship::of(
+                                        $url,
+                                        $rel,
+                                        ...$params
+                                            ->remove('rel')
+                                            ->values()
+                                            ->toList(),
+                                    ),
+                                ),
                             ),
-                            ...$params
-                                ->remove('rel')
-                                ->values()
-                                ->toList(),
-                        ),
                     );
                 })
-                ->sink(self::values(LinkValue::class))
+                ->sink(self::values(Link\Relationship::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new Link(...$values->toList())),
+                ->map(static fn($values) => Link::of(...$values->toList())),
 
             self::location => Url::maybe($value->toString())->map(
                 Location::of(...),
