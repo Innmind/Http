@@ -9,7 +9,6 @@ use Innmind\Http\{
     Header\AcceptEncoding,
     Header\Accept,
     Header\AcceptLanguage,
-    Header\AcceptLanguageValue,
     Header\AcceptRanges,
     Header\Age,
     Header\Allow,
@@ -224,12 +223,12 @@ enum Factories
                         ->map(static fn($lang) => $lang->toString());
 
                     return Maybe::all($lang, $quality)->flatMap(
-                        AcceptLanguageValue::of(...),
+                        Accept\Language::maybe(...),
                     );
                 })
-                ->sink(self::values(AcceptLanguageValue::class))
+                ->sink(self::values(Accept\Language::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new AcceptLanguage(...$values->toList())),
+                ->map(static fn($values) => AcceptLanguage::of(...$values->toList())),
 
             self::acceptRanges => AcceptRanges::maybe($value->toString()),
 

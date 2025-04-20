@@ -8,6 +8,7 @@
 - `Innmind\Http\Header\Accept\MediaType`
 - `Innmind\Http\Header\Accept\Charset`
 - `Innmind\Http\Header\Accept\Encoding`
+- `Innmind\Http\Header\Accept\Language`
 
 ### Changed
 
@@ -46,6 +47,7 @@
 - `Innmind\Http\Header\Accept` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\AcceptCharset` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\AcceptEncoding` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\AcceptLanguage` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -72,6 +74,7 @@
 - `Innmind\Http\Header\AcceptValue`
 - `Innmind\Http\Header\AcceptCharsetValue`
 - `Innmind\Http\Header\AcceptEncodingValue`
+- `Innmind\Http\Header\AcceptLanguageValue`
 
 ### Fixed
 
