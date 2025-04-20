@@ -15,7 +15,7 @@ use Innmind\TimeContinuum\{
 /**
  * @psalm-immutable
  */
-final class LastModified implements Provider
+final class LastModified implements Custom
 {
     private function __construct(
         private PointInTime $point,
@@ -36,7 +36,7 @@ final class LastModified implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Last-Modified',

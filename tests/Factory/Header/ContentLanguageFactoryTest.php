@@ -21,6 +21,6 @@ class ContentLanguageFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentLanguage::class, $header);
-        $this->assertSame('Content-Language: fr-FR, fr-CA', $header->toHeader()->toString());
+        $this->assertSame('Content-Language: fr-FR, fr-CA', $header->normalize()->toString());
     }
 }

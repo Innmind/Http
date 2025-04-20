@@ -9,7 +9,7 @@ use Innmind\Immutable\Sequence;
 /**
  * @psalm-immutable
  */
-final class SetCookie implements Provider
+final class SetCookie implements Custom
 {
     /** @var Sequence<CookieValue> */
     private Sequence $cookies;
@@ -40,7 +40,7 @@ final class SetCookie implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header('Set-Cookie', ...$this->cookies->toList());
     }

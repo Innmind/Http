@@ -18,8 +18,8 @@ class LocationTest extends TestCase
             Url::of('/foo/bar'),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Location: /foo/bar', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Location: /foo/bar', $h->normalize()->toString());
     }
 
     public function testOf()
@@ -27,6 +27,6 @@ class LocationTest extends TestCase
         $header = Location::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location: /foo/bar', $header->toHeader()->toString());
+        $this->assertSame('Location: /foo/bar', $header->normalize()->toString());
     }
 }

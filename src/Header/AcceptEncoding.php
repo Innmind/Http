@@ -8,7 +8,7 @@ use Innmind\Http\Header;
 /**
  * @psalm-immutable
  */
-final class AcceptEncoding implements Provider
+final class AcceptEncoding implements Custom
 {
     private Header $header;
 
@@ -21,7 +21,7 @@ final class AcceptEncoding implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return $this->header;
     }

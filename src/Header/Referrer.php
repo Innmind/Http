@@ -9,7 +9,7 @@ use Innmind\Url\Url;
 /**
  * @psalm-immutable
  */
-final class Referrer implements Provider
+final class Referrer implements Custom
 {
     private function __construct(
         private Url $referrer,
@@ -30,7 +30,7 @@ final class Referrer implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Referer',

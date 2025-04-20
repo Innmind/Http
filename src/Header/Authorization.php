@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class Authorization implements Provider
+final class Authorization implements Custom
 {
     public function __construct(
         private string $scheme,
@@ -58,7 +58,7 @@ final class Authorization implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Authorization',

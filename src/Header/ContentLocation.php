@@ -9,7 +9,7 @@ use Innmind\Url\Url;
 /**
  * @psalm-immutable
  */
-final class ContentLocation implements Provider
+final class ContentLocation implements Custom
 {
     private function __construct(
         private Url $url,
@@ -30,7 +30,7 @@ final class ContentLocation implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Content-Location',

@@ -19,8 +19,8 @@ class CookieTest extends TestCase
             $value = new CookieValue(new Parameter('foo', 'bar')),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $cookie);
-        $this->assertSame('Cookie: foo=bar', $cookie->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $cookie);
+        $this->assertSame('Cookie: foo=bar', $cookie->normalize()->toString());
     }
 
     public function testOf()
@@ -28,6 +28,6 @@ class CookieTest extends TestCase
         $cookie = Cookie::of(new Parameter('foo', 'bar'));
 
         $this->assertInstanceOf(Cookie::class, $cookie);
-        $this->assertSame('Cookie: foo=bar', $cookie->toHeader()->toString());
+        $this->assertSame('Cookie: foo=bar', $cookie->normalize()->toString());
     }
 }

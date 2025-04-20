@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class AcceptRanges implements Provider
+final class AcceptRanges implements Custom
 {
     private function __construct(
         private string $ranges,
@@ -49,7 +49,7 @@ final class AcceptRanges implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Accept-Ranges',

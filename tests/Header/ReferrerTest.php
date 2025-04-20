@@ -18,8 +18,8 @@ class ReferrerTest extends TestCase
             Url::of('/foo/bar'),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Referer: /foo/bar', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Referer: /foo/bar', $h->normalize()->toString());
         $this->assertSame('/foo/bar', $h->referrer()->toString());
     }
 
@@ -28,6 +28,6 @@ class ReferrerTest extends TestCase
         $header = Referrer::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Referrer::class, $header);
-        $this->assertSame('Referer: /foo/bar', $header->toHeader()->toString());
+        $this->assertSame('Referer: /foo/bar', $header->normalize()->toString());
     }
 }

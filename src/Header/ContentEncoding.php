@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class ContentEncoding implements Provider
+final class ContentEncoding implements Custom
 {
     private function __construct(
         private string $encoding,
@@ -49,7 +49,7 @@ final class ContentEncoding implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Content-Encoding',

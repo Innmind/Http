@@ -9,7 +9,7 @@ use Innmind\Immutable\Maybe;
 /**
  * @psalm-immutable
  */
-final class ContentLength implements Provider
+final class ContentLength implements Custom
 {
     /**
      * @param int<0, max> $length
@@ -51,7 +51,7 @@ final class ContentLength implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Content-Length',

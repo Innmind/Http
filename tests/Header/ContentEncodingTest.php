@@ -17,8 +17,8 @@ class ContentEncodingTest extends TestCase
         $header = ContentEncoding::of('compress');
 
         $this->assertInstanceOf(ContentEncoding::class, $header);
-        $this->assertInstanceOf(Header\Provider::class, $header);
-        $this->assertSame('Content-Encoding: compress', $header->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Content-Encoding: compress', $header->normalize()->toString());
     }
 
     public function testValids()

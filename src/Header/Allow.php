@@ -8,7 +8,7 @@ use Innmind\Http\Header;
 /**
  * @psalm-immutable
  */
-final class Allow implements Provider
+final class Allow implements Custom
 {
     private Header $header;
 
@@ -33,7 +33,7 @@ final class Allow implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return $this->header;
     }

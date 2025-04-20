@@ -19,8 +19,8 @@ class ContentTypeTest extends TestCase
             $ct = MediaType::of('text/html; charset="UTF-8"'),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Content-Type: text/html;charset=UTF-8', $h->normalize()->toString());
         $this->assertSame('text/html; charset=UTF-8', $h->content()->toString());
     }
 

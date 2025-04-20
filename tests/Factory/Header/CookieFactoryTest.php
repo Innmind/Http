@@ -21,10 +21,10 @@ class CookieFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(Cookie::class, $header);
-        $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', $header->toHeader()->toString());
+        $this->assertSame('Cookie: foo=bar; bar=baz; baz=foo', $header->normalize()->toString());
         $this->assertSame(
             'Cookie: ',
-            Factory::new(Clock::live())(Str::of('Cookie'), Str::of(''))->toHeader()->toString(),
+            Factory::new(Clock::live())(Str::of('Cookie'), Str::of(''))->normalize()->toString(),
         );
     }
 }

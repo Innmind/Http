@@ -18,7 +18,7 @@ class WWWAuthenticateTest extends TestCase
             $value = new WWWAuthenticateValue('Bearer', 'some value'),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $header);
-        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->normalize()->toString());
     }
 }

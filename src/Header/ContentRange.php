@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class ContentRange implements Provider
+final class ContentRange implements Custom
 {
     /**
      * @param int<0, max> $firstPosition
@@ -106,7 +106,7 @@ final class ContentRange implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Content-Range',

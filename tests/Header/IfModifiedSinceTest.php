@@ -20,8 +20,8 @@ class IfModifiedSinceTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $h->normalize()->toString());
     }
 
     public function testOf()
@@ -31,6 +31,6 @@ class IfModifiedSinceTest extends TestCase
         ));
 
         $this->assertInstanceOf(IfModifiedSince::class, $header);
-        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->toHeader()->toString());
+        $this->assertSame('If-Modified-Since: Fri, 01 Jan 2016 10:12:12 GMT', $header->normalize()->toString());
     }
 }

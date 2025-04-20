@@ -18,13 +18,13 @@ class AllowTest extends TestCase
             $v = new AllowValue('GET'),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Allow: GET', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Allow: GET', $h->normalize()->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Allow: ', (new Allow)->toHeader()->toString());
+        $this->assertSame('Allow: ', (new Allow)->normalize()->toString());
     }
 
     public function testOf()
@@ -32,6 +32,6 @@ class AllowTest extends TestCase
         $header = Allow::of('GET');
 
         $this->assertInstanceOf(Allow::class, $header);
-        $this->assertSame('Allow: GET', $header->toHeader()->toString());
+        $this->assertSame('Allow: GET', $header->normalize()->toString());
     }
 }

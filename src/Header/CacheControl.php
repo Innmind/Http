@@ -8,7 +8,7 @@ use Innmind\Http\Header;
 /**
  * @psalm-immutable
  */
-final class CacheControl implements Provider
+final class CacheControl implements Custom
 {
     private Header $header;
 
@@ -18,7 +18,7 @@ final class CacheControl implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return $this->header;
     }

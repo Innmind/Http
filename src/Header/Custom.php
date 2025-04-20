@@ -8,7 +8,7 @@ use Innmind\Http\Header;
 /**
  * @psalm-immutable
  */
-interface Provider
+interface Custom
 {
-    public function toHeader(): Header;
+    public function normalize(): Header;
 }

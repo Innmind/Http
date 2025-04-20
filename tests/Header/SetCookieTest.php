@@ -26,8 +26,8 @@ class SetCookieTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $cookie);
-        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->normalize()->toString());
     }
 
     public function testOf()
@@ -38,6 +38,6 @@ class SetCookieTest extends TestCase
         );
 
         $this->assertInstanceOf(SetCookie::class, $cookie);
-        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->toHeader()->toString());
+        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->normalize()->toString());
     }
 }

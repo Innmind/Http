@@ -16,8 +16,8 @@ class RangeTest extends TestCase
     {
         $h = Range::of('bytes', 0, 42);
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Range: bytes=0-42', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Range: bytes=0-42', $h->normalize()->toString());
     }
 
     public function testOf()
@@ -25,14 +25,14 @@ class RangeTest extends TestCase
         $header = Range::of('bytes', 0, 42);
 
         $this->assertInstanceOf(Range::class, $header);
-        $this->assertSame('Range: bytes=0-42', $header->toHeader()->toString());
+        $this->assertSame('Range: bytes=0-42', $header->normalize()->toString());
     }
 
     public function testValid()
     {
         $this->assertSame(
             'Range: resources=0-42',
-            Range::of('resources', 0, 42)->toHeader()->toString(),
+            Range::of('resources', 0, 42)->normalize()->toString(),
         );
     }
 

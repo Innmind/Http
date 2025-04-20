@@ -16,8 +16,8 @@ class AgeTest extends TestCase
         $header = Age::of(42);
 
         $this->assertInstanceOf(Age::class, $header);
-        $this->assertInstanceOf(Header\Provider::class, $header);
-        $this->assertSame('Age: 42', $header->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Age: 42', $header->normalize()->toString());
     }
 
     public function testReturnNothingWhenInvalidAgeValue()

@@ -16,8 +16,8 @@ class ContentLocationTest extends TestCase
     {
         $h = ContentLocation::of(Url::of('/foo/bar'));
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Content-Location: /foo/bar', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Content-Location: /foo/bar', $h->normalize()->toString());
         $this->assertSame('/foo/bar', $h->url()->toString());
     }
 
@@ -26,6 +26,6 @@ class ContentLocationTest extends TestCase
         $header = ContentLocation::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(ContentLocation::class, $header);
-        $this->assertSame('Content-Location: /foo/bar', $header->toHeader()->toString());
+        $this->assertSame('Content-Location: /foo/bar', $header->normalize()->toString());
     }
 }

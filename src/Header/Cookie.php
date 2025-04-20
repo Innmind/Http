@@ -9,7 +9,7 @@ use Innmind\Immutable\Map;
 /**
  * @psalm-immutable
  */
-final class Cookie implements Provider
+final class Cookie implements Custom
 {
     public function __construct(
         private CookieValue $value,
@@ -34,7 +34,7 @@ final class Cookie implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header('Cookie', $this->value);
     }

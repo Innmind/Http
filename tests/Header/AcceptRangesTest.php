@@ -17,8 +17,8 @@ class AcceptRangesTest extends TestCase
         $header = AcceptRanges::of('bytes');
 
         $this->assertInstanceOf(AcceptRanges::class, $header);
-        $this->assertInstanceOf(Header\Provider::class, $header);
-        $this->assertSame('Accept-Ranges: bytes', $header->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Accept-Ranges: bytes', $header->normalize()->toString());
     }
 
     public function testValid()

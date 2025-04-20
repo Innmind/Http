@@ -28,7 +28,7 @@ class HostFactoryTest extends TestCase
         $this->assertInstanceOf(Host::class, $h);
         $this->assertSame(
             'Host: '.$host,
-            $h->toHeader()->toString(),
+            $h->normalize()->toString(),
         );
     }
 

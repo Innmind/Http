@@ -21,6 +21,6 @@ class AcceptRangesFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(AcceptRanges::class, $header);
-        $this->assertSame('Accept-Ranges: bytes', $header->toHeader()->toString());
+        $this->assertSame('Accept-Ranges: bytes', $header->normalize()->toString());
     }
 }

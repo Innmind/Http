@@ -22,7 +22,7 @@ class ContentTypeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
-        $this->assertSame('Content-Type: image/gif', $header->toHeader()->toString());
+        $this->assertSame('Content-Type: image/gif', $header->normalize()->toString());
     }
 
     public function testMakeWithParameters()
@@ -33,7 +33,7 @@ class ContentTypeFactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(ContentType::class, $header);
-        $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->toHeader()->toString());
+        $this->assertSame('Content-Type: image/gif;foo=bar;q=0.5', $header->normalize()->toString());
     }
 
     public function testReturnNothingWhenNotValid()
@@ -57,7 +57,7 @@ class ContentTypeFactoryTest extends TestCase
         $this->assertInstanceOf(ContentType::class, $header);
         $this->assertSame(
             'Content-Type: application/x-www-form-urlencoded',
-            $header->toHeader()->toString(),
+            $header->normalize()->toString(),
         );
     }
 }

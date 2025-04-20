@@ -12,7 +12,7 @@ use Innmind\Url\Authority\{
 /**
  * @psalm-immutable
  */
-final class Host implements Provider
+final class Host implements Custom
 {
     private function __construct(
         private UrlHost $host,
@@ -39,7 +39,7 @@ final class Host implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Host',

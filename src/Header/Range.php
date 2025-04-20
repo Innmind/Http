@@ -15,7 +15,7 @@ use Innmind\Immutable\{
 /**
  * @psalm-immutable
  */
-final class Range implements Provider
+final class Range implements Custom
 {
     /**
      * @param int<0, max> $firstPosition
@@ -89,7 +89,7 @@ final class Range implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Range',

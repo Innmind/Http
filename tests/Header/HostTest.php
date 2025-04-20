@@ -22,8 +22,8 @@ class HostTest extends TestCase
             Port::of(8080),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Host: example.com:8080', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Host: example.com:8080', $h->normalize()->toString());
     }
 
     public function testOf()
@@ -31,6 +31,6 @@ class HostTest extends TestCase
         $header = Host::of(UrlHost::of('example.com'), Port::none());
 
         $this->assertInstanceOf(Host::class, $header);
-        $this->assertSame('Host: example.com', $header->toHeader()->toString());
+        $this->assertSame('Host: example.com', $header->normalize()->toString());
     }
 }

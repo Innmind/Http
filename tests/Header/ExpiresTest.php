@@ -20,8 +20,8 @@ class ExpiresTest extends TestCase
             ),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->normalize()->toString());
     }
 
     public function testOf()
@@ -30,7 +30,7 @@ class ExpiresTest extends TestCase
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 
-        $this->assertInstanceOf(Header\Provider::class, $header);
-        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $header->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $header->normalize()->toString());
     }
 }

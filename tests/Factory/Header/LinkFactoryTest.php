@@ -24,7 +24,7 @@ class LinkFactoryTest extends TestCase
         $this->assertInstanceOf(Link::class, $header);
         $this->assertSame(
             'Link: </foo>; rel="next";title=foo;bar=baz, </bar>; rel="related"',
-            $header->toHeader()->toString(),
+            $header->normalize()->toString(),
         );
     }
 
@@ -38,7 +38,7 @@ class LinkFactoryTest extends TestCase
         $this->assertInstanceOf(Link::class, $header);
         $this->assertSame(
             'Link: </foo>; rel="next";title=!#$%&\'()*+-./0123456789:<=>?@abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMOPQRSTUVWXYZ[]^_`{|}~',
-            $header->toHeader()->toString(),
+            $header->normalize()->toString(),
         );
     }
 

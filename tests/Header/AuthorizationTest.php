@@ -17,8 +17,8 @@ class AuthorizationTest extends TestCase
         $header = Authorization::of('Basic', 'foo');
 
         $this->assertInstanceOf(Authorization::class, $header);
-        $this->assertInstanceOf(Header\Provider::class, $header);
-        $this->assertSame('Authorization: Basic foo', $header->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Authorization: Basic foo', $header->normalize()->toString());
         $this->assertSame('Basic', $header->scheme());
         $this->assertSame('foo', $header->parameter());
     }

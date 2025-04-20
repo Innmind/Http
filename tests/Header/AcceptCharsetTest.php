@@ -19,12 +19,12 @@ class AcceptCharsetTest extends TestCase
             $v = new AcceptCharsetValue('unicode-1-1', new Quality(0.8)),
         );
 
-        $this->assertInstanceOf(Header\Provider::class, $h);
-        $this->assertSame('Accept-Charset: unicode-1-1;q=0.8', $h->toHeader()->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Accept-Charset: unicode-1-1;q=0.8', $h->normalize()->toString());
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Accept-Charset: ', (new AcceptCharset)->toHeader()->toString());
+        $this->assertSame('Accept-Charset: ', (new AcceptCharset)->normalize()->toString());
     }
 }

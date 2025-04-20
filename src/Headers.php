@@ -18,18 +18,18 @@ use Innmind\Immutable\{
 final class Headers implements \Countable
 {
     /**
-     * @param Map<string, Header|Header\Provider> $headers
+     * @param Map<string, Header|Header\Custom> $headers
      */
     private function __construct(
         private Map $headers,
     ) {
     }
 
-    public function __invoke(Header|Header\Provider $header): self
+    public function __invoke(Header|Header\Custom $header): self
     {
         $name = self::normalize(match (true) {
             $header instanceof Header => $header->name(),
-            default => $header->toHeader()->name(),
+            default => $header->normalize()->name(),
         });
 
         return new self(($this->headers)($name, $header));
@@ -39,7 +39,7 @@ final class Headers implements \Countable
      * @no-named-arguments
      * @psalm-pure
      */
-    public static function of(Header|Header\Provider ...$headers): self
+    public static function of(Header|Header\Custom ...$headers): self
     {
         return Sequence::of(...$headers)->reduce(
             new self(Map::of()),
@@ -61,12 +61,12 @@ final class Headers implements \Countable
             ->get($normalized)
             ->map(static fn($header) => match (true) {
                 $header instanceof Header => $header,
-                default => $header->toHeader(),
+                default => $header->normalize(),
             });
     }
 
     /**
-     * @template T of Header\Provider
+     * @template T of Header\Custom
      *
      * @param class-string<T> $type
      *
@@ -101,12 +101,12 @@ final class Headers implements \Countable
     {
         return new self($this->headers->filter(static fn($_, $header) => match (true) {
             $header instanceof Header => $filter($header),
-            default => $filter($header->toHeader()),
+            default => $filter($header->normalize()),
         }));
     }
 
     /**
-     * @param callable(Header|Header\Provider): void $function
+     * @param callable(Header|Header\Custom): void $function
      */
     public function foreach(callable $function): SideEffect
     {
@@ -139,7 +139,7 @@ final class Headers implements \Countable
     {
         return $this->headers->values()->map(static fn($header) => match (true) {
             $header instanceof Header => $header,
-            default => $header->toHeader(),
+            default => $header->normalize(),
         });
     }
 

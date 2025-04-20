@@ -15,7 +15,7 @@ use Innmind\TimeContinuum\{
 /**
  * @psalm-immutable
  */
-final class Expires implements Provider
+final class Expires implements Custom
 {
     private function __construct(
         private PointInTime $point,
@@ -36,7 +36,7 @@ final class Expires implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header(
             'Expires',

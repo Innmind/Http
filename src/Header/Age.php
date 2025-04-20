@@ -9,7 +9,7 @@ use Innmind\Immutable\Maybe;
 /**
  * @psalm-immutable
  */
-final class Age implements Provider
+final class Age implements Custom
 {
     /**
      * @param int<0, max> $age
@@ -51,7 +51,7 @@ final class Age implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         return new Header('Age', new Value\Value((string) $this->age));
     }

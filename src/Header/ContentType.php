@@ -10,7 +10,7 @@ use Innmind\Immutable\Str;
 /**
  * @psalm-immutable
  */
-final class ContentType implements Provider
+final class ContentType implements Custom
 {
     private function __construct(
         private MediaType $content,
@@ -31,7 +31,7 @@ final class ContentType implements Provider
     }
 
     #[\Override]
-    public function toHeader(): Header
+    public function normalize(): Header
     {
         $mediaType = new MediaType(
             $this->content->topLevel(),
