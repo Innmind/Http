@@ -32,7 +32,7 @@ final class ContentLocation implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Content-Location',
             new Value($this->url->toString()),
         );

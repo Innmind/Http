@@ -34,7 +34,7 @@ final class WWWAuthenticate implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'WWW-Authenticate',
             ...$this
                 ->challenges

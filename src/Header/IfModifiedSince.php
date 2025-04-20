@@ -38,7 +38,7 @@ final class IfModifiedSince implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'If-Modified-Since',
             new Value(
                 $this

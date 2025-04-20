@@ -58,7 +58,7 @@ final class Cookie implements Custom
 
         $value = Str::of('; ')->join($parameters)->toString();
 
-        return new Header(
+        return Header::of(
             'Cookie',
             new Value($value),
         );

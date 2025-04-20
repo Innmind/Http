@@ -42,7 +42,7 @@ final class CacheControl implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Cache-Control',
             ...$this
                 ->directives

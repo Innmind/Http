@@ -57,7 +57,7 @@ final class ContentType implements Custom
 
         $content .= $parameters->toString();
 
-        return new Header(
+        return Header::of(
             'Content-Type',
             new Value($content),
         );

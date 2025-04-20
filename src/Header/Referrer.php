@@ -32,7 +32,7 @@ final class Referrer implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Referer',
             new Value($this->referrer->toString()),
         );

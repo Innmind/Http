@@ -14,17 +14,22 @@ use Innmind\Immutable\{
  */
 final class Header
 {
-    private string $name;
-    /** @var Sequence<Value> */
-    private Sequence $values;
+    /**
+     * @param Sequence<Value> $values
+     */
+    private function __construct(
+        private string $name,
+        private Sequence $values,
+    ) {
+    }
 
     /**
+     * @psalm-pure
      * @no-named-arguments
      */
-    public function __construct(string $name, Value ...$values)
+    public static function of(string $name, Value ...$values): self
     {
-        $this->name = $name;
-        $this->values = Sequence::of(...$values);
+        return new self($name, Sequence::of(...$values));
     }
 
     public function name(): string

@@ -91,7 +91,7 @@ final class Range implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Range',
             new Value(\sprintf(
                 '%s=%s-%s',

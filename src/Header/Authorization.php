@@ -60,7 +60,7 @@ final class Authorization implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Authorization',
             new Value(
                 Str::of($this->scheme)

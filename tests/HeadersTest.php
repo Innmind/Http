@@ -88,7 +88,7 @@ class HeadersTest extends TestCase
             ContentType::of(
                 MediaType::of('application/json'),
             ),
-            new Header('x-foo'),
+            Header::of('x-foo'),
         );
 
         $called = 0;
@@ -107,7 +107,7 @@ class HeadersTest extends TestCase
             ContentType::of(
                 MediaType::of('application/json'),
             ),
-            new Header('x-foo'),
+            Header::of('x-foo'),
         );
 
         $reduced = $headers->reduce(
@@ -128,7 +128,7 @@ class HeadersTest extends TestCase
             ContentType::of(
                 MediaType::of('application/json'),
             ),
-            new Header('Allow'),
+            Header::of('Allow'),
         );
 
         $this->assertTrue($headers->find(ContentType::class)->match(
@@ -141,7 +141,7 @@ class HeadersTest extends TestCase
         ));
 
         $headers = Headers::of(
-            new Header('Content-Type', new Value('application/json')),
+            Header::of('Content-Type', new Value('application/json')),
         );
 
         $this->assertFalse($headers->find(ContentType::class)->match(
@@ -156,7 +156,7 @@ class HeadersTest extends TestCase
             ContentType::of(
                 MediaType::of('application/json'),
             ),
-            new Header('x-foo'),
+            Header::of('x-foo'),
         );
 
         $this->assertCount(
@@ -179,7 +179,7 @@ class HeadersTest extends TestCase
             $contentType = ContentType::of(
                 MediaType::of('application/json'),
             ),
-            $foo = new Header('x-foo'),
+            $foo = Header::of('x-foo'),
         );
 
         $this->assertEquals(

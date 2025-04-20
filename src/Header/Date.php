@@ -38,7 +38,7 @@ final class Date implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Date',
             new Value(
                 $this

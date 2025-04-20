@@ -51,7 +51,7 @@ final class ContentEncoding implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Content-Encoding',
             new Value($this->encoding),
         );

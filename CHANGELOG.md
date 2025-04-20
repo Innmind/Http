@@ -76,6 +76,7 @@
 - `Innmind\Http\Header\Parameter\Quality::of()` now returns `self`
 - `Innmind\Http\Header\ContentType\Boundary` no longer implements `Innmind\Http\Header\Parameter`
 - `Innmind\Http\Header\Parameter` is now a final class
+- `Innmind\Http\Header` constructor is now private, use `::of` named constructor
 
 ### Removed
 

@@ -86,7 +86,7 @@ final class SetCookie implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Set-Cookie',
             ...$this
                 ->cookies()

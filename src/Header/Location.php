@@ -32,7 +32,7 @@ final class Location implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Location',
             new Value($this->location->toString()),
         );

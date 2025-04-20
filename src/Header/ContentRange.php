@@ -108,7 +108,7 @@ final class ContentRange implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        return new Header(
+        return Header::of(
             'Content-Range',
             new Value(\sprintf(
                 '%s %s-%s/%s',
