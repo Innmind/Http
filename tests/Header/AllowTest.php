@@ -6,7 +6,7 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Allow,
     Header,
-    Header\AllowValue
+    Method,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,8 +14,8 @@ class AllowTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Allow(
-            $v = new AllowValue('GET'),
+        $h = Allow::of(
+            Method::get,
         );
 
         $this->assertInstanceOf(Header\Custom::class, $h);
@@ -24,14 +24,6 @@ class AllowTest extends TestCase
 
     public function testWithoutValues()
     {
-        $this->assertSame('Allow: ', (new Allow)->normalize()->toString());
-    }
-
-    public function testOf()
-    {
-        $header = Allow::of('GET');
-
-        $this->assertInstanceOf(Allow::class, $header);
-        $this->assertSame('Allow: GET', $header->normalize()->toString());
+        $this->assertSame('Allow: ', Allow::of()->normalize()->toString());
     }
 }

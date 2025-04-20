@@ -47,7 +47,8 @@
 - `Innmind\Http\Header\Accept` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\AcceptCharset` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\AcceptEncoding` constructor is now private, use `::of()` named constructor
-- `Innmind\Http\Header\AcceptLanguage` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Allow` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Allow::of()` now expects `Innmind\Http\Method` values
 
 ### Removed
 
@@ -75,6 +76,7 @@
 - `Innmind\Http\Header\AcceptCharsetValue`
 - `Innmind\Http\Header\AcceptEncodingValue`
 - `Innmind\Http\Header\AcceptLanguageValue`
+- `Innmind\Http\Header\AllowValue`
 
 ### Fixed
 

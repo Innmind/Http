@@ -11,7 +11,7 @@ use Innmind\Http\{
     Headers,
     Header\ContentType,
     Header\Allow,
-    Header\AllowValue
+    Method,
 };
 use Innmind\Filesystem\File\Content;
 use Innmind\MediaType\MediaType;
@@ -28,9 +28,7 @@ class StringableTest extends TestCase
                 ContentType::of(
                     MediaType::of('text/plain'),
                 ),
-                new Allow(
-                    new AllowValue('GET'),
-                ),
+                Allow::of(Method::get),
             ),
             Content::ofString('{"some":"json", "value":42}'),
         );

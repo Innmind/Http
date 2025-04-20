@@ -12,7 +12,6 @@ use Innmind\Http\{
     Header\AcceptRanges,
     Header\Age,
     Header\Allow,
-    Header\AllowValue,
     Header\Authorization,
     Header\CacheControl,
     Header\CacheControlValue,
@@ -39,6 +38,7 @@ use Innmind\Http\{
     Header\Parameter,
     Header\Parameter\Quality,
     TimeContinuum\Format\Http,
+    Method,
 };
 use Innmind\TimeContinuum\Clock;
 use Innmind\Validation\Is;
@@ -240,10 +240,10 @@ enum Factories
             self::allow => $value
                 ->split(',')
                 ->map(static fn($allow) => $allow->trim()->toUpper()->toString())
-                ->map(AllowValue::of(...))
-                ->sink(self::values(AllowValue::class))
+                ->map(Method::maybe(...))
+                ->sink(self::values(Method::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new Allow(...$values->toList())),
+                ->map(static fn($values) => Allow::of(...$values->toList())),
 
             self::authorization => self::authorization($value),
 
