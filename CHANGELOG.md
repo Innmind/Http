@@ -6,6 +6,7 @@
 
 - `Innmind\Http\Header\Custom`
 - `Innmind\Http\Header\Accept\MediaType`
+- `Innmind\Http\Header\Accept\Charset`
 
 ### Changed
 
@@ -42,6 +43,7 @@
 - All custom headers now implements `Innmind\Http\Header\Custom`
 - `Innmind\Http\Header` is now a final class
 - `Innmind\Http\Header\Accept` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\AcceptCharset` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -66,6 +68,7 @@
 - `Innmind\Http\Header\RangeValue`
 - `Innmind\Http\Header\ReferrerValue`
 - `Innmind\Http\Header\AcceptValue`
+- `Innmind\Http\Header\AcceptCharsetValue`
 
 ### Fixed
 

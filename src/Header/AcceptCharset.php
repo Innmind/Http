@@ -3,26 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header;
+use Innmind\Http\{
+    Header,
+    Header\Accept\Charset,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
 final class AcceptCharset implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<Charset> $charsets
+     */
+    private function __construct(
+        private Sequence $charsets,
+    ) {
+    }
 
     /**
+     * @psalm-pure
      * @no-named-arguments
      */
-    public function __construct(AcceptCharsetValue ...$values)
+    public static function of(Charset ...$charsets): self
     {
-        $this->header = new Header('Accept-Charset', ...$values);
+        return new self(Sequence::of(...$charsets));
     }
 
     #[\Override]
     public function normalize(): Header
     {
-        return $this->header;
+        return new Header(
+            'Accept-Charset',
+            ...$this
+                ->charsets
+                ->map(static fn($value) => new Value\Value($value->toString()))
+                ->toList(),
+        );
     }
 }

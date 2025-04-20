@@ -6,7 +6,6 @@ namespace Innmind\Http\Factory\Header;
 use Innmind\Http\{
     Header,
     Header\AcceptCharset,
-    Header\AcceptCharsetValue,
     Header\AcceptEncoding,
     Header\AcceptEncodingValue,
     Header\Accept,
@@ -148,12 +147,12 @@ enum Factories
                         ->map(static fn($charset) => $charset->toString());
 
                     return Maybe::all($charset, $quality)->flatMap(
-                        AcceptCharsetValue::of(...),
+                        Accept\Charset::maybe(...),
                     );
                 })
-                ->sink(self::values(AcceptCharsetValue::class))
+                ->sink(self::values(Accept\Charset::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new AcceptCharset(...$values->toList())),
+                ->map(static fn($values) => AcceptCharset::of(...$values->toList())),
 
             self::acceptEncoding => $value
                 ->split(',')
