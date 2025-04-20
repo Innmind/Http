@@ -15,9 +15,9 @@ use Innmind\Http\{
     Header\Authorization,
     Header\CacheControl,
     Header\CacheControlValue,
+    Header\Content,
     Header\ContentEncoding,
     Header\ContentLanguage,
-    Header\ContentLanguageValue,
     Header\ContentLength,
     Header\ContentLocation,
     Header\ContentRange,
@@ -305,10 +305,10 @@ enum Factories
             self::contentLanguage => $value
                 ->split(',')
                 ->map(static fn($language) => $language->trim()->toString())
-                ->map(ContentLanguageValue::of(...))
-                ->sink(self::values(ContentLanguageValue::class))
+                ->map(Content\Language::maybe(...))
+                ->sink(self::values(Content\Language::class))
                 ->maybe(static fn($values, $value) => $value->map($values))
-                ->map(static fn($values) => new ContentLanguage(...$values->toList())),
+                ->map(static fn($values) => ContentLanguage::of(...$values->toList())),
 
             self::contentLength => Maybe::just($value->toString())
                 ->filter(\is_numeric(...))

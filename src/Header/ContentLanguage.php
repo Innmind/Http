@@ -3,38 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header;
+use Innmind\Http\{
+    Header,
+    Header\Content\Language,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
 final class ContentLanguage implements Custom
 {
-    private Header $header;
-
     /**
-     * @no-named-arguments
+     * @param Sequence<Language> $languages
      */
-    public function __construct(ContentLanguageValue ...$values)
-    {
-        $this->header = new Header('Content-Language', ...$values);
+    private function __construct(
+        private Sequence $languages,
+    ) {
     }
 
     /**
      * @no-named-arguments
      * @psalm-pure
      */
-    public static function of(string ...$values): self
+    public static function of(Language ...$languages): self
     {
-        return new self(...\array_map(
-            static fn(string $value): ContentLanguageValue => new ContentLanguageValue($value),
-            $values,
-        ));
+        return new self(Sequence::of(...$languages));
     }
 
     #[\Override]
     public function normalize(): Header
     {
-        return $this->header;
+        return new Header(
+            'Content-Language',
+            ...$this
+                ->languages
+                ->map(static fn($language) => new Value\Value($language->toString()))
+                ->toList(),
+        );
     }
 }
