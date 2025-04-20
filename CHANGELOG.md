@@ -11,6 +11,7 @@
 - `Innmind\Http\Header\Accept\Language`
 - `Innmind\Http\Header\Content\Language`
 - `Innmind\Http\Header\Link\Relationship`
+- `Innmind\Http\Header\WWWAuthenticate\Challenge`
 
 ### Changed
 
@@ -53,6 +54,7 @@
 - `Innmind\Http\Header\Allow::of()` now expects `Innmind\Http\Method` values
 - `Innmind\Http\Header\ContentLanguage` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Link` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\WWWAuthenticate` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
@@ -83,6 +85,7 @@
 - `Innmind\Http\Header\AllowValue`
 - `Innmind\Http\Header\ContentLanguageValue`
 - `Innmind\Http\Header\LinkValue`
+- `Innmind\Http\Header\WWWAuthenticateValue`
 
 ### Fixed
 

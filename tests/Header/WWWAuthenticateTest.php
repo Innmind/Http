@@ -5,8 +5,7 @@ namespace Tests\Innmind\Http\Header;
 
 use Innmind\Http\{
     Header\WWWAuthenticate,
-    Header\WWWAuthenticateValue,
-    Header
+    Header,
 };
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
@@ -14,9 +13,12 @@ class WWWAuthenticateTest extends TestCase
 {
     public function testInterface()
     {
-        $header = new WWWAuthenticate(
-            $value = new WWWAuthenticateValue('Bearer', 'some value'),
-        );
+        $header = WWWAuthenticate\Challenge::maybe('Bearer', 'some value')
+            ->map(WWWAuthenticate::of(...))
+            ->match(
+                static fn($header) => $header,
+                static fn() => null,
+            );
 
         $this->assertInstanceOf(Header\Custom::class, $header);
         $this->assertSame('WWW-Authenticate: Bearer realm="some value"', $header->normalize()->toString());
