@@ -4,15 +4,21 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header;
 
 use Innmind\Http\Header;
-use Innmind\Immutable\Map;
+use Innmind\Immutable\{
+    Map,
+    Str,
+};
 
 /**
  * @psalm-immutable
  */
 final class Cookie implements Custom
 {
-    public function __construct(
-        private CookieValue $value,
+    /**
+     * @param Map<string, Parameter> $parameters
+     */
+    private function __construct(
+        private Map $parameters,
     ) {
     }
 
@@ -22,7 +28,17 @@ final class Cookie implements Custom
      */
     public static function of(Parameter ...$parameters): self
     {
-        return new self(new CookieValue(...$parameters));
+        /** @var Map<string, Parameter> */
+        $map = Map::of();
+
+        foreach ($parameters as $paramater) {
+            $map = ($map)(
+                $paramater->name(),
+                $paramater,
+            );
+        }
+
+        return new self($map);
     }
 
     /**
@@ -30,12 +46,21 @@ final class Cookie implements Custom
      */
     public function parameters(): Map
     {
-        return $this->value->parameters();
+        return $this->parameters;
     }
 
     #[\Override]
     public function normalize(): Header
     {
-        return new Header('Cookie', $this->value);
+        $parameters = $this->parameters->values()->map(
+            static fn($paramater) => $paramater->toString(),
+        );
+
+        $value = Str::of('; ')->join($parameters)->toString();
+
+        return new Header(
+            'Cookie',
+            new Value\Value($value),
+        );
     }
 }

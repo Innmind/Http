@@ -63,6 +63,7 @@
 - `Innmind\Http\Header\Link` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\WWWAuthenticate` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\CacheControl` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Cookie` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
