@@ -17,7 +17,7 @@ class AcceptTest extends TestCase
         $h = Accept\MediaType::maybe(
             'text',
             'html',
-            new Quality(0.8),
+            Quality::of(80)->toParameter(),
         )
             ->map(Accept::of(...))
             ->match(

@@ -37,7 +37,7 @@ final class Encoding
             return Maybe::nothing();
         }
 
-        return Maybe::just(new self($coding, $quality ?? new Quality(1)));
+        return Maybe::just(new self($coding, $quality ?? Quality::max()));
     }
 
     public function quality(): Quality
@@ -50,7 +50,7 @@ final class Encoding
         return $this
             ->coding
             ->append(';')
-            ->append($this->quality->toString())
+            ->append($this->quality->toParameter()->toString())
             ->toString();
     }
 }

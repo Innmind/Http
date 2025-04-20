@@ -3,58 +3,50 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\Parameter;
 
-use Innmind\Http\{
-    Header\Parameter as ParameterInterface,
-    Exception\DomainException
-};
-use Innmind\Immutable\Maybe;
+use Innmind\Immutable\Str;
 
 /**
  * @psalm-immutable
  */
-final class Quality implements ParameterInterface
+final class Quality
 {
-    private Parameter $parameter;
-
-    public function __construct(float $value)
-    {
-        if ($value < 0 || $value > 1) {
-            throw new DomainException((string) $value);
-        }
-
-        $this->parameter = new Parameter('q', (string) $value);
+    /**
+     * @param int<0, 100> $percent
+     */
+    private function __construct(
+        private int $percent,
+    ) {
     }
 
     /**
      * @psalm-pure
      *
-     * @return Maybe<self>
+     * @param int<0, 100> $percent
      */
-    public static function of(float $value): Maybe
+    public static function of(int $percent): self
     {
-        try {
-            return Maybe::just(new self($value));
-        } catch (DomainException $e) {
-            /** @var Maybe<self> */
-            return Maybe::nothing();
-        }
+        return new self($percent);
     }
 
-    #[\Override]
-    public function name(): string
+    /**
+     * @psalm-pure
+     */
+    public static function max(): self
     {
-        return $this->parameter->name();
+        return new self(100);
     }
 
-    #[\Override]
-    public function value(): string
+    public function toParameter(): Parameter
     {
-        return $this->parameter->value();
-    }
+        $value = Str::of(\sprintf(
+            '%0.2f',
+            $this->percent / 100,
+        ));
 
-    #[\Override]
-    public function toString(): string
-    {
-        return $this->parameter->toString();
+        return new Parameter('q', match (true) {
+            $value->endsWith('.00') => $value->dropEnd(3)->toString(),
+            $value->endsWith('0') => $value->dropEnd(1)->toString(),
+            default => $value->toString(),
+        });
     }
 }

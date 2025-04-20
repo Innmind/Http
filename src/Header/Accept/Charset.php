@@ -37,7 +37,7 @@ final class Charset
             return Maybe::nothing();
         }
 
-        return Maybe::just(new self($charset, $quality ?? new Quality(1)));
+        return Maybe::just(new self($charset, $quality ?? Quality::max()));
     }
 
     public function quality(): Quality
@@ -50,7 +50,7 @@ final class Charset
         return $this
             ->charset
             ->append(';')
-            ->append($this->quality->toString())
+            ->append($this->quality->toParameter()->toString())
             ->toString();
     }
 }

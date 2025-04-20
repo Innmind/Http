@@ -37,7 +37,7 @@ final class Language
             return Maybe::nothing();
         }
 
-        return Maybe::just(new self($language, $quality ?? new Quality(1)));
+        return Maybe::just(new self($language, $quality ?? Quality::max()));
     }
 
     public function quality(): Quality
@@ -50,7 +50,7 @@ final class Language
         return $this
             ->language
             ->append(';')
-            ->append($this->quality->toString())
+            ->append($this->quality->toParameter()->toString())
             ->toString();
     }
 }

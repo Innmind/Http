@@ -15,7 +15,7 @@ class AcceptLanguageTest extends TestCase
 {
     public function testInterface()
     {
-        $h = Language::maybe('fr', new Quality(0.8))
+        $h = Language::maybe('fr', Quality::of(80))
             ->map(AcceptLanguage::of(...))
             ->match(
                 static fn($header) => $header,

@@ -15,7 +15,7 @@ class AcceptCharsetTest extends TestCase
 {
     public function testInterface()
     {
-        $h = Charset::maybe('unicode-1-1', new Quality(0.8))
+        $h = Charset::maybe('unicode-1-1', Quality::of(80))
             ->map(AcceptCharset::of(...))
             ->match(
                 static fn($header) => $header,

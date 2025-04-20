@@ -15,7 +15,7 @@ class AcceptEncodingTest extends TestCase
 {
     public function testInterface()
     {
-        $h = Encoding::maybe('compress', new Quality(1))
+        $h = Encoding::maybe('compress', Quality::max())
             ->map(AcceptEncoding::of(...))
             ->match(
                 static fn($header) => $header,

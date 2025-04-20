@@ -71,6 +71,9 @@
 - `Innmind\Http\Header\CacheControl` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\Cookie` constructor is now private, use `::of()` named constructor
 - `Innmind\Http\Header\SetCookie` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Parameter\Quality` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Parameter\Quality` no longer implements `Innmind\Http\Header\Parameter`
+- `Innmind\Http\Header\Parameter\Quality::of()` now returns `self`
 
 ### Removed
 

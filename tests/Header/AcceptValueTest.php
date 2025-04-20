@@ -18,7 +18,7 @@ class AcceptValueTest extends TestCase
         $a = MediaType::maybe(
             'text',
             'x-c',
-            $q = new Quality(0.8),
+            $q = Quality::of(80)->toParameter(),
         )->match(
             static fn($mediaType) => $mediaType,
             static fn() => null,
@@ -57,7 +57,7 @@ class AcceptValueTest extends TestCase
         MediaType::maybe(
             'application',
             'octet-stream',
-            new Quality(0.4),
+            Quality::of(40)->toParameter(),
             new Parameter\Parameter('level', '1'),
         )->match(
             static fn($mediaType) => $mediaType,

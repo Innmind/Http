@@ -47,6 +47,7 @@ use Innmind\Immutable\{
     Maybe,
     Sequence,
     Map,
+    Predicate,
     Predicate\Instance,
 };
 
@@ -133,11 +134,17 @@ enum Factories
                     $matches = $accept->capture(
                         '~(?<charset>[a-zA-Z0-9\-_:\(\)]+)(; ?q=(?<quality>\d+(\.\d+)?))?~',
                     );
+                    /** @var Predicate<int<0, 100>> */
+                    $range = Is::int()
+                        ->range(0, 100)
+                        ->asPredicate();
                     $quality = $matches
                         ->get('quality')
                         ->map(static fn($quality) => (float) $quality->toString())
-                        ->otherwise(static fn() => Maybe::just(1))
-                        ->flatMap(Quality::of(...));
+                        ->map(static fn($quality) => (int) ($quality * 100.0))
+                        ->otherwise(static fn() => Maybe::just(100))
+                        ->keep($range)
+                        ->map(Quality::of(...));
                     $charset = $matches
                         ->get('charset')
                         ->map(static fn($charset) => $charset->toString());
@@ -156,11 +163,17 @@ enum Factories
                     $matches = $accept->capture(
                         '~(?<coding>(\w+|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~',
                     );
+                    /** @var Predicate<int<0, 100>> */
+                    $range = Is::int()
+                        ->range(0, 100)
+                        ->asPredicate();
                     $quality = $matches
                         ->get('quality')
                         ->map(static fn($quality) => (float) $quality->toString())
-                        ->otherwise(static fn() => Maybe::just(1))
-                        ->flatMap(Quality::of(...));
+                        ->map(static fn($quality) => (int) ($quality * 100.0))
+                        ->otherwise(static fn() => Maybe::just(100))
+                        ->keep($range)
+                        ->map(Quality::of(...));
                     $coding = $matches
                         ->get('coding')
                         ->map(static fn($coding) => $coding->toString());
@@ -211,11 +224,17 @@ enum Factories
                     $matches = $accept->capture(
                         '~(?<lang>([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*|\*))(; ?q=(?<quality>\d+(\.\d+)?))?~',
                     );
+                    /** @var Predicate<int<0, 100>> */
+                    $range = Is::int()
+                        ->range(0, 100)
+                        ->asPredicate();
                     $quality = $matches
                         ->get('quality')
                         ->map(static fn($quality) => (float) $quality->toString())
-                        ->otherwise(static fn() => Maybe::just(1))
-                        ->flatMap(Quality::of(...));
+                        ->map(static fn($quality) => (int) ($quality * 100.0))
+                        ->otherwise(static fn() => Maybe::just(100))
+                        ->keep($range)
+                        ->map(Quality::of(...));
                     $lang = $matches
                         ->get('lang')
                         ->map(static fn($lang) => $lang->toString());

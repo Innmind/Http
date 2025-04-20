@@ -14,7 +14,7 @@ class AcceptEncodingValueTest extends TestCase
 {
     public function testInterface()
     {
-        $a = Encoding::maybe('compress', $q = new Quality(1))->match(
+        $a = Encoding::maybe('compress', $q = Quality::max())->match(
             static fn($encoding) => $encoding,
             static fn() => null,
         );
@@ -23,19 +23,19 @@ class AcceptEncodingValueTest extends TestCase
         $this->assertSame($q, $a->quality());
         $this->assertSame('compress;q=1', $a->toString());
 
-        Encoding::maybe('*', new Quality(1))->match(
+        Encoding::maybe('*', Quality::max())->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
-        Encoding::maybe('compress', new Quality(0.5))->match(
+        Encoding::maybe('compress', Quality::of(50))->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
-        Encoding::maybe('identity', new Quality(0.5))->match(
+        Encoding::maybe('identity', Quality::of(50))->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
-        Encoding::maybe('*', new Quality(0))->match(
+        Encoding::maybe('*', Quality::of(0))->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
@@ -51,6 +51,7 @@ class AcceptEncodingValueTest extends TestCase
                     static fn() => null,
                 )
                 ?->quality()
+                ?->toParameter()
                 ?->value(),
         );
     }
@@ -58,7 +59,7 @@ class AcceptEncodingValueTest extends TestCase
     #[DataProvider('invalids')]
     public function testReturnNothingWhenInvalidAcceptEncodingValue($value)
     {
-        $this->assertNull(Encoding::maybe($value, new Quality(1))->match(
+        $this->assertNull(Encoding::maybe($value, Quality::max())->match(
             static fn($encoding) => $encoding,
             static fn() => null,
         ));

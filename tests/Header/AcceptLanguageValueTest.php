@@ -14,7 +14,7 @@ class AcceptLanguageValueTest extends TestCase
 {
     public function testInterface()
     {
-        $a = Language::maybe('en-gb', $q = new Quality(0.8))->match(
+        $a = Language::maybe('en-gb', $q = Quality::of(80))->match(
             static fn($language) => $language,
             static fn() => null,
         );
@@ -23,19 +23,19 @@ class AcceptLanguageValueTest extends TestCase
         $this->assertSame($q, $a->quality());
         $this->assertSame('en-gb;q=0.8', $a->toString());
 
-        Language::maybe('fr', new Quality(1))->match(
+        Language::maybe('fr', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('fr-FR', new Quality(1))->match(
+        Language::maybe('fr-FR', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('sgn-CH-DE', new Quality(1))->match(
+        Language::maybe('sgn-CH-DE', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('*', new Quality(1))->match(
+        Language::maybe('*', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
@@ -51,6 +51,7 @@ class AcceptLanguageValueTest extends TestCase
                     static fn() => null,
                 )
                 ?->quality()
+                ?->toParameter()
                 ?->value(),
         );
     }
@@ -58,7 +59,7 @@ class AcceptLanguageValueTest extends TestCase
     #[DataProvider('invalids')]
     public function testReturnNothingWhenInvalidAcceptLanguageValue($value)
     {
-        $this->assertNull(Language::maybe($value, new Quality(1))->match(
+        $this->assertNull(Language::maybe($value, Quality::max())->match(
             static fn($language) => $language,
             static fn() => null,
         ));
