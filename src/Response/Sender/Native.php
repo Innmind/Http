@@ -22,7 +22,7 @@ use Innmind\Immutable\{
 
 final class Native implements Response\Sender
 {
-    public function __construct(
+    private function __construct(
         private Clock $clock,
     ) {
     }
@@ -80,6 +80,11 @@ final class Native implements Response\Sender
         }
 
         return Attempt::result(SideEffect::identity());
+    }
+
+    public static function of(Clock $clock): self
+    {
+        return new self($clock);
     }
 
     private function sendCookie(SetCookie $cookie): void

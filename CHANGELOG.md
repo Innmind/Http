@@ -81,6 +81,7 @@
 - `Innmind\Http\Header\Parameter` constructor is now private, use `::of` named constructor
 - `Innmind\Http\Sender` as been moved to `Innmind\Http\Response\Sender`
 - `Innmind\Http\ResponseSender` as been moved to `Innmind\Http\Response\Sender\Native`
+- `Innmind\Http\Response\Sender\Native` constructor is now private, use `::of()` named constructor
 
 ### Removed
 
