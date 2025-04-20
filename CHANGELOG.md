@@ -117,6 +117,7 @@
 - `Innmind\Http\Header\CookieParameter\Path`
 - `Innmind\Http\Header\CookieParameter\SameSite`
 - `Innmind\Http\Header\CookieParameter\Secure`
+- `Innmind\Http\Header\Parameter\NullParameter`
 
 ### Fixed
 
