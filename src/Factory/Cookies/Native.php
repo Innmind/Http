@@ -15,7 +15,7 @@ final class Native
     /**
      * @param array<string, string> $cookies
      */
-    public function __construct(
+    private function __construct(
         private array $cookies,
     ) {
     }

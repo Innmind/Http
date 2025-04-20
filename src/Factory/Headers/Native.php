@@ -21,7 +21,7 @@ final class Native
     /**
      * @param array<string, string> $server
      */
-    public function __construct(
+    private function __construct(
         private Factory $headerFactory,
         private array $server,
     ) {

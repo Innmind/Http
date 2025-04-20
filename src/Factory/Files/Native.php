@@ -26,7 +26,7 @@ use Innmind\Immutable\Either;
  */
 final class Native
 {
-    public function __construct(
+    private function __construct(
         private IO $io,
         private array $files,
     ) {
