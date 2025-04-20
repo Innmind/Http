@@ -14,7 +14,7 @@ final class Native
     /**
      * @param array<string, string|array> $post
      */
-    public function __construct(
+    private function __construct(
         private array $post,
     ) {
     }

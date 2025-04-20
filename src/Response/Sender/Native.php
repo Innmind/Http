@@ -1,9 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http;
+namespace Innmind\Http\Response\Sender;
 
 use Innmind\Http\{
+    Response,
+    Header\Custom,
     Header\Date,
     Header\SetCookie,
     Exception\LogicException,
@@ -18,9 +20,9 @@ use Innmind\Immutable\{
     SideEffect,
 };
 
-final class ResponseSender implements Sender
+final class Native implements Response\Sender
 {
-    public function __construct(
+    private function __construct(
         private Clock $clock,
     ) {
     }
@@ -58,7 +60,7 @@ final class ResponseSender implements Sender
                 return;
             }
 
-            if ($header instanceof Header\Custom) {
+            if ($header instanceof Custom) {
                 $header = $header->normalize();
             }
 
@@ -78,6 +80,11 @@ final class ResponseSender implements Sender
         }
 
         return Attempt::result(SideEffect::identity());
+    }
+
+    public static function of(Clock $clock): self
+    {
+        return new self($clock);
     }
 
     private function sendCookie(SetCookie $cookie): void
