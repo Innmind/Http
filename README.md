@@ -61,7 +61,6 @@ use Innmind\Http\{
     Request,
     Method,
     Content\Multipart,
-    Header\ContentType,
     Header\ContentType\Boundary,
     Headers,
     ProtocolVersion,
@@ -77,7 +76,7 @@ $request = Request::of(
     Url::of('http://some-server.com/')
     Method::post,
     ProtocolVersion::v11,
-    Headers::of(ContentType::of('multipart', 'form-data', $boundary)),
+    Headers::of($boundary->toHeader()),
     Multipart::boundary($boundary)
         ->with('some[key]', 'some value')
         ->withFile('some[file]', File::named(

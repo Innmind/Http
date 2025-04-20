@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\ContentType;
 
 use Innmind\Http\{
+    Header\ContentType,
     Header\Parameter,
     Exception\DomainException,
 };
+use Innmind\MediaType;
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -61,6 +63,19 @@ final class Boundary
     public function value(): string
     {
         return $this->value;
+    }
+
+    public function toHeader(): ContentType
+    {
+        return ContentType::of(new MediaType\MediaType(
+            'multipart',
+            'form-data',
+            '',
+            new MediaType\Parameter(
+                'boundary',
+                $this->value,
+            ),
+        ));
     }
 
     public function toParameter(): Parameter
