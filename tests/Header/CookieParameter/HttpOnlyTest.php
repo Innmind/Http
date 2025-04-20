@@ -3,19 +3,15 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CookieParameter;
 
-use Innmind\Http\Header\{
-    CookieParameter\HttpOnly,
-    Parameter
-};
-use PHPUnit\Framework\TestCase;
+use Innmind\Http\Header\SetCookie\Directive;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HttpOnlyTest extends TestCase
 {
     public function testInterface()
     {
-        $httpOnly = new HttpOnly;
+        $httpOnly = Directive::httpOnly;
 
-        $this->assertInstanceOf(Parameter::class, $httpOnly);
-        $this->assertSame('HttpOnly', $httpOnly->toString());
+        $this->assertSame('HttpOnly', $httpOnly->toParameter()->toString());
     }
 }

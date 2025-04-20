@@ -11,9 +11,10 @@ Immutable value objects and interfaces to abstract http messages.
 ## Build a `ServerRequest`
 
 ```php
-use Innmind\Http\Factory\ServerRequest\ServerRequestFactory;
+use Innmind\Http\Factory\ServerRequestFactory;
+use Innmind\TimeContinuum\Clock;
 
-$request = ServerRequestFactory::default()();
+$request = ServerRequestFactory::native(Clock::live())();
 ```
 
 ## Send a `Response`
@@ -22,15 +23,14 @@ $request = ServerRequestFactory::default()();
 use Innmind\Http\{
     Response,
     Response\StatusCode,
+    Response\Sender\Native,
     ProtocolVersion,
     Headers,
     Header,
     Header\ContentType,
-    Header\ContentTypeValue,
-    ResponseSender,
 };
 use Innmind\Filesystem\File\Content;
-use Innmind\TimeContinuum\Earth\Clock;
+use Innmind\TimeContinuum\Clock;
 
 $response = Response::of(
     StatusCode::ok,
@@ -38,10 +38,10 @@ $response = Response::of(
     Headers::of(
         ContentType::of('application', 'json'),
     ),
-    Content\Lines::ofContent('{"some": "data"}'),
+    Content::ofString('{"some": "data"}'),
 );
 
-(new ResponseSender(new Clock))($response);
+Native::of(Clock::live()))($response);
 ```
 
 will build the following message:
@@ -61,13 +61,12 @@ use Innmind\Http\{
     Request,
     Method,
     Content\Multipart,
-    Header\ContentType,
     Header\ContentType\Boundary,
     Headers,
     ProtocolVersion,
 };
 use Innmind\Filesystem\{
-    File\File,
+    File,
     File\Content,
 };
 use Innmind\Url\Url;
@@ -77,7 +76,7 @@ $request = Request::of(
     Url::of('http://some-server.com/')
     Method::post,
     ProtocolVersion::v11,
-    Headers::of(ContentType::of('multipart', 'form-data', $boundary)),
+    Headers::of($boundary->toHeader()),
     Multipart::boundary($boundary)
         ->with('some[key]', 'some value')
         ->withFile('some[file]', File::named(

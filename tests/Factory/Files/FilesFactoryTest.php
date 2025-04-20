@@ -4,14 +4,12 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Files;
 
 use Innmind\Http\{
-    Factory\Files\FilesFactory,
-    Factory\FilesFactory as FilesFactoryInterface,
+    Factory\FilesFactory,
     ServerRequest\Files,
     File\Status,
 };
 use Innmind\IO\IO;
-use Innmind\Stream\Streams;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FilesFactoryTest extends TestCase
 {
@@ -62,12 +60,9 @@ class FilesFactoryTest extends TestCase
                 ],
             ],
         ];
-        $factory = FilesFactory::default(
-            $streams = Streams::fromAmbientAuthority(),
-            IO::of($streams->watch()->waitForever(...)),
+        $factory = FilesFactory::native(
+            IO::fromAmbientAuthority(),
         );
-
-        $this->assertInstanceOf(FilesFactoryInterface::class, $factory);
 
         \file_put_contents('/tmp/foo.txt', 'foo');
         $files = ($factory)();

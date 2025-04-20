@@ -3,25 +3,21 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
+use Innmind\Http\Header;
 use Innmind\Url\Authority\{
     Host as UrlHost,
     Port,
 };
-use Innmind\Immutable\Set;
 
 /**
  * @psalm-immutable
  */
-final class Host implements HeaderInterface
+final class Host implements Custom
 {
-    private Header $header;
-    private HostValue $value;
-
-    public function __construct(HostValue $host)
-    {
-        $this->header = new Header('Host', $host);
-        $this->value = $host;
+    private function __construct(
+        private UrlHost $host,
+        private Port $port,
+    ) {
     }
 
     /**
@@ -29,31 +25,27 @@ final class Host implements HeaderInterface
      */
     public static function of(UrlHost $host, Port $port): self
     {
-        return new self(new HostValue($host, $port));
-    }
-
-    public function name(): string
-    {
-        return $this->header->name();
-    }
-
-    public function values(): Set
-    {
-        return $this->header->values();
+        return new self($host, $port);
     }
 
     public function host(): UrlHost
     {
-        return $this->value->host();
+        return $this->host;
     }
 
     public function port(): Port
     {
-        return $this->value->port();
+        return $this->port;
     }
 
-    public function toString(): string
+    #[\Override]
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        return Header::of(
+            'Host',
+            Value::of(
+                $this->host->toString().$this->port->format(),
+            ),
+        );
     }
 }

@@ -3,30 +3,32 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\CacheControlValue;
 
-use Innmind\Http\{
-    Header\CacheControlValue,
-    Header\CacheControlValue\PrivateCache,
-    Exception\DomainException,
-};
-use PHPUnit\Framework\TestCase;
+use Innmind\Http\Header\CacheControl\PrivateCache;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class PrivateCacheTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new PrivateCache('field');
+        $h = PrivateCache::maybe('field')->match(
+            static fn($value) => $value,
+            static fn() => null,
+        );
 
-        $this->assertInstanceOf(CacheControlValue::class, $h);
+        $this->assertInstanceOf(PrivateCache::class, $h);
         $this->assertSame('field', $h->field());
         $this->assertSame('private="field"', $h->toString());
-        $this->assertSame('private', (new PrivateCache(''))->toString());
+        $this->assertSame('private', PrivateCache::maybe('')->match(
+            static fn($value) => $value->toString(),
+            static fn() => null,
+        ));
     }
 
     public function testThrowWhenAgeIsNegative()
     {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('foo-bar');
-
-        new PrivateCache('foo-bar');
+        $this->assertNull(PrivateCache::maybe('foo-bar')->match(
+            static fn($value) => $value,
+            static fn() => null,
+        ));
     }
 }

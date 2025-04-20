@@ -4,9 +4,11 @@ declare(strict_types = 1);
 namespace Innmind\Http\Header\ContentType;
 
 use Innmind\Http\{
+    Header\ContentType,
     Header\Parameter,
     Exception\DomainException,
 };
+use Innmind\MediaType;
 use Innmind\Immutable\{
     Str,
     Maybe,
@@ -16,13 +18,11 @@ use Ramsey\Uuid\Uuid;
 /**
  * @psalm-immutable
  */
-final class Boundary implements Parameter
+final class Boundary
 {
-    private string $value;
-
-    private function __construct(string $value)
-    {
-        $this->value = $value;
+    private function __construct(
+        private string $value,
+    ) {
     }
 
     /**
@@ -60,21 +60,26 @@ final class Boundary implements Parameter
         return self::of(Uuid::uuid4()->toString());
     }
 
-    public function name(): string
-    {
-        return 'boundary';
-    }
-
     public function value(): string
     {
         return $this->value;
     }
 
-    public function toString(): string
+    public function toHeader(): ContentType
     {
-        return \sprintf(
-            'boundary="%s"',
-            $this->value,
-        );
+        return ContentType::of(new MediaType\MediaType(
+            'multipart',
+            'form-data',
+            '',
+            new MediaType\Parameter(
+                'boundary',
+                $this->value,
+            ),
+        ));
+    }
+
+    public function toParameter(): Parameter
+    {
+        return Parameter::of('boundary', $this->value);
     }
 }

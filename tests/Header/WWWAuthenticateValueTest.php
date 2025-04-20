@@ -3,29 +3,29 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header;
 
-use Innmind\Http\{
-    Header\WWWAuthenticateValue,
-    Header\Value,
-    Exception\DomainException
-};
-use PHPUnit\Framework\TestCase;
+use Innmind\Http\Header\WWWAuthenticate\Challenge;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class WWWAuthenticateValueTest extends TestCase
 {
     public function testInterface()
     {
-        $value = new WWWAuthenticateValue('Basic', 'some value');
+        $value = Challenge::maybe('Basic', 'some value')->match(
+            static fn($challenge) => $challenge,
+            static fn() => null,
+        );
 
-        $this->assertInstanceOf(Value::class, $value);
+        $this->assertInstanceOf(Challenge::class, $value);
         $this->assertSame('Basic', $value->scheme());
         $this->assertSame('some value', $value->realm());
         $this->assertSame('Basic realm="some value"', $value->toString());
     }
 
-    public function testThrowWhenInvalidSchemeFormat()
+    public function testReturnNothingWhenInvalidSchemeFormat()
     {
-        $this->expectException(DomainException::class);
-
-        new WWWAuthenticateValue('Foo bar', 'some value');
+        $this->assertNull(Challenge::maybe('Foo bar', 'some value')->match(
+            static fn($challenge) => $challenge,
+            static fn() => null,
+        ));
     }
 }

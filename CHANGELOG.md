@@ -1,5 +1,140 @@
 # Changelog
 
+## 8.0.0 - 2025-04-20
+
+### Added
+
+- `Innmind\Http\Header\Custom`
+- `Innmind\Http\Header\Accept\MediaType`
+- `Innmind\Http\Header\Accept\Charset`
+- `Innmind\Http\Header\Accept\Encoding`
+- `Innmind\Http\Header\Accept\Language`
+- `Innmind\Http\Header\Content\Language`
+- `Innmind\Http\Header\Link\Relationship`
+- `Innmind\Http\Header\WWWAuthenticate\Challenge`
+- `Innmind\Http\Header\CacheControl\Directive`
+- `Innmind\Http\Header\CacheControl\MaxAge`
+- `Innmind\Http\Header\CacheControl\MaxStale`
+- `Innmind\Http\Header\CacheControl\MinimumFresh`
+- `Innmind\Http\Header\CacheControl\NoCache`
+- `Innmind\Http\Header\CacheControl\PrivateCache`
+- `Innmind\Http\Header\CacheControl\SharedMaxAge`
+- `Innmind\Http\Header\SetCookie\Directive`
+- `Innmind\Http\Header\SetCookie\Domain`
+- `Innmind\Http\Header\SetCookie\Expires`
+- `Innmind\Http\Header\SetCookie\MaxAge`
+- `Innmind\Http\Header\SetCookie\Path`
+- `Innmind\Http\Header\ContentType\Boundary::toHeader()`
+
+### Changed
+
+- Requires `innmind/filesystem:~8.0`
+- Requires `innmind/time-continuum:~4.1`
+- Requires `innmind/io:~3.0`
+- `Innmind\Http\Sender::__invoke()` now returns `Innmind\Immutable\Attempt<Innmind\Immutable\SideEffect>`
+- `Innmind\Http\Factory\CookiesFactory` is now a final class
+- `Innmind\Http\Factory\EnvironmentFactory` is now a final class
+- `Innmind\Http\Factory\FilesFactory` is now a final class
+- `Innmind\Http\Factory\FormFactory` is now a final class
+- `Innmind\Http\Factory\QueryFactory` is now a final class
+- `Innmind\Http\Factory\ServerRequestFactory` is now a final class
+- `Innmind\Http\Factory\HeadersFactory` is now a final class
+- Classes in `Innmind\Http\Factory\Header\` are now internal
+- `Innmind\Http\Header::values()` now returns an `Innmind\Immutable\Sequence` to allow for ordered values
+- `Innmind\Http\Header\AcceptRanges` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\Age` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\Authorization` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\ContentEncoding` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\ContentLength` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\ContentLocation` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\ContentRange` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\ContentType` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Date` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Expires` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Host` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\IfModifiedSince` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\IfUnmodifiedSince` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\LastModified` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Location` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Range` constructor is now private, use `::of()` or `::maybe()` named constructors
+- `Innmind\Http\Header\Referrer` constructor is now private, use `::of()` named constructor
+- All custom headers now implements `Innmind\Http\Header\Custom`
+- `Innmind\Http\Header` is now a final class
+- `Innmind\Http\Header\Value` is now a final class
+- `Innmind\Http\Header\Accept` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\AcceptCharset` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\AcceptEncoding` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Allow` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Allow::of()` now expects `Innmind\Http\Method` values
+- `Innmind\Http\Header\ContentLanguage` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Link` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\WWWAuthenticate` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\CacheControl` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Cookie` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\SetCookie` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Parameter\Quality` constructor is now private, use `::of()` named constructor
+- `Innmind\Http\Header\Parameter\Quality` no longer implements `Innmind\Http\Header\Parameter`
+- `Innmind\Http\Header\Parameter\Quality::of()` now returns `self`
+- `Innmind\Http\Header\ContentType\Boundary` no longer implements `Innmind\Http\Header\Parameter`
+- `Innmind\Http\Header\Parameter` is now a final class
+- `Innmind\Http\Header` constructor is now private, use `::of` named constructor
+- `Innmind\Http\Header\Value` constructor is now private, use `::of` named constructor
+- `Innmind\Http\Header\Parameter` constructor is now private, use `::of` named constructor
+- `Innmind\Http\Sender` as been moved to `Innmind\Http\Response\Sender`
+- `Innmind\Http\ResponseSender` as been moved to `Innmind\Http\Response\Sender\Native`
+- `Innmind\Http\Response\Sender\Native` constructor is now private, use `::of()` named constructor
+
+### Removed
+
+- `Innmind\Http\Factory\Cookies\CookiesFactory`
+- `Innmind\Http\Factory\Environment\EnvironmentFactory`
+- `Innmind\Http\Factory\Files\FilesFactory`
+- `Innmind\Http\Factory\Form\FormFactory`
+- `Innmind\Http\Factory\Query\QueryFactory`
+- `Innmind\Http\Factory\ServerRequest\ServerRequestFactory`
+- `Innmind\Http\Factory\Header\HeadersFactory`
+- `Innmind\Http\Factory\HeaderFactory`
+- `Innmind\Http\Header\AcceptRangesValue`
+- `Innmind\Http\Header\AgeValue`
+- `Innmind\Http\Header\AuthorizationValue`
+- `Innmind\Http\Header\ContentEncodingValue`
+- `Innmind\Http\Header\ContentLengthValue`
+- `Innmind\Http\Header\ContentRangeValue`
+- `Innmind\Http\Header\ContentTypeValue`
+- `Innmind\Http\Header\HostValue`
+- `Innmind\Http\Header\DateValue`
+- `Innmind\Http\Header\LocationValue`
+- `Innmind\Http\Header\RangeValue`
+- `Innmind\Http\Header\ReferrerValue`
+- `Innmind\Http\Header\AcceptValue`
+- `Innmind\Http\Header\AcceptCharsetValue`
+- `Innmind\Http\Header\AcceptEncodingValue`
+- `Innmind\Http\Header\AcceptLanguageValue`
+- `Innmind\Http\Header\AllowValue`
+- `Innmind\Http\Header\ContentLanguageValue`
+- `Innmind\Http\Header\LinkValue`
+- `Innmind\Http\Header\WWWAuthenticateValue`
+- `Innmind\Http\Header\CacheControlValue`
+- `Innmind\Http\Header\CacheControlValue\MaxAge`
+- `Innmind\Http\Header\CacheControlValue\MaxStale`
+- `Innmind\Http\Header\CacheControlValue\MinimumFresh`
+- `Innmind\Http\Header\CacheControlValue\NoCache`
+- `Innmind\Http\Header\CacheControlValue\PrivateCache`
+- `Innmind\Http\Header\CacheControlValue\SharedMaxAge`
+- `Innmind\Http\Header\CookieValue`
+- `Innmind\Http\Header\CookieParameter\Domain`
+- `Innmind\Http\Header\CookieParameter\Expires`
+- `Innmind\Http\Header\CookieParameter\HttpOnly`
+- `Innmind\Http\Header\CookieParameter\MaxAge`
+- `Innmind\Http\Header\CookieParameter\Path`
+- `Innmind\Http\Header\CookieParameter\SameSite`
+- `Innmind\Http\Header\CookieParameter\Secure`
+- `Innmind\Http\Header\Parameter\NullParameter`
+
+### Fixed
+
+- PHP `8.4` deprecations
+
 ## 7.1.0 - 2024-06-27
 
 ### Changed

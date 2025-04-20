@@ -16,9 +16,9 @@ use Innmind\Immutable\{
     Sequence,
 };
 use Symfony\Component\Process\Process;
-use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
     Set,
 };
 use Fixtures\Innmind\Filesystem\File as FFile;
@@ -135,7 +135,7 @@ class MultipartTest extends TestCase
                 \curl_setopt($handle, \CURLOPT_HEADER, false);
                 \curl_setopt($handle, \CURLOPT_RETURNTRANSFER, true);
                 \curl_setopt($handle, \CURLOPT_HTTPHEADER, [
-                    'Content-Type: multipart/form-data; '.$boundary->toString(),
+                    $boundary->toHeader()->normalize()->toString(),
                 ]);
                 \curl_setopt($handle, \CURLOPT_CUSTOMREQUEST, 'POST');
                 \curl_setopt($handle, \CURLOPT_UPLOAD, true);

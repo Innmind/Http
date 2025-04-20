@@ -3,56 +3,105 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Header\SetCookie\Directive,
+    Header\SetCookie\Domain,
+    Header\SetCookie\Expires,
+    Header\SetCookie\MaxAge,
+    Header\SetCookie\Path,
+};
+use Innmind\Immutable\{
+    Sequence,
+    Str,
+};
 
 /**
  * @psalm-immutable
  */
-final class SetCookie implements HeaderInterface
+final class SetCookie implements Custom
 {
-    private Header $header;
-    /** @var Set<CookieValue> */
-    private Set $cookies;
-
     /**
-     * @no-named-arguments
+     * @param Sequence<Directive|Domain|Expires|MaxAge|Path> $parameters
+     * @param Sequence<self> $others
      */
-    public function __construct(CookieValue ...$values)
-    {
-        $this->header = new Header('Set-Cookie', ...$values);
-        $this->cookies = Set::of(...$values);
+    private function __construct(
+        private Parameter $value,
+        private Sequence $parameters,
+        private Sequence $others,
+    ) {
     }
 
     /**
      * @no-named-arguments
      * @psalm-pure
      */
-    public static function of(Parameter ...$values): self
+    public static function of(
+        string $name,
+        string $value,
+        Directive|Domain|Expires|MaxAge|Path ...$parameters,
+    ): self {
+        return new self(
+            Parameter::of($name, $value),
+            Sequence::of(...$parameters),
+            Sequence::of(),
+        );
+    }
+
+    public function and(self $cookie): self
     {
-        return new self(new CookieValue(...$values));
+        return new self(
+            $this->value,
+            $this->parameters,
+            ($this->others)($cookie),
+        );
     }
 
     public function name(): string
     {
-        return $this->header->name();
+        return $this->value->name();
     }
 
-    public function values(): Set
+    public function value(): string
     {
-        return $this->header->values();
+        return $this->value->value();
     }
 
     /**
-     * @return Set<CookieValue>
+     * @return Sequence<Directive|Domain|Expires|MaxAge|Path>
      */
-    public function cookies(): Set
+    public function parameters(): Sequence
     {
-        return $this->cookies;
+        return $this->parameters;
     }
 
-    public function toString(): string
+    /**
+     * @return Sequence<self>
+     */
+    public function cookies(): Sequence
     {
-        return $this->header->toString();
+        return Sequence::of($this)->append($this->others);
+    }
+
+    #[\Override]
+    public function normalize(): Header
+    {
+        return Header::of(
+            'Set-Cookie',
+            ...$this
+                ->cookies()
+                ->map(static fn($self) => Value::of(
+                    Str::of('; ')
+                        ->join(
+                            Sequence::of($self->value)
+                                ->append($self->parameters->map(
+                                    static fn($parameter) => $parameter->toParameter(),
+                                ))
+                                ->map(static fn($parameter) => $parameter->toString()),
+                        )
+                        ->toString(),
+                ))
+                ->toList(),
+        );
     }
 }

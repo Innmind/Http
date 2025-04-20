@@ -3,48 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Method,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class Allow implements HeaderInterface
+final class Allow implements Custom
 {
-    private Header $header;
-
     /**
-     * @no-named-arguments
+     * @param Sequence<Method> $methods
      */
-    public function __construct(AllowValue ...$values)
-    {
-        $this->header = new Header('Allow', ...$values);
+    private function __construct(
+        private Sequence $methods,
+    ) {
     }
 
     /**
-     * @no-named-arguments
      * @psalm-pure
+     * @no-named-arguments
      */
-    public static function of(string ...$values): self
+    public static function of(Method ...$methods): self
     {
-        return new self(...\array_map(
-            static fn(string $value): AllowValue => new AllowValue($value),
-            $values,
-        ));
+        return new self(Sequence::of(...$methods));
     }
 
-    public function name(): string
+    #[\Override]
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    public function values(): Set
-    {
-        return $this->header->values();
-    }
-
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'Allow',
+            ...$this
+                ->methods
+                ->map(static fn($method) => Value::of($method->toString()))
+                ->toList(),
+        );
     }
 }

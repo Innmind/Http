@@ -3,36 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Header\WWWAuthenticate\Challenge,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class WWWAuthenticate implements HeaderInterface
+final class WWWAuthenticate implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<Challenge> $challenges
+     */
+    private function __construct(
+        private Sequence $challenges,
+    ) {
+    }
 
     /**
+     * @psalm-pure
      * @no-named-arguments
      */
-    public function __construct(WWWAuthenticateValue ...$values)
+    public static function of(Challenge ...$challenges): self
     {
-        $this->header = new Header('WWW-Authenticate', ...$values);
+        return new self(Sequence::of(...$challenges));
     }
 
-    public function name(): string
+    #[\Override]
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    public function values(): Set
-    {
-        return $this->header->values();
-    }
-
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'WWW-Authenticate',
+            ...$this
+                ->challenges
+                ->map(static fn($challenge) => Value::of($challenge->toString()))
+                ->toList(),
+        );
     }
 }

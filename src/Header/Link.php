@@ -3,36 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Header\Link\Relationship,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class Link implements HeaderInterface
+final class Link implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<Relationship> $relationships
+     */
+    private function __construct(
+        private Sequence $relationships,
+    ) {
+    }
 
     /**
+     * @psalm-pure
      * @no-named-arguments
      */
-    public function __construct(LinkValue ...$values)
+    public static function of(Relationship ...$relationships): self
     {
-        $this->header = new Header('Link', ...$values);
+        return new self(Sequence::of(...$relationships));
     }
 
-    public function name(): string
+    #[\Override]
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    public function values(): Set
-    {
-        return $this->header->values();
-    }
-
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'Link',
+            ...$this
+                ->relationships
+                ->map(static fn($relationship) => Value::of($relationship->toString()))
+                ->toList(),
+        );
     }
 }

@@ -22,17 +22,13 @@ use Innmind\Immutable\{
  */
 final class Multipart
 {
-    private Boundary $boundary;
-    /** @var Sequence<Data|File> */
-    private Sequence $parts;
-
     /**
      * @param Sequence<Data|File> $parts
      */
-    private function __construct(Boundary $boundary, Sequence $parts)
-    {
-        $this->boundary = $boundary;
-        $this->parts = $parts;
+    private function __construct(
+        private Boundary $boundary,
+        private Sequence $parts,
+    ) {
     }
 
     /**

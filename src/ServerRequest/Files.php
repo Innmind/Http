@@ -15,11 +15,9 @@ use Innmind\Immutable\{
  */
 final class Files
 {
-    private array $files;
-
-    private function __construct(array $files)
-    {
-        $this->files = $files;
+    private function __construct(
+        private array $files,
+    ) {
     }
 
     /**

@@ -4,19 +4,16 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Cookies;
 
 use Innmind\Http\{
-    Factory\Cookies\CookiesFactory,
-    Factory\CookiesFactory as CookiesFactoryInterface,
+    Factory\CookiesFactory,
     ServerRequest\Cookies,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class CookiesFactoryTest extends TestCase
 {
     public function testMake()
     {
-        $f = CookiesFactory::default();
-
-        $this->assertInstanceOf(CookiesFactoryInterface::class, $f);
+        $f = CookiesFactory::native();
 
         $c = ($f)();
 

@@ -3,21 +3,24 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Exception\DomainException,
+};
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
  */
-final class Authorization implements HeaderInterface
+final class Authorization implements Custom
 {
-    private Header $header;
-    private AuthorizationValue $value;
-
-    public function __construct(AuthorizationValue $authorization)
-    {
-        $this->header = new Header('Authorization', $authorization);
-        $this->value = $authorization;
+    private function __construct(
+        private string $scheme,
+        private string $parameter,
+    ) {
     }
 
     /**
@@ -25,31 +28,47 @@ final class Authorization implements HeaderInterface
      */
     public static function of(string $scheme, string $parameter): self
     {
-        return new self(new AuthorizationValue($scheme, $parameter));
+        return self::maybe($scheme, $parameter)->match(
+            static fn($self) => $self,
+            static fn() => throw new DomainException($scheme),
+        );
     }
 
-    public function name(): string
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(string $scheme, string $parameter): Maybe
     {
-        return $this->header->name();
-    }
-
-    public function values(): Set
-    {
-        return $this->header->values();
+        return Maybe::just($scheme)
+            ->map(Str::of(...))
+            ->filter(static fn($scheme) => $scheme->matches('~^\w+$~'))
+            ->map(static fn() => new self($scheme, $parameter));
     }
 
     public function scheme(): string
     {
-        return $this->value->scheme();
+        return $this->scheme;
     }
 
     public function parameter(): string
     {
-        return $this->value->parameter();
+        return $this->parameter;
     }
 
-    public function toString(): string
+    #[\Override]
+    public function normalize(): Header
     {
-        return $this->header->toString();
+        return Header::of(
+            'Authorization',
+            Value::of(
+                Str::of($this->scheme)
+                    ->append(' ')
+                    ->append($this->parameter)
+                    ->trim()
+                    ->toString(),
+            ),
+        );
     }
 }

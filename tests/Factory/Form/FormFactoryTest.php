@@ -4,11 +4,10 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Factory\Form;
 
 use Innmind\Http\{
-    Factory\Form\FormFactory,
-    Factory\FormFactory as FormFactoryInterface,
+    Factory\FormFactory,
     ServerRequest\Form,
 };
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class FormFactoryTest extends TestCase
 {
@@ -22,9 +21,7 @@ class FormFactoryTest extends TestCase
             ],
             'another' => 'value',
         ];
-        $f = FormFactory::default();
-
-        $this->assertInstanceOf(FormFactoryInterface::class, $f);
+        $f = FormFactory::native();
 
         $f = ($f)();
 

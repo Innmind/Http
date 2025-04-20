@@ -3,36 +3,43 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Header\Accept\Language,
+};
+use Innmind\Immutable\Sequence;
 
 /**
  * @psalm-immutable
  */
-final class AcceptLanguage implements HeaderInterface
+final class AcceptLanguage implements Custom
 {
-    private Header $header;
+    /**
+     * @param Sequence<Language> $languages
+     */
+    private function __construct(
+        private Sequence $languages,
+    ) {
+    }
 
     /**
+     * @psalm-pure
      * @no-named-arguments
      */
-    public function __construct(AcceptLanguageValue ...$values)
+    public static function of(Language ...$languages): self
     {
-        $this->header = new Header('Accept-Language', ...$values);
+        return new self(Sequence::of(...$languages));
     }
 
-    public function name(): string
+    #[\Override]
+    public function normalize(): Header
     {
-        return $this->header->name();
-    }
-
-    public function values(): Set
-    {
-        return $this->header->values();
-    }
-
-    public function toString(): string
-    {
-        return $this->header->toString();
+        return Header::of(
+            'Accept-Language',
+            ...$this
+                ->languages
+                ->map(static fn($value) => Value::of($value->toString()))
+                ->toList(),
+        );
     }
 }

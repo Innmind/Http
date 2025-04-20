@@ -3,55 +3,102 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header;
 
-use Innmind\Http\Header as HeaderInterface;
-use Innmind\Immutable\Set;
+use Innmind\Http\{
+    Header,
+    Exception\DomainException,
+};
+use Innmind\Immutable\{
+    Str,
+    Maybe,
+};
 
 /**
  * @psalm-immutable
  */
-final class Range implements HeaderInterface
+final class Range implements Custom
 {
-    private Header $header;
-    private RangeValue $range;
-
-    public function __construct(RangeValue $range)
-    {
-        $this->header = new Header('Range', $range);
-        $this->range = $range;
+    /**
+     * @param int<0, max> $firstPosition
+     * @param int<0, max> $lastPosition
+     */
+    private function __construct(
+        private string $unit,
+        private int $firstPosition,
+        private int $lastPosition,
+    ) {
     }
 
     /**
      * @psalm-pure
+     *
+     * @throws DomainException
      */
     public static function of(
         string $unit,
         int $firstPosition,
         int $lastPosition,
     ): self {
-        return new self(new RangeValue(
-            $unit,
-            $firstPosition,
-            $lastPosition,
-        ));
+        return self::maybe($unit, $firstPosition, $lastPosition)->match(
+            static fn($self) => $self,
+            static fn() => throw new DomainException($unit),
+        );
     }
 
-    public function name(): string
-    {
-        return $this->header->name();
+    /**
+     * @psalm-pure
+     *
+     * @return Maybe<self>
+     */
+    public static function maybe(
+        string $unit,
+        int $firstPosition,
+        int $lastPosition,
+    ): Maybe {
+        if (
+            !Str::of($unit)->matches('~^\w+$~') ||
+            $firstPosition < 0 ||
+            $lastPosition < 0 ||
+            $firstPosition > $lastPosition
+        ) {
+            /** @var Maybe<self> */
+            return Maybe::nothing();
+        }
+
+        return Maybe::just(new self($unit, $firstPosition, $lastPosition));
     }
 
-    public function values(): Set
+    public function unit(): string
     {
-        return $this->header->values();
+        return $this->unit;
     }
 
-    public function range(): RangeValue
+    /**
+     * @return int<0, max>
+     */
+    public function firstPosition(): int
     {
-        return $this->range;
+        return $this->firstPosition;
     }
 
-    public function toString(): string
+    /**
+     * @return int<0, max>
+     */
+    public function lastPosition(): int
     {
-        return $this->header->toString();
+        return $this->lastPosition;
+    }
+
+    #[\Override]
+    public function normalize(): Header
+    {
+        return Header::of(
+            'Range',
+            Value::of(\sprintf(
+                '%s=%s-%s',
+                $this->unit,
+                $this->firstPosition,
+                $this->lastPosition,
+            )),
+        );
     }
 }

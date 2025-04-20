@@ -3,31 +3,27 @@ declare(strict_types = 1);
 
 namespace Tests\Innmind\Http\Header\Parameter;
 
-use Innmind\Http\Header\{
-    Parameter\Parameter,
-    Parameter as ParameterInterface
-};
-use PHPUnit\Framework\TestCase;
+use Innmind\Http\Header\Parameter;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ParameterTest extends TestCase
 {
     public function testInterface()
     {
-        $p = new Parameter('q', 'foo');
+        $p = Parameter::of('q', 'foo');
 
-        $this->assertInstanceOf(ParameterInterface::class, $p);
         $this->assertSame('q', $p->name());
         $this->assertSame('foo', $p->value());
         $this->assertSame('q=foo', $p->toString());
 
-        $this->assertSame('level', (new Parameter('level', ''))->toString());
+        $this->assertSame('level', (Parameter::of('level', ''))->toString());
     }
 
     public function testQuoteWhenThereIsAWithespace()
     {
         $this->assertSame(
             'foo="bar baz"',
-            (new Parameter('foo', 'bar baz'))->toString(),
+            (Parameter::of('foo', 'bar baz'))->toString(),
         );
     }
 
@@ -35,7 +31,7 @@ class ParameterTest extends TestCase
     {
         $this->assertSame(
             "foo=\"bar\tbaz\"",
-            (new Parameter('foo', "bar\tbaz"))->toString(),
+            (Parameter::of('foo', "bar\tbaz"))->toString(),
         );
     }
 
@@ -43,7 +39,7 @@ class ParameterTest extends TestCase
     {
         $this->assertSame(
             'foo="bar baz"',
-            (new Parameter('foo', '"bar baz"'))->toString(),
+            (Parameter::of('foo', '"bar baz"'))->toString(),
         );
     }
 
@@ -51,7 +47,7 @@ class ParameterTest extends TestCase
     {
         $this->assertSame(
             'foo="bar"',
-            (new Parameter('foo', '"bar"'))->toString(),
+            (Parameter::of('foo', '"bar"'))->toString(),
         );
     }
 }

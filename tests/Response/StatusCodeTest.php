@@ -4,8 +4,10 @@ declare(strict_types = 1);
 namespace Tests\Innmind\Http\Response;
 
 use Innmind\Http\Response\StatusCode;
-use PHPUnit\Framework\TestCase;
-use Innmind\BlackBox\PHPUnit\BlackBox;
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
+};
 
 class StatusCodeTest extends TestCase
 {
@@ -21,10 +23,14 @@ class StatusCodeTest extends TestCase
 
     public function testThrowWhenInvalidStatusCode()
     {
-        $this->expectException(\UnhandledMatchError::class);
-        $this->expectExceptionMessage('42');
+        try {
+            StatusCode::of(42); //sadly
 
-        StatusCode::of(42); //sadly
+            $this->fail('it should throw');
+        } catch (\Throwable $e) {
+            $this->assertInstanceOf(\UnhandledMatchError::class, $e);
+            $this->assertStringStartsWith('Unhandled match case', $e->getMessage());
+        }
     }
 
     public function testReturnNothingWhenInvalidStatusCode()

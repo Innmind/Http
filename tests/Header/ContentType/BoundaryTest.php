@@ -5,12 +5,11 @@ namespace Tests\Innmind\Http\Header\ContentType;
 
 use Innmind\Http\{
     Header\ContentType\Boundary,
-    Header\Parameter,
     Exception\DomainException,
 };
-use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
+    PHPUnit\Framework\TestCase,
     Set,
 };
 
@@ -18,18 +17,13 @@ class BoundaryTest extends TestCase
 {
     use BlackBox;
 
-    public function testInterface()
-    {
-        $this->assertInstanceOf(Parameter::class, Boundary::uuid());
-    }
-
     public function testOf()
     {
         $id = \uniqid();
         $boundary = Boundary::of($id);
 
         $this->assertSame($id, $boundary->value());
-        $this->assertSame("boundary=\"$id\"", $boundary->toString());
+        $this->assertSame("boundary=$id", $boundary->toParameter()->toString());
     }
 
     public function testThrowWhenRandomString()

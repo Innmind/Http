@@ -10,11 +10,11 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Header\ContentType,
-    Header\ContentTypeValue
 };
 use Innmind\Filesystem\File\Content;
+use Innmind\MediaType\MediaType;
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class StringableTest extends TestCase
 {
@@ -25,8 +25,8 @@ class StringableTest extends TestCase
             Method::post,
             ProtocolVersion::v20,
             Headers::of(
-                new ContentType(
-                    new ContentTypeValue('text', 'plain'),
+                ContentType::of(
+                    MediaType::of('text/plain'),
                 ),
             ),
             Content::ofString('some body'),

@@ -6,29 +6,20 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Location,
     Header,
-    Header\LocationValue
 };
-use Innmind\Immutable\Set;
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LocationTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Location(
-            $av = new LocationValue(Url::of('/foo/bar')),
+        $h = Location::of(
+            Url::of('/foo/bar'),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Location', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame($av, $v->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('Location: /foo/bar', $h->toString());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Location: /foo/bar', $h->normalize()->toString());
     }
 
     public function testOf()
@@ -36,6 +27,6 @@ class LocationTest extends TestCase
         $header = Location::of(Url::of('/foo/bar'));
 
         $this->assertInstanceOf(Location::class, $header);
-        $this->assertSame('Location: /foo/bar', $header->toString());
+        $this->assertSame('Location: /foo/bar', $header->normalize()->toString());
     }
 }

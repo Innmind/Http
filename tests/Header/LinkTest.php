@@ -6,35 +6,32 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Link,
     Header,
-    Header\LinkValue,
     Header\Parameter
 };
 use Innmind\Url\Url;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LinkTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Link(
-            $v = new LinkValue(
+        $h = Link::of(
+            Link\Relationship::of(
                 Url::of('/some/resource'),
                 'some relation',
-                new Parameter\Parameter('title', 'Foo'),
+                Parameter::of('title', 'Foo'),
             ),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Link', $h->name());
-        $this->assertTrue($h->values()->contains($v));
+        $this->assertInstanceOf(Header\Custom::class, $h);
         $this->assertSame(
             'Link: </some/resource>; rel="some relation";title=Foo',
-            $h->toString(),
+            $h->normalize()->toString(),
         );
     }
 
     public function testWithoutValues()
     {
-        $this->assertSame('Link: ', (new Link)->toString());
+        $this->assertSame('Link: ', Link::of()->normalize()->toString());
     }
 }

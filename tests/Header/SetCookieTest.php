@@ -6,46 +6,34 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\SetCookie,
     Header,
-    Header\CookieValue,
-    Header\Parameter\Parameter,
-    Header\CookieParameter\Secure
+    Header\SetCookie\Directive,
+    Header\SetCookie\MaxAge,
 };
-use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class SetCookieTest extends TestCase
 {
     public function testInterface()
     {
-        $cookie = new SetCookie(
-            $value = new CookieValue(
-                new Parameter('foo', 'bar'),
-                new Secure,
-            ),
-            new CookieValue(
-                new Parameter('bar', 'baz'),
-            ),
-        );
+        $cookie = SetCookie::of(
+            'foo',
+            'bar',
+            Directive::secure,
+        )->and(SetCookie::of('bar', 'baz'));
 
-        $this->assertInstanceOf(Header::class, $cookie);
-        $this->assertSame('Set-Cookie', $cookie->name());
-        $values = $cookie->values();
-        $this->assertInstanceOf(Set::class, $values);
-        $this->assertSame($value, $values->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->toString());
+        $this->assertInstanceOf(Header\Custom::class, $cookie);
+        $this->assertSame('Set-Cookie: foo=bar; Secure, bar=baz', $cookie->normalize()->toString());
     }
 
     public function testOf()
     {
         $cookie = SetCookie::of(
-            new Parameter('foo', 'bar'),
-            new Parameter('bar', 'baz'),
+            'foo',
+            'bar',
+            MaxAge::expire(),
         );
 
         $this->assertInstanceOf(SetCookie::class, $cookie);
-        $this->assertSame('Set-Cookie: foo=bar; bar=baz', $cookie->toString());
+        $this->assertSame('Set-Cookie: foo=bar; Max-Age=-1', $cookie->normalize()->toString());
     }
 }

@@ -6,37 +6,31 @@ namespace Tests\Innmind\Http\Header;
 use Innmind\Http\{
     Header\Expires,
     Header,
-    Header\DateValue
 };
-use Innmind\TimeContinuum\Earth\PointInTime\PointInTime;
-use Innmind\Immutable\Set;
-use PHPUnit\Framework\TestCase;
+use Innmind\TimeContinuum\PointInTime;
+use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ExpiresTest extends TestCase
 {
     public function testInterface()
     {
-        $h = new Expires(
-            $d = new DateValue(new PointInTime('2016-01-01 12:12:12+0200')),
+        $h = Expires::of(
+            PointInTime::at(
+                new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
+            ),
         );
 
-        $this->assertInstanceOf(Header::class, $h);
-        $this->assertSame('Expires', $h->name());
-        $v = $h->values();
-        $this->assertInstanceOf(Set::class, $v);
-        $this->assertSame($d, $v->find(static fn() => true)->match(
-            static fn($first) => $first,
-            static fn() => null,
-        ));
-        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->toString());
-        $this->assertSame($d->date(), $h->date());
+        $this->assertInstanceOf(Header\Custom::class, $h);
+        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $h->normalize()->toString());
     }
 
     public function testOf()
     {
-        $header = Expires::of(new PointInTime('2016-01-01 12:12:12+0200'));
+        $header = Expires::of(PointInTime::at(
+            new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
+        ));
 
-        $this->assertInstanceOf(Header::class, $header);
-        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $header->toString());
+        $this->assertInstanceOf(Header\Custom::class, $header);
+        $this->assertSame('Expires: Fri, 01 Jan 2016 10:12:12 GMT', $header->normalize()->toString());
     }
 }

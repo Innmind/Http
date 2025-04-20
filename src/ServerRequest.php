@@ -18,39 +18,18 @@ use Innmind\Filesystem\File\Content;
  */
 final class ServerRequest
 {
-    private Url $url;
-    private Method $method;
-    private ProtocolVersion $protocolVersion;
-    private Headers $headers;
-    private Content $body;
-    private Environment $environment;
-    private Cookies $cookies;
-    private Query $query;
-    private Form $form;
-    private Files $files;
-
     private function __construct(
-        Url $url,
-        Method $method,
-        ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
-        Environment $environment = null,
-        Cookies $cookies = null,
-        Query $query = null,
-        Form $form = null,
-        Files $files = null,
+        private Url $url,
+        private Method $method,
+        private ProtocolVersion $protocolVersion,
+        private Headers $headers,
+        private Content $body,
+        private Environment $environment,
+        private Cookies $cookies,
+        private Query $query,
+        private Form $form,
+        private Files $files,
     ) {
-        $this->url = $url;
-        $this->method = $method;
-        $this->protocolVersion = $protocolVersion;
-        $this->headers = $headers ?? Headers::of();
-        $this->body = $body ?? Content::none();
-        $this->environment = $environment ?? Environment::of();
-        $this->cookies = $cookies ?? Cookies::of();
-        $this->query = $query ?? Query::of([]);
-        $this->form = $form ?? Form::of([]);
-        $this->files = $files ?? Files::of([]);
     }
 
     /**
@@ -60,25 +39,25 @@ final class ServerRequest
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
-        Environment $environment = null,
-        Cookies $cookies = null,
-        Query $query = null,
-        Form $form = null,
-        Files $files = null,
+        ?Headers $headers = null,
+        ?Content $body = null,
+        ?Environment $environment = null,
+        ?Cookies $cookies = null,
+        ?Query $query = null,
+        ?Form $form = null,
+        ?Files $files = null,
     ): self {
         return new self(
             $url,
             $method,
             $protocolVersion,
-            $headers,
-            $body,
-            $environment,
-            $cookies,
-            $query,
-            $form,
-            $files,
+            $headers ?? Headers::of(),
+            $body ?? Content::none(),
+            $environment ?? Environment::of(),
+            $cookies ?? Cookies::of(),
+            $query ?? Query::of([]),
+            $form ?? Form::of([]),
+            $files ?? Files::of([]),
         );
     }
 

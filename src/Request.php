@@ -11,24 +11,13 @@ use Innmind\Filesystem\File\Content;
  */
 final class Request
 {
-    private Url $url;
-    private Method $method;
-    private ProtocolVersion $protocolVersion;
-    private Headers $headers;
-    private Content $body;
-
     private function __construct(
-        Url $url,
-        Method $method,
-        ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
+        private Url $url,
+        private Method $method,
+        private ProtocolVersion $protocolVersion,
+        private Headers $headers,
+        private Content $body,
     ) {
-        $this->url = $url;
-        $this->method = $method;
-        $this->protocolVersion = $protocolVersion;
-        $this->headers = $headers ?? Headers::of();
-        $this->body = $body ?? Content::none();
     }
 
     /**
@@ -38,10 +27,16 @@ final class Request
         Url $url,
         Method $method,
         ProtocolVersion $protocolVersion,
-        Headers $headers = null,
-        Content $body = null,
+        ?Headers $headers = null,
+        ?Content $body = null,
     ): self {
-        return new self($url, $method, $protocolVersion, $headers, $body);
+        return new self(
+            $url,
+            $method,
+            $protocolVersion,
+            $headers ?? Headers::of(),
+            $body ?? Content::none(),
+        );
     }
 
     public function url(): Url
