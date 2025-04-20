@@ -17,7 +17,7 @@ use Innmind\Immutable\{
  */
 final class Authorization implements Custom
 {
-    public function __construct(
+    private function __construct(
         private string $scheme,
         private string $parameter,
     ) {
