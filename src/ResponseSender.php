@@ -18,7 +18,7 @@ use Innmind\Immutable\{
     SideEffect,
 };
 
-final class ResponseSender implements Sender
+final class ResponseSender implements Response\Sender
 {
     public function __construct(
         private Clock $clock,
