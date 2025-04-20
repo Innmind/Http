@@ -15,7 +15,7 @@ class CookieTest extends TestCase
     public function testInterface()
     {
         $cookie = Cookie::of(
-            new Parameter('foo', 'bar'),
+            Parameter::of('foo', 'bar'),
         );
 
         $this->assertInstanceOf(Cookie::class, $cookie);

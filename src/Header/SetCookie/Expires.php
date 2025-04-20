@@ -37,7 +37,7 @@ final class Expires
 
     public function toParameter(): Parameter
     {
-        return new Parameter(
+        return Parameter::of(
             'Expires',
             $this->date->format(Http::new()),
         );

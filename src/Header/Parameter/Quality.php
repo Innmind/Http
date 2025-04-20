@@ -44,7 +44,7 @@ final class Quality
             $this->percent / 100,
         ));
 
-        return new Parameter('q', match (true) {
+        return Parameter::of('q', match (true) {
             $value->endsWith('.00') => $value->dropEnd(3)->toString(),
             $value->endsWith('0') => $value->dropEnd(1)->toString(),
             default => $value->toString(),

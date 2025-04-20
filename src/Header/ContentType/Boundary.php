@@ -65,6 +65,6 @@ final class Boundary
 
     public function toParameter(): Parameter
     {
-        return new Parameter('boundary', $this->value);
+        return Parameter::of('boundary', $this->value);
     }
 }

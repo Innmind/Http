@@ -429,7 +429,7 @@ enum Factories
                     return $params->flatMap(
                         static fn($params) => $params
                             ->get('rel')
-                            ->otherwise(static fn() => Maybe::just(new Parameter(
+                            ->otherwise(static fn() => Maybe::just(Parameter::of(
                                 'rel',
                                 'related',
                             )))
@@ -493,7 +493,7 @@ enum Factories
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[\w\-.]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter(
+                    ->map(static fn(Str $key, Str $value) => Parameter::of(
                         $key->toString(),
                         $value->toString(),
                     ));
@@ -518,7 +518,7 @@ enum Factories
                 $matches = $value->capture('~(?<key>\w+)=\"?(?<value>[ \t!#$%&\\\'()*+\-.\/\d:<=>?@A-z{|}\~]+)\"?~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter(
+                    ->map(static fn(Str $key, Str $value) => Parameter::of(
                         $key->toString(),
                         $value->toString(),
                     ))
@@ -542,7 +542,7 @@ enum Factories
                 $matches = $value->capture('~^(?<key>\w+)=\"?(?<value>[\w\-.]*)\"?$~');
 
                 return Maybe::all($matches->get('key'), $matches->get('value'))
-                    ->map(static fn(Str $key, Str $value) => new Parameter(
+                    ->map(static fn(Str $key, Str $value) => Parameter::of(
                         $key->toString(),
                         $value->toString(),
                     ));

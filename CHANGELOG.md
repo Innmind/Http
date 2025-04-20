@@ -78,6 +78,7 @@
 - `Innmind\Http\Header\Parameter` is now a final class
 - `Innmind\Http\Header` constructor is now private, use `::of` named constructor
 - `Innmind\Http\Header\Value` constructor is now private, use `::of` named constructor
+- `Innmind\Http\Header\Parameter` constructor is now private, use `::of` named constructor
 
 ### Removed
 

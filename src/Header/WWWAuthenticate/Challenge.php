@@ -51,7 +51,7 @@ final class Challenge
     {
         return Str::of($this->scheme)
             ->append(' ')
-            ->append((new Parameter('realm', $this->realm))->toString())
+            ->append((Parameter::of('realm', $this->realm))->toString())
             ->trim()
             ->toString();
     }

@@ -46,6 +46,6 @@ final class MaxAge
 
     public function toParameter(): Parameter
     {
-        return new Parameter('Max-Age', (string) $this->toInt());
+        return Parameter::of('Max-Age', (string) $this->toInt());
     }
 }

@@ -58,7 +58,7 @@ class AcceptValueTest extends TestCase
             'application',
             'octet-stream',
             Quality::of(40)->toParameter(),
-            new Parameter('level', '1'),
+            Parameter::of('level', '1'),
         )->match(
             static fn($mediaType) => $mediaType,
             static fn() => throw new \Exception,

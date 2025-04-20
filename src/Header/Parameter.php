@@ -14,7 +14,7 @@ final class Parameter
     private string $value;
     private string $string;
 
-    public function __construct(string $name, string $value)
+    private function __construct(string $name, string $value)
     {
         $value = Str::of($value)->trim();
 
@@ -33,6 +33,14 @@ final class Parameter
             \strlen($this->value) > 0 ? '=' : '',
             \strlen($this->value) > 0 ? $this->value : '',
         );
+    }
+
+    /**
+     * @psalm-pure
+     */
+    public static function of(string $name, string $value): self
+    {
+        return new self($name, $value);
     }
 
     public function name(): string

@@ -17,7 +17,7 @@ class LinkValueTest extends TestCase
         $l = Relationship::of(
             $url = Url::of('/some/resource'),
             'relationship',
-            $p = new Parameter('title', 'Foo'),
+            $p = Parameter::of('title', 'Foo'),
         );
 
         $this->assertInstanceOf(Relationship::class, $l);
