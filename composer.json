@@ -15,7 +15,7 @@
         "issues": "http://github.com/Innmind/Http/issues"
     },
     "require": {
-        "php": "~8.2",
+        "php": "~8.4",
         "innmind/url": "~4.0",
         "innmind/immutable": "~5.11",
         "innmind/filesystem": "~8.0",
