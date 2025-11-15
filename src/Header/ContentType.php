@@ -33,7 +33,7 @@ final class ContentType implements Custom
     #[\Override]
     public function normalize(): Header
     {
-        $mediaType = new MediaType(
+        $mediaType = MediaType::from(
             $this->content->topLevel(),
             $this->content->subType(),
             $this->content->suffix(),

@@ -381,12 +381,12 @@ enum Factories
 
             self::date => Is::string()->nonEmpty()($value->toString())
                 ->maybe()
-                ->flatMap(static fn($value) => $clock->at($value, Http::new()))
+                ->flatMap(static fn($value) => $clock->at($value, Http::new())->maybe())
                 ->map(Date::of(...)),
 
             self::expires => Is::string()->nonEmpty()($value->toString())
                 ->maybe()
-                ->flatMap(static fn($value) => $clock->at($value, Http::new()))
+                ->flatMap(static fn($value) => $clock->at($value, Http::new())->maybe())
                 ->map(Expires::of(...)),
 
             self::host => Url::maybe('http://'.$value->toString())->map(static fn($url) => Host::of(
@@ -396,17 +396,17 @@ enum Factories
 
             self::ifModifiedSince => Is::string()->nonEmpty()($value->toString())
                 ->maybe()
-                ->flatMap(static fn($value) => $clock->at($value, Http::new()))
+                ->flatMap(static fn($value) => $clock->at($value, Http::new())->maybe())
                 ->map(IfModifiedSince::of(...)),
 
             self::ifUnmodifiedSince => Is::string()->nonEmpty()($value->toString())
                 ->maybe()
-                ->flatMap(static fn($value) => $clock->at($value, Http::new()))
+                ->flatMap(static fn($value) => $clock->at($value, Http::new())->maybe())
                 ->map(IfUnmodifiedSince::of(...)),
 
             self::lastModified => Is::string()->nonEmpty()($value->toString())
                 ->maybe()
-                ->flatMap(static fn($value) => $clock->at($value, Http::new()))
+                ->flatMap(static fn($value) => $clock->at($value, Http::new())->maybe())
                 ->map(LastModified::of(...)),
 
             self::link => $value

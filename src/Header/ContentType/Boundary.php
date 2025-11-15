@@ -67,11 +67,11 @@ final class Boundary
 
     public function toHeader(): ContentType
     {
-        return ContentType::of(new MediaType\MediaType(
-            'multipart',
+        return ContentType::of(MediaType\MediaType::from(
+            MediaType\TopLevel::multipart,
             'form-data',
             '',
-            new MediaType\Parameter(
+            MediaType\Parameter::from(
                 'boundary',
                 $this->value,
             ),
