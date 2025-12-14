@@ -107,9 +107,11 @@ final class Native
          */
         return Either::right(File::named(
             $name,
-            Content::atPath(
-                $this->io,
-                Path::of($path),
+            Content::io(
+                $this
+                    ->io
+                    ->files()
+                    ->read(Path::of($path)),
             ),
             MediaType::maybe($media)->match(
                 static fn($media) => $media,

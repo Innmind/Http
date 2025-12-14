@@ -24,7 +24,8 @@
         "innmind/media-type": "dev-next",
         "innmind/validation": "dev-next",
         "ramsey/uuid": "~4.7",
-        "innmind/ip": "dev-next"
+        "innmind/ip": "dev-next",
+        "innmind/mutable": "dev-next"
     },
     "autoload": {
         "psr-4": {
