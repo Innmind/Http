@@ -23,23 +23,23 @@ class AcceptCharsetValueTest extends TestCase
         $this->assertSame($q, $a->quality());
         $this->assertSame('unicode-1-1;q=0.8', $a->toString());
 
-        Charset::maybe('iso-8859-5', Quality::max())->match(
+        $_ = Charset::maybe('iso-8859-5', Quality::max())->match(
             static fn($charset) => $charset,
             static fn() => throw new \Exception,
         );
-        Charset::maybe('Shift_JIS', Quality::max())->match(
+        $_ = Charset::maybe('Shift_JIS', Quality::max())->match(
             static fn($charset) => $charset,
             static fn() => throw new \Exception,
         );
-        Charset::maybe('ISO_8859-9:1989', Quality::max())->match(
+        $_ = Charset::maybe('ISO_8859-9:1989', Quality::max())->match(
             static fn($charset) => $charset,
             static fn() => throw new \Exception,
         );
-        Charset::maybe('NF_Z_62-010_(1973)', Quality::max())->match(
+        $_ = Charset::maybe('NF_Z_62-010_(1973)', Quality::max())->match(
             static fn($charset) => $charset,
             static fn() => throw new \Exception,
         );
-        Charset::maybe('*', Quality::max())->match(
+        $_ = Charset::maybe('*', Quality::max())->match(
             static fn($charset) => $charset,
             static fn() => throw new \Exception,
         );
