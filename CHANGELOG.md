@@ -9,6 +9,12 @@
 - Requires `innmind/time:~1.0`
 - `Innmind\Http\TimeContinuum\Format\Http` has been moved to `Innmind\Http\Time\Format\Http`
 
+### Removed
+
+- `Innmind\Http\ServerRequest::environment()`
+- `Innmind\Http\ServerRequest\Environment`
+- `Innmind\Http\Factory\EnvironmentFactory`
+
 ## 8.0.0 - 2025-04-20
 
 ### Added

@@ -30,7 +30,6 @@ final class ServerRequestFactory
     private function __construct(
         private HeadersFactory $headersFactory,
         private \Closure $bodyFactory,
-        private EnvironmentFactory $environmentFactory,
         private CookiesFactory $cookiesFactory,
         private QueryFactory $queryFactory,
         private FormFactory $formFactory,
@@ -84,7 +83,6 @@ final class ServerRequestFactory
                 ),
             ($this->headersFactory)(),
             ($this->bodyFactory)(),
-            ($this->environmentFactory)(),
             ($this->cookiesFactory)(),
             ($this->queryFactory)(),
             ($this->formFactory)(),
@@ -112,7 +110,6 @@ final class ServerRequestFactory
                     ->streams()
                     ->acquire(\fopen('php://input', 'r')),
             ),
-            EnvironmentFactory::native(),
             CookiesFactory::native(),
             QueryFactory::native(),
             FormFactory::native(),
@@ -131,7 +128,6 @@ final class ServerRequestFactory
     public static function of(
         HeadersFactory $headersFactory,
         \Closure $bodyFactory,
-        EnvironmentFactory $environmentFactory,
         CookiesFactory $cookiesFactory,
         QueryFactory $queryFactory,
         FormFactory $formFactory,
@@ -141,7 +137,6 @@ final class ServerRequestFactory
         return new self(
             $headersFactory,
             $bodyFactory,
-            $environmentFactory,
             $cookiesFactory,
             $queryFactory,
             $formFactory,
