@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\Accept;
 
-use Innmind\Http\{
-    Header\Parameter,
-};
+use Innmind\Http\Header\Parameter;
 use Innmind\Immutable\{
     Str,
     Map,
@@ -30,6 +28,7 @@ final class MediaType
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(
         string $type,
         string $subType,
@@ -59,11 +58,13 @@ final class MediaType
         return Maybe::just(new self($type, $subType, $map));
     }
 
+    #[\NoDiscard]
     public function type(): string
     {
         return $this->type;
     }
 
+    #[\NoDiscard]
     public function subType(): string
     {
         return $this->subType;
@@ -72,11 +73,13 @@ final class MediaType
     /**
      * @return Map<string, Parameter>
      */
+    #[\NoDiscard]
     public function parameters(): Map
     {
         return $this->parameters;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         $parameters = $this->parameters->values()->map(

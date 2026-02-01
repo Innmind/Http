@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\SetCookie,
     Exception\LogicException,
 };
-use Innmind\TimeContinuum\{
+use Innmind\Time\{
     Clock,
     Format,
 };
@@ -82,6 +82,7 @@ final class Native implements Response\Sender
         return Attempt::result(SideEffect::identity());
     }
 
+    #[\NoDiscard]
     public static function of(Clock $clock): self
     {
         return new self($clock);

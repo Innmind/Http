@@ -19,15 +19,15 @@ class ContentLanguageValueTest extends TestCase
         $this->assertInstanceOf(Language::class, $a);
         $this->assertSame('en-gb', $a->toString());
 
-        Language::maybe('fr')->match(
+        $_ = Language::maybe('fr')->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('fr-FR')->match(
+        $_ = Language::maybe('fr-FR')->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('sgn-CH-DE')->match(
+        $_ = Language::maybe('sgn-CH-DE')->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );

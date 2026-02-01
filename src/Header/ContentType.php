@@ -20,20 +20,23 @@ final class ContentType implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(MediaType $content): self
     {
         return new self($content);
     }
 
+    #[\NoDiscard]
     public function content(): MediaType
     {
         return $this->content;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
-        $mediaType = new MediaType(
+        $mediaType = MediaType::from(
             $this->content->topLevel(),
             $this->content->subType(),
             $this->content->suffix(),

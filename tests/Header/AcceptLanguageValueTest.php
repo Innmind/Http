@@ -23,19 +23,19 @@ class AcceptLanguageValueTest extends TestCase
         $this->assertSame($q, $a->quality());
         $this->assertSame('en-gb;q=0.8', $a->toString());
 
-        Language::maybe('fr', Quality::max())->match(
+        $_ = Language::maybe('fr', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('fr-FR', Quality::max())->match(
+        $_ = Language::maybe('fr-FR', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('sgn-CH-DE', Quality::max())->match(
+        $_ = Language::maybe('sgn-CH-DE', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );
-        Language::maybe('*', Quality::max())->match(
+        $_ = Language::maybe('*', Quality::max())->match(
             static fn($language) => $language,
             static fn() => throw new \Exception,
         );

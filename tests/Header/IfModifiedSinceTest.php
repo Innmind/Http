@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header\IfModifiedSince,
     Header,
 };
-use Innmind\TimeContinuum\PointInTime;
+use Innmind\Time\Point;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class IfModifiedSinceTest extends TestCase
@@ -15,7 +15,7 @@ class IfModifiedSinceTest extends TestCase
     public function testInterface()
     {
         $h = IfModifiedSince::of(
-            PointInTime::at(
+            Point::at(
                 new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
             ),
         );
@@ -26,7 +26,7 @@ class IfModifiedSinceTest extends TestCase
 
     public function testOf()
     {
-        $header = IfModifiedSince::of(PointInTime::at(
+        $header = IfModifiedSince::of(Point::at(
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 

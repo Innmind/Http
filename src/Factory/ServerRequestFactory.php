@@ -9,7 +9,7 @@ use Innmind\Http\{
     ProtocolVersion,
     Factory,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use Innmind\IO\IO;
@@ -30,7 +30,6 @@ final class ServerRequestFactory
     private function __construct(
         private HeadersFactory $headersFactory,
         private \Closure $bodyFactory,
-        private EnvironmentFactory $environmentFactory,
         private CookiesFactory $cookiesFactory,
         private QueryFactory $queryFactory,
         private FormFactory $formFactory,
@@ -39,6 +38,7 @@ final class ServerRequestFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): ServerRequest
     {
         /** @psalm-suppress MixedArgument */
@@ -83,7 +83,6 @@ final class ServerRequestFactory
                 ),
             ($this->headersFactory)(),
             ($this->bodyFactory)(),
-            ($this->environmentFactory)(),
             ($this->cookiesFactory)(),
             ($this->queryFactory)(),
             ($this->formFactory)(),
@@ -94,6 +93,7 @@ final class ServerRequestFactory
     /**
      * Return a fully configured factory
      */
+    #[\NoDiscard]
     public static function native(
         Clock $clock,
         ?IO $io = null,
@@ -110,7 +110,6 @@ final class ServerRequestFactory
                     ->streams()
                     ->acquire(\fopen('php://input', 'r')),
             ),
-            EnvironmentFactory::native(),
             CookiesFactory::native(),
             QueryFactory::native(),
             FormFactory::native(),
@@ -125,10 +124,10 @@ final class ServerRequestFactory
      * @param \Closure(): Content $bodyFactory
      * @param array<string, string> $server
      */
+    #[\NoDiscard]
     public static function of(
         HeadersFactory $headersFactory,
         \Closure $bodyFactory,
-        EnvironmentFactory $environmentFactory,
         CookiesFactory $cookiesFactory,
         QueryFactory $queryFactory,
         FormFactory $formFactory,
@@ -138,7 +137,6 @@ final class ServerRequestFactory
         return new self(
             $headersFactory,
             $bodyFactory,
-            $environmentFactory,
             $cookiesFactory,
             $queryFactory,
             $formFactory,

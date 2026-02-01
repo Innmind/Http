@@ -25,6 +25,7 @@ final class Challenge
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $scheme, string $realm): Maybe
     {
         $scheme = Str::of($scheme);
@@ -37,16 +38,19 @@ final class Challenge
         return Maybe::just(new self($scheme->toString(), $realm));
     }
 
+    #[\NoDiscard]
     public function scheme(): string
     {
         return $this->scheme;
     }
 
+    #[\NoDiscard]
     public function realm(): string
     {
         return $this->realm;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return Str::of($this->scheme)

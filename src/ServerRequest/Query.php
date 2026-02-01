@@ -13,12 +13,12 @@ final class Query implements \Countable
     private function __construct(
         private array $data,
     ) {
-        $this->data = $data;
     }
 
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(array $data): self
     {
         return new self($data);
@@ -27,6 +27,7 @@ final class Query implements \Countable
     /**
      * @return Maybe<string|array>
      */
+    #[\NoDiscard]
     public function get(int|string $key): Maybe
     {
         if (!\array_key_exists($key, $this->data)) {
@@ -41,6 +42,7 @@ final class Query implements \Countable
     /**
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public function list(int|string $key): Maybe
     {
         /** @psalm-suppress InvalidArgument Psalm doesn't understand the filters */
@@ -54,6 +56,7 @@ final class Query implements \Countable
     /**
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public function dictionary(int|string $key): Maybe
     {
         /** @psalm-suppress InvalidArgument Psalm doesn't understand the filters */
@@ -64,6 +67,7 @@ final class Query implements \Countable
             ->map(static fn(array $data) => new self($data));
     }
 
+    #[\NoDiscard]
     public function contains(int|string $key): bool
     {
         return $this->get($key)->match(
@@ -72,12 +76,14 @@ final class Query implements \Countable
         );
     }
 
+    #[\NoDiscard]
     public function data(): array
     {
         return $this->data;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function count(): int
     {
         return \count($this->data);

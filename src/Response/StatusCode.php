@@ -90,6 +90,7 @@ enum StatusCode: int
      *
      * @throws \UnhandledMatchError
      */
+    #[\NoDiscard]
     public static function of(int $code): self
     {
         return match ($code) {
@@ -175,6 +176,7 @@ enum StatusCode: int
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(int $code): Maybe
     {
         try {
@@ -185,6 +187,7 @@ enum StatusCode: int
         }
     }
 
+    #[\NoDiscard]
     public function toInt(): int
     {
         return $this->value;
@@ -193,11 +196,13 @@ enum StatusCode: int
     /**
      * @return non-empty-string
      */
+    #[\NoDiscard]
     public function toString(): string
     {
         return (string) $this->toInt();
     }
 
+    #[\NoDiscard]
     public function range(): StatusCode\Range
     {
         return match ($this) {
@@ -278,26 +283,31 @@ enum StatusCode: int
         };
     }
 
+    #[\NoDiscard]
     public function informational(): bool
     {
         return $this->range() === StatusCode\Range::informational;
     }
 
+    #[\NoDiscard]
     public function successful(): bool
     {
         return $this->range() === StatusCode\Range::successful;
     }
 
+    #[\NoDiscard]
     public function redirection(): bool
     {
         return $this->range() === StatusCode\Range::redirection;
     }
 
+    #[\NoDiscard]
     public function clientError(): bool
     {
         return $this->range() === StatusCode\Range::clientError;
     }
 
+    #[\NoDiscard]
     public function serverError(): bool
     {
         return $this->range() === StatusCode\Range::serverError;
@@ -306,6 +316,7 @@ enum StatusCode: int
     /**
      * @return non-empty-string
      */
+    #[\NoDiscard]
     public function reasonPhrase(): string
     {
         return match ($this) {

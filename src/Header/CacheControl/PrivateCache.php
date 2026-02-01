@@ -23,6 +23,7 @@ final class PrivateCache
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $field): Maybe
     {
         if (!Str::of($field)->matches('~^\w*$~')) {
@@ -33,11 +34,13 @@ final class PrivateCache
         return Maybe::just(new self($field));
     }
 
+    #[\NoDiscard]
     public function field(): string
     {
         return $this->field;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return \sprintf(

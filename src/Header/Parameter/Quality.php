@@ -24,6 +24,7 @@ final class Quality
      *
      * @param int<0, 100> $percent
      */
+    #[\NoDiscard]
     public static function of(int $percent): self
     {
         return new self($percent);
@@ -32,11 +33,13 @@ final class Quality
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function max(): self
     {
         return new self(100);
     }
 
+    #[\NoDiscard]
     public function toParameter(): Parameter
     {
         $value = Str::of(\sprintf(

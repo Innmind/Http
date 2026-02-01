@@ -27,6 +27,7 @@ final class AcceptRanges implements Custom
      *
      * @throws DomainException
      */
+    #[\NoDiscard]
     public static function of(string $range): self
     {
         return self::maybe($range)->match(
@@ -40,6 +41,7 @@ final class AcceptRanges implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $range): Maybe
     {
         return Maybe::just($range)
@@ -49,6 +51,7 @@ final class AcceptRanges implements Custom
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

@@ -26,6 +26,7 @@ final class Authorization implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(string $scheme, string $parameter): self
     {
         return self::maybe($scheme, $parameter)->match(
@@ -39,6 +40,7 @@ final class Authorization implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $scheme, string $parameter): Maybe
     {
         return Maybe::just($scheme)
@@ -47,17 +49,20 @@ final class Authorization implements Custom
             ->map(static fn() => new self($scheme, $parameter));
     }
 
+    #[\NoDiscard]
     public function scheme(): string
     {
         return $this->scheme;
     }
 
+    #[\NoDiscard]
     public function parameter(): string
     {
         return $this->parameter;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

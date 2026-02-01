@@ -14,18 +14,11 @@ use Innmind\Immutable\{
  */
 final class Cookies implements \Countable
 {
-    /** @var Map<string, string> */
-    private Map $cookies;
-
     /**
-     * @param Map<string, string>|null $cookies
+     * @param Map<string, string> $cookies
      */
-    private function __construct(?Map $cookies = null)
+    private function __construct(private Map $cookies)
     {
-        /** @var Map<string, string> */
-        $cookies = $cookies ?? Map::of();
-
-        $this->cookies = $cookies;
     }
 
     /**
@@ -33,19 +26,22 @@ final class Cookies implements \Countable
      *
      * @param Map<string, string>|null $cookies
      */
+    #[\NoDiscard]
     public static function of(?Map $cookies = null): self
     {
-        return new self($cookies);
+        return new self($cookies ?? Map::of());
     }
 
     /**
      * @return Maybe<string>
      */
+    #[\NoDiscard]
     public function get(string $name): Maybe
     {
         return $this->cookies->get($name);
     }
 
+    #[\NoDiscard]
     public function contains(string $name): bool
     {
         return $this->cookies->contains($name);
@@ -54,6 +50,7 @@ final class Cookies implements \Countable
     /**
      * @param callable(string, string): void $function
      */
+    #[\NoDiscard]
     public function foreach(callable $function): SideEffect
     {
         return $this->cookies->foreach($function);
@@ -67,12 +64,14 @@ final class Cookies implements \Countable
      *
      * @return R
      */
+    #[\NoDiscard]
     public function reduce($carry, callable $reducer)
     {
         return $this->cookies->reduce($carry, $reducer);
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function count(): int
     {
         return $this->cookies->size();

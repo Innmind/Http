@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\Header\Factory,
     Header\Referrer,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 

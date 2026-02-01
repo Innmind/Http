@@ -22,11 +22,13 @@ final class FilesFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): Files
     {
         return ($this->implementation)();
     }
 
+    #[\NoDiscard]
     public static function native(IO $io): self
     {
         return new self(Native::new($io));
@@ -37,6 +39,7 @@ final class FilesFactory
      *
      * @param pure-Closure(): Files $factory
      */
+    #[\NoDiscard]
     public static function of(\Closure $factory): self
     {
         return new self($factory);

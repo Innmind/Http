@@ -26,12 +26,14 @@ final class WWWAuthenticate implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(Challenge ...$challenges): self
     {
         return new self(Sequence::of(...$challenges));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

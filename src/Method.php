@@ -26,6 +26,7 @@ enum Method
      * @psalm-pure
      * @throws \UnhandledMatchError
      */
+    #[\NoDiscard]
     public static function of(string $method): self
     {
         return match ($method) {
@@ -48,6 +49,7 @@ enum Method
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $method): Maybe
     {
         try {
@@ -58,6 +60,7 @@ enum Method
         }
     }
 
+    #[\NoDiscard]
     public function safe(): bool
     {
         return match ($this) {
@@ -75,6 +78,7 @@ enum Method
         };
     }
 
+    #[\NoDiscard]
     public function idempotent(): bool
     {
         return match ($this) {
@@ -92,6 +96,7 @@ enum Method
         };
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return match ($this) {

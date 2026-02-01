@@ -34,6 +34,7 @@ final class Multipart
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function boundary(Boundary $boundary): self
     {
         /** @var Sequence<Data|File> */
@@ -42,6 +43,7 @@ final class Multipart
         return new self($boundary, $parts);
     }
 
+    #[\NoDiscard]
     public function with(string $name, string $data): self
     {
         return new self(
@@ -50,6 +52,7 @@ final class Multipart
         );
     }
 
+    #[\NoDiscard]
     public function withFile(string $name, Binary $file): self
     {
         return new self(
@@ -58,6 +61,7 @@ final class Multipart
         );
     }
 
+    #[\NoDiscard]
     public function asContent(): Content
     {
         return Content::ofChunks($this->chunks());
