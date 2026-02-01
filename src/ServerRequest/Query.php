@@ -13,7 +13,6 @@ final class Query implements \Countable
     private function __construct(
         private array $data,
     ) {
-        $this->data = $data;
     }
 
     /**
