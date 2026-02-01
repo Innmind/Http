@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header,
     Header\Value,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Immutable\Str;
 
 /**

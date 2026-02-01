@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header\Date,
     Header,
 };
-use Innmind\TimeContinuum\PointInTime;
+use Innmind\Time\Point;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class DateTest extends TestCase
@@ -15,7 +15,7 @@ class DateTest extends TestCase
     public function testInterface()
     {
         $h = Date::of(
-            PointInTime::at(
+            Point::at(
                 new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
             ),
         );
@@ -26,7 +26,7 @@ class DateTest extends TestCase
 
     public function testOf()
     {
-        $header = Date::of(PointInTime::at(
+        $header = Date::of(Point::at(
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 

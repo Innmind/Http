@@ -35,10 +35,10 @@ use Innmind\Http\{
     Header\Referrer,
     Header\Parameter,
     Header\Parameter\Quality,
-    TimeContinuum\Format\Http,
+    Time\Format\Http,
     Method,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Validation\Is;
 use Innmind\MediaType\MediaType;
 use Innmind\Url\Url;

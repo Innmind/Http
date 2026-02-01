@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header\IfUnmodifiedSince,
     Header,
 };
-use Innmind\TimeContinuum\PointInTime;
+use Innmind\Time\Point;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class IfUnmodifiedSinceTest extends TestCase
@@ -15,7 +15,7 @@ class IfUnmodifiedSinceTest extends TestCase
     public function testInterface()
     {
         $h = IfUnmodifiedSince::of(
-            PointInTime::at(
+            Point::at(
                 new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
             ),
         );
@@ -26,7 +26,7 @@ class IfUnmodifiedSinceTest extends TestCase
 
     public function testOf()
     {
-        $header = IfUnmodifiedSince::of(PointInTime::at(
+        $header = IfUnmodifiedSince::of(Point::at(
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 

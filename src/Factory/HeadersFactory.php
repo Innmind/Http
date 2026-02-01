@@ -7,7 +7,7 @@ use Innmind\Http\{
     Headers,
     Factory\Headers\Native,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 
 /**
  * @psalm-immutable

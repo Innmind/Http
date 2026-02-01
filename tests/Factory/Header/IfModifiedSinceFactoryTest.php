@@ -8,7 +8,7 @@ use Innmind\Http\{
     Header,
     Header\IfModifiedSince,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 

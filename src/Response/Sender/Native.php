@@ -10,7 +10,7 @@ use Innmind\Http\{
     Header\SetCookie,
     Exception\LogicException,
 };
-use Innmind\TimeContinuum\{
+use Innmind\Time\{
     Clock,
     Format,
 };
