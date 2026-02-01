@@ -14,7 +14,6 @@ use Innmind\Http\{
     ServerRequest\Query,
     ServerRequest\Form,
     ServerRequest\Files,
-    ServerRequest\Environment,
     ServerRequest\Cookies,
     Headers,
 };
