@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace Innmind\Http\TimeContinuum\Format;
+namespace Innmind\Http\Time\Format;
 
-use Innmind\TimeContinuum\Format;
+use Innmind\Time\Format;
 
 final class Http
 {

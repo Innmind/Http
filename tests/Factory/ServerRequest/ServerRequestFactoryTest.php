@@ -19,7 +19,7 @@ use Innmind\Http\{
     ServerRequest\Cookies,
     Headers,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Filesystem\File\Content;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 

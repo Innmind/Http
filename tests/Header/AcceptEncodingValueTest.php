@@ -23,19 +23,19 @@ class AcceptEncodingValueTest extends TestCase
         $this->assertSame($q, $a->quality());
         $this->assertSame('compress;q=1', $a->toString());
 
-        Encoding::maybe('*', Quality::max())->match(
+        $_ = Encoding::maybe('*', Quality::max())->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
-        Encoding::maybe('compress', Quality::of(50))->match(
+        $_ = Encoding::maybe('compress', Quality::of(50))->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
-        Encoding::maybe('identity', Quality::of(50))->match(
+        $_ = Encoding::maybe('identity', Quality::of(50))->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );
-        Encoding::maybe('*', Quality::of(0))->match(
+        $_ = Encoding::maybe('*', Quality::of(0))->match(
             static fn($encoding) => $encoding,
             static fn() => throw new \Exception,
         );

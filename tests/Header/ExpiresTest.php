@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header\Expires,
     Header,
 };
-use Innmind\TimeContinuum\PointInTime;
+use Innmind\Time\Point;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class ExpiresTest extends TestCase
@@ -15,7 +15,7 @@ class ExpiresTest extends TestCase
     public function testInterface()
     {
         $h = Expires::of(
-            PointInTime::at(
+            Point::at(
                 new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
             ),
         );
@@ -26,7 +26,7 @@ class ExpiresTest extends TestCase
 
     public function testOf()
     {
-        $header = Expires::of(PointInTime::at(
+        $header = Expires::of(Point::at(
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 

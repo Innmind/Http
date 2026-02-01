@@ -9,7 +9,7 @@ use Innmind\Http\{
     Header\Allow,
     Header\Age,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Immutable\Str;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 

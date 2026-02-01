@@ -9,7 +9,7 @@ use Innmind\Http\{
     ProtocolVersion,
     Factory,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\Filesystem\File\Content;
 use Innmind\Url\Url;
 use Innmind\IO\IO;

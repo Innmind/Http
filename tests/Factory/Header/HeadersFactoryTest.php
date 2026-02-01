@@ -7,7 +7,7 @@ use Innmind\Http\{
     Factory\HeadersFactory,
     Headers,
 };
-use Innmind\TimeContinuum\Clock;
+use Innmind\Time\Clock;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class HeadersFactoryTest extends TestCase

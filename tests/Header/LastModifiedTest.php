@@ -7,7 +7,7 @@ use Innmind\Http\{
     Header\LastModified,
     Header,
 };
-use Innmind\TimeContinuum\PointInTime;
+use Innmind\Time\Point;
 use Innmind\BlackBox\PHPUnit\Framework\TestCase;
 
 class LastModifiedTest extends TestCase
@@ -15,7 +15,7 @@ class LastModifiedTest extends TestCase
     public function testInterface()
     {
         $h = LastModified::of(
-            PointInTime::at(
+            Point::at(
                 new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
             ),
         );
@@ -26,7 +26,7 @@ class LastModifiedTest extends TestCase
 
     public function testOf()
     {
-        $header = LastModified::of(PointInTime::at(
+        $header = LastModified::of(Point::at(
             new \DateTimeImmutable('2016-01-01 12:12:12+0200'),
         ));
 

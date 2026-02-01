@@ -5,10 +5,10 @@ namespace Innmind\Http\Header;
 
 use Innmind\Http\{
     Header,
-    TimeContinuum\Format\Http,
+    Time\Format\Http,
 };
-use Innmind\TimeContinuum\{
-    PointInTime,
+use Innmind\Time\{
+    Point,
     Offset,
 };
 
@@ -18,19 +18,19 @@ use Innmind\TimeContinuum\{
 final class Date implements Custom
 {
     private function __construct(
-        private PointInTime $point,
+        private Point $point,
     ) {
     }
 
     /**
      * @psalm-pure
      */
-    public static function of(PointInTime $point): self
+    public static function of(Point $point): self
     {
         return new self($point);
     }
 
-    public function date(): PointInTime
+    public function date(): Point
     {
         return $this->point;
     }

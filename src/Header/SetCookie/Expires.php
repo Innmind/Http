@@ -5,10 +5,10 @@ namespace Innmind\Http\Header\SetCookie;
 
 use Innmind\Http\{
     Header\Parameter,
-    TimeContinuum\Format\Http,
+    Time\Format\Http,
 };
-use Innmind\TimeContinuum\{
-    PointInTime,
+use Innmind\Time\{
+    Point,
     Offset,
 };
 
@@ -18,19 +18,19 @@ use Innmind\TimeContinuum\{
 final class Expires
 {
     private function __construct(
-        private PointInTime $date,
+        private Point $date,
     ) {
     }
 
     /**
      * @psalm-pure
      */
-    public static function at(PointInTime $date): self
+    public static function at(Point $date): self
     {
         return new self($date->changeOffset(Offset::utc()));
     }
 
-    public function date(): PointInTime
+    public function date(): Point
     {
         return $this->date;
     }

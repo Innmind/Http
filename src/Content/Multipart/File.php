@@ -41,7 +41,7 @@ final class File
     {
         $headers = $this
             ->headers()
-            ->fold(new Concat)
+            ->fold(Concat::monoid)
             ->toEncoding(Str\Encoding::ascii)
             ->length();
 

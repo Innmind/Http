@@ -33,28 +33,28 @@ class AcceptValueTest extends TestCase
         ));
         $this->assertSame('text/x-c;q=0.8', $a->toString());
 
-        MediaType::maybe(
+        $_ = MediaType::maybe(
             '*',
             '*',
         )->match(
             static fn($mediaType) => $mediaType,
             static fn() => throw new \Exception,
         );
-        MediaType::maybe(
+        $_ = MediaType::maybe(
             'application',
             '*',
         )->match(
             static fn($mediaType) => $mediaType,
             static fn() => throw new \Exception,
         );
-        MediaType::maybe(
+        $_ = MediaType::maybe(
             'application',
             'octet-stream',
         )->match(
             static fn($mediaType) => $mediaType,
             static fn() => throw new \Exception,
         );
-        MediaType::maybe(
+        $_ = MediaType::maybe(
             'application',
             'octet-stream',
             Quality::of(40)->toParameter(),
