@@ -3,9 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\Http\Header\Accept;
 
-use Innmind\Http\{
-    Header\Parameter,
-};
+use Innmind\Http\Header\Parameter;
 use Innmind\Immutable\{
     Str,
     Map,
