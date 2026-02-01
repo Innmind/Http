@@ -41,7 +41,7 @@ final class Data
         return Maybe::just(
             $this
                 ->chunks()
-                ->fold(new Concat)
+                ->fold(Concat::monoid)
                 ->toEncoding(Str\Encoding::ascii)
                 ->length(),
         );
