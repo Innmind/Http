@@ -82,6 +82,7 @@ final class Native implements Response\Sender
         return Attempt::result(SideEffect::identity());
     }
 
+    #[\NoDiscard]
     public static function of(Clock $clock): self
     {
         return new self($clock);

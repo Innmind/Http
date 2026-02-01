@@ -27,11 +27,13 @@ final class Header
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(string $name, Value ...$values): self
     {
         return new self($name, Sequence::of(...$values));
     }
 
+    #[\NoDiscard]
     public function name(): string
     {
         return $this->name;
@@ -40,11 +42,13 @@ final class Header
     /**
      * @return Sequence<Value>
      */
+    #[\NoDiscard]
     public function values(): Sequence
     {
         return $this->values;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         $values = $this->values->map(static fn($value) => $value->toString());

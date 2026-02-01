@@ -19,17 +19,20 @@ final class Referrer implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Url $referrer): self
     {
         return new self($referrer);
     }
 
+    #[\NoDiscard]
     public function referrer(): Url
     {
         return $this->referrer;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

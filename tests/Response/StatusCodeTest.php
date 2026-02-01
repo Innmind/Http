@@ -24,7 +24,7 @@ class StatusCodeTest extends TestCase
     public function testThrowWhenInvalidStatusCode()
     {
         try {
-            StatusCode::of(42); //sadly
+            $_ = StatusCode::of(42); //sadly
 
             $this->fail('it should throw');
         } catch (\Throwable $e) {

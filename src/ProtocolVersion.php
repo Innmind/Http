@@ -19,6 +19,7 @@ enum ProtocolVersion
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(int $major, int $minor): Maybe
     {
         /** @var Maybe<self> */
@@ -33,6 +34,7 @@ enum ProtocolVersion
     /**
      * @return non-empty-string
      */
+    #[\NoDiscard]
     public function toString(): string
     {
         return match ($this) {

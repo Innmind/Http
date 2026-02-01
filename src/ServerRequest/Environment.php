@@ -33,6 +33,7 @@ final class Environment implements \Countable
      *
      * @param Map<string, string>|null $variables
      */
+    #[\NoDiscard]
     public static function of(?Map $variables = null): self
     {
         return new self($variables);
@@ -41,11 +42,13 @@ final class Environment implements \Countable
     /**
      * @return Maybe<string>
      */
+    #[\NoDiscard]
     public function get(string $name): Maybe
     {
         return $this->variables->get($name);
     }
 
+    #[\NoDiscard]
     public function contains(string $name): bool
     {
         return $this->variables->contains($name);
@@ -54,6 +57,7 @@ final class Environment implements \Countable
     /**
      * @param callable(string, string): void $function
      */
+    #[\NoDiscard]
     public function foreach(callable $function): SideEffect
     {
         return $this->variables->foreach($function);
@@ -67,12 +71,14 @@ final class Environment implements \Countable
      *
      * @return R
      */
+    #[\NoDiscard]
     public function reduce($carry, callable $reducer)
     {
         return $this->variables->reduce($carry, $reducer);
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function count(): int
     {
         return $this->variables->size();

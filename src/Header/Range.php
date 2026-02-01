@@ -33,6 +33,7 @@ final class Range implements Custom
      *
      * @throws DomainException
      */
+    #[\NoDiscard]
     public static function of(
         string $unit,
         int $firstPosition,
@@ -49,6 +50,7 @@ final class Range implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(
         string $unit,
         int $firstPosition,
@@ -67,6 +69,7 @@ final class Range implements Custom
         return Maybe::just(new self($unit, $firstPosition, $lastPosition));
     }
 
+    #[\NoDiscard]
     public function unit(): string
     {
         return $this->unit;
@@ -75,6 +78,7 @@ final class Range implements Custom
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function firstPosition(): int
     {
         return $this->firstPosition;
@@ -83,12 +87,14 @@ final class Range implements Custom
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function lastPosition(): int
     {
         return $this->lastPosition;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

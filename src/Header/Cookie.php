@@ -26,6 +26,7 @@ final class Cookie implements Custom
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Parameter ...$parameters): self
     {
         /** @var Map<string, Parameter> */
@@ -44,12 +45,14 @@ final class Cookie implements Custom
     /**
      * @return Map<string, Parameter>
      */
+    #[\NoDiscard]
     public function parameters(): Map
     {
         return $this->parameters;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         $parameters = $this->parameters->values()->map(

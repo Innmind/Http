@@ -26,12 +26,14 @@ final class Allow implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(Method ...$methods): self
     {
         return new self(Sequence::of(...$methods));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

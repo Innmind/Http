@@ -34,7 +34,7 @@ class BoundaryTest extends TestCase
             ))
             ->then(function($random) {
                 try {
-                    Boundary::of($random);
+                    $_ = Boundary::of($random);
                     $this->fail('it should throw');
                 } catch (DomainException $e) {
                     $this->assertSame($random, $e->getMessage());

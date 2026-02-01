@@ -19,17 +19,20 @@ final class Location implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Url $location): self
     {
         return new self($location);
     }
 
+    #[\NoDiscard]
     public function url(): Url
     {
         return $this->location;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

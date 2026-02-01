@@ -24,6 +24,7 @@ final class Age implements Custom
      *
      * @param int<0, max> $age
      */
+    #[\NoDiscard]
     public static function of(int $age): self
     {
         return new self($age);
@@ -34,6 +35,7 @@ final class Age implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(int $age): Maybe
     {
         return Maybe::of(match (true) {
@@ -45,12 +47,14 @@ final class Age implements Custom
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function age(): int
     {
         return $this->age;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of('Age', Value::of((string) $this->age));

@@ -26,12 +26,14 @@ final class AcceptEncoding implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(Encoding ...$encodings): self
     {
         return new self(Sequence::of(...$encodings));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

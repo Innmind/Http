@@ -33,6 +33,7 @@ final class Cookies implements \Countable
      *
      * @param Map<string, string>|null $cookies
      */
+    #[\NoDiscard]
     public static function of(?Map $cookies = null): self
     {
         return new self($cookies);
@@ -41,11 +42,13 @@ final class Cookies implements \Countable
     /**
      * @return Maybe<string>
      */
+    #[\NoDiscard]
     public function get(string $name): Maybe
     {
         return $this->cookies->get($name);
     }
 
+    #[\NoDiscard]
     public function contains(string $name): bool
     {
         return $this->cookies->contains($name);
@@ -54,6 +57,7 @@ final class Cookies implements \Countable
     /**
      * @param callable(string, string): void $function
      */
+    #[\NoDiscard]
     public function foreach(callable $function): SideEffect
     {
         return $this->cookies->foreach($function);
@@ -67,12 +71,14 @@ final class Cookies implements \Countable
      *
      * @return R
      */
+    #[\NoDiscard]
     public function reduce($carry, callable $reducer)
     {
         return $this->cookies->reduce($carry, $reducer);
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function count(): int
     {
         return $this->cookies->size();

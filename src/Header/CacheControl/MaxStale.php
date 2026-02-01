@@ -21,6 +21,7 @@ final class MaxStale
      *
      * @param int<0, max> $age
      */
+    #[\NoDiscard]
     public static function of(int $age): self
     {
         return new self($age);
@@ -29,11 +30,13 @@ final class MaxStale
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function age(): int
     {
         return $this->age;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return \sprintf(

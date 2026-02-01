@@ -30,7 +30,7 @@ class MethodTest extends TestCase
     {
         $this->expectException(\UnhandledMatchError::class);
 
-        Method::of('get');
+        $_ = Method::of('get');
     }
 
     public function methods(): Set

@@ -14,5 +14,6 @@ interface Sender
     /**
      * @return Attempt<SideEffect>
      */
+    #[\NoDiscard]
     public function __invoke(Response $response): Attempt;
 }

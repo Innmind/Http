@@ -19,6 +19,7 @@ final class Stringable
     {
     }
 
+    #[\NoDiscard]
     public function __invoke(Response $response): Content
     {
         $status = Str::of("HTTP/%s %s %s\n")->sprintf(
@@ -48,6 +49,7 @@ final class Stringable
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function new(): self
     {
         return new self;

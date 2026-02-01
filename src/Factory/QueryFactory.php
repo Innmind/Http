@@ -21,11 +21,13 @@ final class QueryFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): Query
     {
         return ($this->implementation)();
     }
 
+    #[\NoDiscard]
     public static function native(): self
     {
         return new self(Native::new());
@@ -36,6 +38,7 @@ final class QueryFactory
      *
      * @param pure-Closure(): Query $factory
      */
+    #[\NoDiscard]
     public static function of(\Closure $factory): self
     {
         return new self($factory);

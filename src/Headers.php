@@ -25,6 +25,7 @@ final class Headers implements \Countable
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(Header|Header\Custom $header): self
     {
         $name = self::normalize(match (true) {
@@ -39,6 +40,7 @@ final class Headers implements \Countable
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Header|Header\Custom ...$headers): self
     {
         return Sequence::of(...$headers)->reduce(
@@ -52,6 +54,7 @@ final class Headers implements \Countable
      *
      * @return Maybe<Header>
      */
+    #[\NoDiscard]
     public function get(string $name): Maybe
     {
         $normalized = self::normalize($name);
@@ -72,6 +75,7 @@ final class Headers implements \Countable
      *
      * @return Maybe<T>
      */
+    #[\NoDiscard]
     public function find(string $type): Maybe
     {
         return $this
@@ -86,6 +90,7 @@ final class Headers implements \Countable
      *
      * @param string $name Case insensitive
      */
+    #[\NoDiscard]
     public function contains(string $name): bool
     {
         return $this->get($name)->match(
@@ -97,6 +102,7 @@ final class Headers implements \Countable
     /**
      * @param callable(Header): bool $filter
      */
+    #[\NoDiscard]
     public function filter(callable $filter): self
     {
         return new self($this->headers->filter(static fn($_, $header) => match (true) {
@@ -108,6 +114,7 @@ final class Headers implements \Countable
     /**
      * @param callable(Header|Header\Custom): void $function
      */
+    #[\NoDiscard]
     public function foreach(callable $function): SideEffect
     {
         return $this->headers->values()->foreach($function);
@@ -121,12 +128,14 @@ final class Headers implements \Countable
      *
      * @return R
      */
+    #[\NoDiscard]
     public function reduce($carry, callable $reducer)
     {
         return $this->all()->reduce($carry, $reducer);
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function count(): int
     {
         return $this->headers->size();
@@ -135,6 +144,7 @@ final class Headers implements \Countable
     /**
      * @return Sequence<Header>
      */
+    #[\NoDiscard]
     public function all(): Sequence
     {
         return $this->headers->values()->map(static fn($header) => match (true) {

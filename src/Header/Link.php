@@ -26,12 +26,14 @@ final class Link implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(Relationship ...$relationships): self
     {
         return new self(Sequence::of(...$relationships));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

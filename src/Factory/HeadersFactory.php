@@ -22,11 +22,13 @@ final class HeadersFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): Headers
     {
         return ($this->implementation)();
     }
 
+    #[\NoDiscard]
     public static function native(Clock $clock): self
     {
         return new self(Native::new($clock));
@@ -37,6 +39,7 @@ final class HeadersFactory
      *
      * @param pure-Closure(): Headers $factory
      */
+    #[\NoDiscard]
     public static function of(\Closure $factory): self
     {
         return new self($factory);

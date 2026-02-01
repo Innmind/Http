@@ -15,6 +15,7 @@ enum Directive
     case secure;
     case httpOnly;
 
+    #[\NoDiscard]
     public function toParameter(): Parameter
     {
         return match ($this) {

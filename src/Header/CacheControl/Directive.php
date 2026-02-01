@@ -17,6 +17,7 @@ enum Directive
     case proxyRevalidate;
     case public;
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return match ($this) {

@@ -31,21 +31,25 @@ final class Parameter
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(string $name, string $value): self
     {
         return new self($name, $value);
     }
 
+    #[\NoDiscard]
     public function name(): string
     {
         return $this->name;
     }
 
+    #[\NoDiscard]
     public function value(): string
     {
         return $this->value;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return \sprintf(

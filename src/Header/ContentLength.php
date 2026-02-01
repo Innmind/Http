@@ -24,6 +24,7 @@ final class ContentLength implements Custom
      *
      * @param int<0, max> $length
      */
+    #[\NoDiscard]
     public static function of(int $length): self
     {
         return new self($length);
@@ -34,6 +35,7 @@ final class ContentLength implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(int $length): Maybe
     {
         return Maybe::of(match (true) {
@@ -45,12 +47,14 @@ final class ContentLength implements Custom
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function length(): int
     {
         return $this->length;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

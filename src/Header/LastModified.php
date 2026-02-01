@@ -25,17 +25,20 @@ final class LastModified implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Point $point): self
     {
         return new self($point);
     }
 
+    #[\NoDiscard]
     public function date(): Point
     {
         return $this->point;
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(
