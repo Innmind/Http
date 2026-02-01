@@ -6,7 +6,6 @@ namespace Tests\Innmind\Http\Factory\ServerRequest;
 use Innmind\Http\{
     Factory\ServerRequestFactory,
     Factory\HeadersFactory,
-    Factory\EnvironmentFactory,
     Factory\CookiesFactory,
     Factory\QueryFactory,
     Factory\FormFactory,
@@ -15,7 +14,6 @@ use Innmind\Http\{
     ServerRequest\Query,
     ServerRequest\Form,
     ServerRequest\Files,
-    ServerRequest\Environment,
     ServerRequest\Cookies,
     Headers,
 };
@@ -34,7 +32,6 @@ class ServerRequestFactoryTest extends TestCase
         $f = ServerRequestFactory::of(
             HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
-            EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
             QueryFactory::of(static fn() => Query::of([])),
             FormFactory::of(static fn() => Form::of([])),
@@ -58,7 +55,6 @@ class ServerRequestFactoryTest extends TestCase
         $factory = ServerRequestFactory::of(
             HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
-            EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
             QueryFactory::of(static fn() => Query::of([])),
             FormFactory::of(static fn() => Form::of([])),
@@ -83,7 +79,6 @@ class ServerRequestFactoryTest extends TestCase
         $factory = ServerRequestFactory::of(
             HeadersFactory::of(static fn() => Headers::of()),
             static fn() => Content::none(),
-            EnvironmentFactory::of(static fn() => Environment::of()),
             CookiesFactory::of(static fn() => Cookies::of()),
             QueryFactory::of(static fn() => Query::of([])),
             FormFactory::of(static fn() => Form::of([])),

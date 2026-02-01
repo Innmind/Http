@@ -58,7 +58,6 @@ RAW;
             ),
             Content::ofString('some body'),
             null,
-            null,
             Query::of([
                 'foo' => 'bar',
                 'bar' => '42',
@@ -88,7 +87,6 @@ RAW;
                     $url->authority()->port(),
                 ),
             ),
-            null,
             null,
             null,
             null,

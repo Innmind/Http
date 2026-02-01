@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Innmind\Http;
 
 use Innmind\Http\{
-    ServerRequest\Environment,
     ServerRequest\Cookies,
     ServerRequest\Query,
     ServerRequest\Form,
@@ -24,7 +23,6 @@ final class ServerRequest
         private ProtocolVersion $protocolVersion,
         private Headers $headers,
         private Content $body,
-        private Environment $environment,
         private Cookies $cookies,
         private Query $query,
         private Form $form,
@@ -42,7 +40,6 @@ final class ServerRequest
         ProtocolVersion $protocolVersion,
         ?Headers $headers = null,
         ?Content $body = null,
-        ?Environment $environment = null,
         ?Cookies $cookies = null,
         ?Query $query = null,
         ?Form $form = null,
@@ -54,7 +51,6 @@ final class ServerRequest
             $protocolVersion,
             $headers ?? Headers::of(),
             $body ?? Content::none(),
-            $environment ?? Environment::of(),
             $cookies ?? Cookies::of(),
             $query ?? Query::of([]),
             $form ?? Form::of([]),
@@ -90,12 +86,6 @@ final class ServerRequest
     public function method(): Method
     {
         return $this->method;
-    }
-
-    #[\NoDiscard]
-    public function environment(): Environment
-    {
-        return $this->environment;
     }
 
     #[\NoDiscard]

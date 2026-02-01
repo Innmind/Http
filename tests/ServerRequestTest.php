@@ -8,7 +8,6 @@ use Innmind\Http\{
     ProtocolVersion,
     Headers,
     Method,
-    ServerRequest\Environment,
     ServerRequest\Cookies,
     ServerRequest\Query,
     ServerRequest\Form,
@@ -28,7 +27,6 @@ class ServerRequestTest extends TestCase
             $protocol = ProtocolVersion::v20,
             $headers = Headers::of(),
             $body = Content::none(),
-            $env = Environment::of(),
             $cookies = Cookies::of(),
             $query = Query::of([]),
             $form = Form::of([]),
@@ -40,7 +38,6 @@ class ServerRequestTest extends TestCase
         $this->assertSame($protocol, $r->protocolVersion());
         $this->assertSame($headers, $r->headers());
         $this->assertSame($body, $r->body());
-        $this->assertSame($env, $r->environment());
         $this->assertSame($cookies, $r->cookies());
         $this->assertSame($query, $r->query());
         $this->assertSame($form, $r->form());
@@ -62,10 +59,6 @@ class ServerRequestTest extends TestCase
         $this->assertInstanceOf(
             Content::class,
             $request->body(),
-        );
-        $this->assertInstanceOf(
-            Environment::class,
-            $request->environment(),
         );
         $this->assertInstanceOf(
             Cookies::class,
