@@ -14,18 +14,11 @@ use Innmind\Immutable\{
  */
 final class Cookies implements \Countable
 {
-    /** @var Map<string, string> */
-    private Map $cookies;
-
     /**
-     * @param Map<string, string>|null $cookies
+     * @param Map<string, string> $cookies
      */
-    private function __construct(?Map $cookies = null)
+    private function __construct(private Map $cookies)
     {
-        /** @var Map<string, string> */
-        $cookies = $cookies ?? Map::of();
-
-        $this->cookies = $cookies;
     }
 
     /**
@@ -36,7 +29,7 @@ final class Cookies implements \Countable
     #[\NoDiscard]
     public static function of(?Map $cookies = null): self
     {
-        return new self($cookies);
+        return new self($cookies ?? Map::of());
     }
 
     /**

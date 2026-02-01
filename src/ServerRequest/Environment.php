@@ -14,18 +14,11 @@ use Innmind\Immutable\{
  */
 final class Environment implements \Countable
 {
-    /** @var Map<string, string> */
-    private Map $variables;
-
     /**
-     * @param Map<string, string>|null $variables
+     * @param Map<string, string> $variables
      */
-    private function __construct(?Map $variables = null)
+    private function __construct(private Map $variables)
     {
-        /** @var Map<string, string> */
-        $variables = $variables ?? Map::of();
-
-        $this->variables = $variables;
     }
 
     /**
@@ -36,7 +29,7 @@ final class Environment implements \Countable
     #[\NoDiscard]
     public static function of(?Map $variables = null): self
     {
-        return new self($variables);
+        return new self($variables ?? Map::of());
     }
 
     /**
