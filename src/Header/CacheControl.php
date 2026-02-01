@@ -32,6 +32,7 @@ final class CacheControl implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(
         Directive|MaxAge|MaxStale|MinimumFresh|NoCache|PrivateCache|SharedMaxAge $first,
         Directive|MaxAge|MaxStale|MinimumFresh|NoCache|PrivateCache|SharedMaxAge ...$values,
@@ -40,6 +41,7 @@ final class CacheControl implements Custom
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

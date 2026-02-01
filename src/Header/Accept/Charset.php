@@ -25,6 +25,7 @@ final class Charset
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $charset, ?Quality $quality = null): Maybe
     {
         $charset = Str::of($charset);
@@ -40,11 +41,13 @@ final class Charset
         return Maybe::just(new self($charset, $quality ?? Quality::max()));
     }
 
+    #[\NoDiscard]
     public function quality(): Quality
     {
         return $this->quality;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return $this

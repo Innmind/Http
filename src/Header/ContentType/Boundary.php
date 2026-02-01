@@ -32,6 +32,7 @@ final class Boundary
      *
      * @throws DomainException
      */
+    #[\NoDiscard]
     public static function of(string $value): self
     {
         return self::maybe($value)->match(
@@ -45,6 +46,7 @@ final class Boundary
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $value): Maybe
     {
         return Str::of($value)
@@ -55,16 +57,19 @@ final class Boundary
             ->map(static fn($value) => new self($value->toString()));
     }
 
+    #[\NoDiscard]
     public static function uuid(): self
     {
         return self::of(Uuid::uuid4()->toString());
     }
 
+    #[\NoDiscard]
     public function value(): string
     {
         return $this->value;
     }
 
+    #[\NoDiscard]
     public function toHeader(): ContentType
     {
         return ContentType::of(MediaType\MediaType::from(
@@ -78,6 +83,7 @@ final class Boundary
         ));
     }
 
+    #[\NoDiscard]
     public function toParameter(): Parameter
     {
         return Parameter::of('boundary', $this->value);

@@ -23,6 +23,7 @@ final class Language
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $language): Maybe
     {
         if (!Str::of($language)->matches('~^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$~')) {
@@ -33,6 +34,7 @@ final class Language
         return Maybe::just(new self($language));
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return $this->language;

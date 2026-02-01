@@ -31,6 +31,7 @@ final class Relationship
      *
      * @param ?non-empty-string $rel
      */
+    #[\NoDiscard]
     public static function of(
         Url $url,
         ?string $rel = null,
@@ -49,11 +50,13 @@ final class Relationship
         return new self($url, $rel ?? 'related', $map);
     }
 
+    #[\NoDiscard]
     public function url(): Url
     {
         return $this->url;
     }
 
+    #[\NoDiscard]
     public function kind(): string
     {
         return $this->rel;
@@ -62,11 +65,13 @@ final class Relationship
     /**
      * @return Map<string, Parameter>
      */
+    #[\NoDiscard]
     public function parameters(): Map
     {
         return $this->parameters;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         $parameters = $this->parameters->values()->map(

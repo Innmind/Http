@@ -19,16 +19,19 @@ final class Domain
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Host $host): self
     {
         return new self($host);
     }
 
+    #[\NoDiscard]
     public function host(): Host
     {
         return $this->host;
     }
 
+    #[\NoDiscard]
     public function toParameter(): Parameter
     {
         return Parameter::of('Domain', $this->host->toString());

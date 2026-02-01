@@ -25,16 +25,19 @@ final class Expires
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function at(Point $date): self
     {
         return new self($date->changeOffset(Offset::utc()));
     }
 
+    #[\NoDiscard]
     public function date(): Point
     {
         return $this->date;
     }
 
+    #[\NoDiscard]
     public function toParameter(): Parameter
     {
         return Parameter::of(

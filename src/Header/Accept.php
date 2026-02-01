@@ -25,12 +25,14 @@ final class Accept implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(MediaType $first, MediaType ...$values): self
     {
         return new self(Sequence::of($first, ...$values));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

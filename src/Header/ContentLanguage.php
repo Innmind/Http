@@ -26,12 +26,14 @@ final class ContentLanguage implements Custom
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(Language ...$languages): self
     {
         return new self(Sequence::of(...$languages));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

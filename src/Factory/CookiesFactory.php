@@ -21,11 +21,13 @@ final class CookiesFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): Cookies
     {
         return ($this->implementation)();
     }
 
+    #[\NoDiscard]
     public static function native(): self
     {
         return new self(Native::new());
@@ -36,6 +38,7 @@ final class CookiesFactory
      *
      * @param pure-Closure(): Cookies $factory
      */
+    #[\NoDiscard]
     public static function of(\Closure $factory): self
     {
         return new self($factory);

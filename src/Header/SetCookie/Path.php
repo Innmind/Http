@@ -19,16 +19,19 @@ final class Path
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(UrlPath $path): self
     {
         return new self($path);
     }
 
+    #[\NoDiscard]
     public function path(): UrlPath
     {
         return $this->path;
     }
 
+    #[\NoDiscard]
     public function toParameter(): Parameter
     {
         return Parameter::of('Path', $this->path->toString());

@@ -22,6 +22,7 @@ final class Response
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(
         StatusCode $statusCode,
         ProtocolVersion $protocolVersion,
@@ -36,21 +37,25 @@ final class Response
         );
     }
 
+    #[\NoDiscard]
     public function protocolVersion(): ProtocolVersion
     {
         return $this->protocolVersion;
     }
 
+    #[\NoDiscard]
     public function headers(): Headers
     {
         return $this->headers;
     }
 
+    #[\NoDiscard]
     public function body(): Content
     {
         return $this->body;
     }
 
+    #[\NoDiscard]
     public function statusCode(): StatusCode
     {
         return $this->statusCode;

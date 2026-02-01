@@ -26,12 +26,14 @@ final class AcceptCharset implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(Charset ...$charsets): self
     {
         return new self(Sequence::of(...$charsets));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

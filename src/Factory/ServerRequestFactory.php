@@ -39,6 +39,7 @@ final class ServerRequestFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): ServerRequest
     {
         /** @psalm-suppress MixedArgument */
@@ -94,6 +95,7 @@ final class ServerRequestFactory
     /**
      * Return a fully configured factory
      */
+    #[\NoDiscard]
     public static function native(
         Clock $clock,
         ?IO $io = null,
@@ -125,6 +127,7 @@ final class ServerRequestFactory
      * @param \Closure(): Content $bodyFactory
      * @param array<string, string> $server
      */
+    #[\NoDiscard]
     public static function of(
         HeadersFactory $headersFactory,
         \Closure $bodyFactory,

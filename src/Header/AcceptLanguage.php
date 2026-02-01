@@ -26,12 +26,14 @@ final class AcceptLanguage implements Custom
      * @psalm-pure
      * @no-named-arguments
      */
+    #[\NoDiscard]
     public static function of(Language ...$languages): self
     {
         return new self(Sequence::of(...$languages));
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

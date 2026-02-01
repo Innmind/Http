@@ -36,6 +36,7 @@ final class SetCookie implements Custom
      * @no-named-arguments
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(
         string $name,
         string $value,
@@ -48,6 +49,7 @@ final class SetCookie implements Custom
         );
     }
 
+    #[\NoDiscard]
     public function and(self $cookie): self
     {
         return new self(
@@ -57,11 +59,13 @@ final class SetCookie implements Custom
         );
     }
 
+    #[\NoDiscard]
     public function name(): string
     {
         return $this->value->name();
     }
 
+    #[\NoDiscard]
     public function value(): string
     {
         return $this->value->value();
@@ -70,6 +74,7 @@ final class SetCookie implements Custom
     /**
      * @return Sequence<Directive|Domain|Expires|MaxAge|Path>
      */
+    #[\NoDiscard]
     public function parameters(): Sequence
     {
         return $this->parameters;
@@ -78,12 +83,14 @@ final class SetCookie implements Custom
     /**
      * @return Sequence<self>
      */
+    #[\NoDiscard]
     public function cookies(): Sequence
     {
         return Sequence::of($this)->append($this->others);
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

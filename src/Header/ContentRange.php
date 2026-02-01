@@ -33,6 +33,7 @@ final class ContentRange implements Custom
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(
         string $unit,
         int $firstPosition,
@@ -50,6 +51,7 @@ final class ContentRange implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(
         string $unit,
         int $firstPosition,
@@ -76,6 +78,7 @@ final class ContentRange implements Custom
         ));
     }
 
+    #[\NoDiscard]
     public function unit(): string
     {
         return $this->unit;
@@ -84,6 +87,7 @@ final class ContentRange implements Custom
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function firstPosition(): int
     {
         return $this->firstPosition;
@@ -92,6 +96,7 @@ final class ContentRange implements Custom
     /**
      * @return int<0, max>
      */
+    #[\NoDiscard]
     public function lastPosition(): int
     {
         return $this->lastPosition;
@@ -100,12 +105,14 @@ final class ContentRange implements Custom
     /**
      * @return Maybe<int<0, max>>
      */
+    #[\NoDiscard]
     public function length(): Maybe
     {
         return Maybe::of($this->length);
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

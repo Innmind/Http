@@ -25,6 +25,7 @@ final class Language
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $language, ?Quality $quality = null): Maybe
     {
         $language = Str::of($language);
@@ -40,11 +41,13 @@ final class Language
         return Maybe::just(new self($language, $quality ?? Quality::max()));
     }
 
+    #[\NoDiscard]
     public function quality(): Quality
     {
         return $this->quality;
     }
 
+    #[\NoDiscard]
     public function toString(): string
     {
         return $this

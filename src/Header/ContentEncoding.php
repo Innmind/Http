@@ -27,6 +27,7 @@ final class ContentEncoding implements Custom
      *
      * @throws DomainException
      */
+    #[\NoDiscard]
     public static function of(string $encoding): self
     {
         return self::maybe($encoding)->match(
@@ -40,6 +41,7 @@ final class ContentEncoding implements Custom
      *
      * @return Maybe<self>
      */
+    #[\NoDiscard]
     public static function maybe(string $encoding): Maybe
     {
         return Maybe::just($encoding)
@@ -49,6 +51,7 @@ final class ContentEncoding implements Custom
     }
 
     #[\Override]
+    #[\NoDiscard]
     public function normalize(): Header
     {
         return Header::of(

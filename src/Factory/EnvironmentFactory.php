@@ -21,11 +21,13 @@ final class EnvironmentFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): Environment
     {
         return ($this->implementation)();
     }
 
+    #[\NoDiscard]
     public static function native(): self
     {
         return new self(Native::new());
@@ -36,6 +38,7 @@ final class EnvironmentFactory
      *
      * @param pure-Closure(): Environment $factory
      */
+    #[\NoDiscard]
     public static function of(\Closure $factory): self
     {
         return new self($factory);

@@ -23,6 +23,7 @@ final class Request
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(
         Url $url,
         Method $method,
@@ -39,26 +40,31 @@ final class Request
         );
     }
 
+    #[\NoDiscard]
     public function url(): Url
     {
         return $this->url;
     }
 
+    #[\NoDiscard]
     public function method(): Method
     {
         return $this->method;
     }
 
+    #[\NoDiscard]
     public function protocolVersion(): ProtocolVersion
     {
         return $this->protocolVersion;
     }
 
+    #[\NoDiscard]
     public function headers(): Headers
     {
         return $this->headers;
     }
 
+    #[\NoDiscard]
     public function body(): Content
     {
         return $this->body;

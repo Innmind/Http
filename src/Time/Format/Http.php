@@ -10,6 +10,7 @@ final class Http
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function new(): Format
     {
         return Format::of('D, d M Y H:i:s \G\M\T');

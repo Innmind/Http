@@ -21,11 +21,13 @@ final class FormFactory
     ) {
     }
 
+    #[\NoDiscard]
     public function __invoke(): Form
     {
         return ($this->implementation)();
     }
 
+    #[\NoDiscard]
     public static function native(): self
     {
         return new self(Native::new());
@@ -36,6 +38,7 @@ final class FormFactory
      *
      * @param pure-Closure(): Form $factory
      */
+    #[\NoDiscard]
     public static function of(\Closure $factory): self
     {
         return new self($factory);

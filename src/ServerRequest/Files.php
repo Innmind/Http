@@ -23,6 +23,7 @@ final class Files
     /**
      * @psalm-pure
      */
+    #[\NoDiscard]
     public static function of(array $files): self
     {
         return new self($files);
@@ -33,6 +34,7 @@ final class Files
      *
      * @return Either<Status, File>
      */
+    #[\NoDiscard]
     public function get(int|string $key): Either
     {
         if (!\array_key_exists($key, $this->files)) {
@@ -62,6 +64,7 @@ final class Files
     /**
      * @param non-empty-string $name
      */
+    #[\NoDiscard]
     public function under(string $name): self
     {
         /** @var mixed */
@@ -81,6 +84,7 @@ final class Files
      *
      * @return Sequence<File>
      */
+    #[\NoDiscard]
     public function list(string $name): Sequence
     {
         /** @var mixed */
