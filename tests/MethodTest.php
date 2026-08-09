@@ -37,6 +37,7 @@ class MethodTest extends TestCase
     {
         return Set\Elements::of(
             'GET',
+            'QUERY',
             'POST',
             'PUT',
             'PATCH',
