@@ -11,6 +11,7 @@ use Innmind\Immutable\Maybe;
 enum Method
 {
     case get;
+    case query;
     case post;
     case put;
     case patch;
@@ -31,6 +32,7 @@ enum Method
     {
         return match ($method) {
             'GET' => self::get,
+            'QUERY' => self::query,
             'POST' => self::post,
             'PUT' => self::put,
             'PATCH' => self::patch,
@@ -65,6 +67,7 @@ enum Method
     {
         return match ($this) {
             self::get => true,
+            self::query => true,
             self::post => false,
             self::put => false,
             self::patch => false,
@@ -83,6 +86,7 @@ enum Method
     {
         return match ($this) {
             self::get => true,
+            self::query => true,
             self::post => false,
             self::put => true,
             self::patch => false,
@@ -101,6 +105,7 @@ enum Method
     {
         return match ($this) {
             self::get => 'GET',
+            self::query => 'QUERY',
             self::post => 'POST',
             self::put => 'PUT',
             self::patch => 'PATCH',

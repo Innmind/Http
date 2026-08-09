@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- `Innmind\Http\Method::query`
+
 ### Changed
 
 - Requires PHP `8.5`
