@@ -1,6 +1,6 @@
 # Http
 
-[![Build Status](https://github.com/innmind/http/workflows/CI/badge.svg?branch=master)](https://github.com/innmind/http/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/innmind/http/workflows/CI/badge.svg)](https://github.com/innmind/http/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/innmind/http/branch/develop/graph/badge.svg)](https://codecov.io/gh/innmind/http)
 [![Type Coverage](https://shepherd.dev/github/innmind/http/coverage.svg)](https://shepherd.dev/github/innmind/http)
 
