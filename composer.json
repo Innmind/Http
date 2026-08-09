@@ -2,7 +2,10 @@
     "name": "innmind/http",
     "type": "library",
     "description": "Value Objects to abstract http messages",
-    "keywords": ["http", "value object"],
+    "keywords": [
+        "http",
+        "value object"
+    ],
     "homepage": "http://github.com/Innmind/Http",
     "license": "MIT",
     "authors": [
